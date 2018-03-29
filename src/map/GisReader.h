@@ -40,7 +40,6 @@ public:
     }
     virtual ~GisPoint() {}
 
-    virtual void draw(QPainter *pnt, Projection *proj);
 };
 
 class GisCountry : public GisPoint {
@@ -90,7 +89,7 @@ public:
     void drawCitiesNames(QPainter &pnt, Projection *proj, int level);
 
 private:
-    std::vector<GisPoint *> lsCountries;
+    std::vector<GisCountry *> lsCountries;
     std::vector<GisCity *> lsCities;
 
     void clearLists();

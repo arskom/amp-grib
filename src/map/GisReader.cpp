@@ -139,22 +139,15 @@ GisReader::~GisReader() {
 }
 
 void GisReader::clearLists() {
-    std::vector<GisPoint *>::iterator itp;
-    for (itp = lsCountries.begin(); itp != lsCountries.end(); itp++) {
+    for (auto itp = lsCountries.begin(); itp != lsCountries.end(); itp++) {
         delete *itp;
-        *itp = NULL;
     }
     lsCountries.clear();
 
-    std::vector<GisCity *>::iterator it2;
-    for (it2 = lsCities.begin(); it2 != lsCities.end(); it2++) {
+    for (auto it2 = lsCities.begin(); it2 != lsCities.end(); it2++) {
         delete *it2;
-        *it2 = NULL;
     }
     lsCities.clear();
-}
-
-void GisPoint::draw(QPainter * /*img*/, Projection * /*proj*/) {
 }
 
 void GisCountry::draw(QPainter *pnt, Projection *proj) {
@@ -168,8 +161,7 @@ void GisCountry::draw(QPainter *pnt, Projection *proj) {
 void GisReader::drawCountriesNames(QPainter &pnt, Projection *proj) {
     pnt.setPen(QColor(120, 100, 60));
     pnt.setFont(Font::getFont(FONT_MapCountry));
-    std::vector<GisPoint *>::iterator itp;
-    for (itp = lsCountries.begin(); itp != lsCountries.end(); itp++) {
+    for (auto itp = lsCountries.begin(); itp != lsCountries.end(); itp++) {
         (*itp)->draw(&pnt, proj);
     }
 }
