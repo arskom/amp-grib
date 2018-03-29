@@ -66,7 +66,8 @@ GisReader::GisReader() {
     //------------------------------------
     // Read countries file
     //------------------------------------
-    fname = (lang == "fr") ? Util::pathGis() + "countries_fr.txt.gz" : Util::pathGis() + "countries_en.txt.gz";
+    fname = (lang == "fr") ? Util::pathGis() + "countries_fr.txt.gz"
+                           : Util::pathGis() + "countries_en.txt.gz";
 
     f = zu_open(qPrintable(fname), "rb");
     if (f != NULL) {
