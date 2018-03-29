@@ -19,18 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGBOXBASE_H
 #define DIALOGBOXBASE_H
 
-#include <QDialog> 
+#include <QDialog>
 
-class DialogBoxBase  : public QDialog
-{
-	// will be used in the future, perhaps...
-	public:
-		DialogBoxBase (QWidget *parent=NULL) : QDialog (parent)
-		{}
-	
+class DialogBoxBase : public QDialog {
+    // will be used in the future, perhaps...
+public:
+    DialogBoxBase(QWidget *parent = NULL)
+            : QDialog(parent) {}
 };
-
-
-
 
 #endif

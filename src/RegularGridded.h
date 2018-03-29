@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef REGULARGRIDDED_H
 #define REGULARGRIDDED_H
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 #include <QApplication>
@@ -29,40 +29,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "zuFile.h"
 
-#include "GriddedReader.h" 
-#include "GriddedRecord.h" 
-#include "GriddedPlotter.h" 
+#include "GriddedPlotter.h"
+#include "GriddedReader.h"
+#include "GriddedRecord.h"
 
 #include "Projection.h"
 
-
 //===============================================================
-class RegularGridRecord : public GriddedRecord
-{
-    public:
-        RegularGridRecord () {};
-        virtual ~RegularGridRecord () {};
-		virtual bool isRegularGrid () const 	{ return true; }
+class RegularGridRecord : public GriddedRecord {
+public:
+    RegularGridRecord(){};
+    virtual ~RegularGridRecord(){};
+    virtual bool isRegularGrid() const { return true; }
 };
 
 //===============================================================
-class RegularGridReader : public GriddedReader
-{
-    public:
-        RegularGridReader () {};
-        virtual ~RegularGridReader () {};
+class RegularGridReader : public GriddedReader {
+public:
+    RegularGridReader(){};
+    virtual ~RegularGridReader(){};
 };
- 
+
 //===============================================================
-class RegularGridPlot : public GriddedPlotter
-{
-    public:
-        RegularGridPlot () {}
-        virtual ~RegularGridPlot() {}
+class RegularGridPlot : public GriddedPlotter {
+public:
+    RegularGridPlot() {}
+    virtual ~RegularGridPlot() {}
 
-	protected:
-		QString fileName;
+protected:
+    QString fileName;
 };
-
 
 #endif

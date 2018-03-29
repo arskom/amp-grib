@@ -24,53 +24,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef ORTHODROMIE_H
 #define ORTHODROMIE_H
 
-#include <cmath>
 #include <cassert>
+#include <cmath>
 
+class Orthodromie {
+public:
+    Orthodromie(double x0, double y0, double x1, double y1);
 
-class Orthodromie
-{
-    public:
-        Orthodromie(double x0,double y0, double x1,double y1);
-        
-        void  setPoints(double x0,double y0, double x1,double y1);
-        void  setStartPoint (double x,double y);
-        void  setEndPoint   (double x,double y);
+    void setPoints(double x0, double y0, double x1, double y1);
+    void setStartPoint(double x, double y);
+    void setEndPoint(double x, double y);
 
-        double getDistance()     {return distanceNM;};
-        double getAzimutDeg()    {return azimutDeg;};
-        double getAzimutRad()    {return azimut;};
+    double getDistance() { return distanceNM; };
+    double getAzimutDeg() { return azimutDeg; };
+    double getAzimutRad() { return azimut; };
 
-        void  getMidPoint(double *x, double *y);
-        
-        //// Reduce an angle to (-PI/2, PI/2), for latitudes.
-        double  reduceLat(double lat);
-        //// Reduce and angle to (-PI, PI), for longitudes.
-        double  reduceLng(double lng);
-        //// Reduce an angle to (0, 2*PI), for direction and azimuth.
-        double  reduceAzimut(double azimuth);
-	
-		// added by Tim Holtschneider, 05.2010
-		void getCoordsForDist( double  sLon, double  sLat, double dDist, double dAzmth,
-							   double *eLon, double *eLat );
+    void getMidPoint(double *x, double *y);
 
-    private:
-        void initOrthodromie();
+    //// Reduce an angle to (-PI/2, PI/2), for latitudes.
+    double reduceLat(double lat);
+    //// Reduce and angle to (-PI, PI), for longitudes.
+    double reduceLng(double lng);
+    //// Reduce an angle to (0, 2*PI), for direction and azimuth.
+    double reduceAzimut(double azimuth);
 
-        double lat0,lat1,lon0,lon1;   // radians
-        double distanceNM;
-        
-        double azimut, azimutDeg;
-        
-        double sinStartLat, cosStartLat;
-        double sinEndLat,   cosEndLat;
-        double sinAzimut,   cosAzimut;
-        double sinDeltaLng, cosDeltaLng;
+    // added by Tim Holtschneider, 05.2010
+    void getCoordsForDist(double sLon, double sLat, double dDist, double dAzmth,
+            double *eLon, double *eLat);
 
+private:
+    void initOrthodromie();
 
-        
+    double lat0, lat1, lon0, lon1; // radians
+    double distanceNM;
+
+    double azimut, azimutDeg;
+
+    double sinStartLat, cosStartLat;
+    double sinEndLat, cosEndLat;
+    double sinAzimut, cosAzimut;
+    double sinDeltaLng, cosDeltaLng;
 };
-
-
 
 #endif

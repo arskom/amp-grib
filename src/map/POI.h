@@ -19,116 +19,116 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef POI_H
 #define POI_H
 
+#include <QComboBox>
+#include <QDialog>
+#include <QDoubleSpinBox>
 #include <QFrame>
 #include <QGridLayout>
-#include <QLabel>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QLineEdit>
-#include <QDoubleSpinBox>
-#include <QComboBox>
 #include <QGroupBox>
-#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QPushButton>
 
 #include "Projection.h"
 
 //===================================================================
-class POI : public QWidget
-{ Q_OBJECT
-    public:
-    	friend class POI_Editor;
+class POI : public QWidget {
+    Q_OBJECT
+public:
+    friend class POI_Editor;
 
-		// Create POI from old setting style (version<=3.3.0) : obsolete !
-        POI (QString seralizedPOI_oldFormat); //
-        
-        POI (uint code);    // read POI from old native settings
-        
-        POI (uint code,     // read POI from .ini settings
-				Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow);
+    // Create POI from old setting style (version<=3.3.0) : obsolete !
+    POI(QString seralizedPOI_oldFormat); //
 
-        POI	(uint code, QString name, double lon, double lat,
-        			Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow);
-        
-        void	writeSettings ();
-        bool	isValid ()  {return valid;}
-		
-        void  	setProjection (Projection *proj);
-        void  	drawContent (QPainter &painter, Projection *proj, bool drawingInPixmap);
+    POI(uint code); // read POI from old native settings
 
-        uint     getCode ()      {return code;}
-        QString  getName ()      {return name;}
-        double   getLongitude () {return lon;}
-        double   getLatitude ()  {return lat;}
+    POI(uint code, // read POI from .ini settings
+            Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow);
 
-        void setName      (QString name);
-        void setLongitude (double lon) {this->lon=lon;}
-        void setLatitude  (double lat) {this->lat=lat;}
-        
-		QString serialize ();
+    POI(uint code, QString name, double lon, double lat,
+            Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow);
 
-		void setDisplayParams ( QColor markColor,
-							    QFont  labelFont,
-								QColor textColor,
-								QColor bgColor     );
-		// Restore background color for all selected POIs, TH20110103
-		static void restoreBgOfSelectedPOIs( void );
+    void writeSettings();
+    bool isValid() { return valid; }
 
-	public slots:
-		void projectionUpdated ();
-		void timerClickEvent ();
-	
-	signals:
-		void signalOpenMeteotablePOI (POI *poi);
-		void signalPOImoved (POI *poi);
-    
-    private:
-        void	readSettings (uint code, bool fromNativeOldSettings);
-    	
-    	bool	 valid;
-    	unsigned int code;
-    	QString      name;
-		double       lon, lat;	 // Position in world map (degrees)
-		int       	 pi, pj;	 // Position in screen (pixels)
-		int			 hpx, hpy;	 // Hot point offset in widget (pixels)
-		int			 xLabel;
-		
-		Projection   *proj;
-    	QCursor   enterCursor;
-		QWidget   *parent;
-		
-	    QColor    markColor;
-		QColor    labelBgColor, labelTextColor, labelBgColorMarkedPOI; // need backup var for selected POIs bg-color, TH20110103
-	    QFont 	  labelFont;
-	    
-	    int		  textHeight;
-	    QWidget	  *widgetFocus;
-	    
-	    bool	showLabel;
-	    bool	isMovable, moveInCourse;
-		int		xMouse, yMouse; 	// Relative mouse  position when moving
-		double  lastLon, lastLat;	// old position when moving, for cancel move
-	    
-	    void  createWidget(QWidget *ownerSlotsPOI);
-	    
-	    void  paintEvent (QPaintEvent *event);
-		void  enterEvent (QEvent * e);
-		void  leaveEvent (QEvent * e);
-		
-		int   countClick;
-		void  mousePressEvent(QMouseEvent * e);
-		void  mouseReleaseEvent(QMouseEvent * e);
-		void  mouseMoveEvent(QMouseEvent * e);
+    void setProjection(Projection *proj);
+    void drawContent(QPainter &painter, Projection *proj, bool drawingInPixmap);
 
-		void  keyPressEvent (QKeyEvent *e);
-		void  keyReleaseEvent (QKeyEvent *e);
+    uint getCode() { return code; }
+    QString getName() { return name; }
+    double getLongitude() { return lon; }
+    double getLatitude() { return lat; }
 
-		void  adjustGeometry();
+    void setName(QString name);
+    void setLongitude(double lon) { this->lon = lon; }
+    void setLatitude(double lat) { this->lat = lat; }
+
+    QString serialize();
+
+    void setDisplayParams(QColor markColor,
+            QFont labelFont,
+            QColor textColor,
+            QColor bgColor);
+    // Restore background color for all selected POIs, TH20110103
+    static void restoreBgOfSelectedPOIs(void);
+
+public slots:
+    void projectionUpdated();
+    void timerClickEvent();
+
+signals:
+    void signalOpenMeteotablePOI(POI *poi);
+    void signalPOImoved(POI *poi);
+
+private:
+    void readSettings(uint code, bool fromNativeOldSettings);
+
+    bool valid;
+    unsigned int code;
+    QString name;
+    double lon, lat; // Position in world map (degrees)
+    int pi, pj; // Position in screen (pixels)
+    int hpx, hpy; // Hot point offset in widget (pixels)
+    int xLabel;
+
+    Projection *proj;
+    QCursor enterCursor;
+    QWidget *parent;
+
+    QColor markColor;
+    QColor labelBgColor, labelTextColor, labelBgColorMarkedPOI; // need backup var for selected POIs bg-color, TH20110103
+    QFont labelFont;
+
+    int textHeight;
+    QWidget *widgetFocus;
+
+    bool showLabel;
+    bool isMovable, moveInCourse;
+    int xMouse, yMouse; // Relative mouse  position when moving
+    double lastLon, lastLat; // old position when moving, for cancel move
+
+    void createWidget(QWidget *ownerSlotsPOI);
+
+    void paintEvent(QPaintEvent *event);
+    void enterEvent(QEvent *e);
+    void leaveEvent(QEvent *e);
+
+    int countClick;
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
+    void mouseMoveEvent(QMouseEvent *e);
+
+    void keyPressEvent(QKeyEvent *e);
+    void keyReleaseEvent(QKeyEvent *e);
+
+    void adjustGeometry();
 };
 
 //----------------------------------------------
 // added by Tim Holtschneider
 // list storing selected POIs
-extern QList<POI*> GLOB_listSelectedPOI;
+extern QList<POI *> GLOB_listSelectedPOI;
 
 #endif

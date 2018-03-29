@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef IRREGULARGRIDDED_H
 #define IRREGULARGRIDDED_H
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 #include <QApplication>
@@ -32,37 +32,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GriddedPlotter.h"
 #include "Projection.h"
 
-
 //===============================================================
-class IrregularGridRecord : public GriddedRecord
-{
-    public:
-        IrregularGridRecord () {};
-        virtual ~IrregularGridRecord () {};
-		virtual bool isRegularGrid () const 	{ return false; }
+class IrregularGridRecord : public GriddedRecord {
+public:
+    IrregularGridRecord(){};
+    virtual ~IrregularGridRecord(){};
+    virtual bool isRegularGrid() const { return false; }
 };
 
 //===============================================================
-class IrregularGridReader : public GriddedReader
-{
-    public:
-        IrregularGridReader () {};
-        virtual ~IrregularGridReader () {};
+class IrregularGridReader : public GriddedReader {
+public:
+    IrregularGridReader(){};
+    virtual ~IrregularGridReader(){};
 };
 
 //===============================================================
-class IrregularGridPlot : public GriddedPlotter
-{
-    public:
-        IrregularGridPlot ();
-        virtual ~IrregularGridPlot() {};
+class IrregularGridPlot : public GriddedPlotter {
+public:
+    IrregularGridPlot();
+    virtual ~IrregularGridPlot(){};
 
-		virtual void  setCurrentDate (time_t t);
+    virtual void setCurrentDate(time_t t);
 
-
-	protected:
-		QString fileName;
+protected:
+    QString fileName;
 };
-
 
 #endif

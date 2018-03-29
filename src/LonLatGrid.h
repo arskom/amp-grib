@@ -19,28 +19,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef LONLATGRID_H
 #define LONLATGRID_H
 
-
 #include "Projection.h"
 
-
 //==============================================================================
-class LonLatGrid
-{
+class LonLatGrid {
 public:
-	LonLatGrid()   {};
-	~LonLatGrid()  {};
+    LonLatGrid(){};
+    ~LonLatGrid(){};
 
-	void drawLonLatGrid (QPainter &pnt, Projection *proj);
+    void drawLonLatGrid(QPainter &pnt, Projection *proj);
+
 private:
-	void drawLongitude (QPainter &pnt, Projection *proj);
-	void drawLatitude (QPainter &pnt, Projection *proj);
-	double  computeDeltaGrid(int *min, double pixperdeg);
-	
-	void    drawLabel(QPainter &pnt, const Projection *proj,
-				double value, int i, int j);
+    void drawLongitude(QPainter &pnt, Projection *proj);
+    void drawLatitude(QPainter &pnt, Projection *proj);
+    double computeDeltaGrid(int *min, double pixperdeg);
 
-
+    void drawLabel(QPainter &pnt, const Projection *proj,
+            double value, int i, int j);
 };
-
 
 #endif

@@ -22,73 +22,68 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QPainter>
 #include <QMouseEvent>
+#include <QPainter>
 
-#include "Util.h"
 #include "Projection.h"
+#include "Util.h"
 #include "zuFile.h"
 
 class MetarWidgetFactory;
 
 //---------------------------------------
 class Airport {
-    public:
-		QString icao;
-		QString country, state;
-		float   lon, lat;
-		float   altitude;
-		QString name;
-		
-		bool operator < (const Airport &o) const;
+public:
+    QString icao;
+    QString country, state;
+    float lon, lat;
+    float altitude;
+    QString name;
+
+    bool operator<(const Airport &o) const;
 };
 //---------------------------------------
-class MetarWidget : public QLabel
-{ Q_OBJECT
-	public:
-		friend class MetarWidgetFactory;		// only factory can construct
-		
-	public slots:
-		void projectionUpdated ();
-		
-	private:
-		// Constructor is private, so only factory can construct item
-        MetarWidget (const Airport &airport, Projection *proj, QWidget *parent);
-		
-		Airport airport;
-		Projection *proj;
-		
-		void adjustGeometry ();
-		
-		// Events
-    	QCursor   enterCursor;
-		
-		void  enterEvent (QEvent * e);
-		void  leaveEvent (QEvent * e);
-		void  mousePressEvent(QMouseEvent * e);
-		void  mouseReleaseEvent(QMouseEvent * e);
-		
+class MetarWidget : public QLabel {
+    Q_OBJECT
+public:
+    friend class MetarWidgetFactory; // only factory can construct
+
+public slots:
+    void projectionUpdated();
+
+private:
+    // Constructor is private, so only factory can construct item
+    MetarWidget(const Airport &airport, Projection *proj, QWidget *parent);
+
+    Airport airport;
+    Projection *proj;
+
+    void adjustGeometry();
+
+    // Events
+    QCursor enterCursor;
+
+    void enterEvent(QEvent *e);
+    void leaveEvent(QEvent *e);
+    void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
 };
 
 //---------------------------------------
-class MetarWidgetFactory
-{
-	public:
-		MetarWidgetFactory ();
-		~MetarWidgetFactory ();
-		
-		MetarWidget * createMetarWidget 
-				(const QString &icao, bool isVisible,
-					Projection *proj, QWidget *parent);
-		
-		QMap <QString, Airport> mapAirports;    // icao => data
-		QMap <QString, QString> mapCountries;   // code country => name
-		QMap <QPair <QString,QString>, QString> mapStates; // codes(country,state) => name
-		
-	private:
-		void read_metar_list ();
+class MetarWidgetFactory {
+public:
+    MetarWidgetFactory();
+    ~MetarWidgetFactory();
+
+    MetarWidget *createMetarWidget(const QString &icao, bool isVisible,
+            Projection *proj, QWidget *parent);
+
+    QMap<QString, Airport> mapAirports; // icao => data
+    QMap<QString, QString> mapCountries; // code country => name
+    QMap<QPair<QString, QString>, QString> mapStates; // codes(country,state) => name
+
+private:
+    void read_metar_list();
 };
-
-
 
 #endif

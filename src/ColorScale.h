@@ -27,46 +27,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //------------------------------------------------
 class ColorElement {
-	public:
-		ColorElement (double vmin, double vmax, 
-					  int ra, int ga, int ba,
-					  int rb, int gb, int bb);
+public:
+    ColorElement(double vmin, double vmax,
+            int ra, int ga, int ba,
+            int rb, int gb, int bb);
 
-		QRgb getColor (double v, bool smooth, int transp);
-		
-		bool isIn   (double v) {return v>=vmin && v<=vmax;}
-		bool isLow  (double v) {return v<vmin;}
-		bool isHigh (double v) {return v>vmax;}
-		
-		void dbg ();
-	
-		double vmin, vmax;   // vmin < value <= vmax
-		int ra, ga, ba;      // rgb for vmin value
-		int rb, gb, bb;      // rgb for vmax value
+    QRgb getColor(double v, bool smooth, int transp);
+
+    bool isIn(double v) { return v >= vmin && v <= vmax; }
+    bool isLow(double v) { return v < vmin; }
+    bool isHigh(double v) { return v > vmax; }
+
+    void dbg();
+
+    double vmin, vmax; // vmin < value <= vmax
+    int ra, ga, ba; // rgb for vmin value
+    int rb, gb, bb; // rgb for vmax value
 };
-
 
 //------------------------------------------------
 class ColorScale {
-	public:
-		ColorScale ();
-		~ColorScale ();
+public:
+    ColorScale();
+    ~ColorScale();
 
-		bool readFile (QString filename, double kv, double offset);
-		void addColor (ColorElement *color);
-		QRgb getColor (double v, bool smooth);
-		void dbg ();
-		
-		std::vector <ColorElement *> colors;
-	
-	private:
-		int transparence;
+    bool readFile(QString filename, double kv, double offset);
+    void addColor(ColorElement *color);
+    QRgb getColor(double v, bool smooth);
+    void dbg();
+
+    std::vector<ColorElement *> colors;
+
+private:
+    int transparence;
 };
-
-
-
-
-
-
 
 #endif

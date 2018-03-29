@@ -19,81 +19,75 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GRIDDEDRECORD_H
 #define GRIDDEDRECORD_H
 
-#include <cstdio>
 #include <cmath>
+#include <cstdio>
 
 #include "DataDefines.h"
 #include "DataMeteoAbstract.h"
 
 //====================================================================
-class GriddedRecord : public DataRecordAbstract
-{
-	public:
-		GriddedRecord ();
-		virtual ~GriddedRecord () {}
-        virtual bool isOk () const = 0;
+class GriddedRecord : public DataRecordAbstract {
+public:
+    GriddedRecord();
+    virtual ~GriddedRecord() {}
+    virtual bool isOk() const = 0;
 
-        virtual int  getIdCenter () const = 0;
-        virtual int  getIdModel ()  const = 0;
-        virtual int  getIdGrid ()   const = 0;
-		virtual DataCenterModel getDataCenterModel () {return dataCenterModel;}
-		
-        virtual bool  isDuplicated ()  const   {return duplicated;}
-        virtual void  setDuplicated (bool b)   {duplicated = b;}
-		
-        /** Is a point into the covered space ?
+    virtual int getIdCenter() const = 0;
+    virtual int getIdModel() const = 0;
+    virtual int getIdGrid() const = 0;
+    virtual DataCenterModel getDataCenterModel() { return dataCenterModel; }
+
+    virtual bool isDuplicated() const { return duplicated; }
+    virtual void setDuplicated(bool b) { duplicated = b; }
+
+    /** Is a point into the covered space ?
 		*/
-        virtual bool isXInMap(double x) const
-						{ return entireWorldInLongitude 
-									|| (x>=xmin && x<=xmax); }
-        virtual bool isYInMap(double y) const
-						{ return y>=ymin && y<=ymax; }
-        virtual bool isPointInMap(double x, double y) const
-						{ return isXInMap(x) && isYInMap(y); }
-		
-        virtual double  getInterpolatedValue (
-							DataCode dtc,
-							double px, double py,
-							bool interpolate=true ) const = 0;
-								
-		/** Grid type.
+    virtual bool isXInMap(double x) const { return entireWorldInLongitude
+        || (x >= xmin && x <= xmax); }
+    virtual bool isYInMap(double y) const { return y >= ymin && y <= ymax; }
+    virtual bool isPointInMap(double x, double y) const { return isXInMap(x) && isYInMap(y); }
+
+    virtual double getInterpolatedValue(
+            DataCode dtc,
+            double px, double py,
+            bool interpolate = true) const = 0;
+
+    /** Grid type.
 		*/
-		virtual bool isRegularGrid () const = 0;
-		
-		/** All records must have (or simulate) a rectangular regular grid.
-		*/ 
-		virtual double getValueOnRegularGrid ( 
-								DataCode dtc, int i, int j ) const = 0;
-		virtual double  getInterpolatedValueUsingRegularGrid (
-								DataCode dtc, 
-								double px, double py,
-								bool interpolateValues) const;
-						
-		virtual int     getNi () const = 0;
-        virtual int     getNj () const = 0;
-        virtual double  getX (int i) const = 0;
-        virtual double  getY (int j) const = 0;
-        virtual double  getDeltaX () const = 0;
-        virtual double  getDeltaY () const = 0;
-								
-        virtual int    getTotalNumberOfPoints ()  const = 0;
-        virtual double getAveragePointsDensity () const = 0;
-		
-        virtual double  getXmin () const {return xmin;}
-        virtual double  getXmax () const {return xmax;}
-        virtual double  getYmin () const {return ymin;}
-        virtual double  getYmax () const {return ymax;}
-        virtual double  getWidth () const {return xmax-xmin;}
-        virtual double  getHeight () const {return ymax-ymin;}
-        
-		bool   entireWorldInLongitude;
-						
-	protected:
-		double xmin,xmax, ymin,ymax;
-		bool   duplicated;
-		DataCenterModel    dataCenterModel;
+    virtual bool isRegularGrid() const = 0;
+
+    /** All records must have (or simulate) a rectangular regular grid.
+		*/
+    virtual double getValueOnRegularGrid(
+            DataCode dtc, int i, int j) const = 0;
+    virtual double getInterpolatedValueUsingRegularGrid(
+            DataCode dtc,
+            double px, double py,
+            bool interpolateValues) const;
+
+    virtual int getNi() const = 0;
+    virtual int getNj() const = 0;
+    virtual double getX(int i) const = 0;
+    virtual double getY(int j) const = 0;
+    virtual double getDeltaX() const = 0;
+    virtual double getDeltaY() const = 0;
+
+    virtual int getTotalNumberOfPoints() const = 0;
+    virtual double getAveragePointsDensity() const = 0;
+
+    virtual double getXmin() const { return xmin; }
+    virtual double getXmax() const { return xmax; }
+    virtual double getYmin() const { return ymin; }
+    virtual double getYmax() const { return ymax; }
+    virtual double getWidth() const { return xmax - xmin; }
+    virtual double getHeight() const { return ymax - ymin; }
+
+    bool entireWorldInLongitude;
+
+protected:
+    double xmin, xmax, ymin, ymax;
+    bool duplicated;
+    DataCenterModel dataCenterModel;
 };
-
-
 
 #endif

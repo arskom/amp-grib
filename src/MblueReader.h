@@ -19,77 +19,71 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MBLUEREADER_H
 #define MBLUEREADER_H
 
-#include <iostream>
-#include <cmath>
 #include <cassert>
-#include <vector>
+#include <cmath>
+#include <iostream>
 #include <list>
 #include <map>
+#include <vector>
 
 #include "IrregularGridded.h"
-#include "zuFile.h"
 #include "MblueRecord.h"
 #include "MbzFile.h"
+#include "zuFile.h"
 
 //===============================================================
-enum MeteoblueZone
-	{
-		MBLUE_SWISS,
-		MBLUE_EUROPE
-	};
-
-//===============================================================
-class MblueReader : public IrregularGridReader
-{
-    public:
-		MblueReader ();
-        virtual ~MblueReader();
-		
-		void openFile (const std::string fname, 
-					   bool fastInterpolation,
-					   LongTaskProgress *taskProgress);
-
-		void setFastInterpolation (bool b);
-		
-		virtual FileDataType getReaderFileDataType () 
-					{return DATATYPE_MBLUE;}
-		
-		virtual GriddedRecord *getFirstRecord ();
-		
-		virtual GriddedRecord *getRecord (DataCode dtc, time_t date);
-		
-		// Rectangle de la zone couverte par les données
-        virtual bool getZoneExtension (
-					 double *x0,double *y0, double *x1,double *y1);
-		
-		// Rectangle de toute la zone couverte par le modèle
-        static bool getMeteoblueTotalArea (
-						MeteoblueZone zone,
-						double *x0,double *y0, double *x1,double *y1) ;
-
-        virtual double  getDateInterpolatedValue (
-					 DataCode dtc,  double px, double py, time_t date);
-
-		virtual bool hasAltitudeData () const  {return hasAltitude;}
-		
-		MblueRecord * getMblueRecordByDate (time_t date);
-		
-        virtual time_t  getFirstRefDate ();
-        virtual time_t  getRefDateForData (const DataCode &dtc);
-		virtual time_t  getRefDateForDataCenter (const DataCenterModel &dcm);
-		
-	protected:
-		bool hasAltitude;
-		
-		LongTaskProgress *taskProgress;
-
-		virtual void  openFile (const std::string fname, 
-								bool fastInterpolation);
-		
-		std::map <time_t, MblueRecord  *> mapRecords;
-
-
+enum MeteoblueZone {
+    MBLUE_SWISS,
+    MBLUE_EUROPE
 };
 
+//===============================================================
+class MblueReader : public IrregularGridReader {
+public:
+    MblueReader();
+    virtual ~MblueReader();
+
+    void openFile(const std::string fname,
+            bool fastInterpolation,
+            LongTaskProgress *taskProgress);
+
+    void setFastInterpolation(bool b);
+
+    virtual FileDataType getReaderFileDataType() { return DATATYPE_MBLUE; }
+
+    virtual GriddedRecord *getFirstRecord();
+
+    virtual GriddedRecord *getRecord(DataCode dtc, time_t date);
+
+    // Rectangle de la zone couverte par les données
+    virtual bool getZoneExtension(
+            double *x0, double *y0, double *x1, double *y1);
+
+    // Rectangle de toute la zone couverte par le modèle
+    static bool getMeteoblueTotalArea(
+            MeteoblueZone zone,
+            double *x0, double *y0, double *x1, double *y1);
+
+    virtual double getDateInterpolatedValue(
+            DataCode dtc, double px, double py, time_t date);
+
+    virtual bool hasAltitudeData() const { return hasAltitude; }
+
+    MblueRecord *getMblueRecordByDate(time_t date);
+
+    virtual time_t getFirstRefDate();
+    virtual time_t getRefDateForData(const DataCode &dtc);
+    virtual time_t getRefDateForDataCenter(const DataCenterModel &dcm);
+
+protected:
+    bool hasAltitude;
+
+    LongTaskProgress *taskProgress;
+
+    virtual void openFile(const std::string fname,
+            bool fastInterpolation);
+
+    std::map<time_t, MblueRecord *> mapRecords;
+};
 
 #endif

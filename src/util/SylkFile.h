@@ -22,51 +22,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QTextStream>
 
+class SylkFile {
+public:
+    SylkFile(QString filename, QString author) {
+        file.setFileName(filename);
+        ok = file.open(QIODevice::WriteOnly);
+        if (ok) {
+            out.setDevice(&file);
+            out << "ID;P" << author << "\n";
+        }
+    }
+    ~SylkFile() {
+        if (ok)
+            close();
+    }
+    QFileInfo getFileInfo() {
+        return QFileInfo(file);
+    }
+    QTextStream &getTextStream() {
+        return out;
+    }
+    bool isOk() {
+        return ok;
+    }
+    void close() {
+        out << "E\n";
+        file.close();
+    }
+    void addCell(int row, int col, QString val) {
+        out << "C;Y" << row << ";X" << col << ";K\"" << val << "\"\n";
+    }
+    void addCell(int row, int col, double val) {
+        out << "C;Y" << row << ";X" << col << ";K" << val << "\n";
+    }
+    void addCell(int row, int col, int val) {
+        out << "C;Y" << row << ";X" << col << ";K" << val << "\n";
+    }
 
-class SylkFile
-{
-    public:
-		SylkFile (QString filename, QString author) {
-			file.setFileName (filename);
-			ok = file.open (QIODevice::WriteOnly);
-			if (ok) {
-				out.setDevice (&file);
-				out << "ID;P" << author <<"\n";
-			}
-		}
-		~SylkFile () {
-			if (ok)
-				close ();
-		}
-		QFileInfo getFileInfo () {
-			return QFileInfo (file);
-		}
-		QTextStream & getTextStream () {
-			return out;
-		}
-		bool isOk () {
-			return ok;
-		}
-		void close () {
-			out << "E\n";
-			file.close ();
-		}
-		void addCell (int row, int col, QString val) {
-			out << "C;Y" << row << ";X" << col << ";K\"" << val << "\"\n";
-		}
-		void addCell (int row, int col, double val) {
-			out << "C;Y" << row << ";X" << col << ";K" << val << "\n";
-		}
-		void addCell (int row, int col, int val) {
-			out << "C;Y" << row << ";X" << col << ";K" << val << "\n";
-		}
-			
-    private:
-		QFile file;
-		bool ok;
-		QTextStream out;
+private:
+    QFile file;
+    bool ok;
+    QTextStream out;
 };
-
-
 
 #endif

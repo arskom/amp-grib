@@ -24,32 +24,29 @@ Lecture mise en mémoire d'un fichier GRIB
 #ifndef GRIB2READER_H
 #define GRIB2READER_H
 
-#include "RegularGridded.h"
-#include "GribReader.h"
 #include "Grib2Record.h"
-#include "zuFile.h"
+#include "GribReader.h"
+#include "RegularGridded.h"
 #include "g2clib/grib2.h"
+#include "zuFile.h"
 
 //===============================================================
-class Grib2Reader : public GribReader
-{
-    public:
-        Grib2Reader ();
-        ~Grib2Reader ();
-		
-        virtual void  openFile (const std::string fname,
-						LongTaskProgress *taskProgress, int nbrecs);
-		
-	private:
-        void openFilePriv (const std::string fname, int nbrecs);
-		void readGrib2FileContent (int nbrecs);
+class Grib2Reader : public GribReader {
+public:
+    Grib2Reader();
+    ~Grib2Reader();
 
-		void analyseRecords ();
-		QList<Grib2RecordMarker> allUnknownRecords;
-		
-		void seekgb_zu (ZUFILE *lugb,g2int iseek,g2int mseek,g2int *lskip,g2int *lgrib);
+    virtual void openFile(const std::string fname,
+            LongTaskProgress *taskProgress, int nbrecs);
 
+private:
+    void openFilePriv(const std::string fname, int nbrecs);
+    void readGrib2FileContent(int nbrecs);
+
+    void analyseRecords();
+    QList<Grib2RecordMarker> allUnknownRecords;
+
+    void seekgb_zu(ZUFILE *lugb, g2int iseek, g2int mseek, g2int *lskip, g2int *lgrib);
 };
-
 
 #endif

@@ -10,6 +10,7 @@
 #ifndef UI_DATAPLOTDIALOG_H
 #define UI_DATAPLOTDIALOG_H
 
+#include "qwt_plot.h"
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
@@ -20,12 +21,10 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QVBoxLayout>
-#include "qwt_plot.h"
 
 QT_BEGIN_NAMESPACE
 
-class Ui_DataPlotDialog
-{
+class Ui_DataPlotDialog {
 public:
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout;
@@ -34,8 +33,7 @@ public:
     QComboBox *cbData;
     QDialogButtonBox *btBox;
 
-    void setupUi(QDialog *DataPlotDialog)
-    {
+    void setupUi(QDialog *DataPlotDialog) {
         if (DataPlotDialog->objectName().isEmpty())
             DataPlotDialog->setObjectName(QString::fromUtf8("DataPlotDialog"));
         DataPlotDialog->setWindowModality(Qt::NonModal);
@@ -99,27 +97,22 @@ public:
 
         horizontalLayout->addWidget(btBox);
 
-
         verticalLayout->addLayout(horizontalLayout);
 
-
         horizontalLayout_2->addLayout(verticalLayout);
-
 
         retranslateUi(DataPlotDialog);
 
         QMetaObject::connectSlotsByName(DataPlotDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *DataPlotDialog)
-    {
+    void retranslateUi(QDialog *DataPlotDialog) {
         DataPlotDialog->setWindowTitle(QApplication::translate("DataPlotDialog", "Data Plot", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
-
 };
 
 namespace Ui {
-    class DataPlotDialog: public Ui_DataPlotDialog {};
+class DataPlotDialog : public Ui_DataPlotDialog {};
 } // namespace Ui
 
 QT_END_NAMESPACE

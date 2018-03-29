@@ -19,54 +19,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGUNITS_H
 #define DIALOGUNITS_H
 
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QButtonGroup>
-#include <QRadioButton>
 #include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
 
 #include "DialogBoxBase.h"
 
-class DialogUnits : public DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogUnits (QWidget *parent=NULL);
-    
-    public slots:
-        void slotBtOK();
-        void slotBtCancel();
-        void slotTimeZoneChanged(int index);
-	signals:
-		void signalTimeZoneChanged();
-    
-    private:
-        QFrame *frameGui;
-        QGridLayout *layout;
-        
-        QPushButton *btOK;
-        QPushButton *btCancel;
+class DialogUnits : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogUnits(QWidget *parent = NULL);
 
-        QComboBox *cbWindSpeedUnit;
-        QComboBox *cbCurrentSpeedUnit;
-        QComboBox *cbTempUnit;
-        QComboBox *cbPositionUnit;
-        QComboBox *cbDistanceUnit;
-        
-        QComboBox *cbLongitude;
-        QComboBox *cbLatitude;
-        QComboBox *cbAltitude;
-        QComboBox *cbIsotherme0;
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
+    void slotTimeZoneChanged(int index);
+signals:
+    void signalTimeZoneChanged();
 
-        QComboBox *cbTimeZone;
-        bool      isTimeZoneChanged;
-        
-        QFrame * createFrameGui(QWidget *parent);
+private:
+    QFrame *frameGui;
+    QGridLayout *layout;
+
+    QPushButton *btOK;
+    QPushButton *btCancel;
+
+    QComboBox *cbWindSpeedUnit;
+    QComboBox *cbCurrentSpeedUnit;
+    QComboBox *cbTempUnit;
+    QComboBox *cbPositionUnit;
+    QComboBox *cbDistanceUnit;
+
+    QComboBox *cbLongitude;
+    QComboBox *cbLatitude;
+    QComboBox *cbAltitude;
+    QComboBox *cbIsotherme0;
+
+    QComboBox *cbTimeZone;
+    bool isTimeZoneChanged;
+
+    QFrame *createFrameGui(QWidget *parent);
 };
-
 
 #endif

@@ -25,68 +25,66 @@ Dessin des données GRIB (avec QT)
 
 #include "RegularGridded.h"
 
-#include "GribReader.h"
 #include "DataPointInfo.h"
+#include "GribReader.h"
 #include "IsoLine.h"
- 
+
 //===============================================================
-class GribPlot : public RegularGridPlot
-{
-    public:
-        GribPlot ();
-        GribPlot (const GribPlot &);
-        virtual ~GribPlot ();
-        
-		virtual void  loadFile (QString fileName,
-						LongTaskProgress *taskProgress=NULL, int nbrecs=0);
-		
-        GribReader *getReader()  const  {return gribReader;}
+class GribPlot : public RegularGridPlot {
+public:
+    GribPlot();
+    GribPlot(const GribPlot &);
+    virtual ~GribPlot();
 
-		virtual void  setCurrentDate (time_t t);
+    virtual void loadFile(QString fileName,
+            LongTaskProgress *taskProgress = NULL, int nbrecs = 0);
 
-		virtual bool  isReaderOk() const  
-						{return gribReader!=NULL && gribReader->isOk();}
+    GribReader *getReader() const { return gribReader; }
 
-		virtual void duplicateFirstCumulativeRecord (bool b);
-		virtual void duplicateMissingWaveRecords (bool b);
+    virtual void setCurrentDate(time_t t);
 
-		//-----------------------------------------------------
-		// Draw a complete colored map
-		//-----------------------------------------------------
-		virtual void draw_ColoredMapPlain ( 
-						DataCode dtc,
-						bool smooth,
-						QPainter &pnt, 
-						const Projection *proj);
+    virtual bool isReaderOk() const { return gribReader != NULL && gribReader->isOk(); }
 
-		virtual void draw_WIND_Arrows (
-						Altitude altitude, 
-						bool showBarbules, QColor windArrowsColor, 
-						QPainter &pnt, const Projection *proj );
+    virtual void duplicateFirstCumulativeRecord(bool b);
+    virtual void duplicateMissingWaveRecords(bool b);
 
-		virtual void draw_CURRENT_Arrows (
-						Altitude altitude, 
-						QColor currentArrowsColor, 
-						QPainter &pnt, const Projection *proj );
-		
-		virtual void draw_WAVES_Arrows (
-						const DataCode &dtc,
-						QPainter &pnt, const Projection *proj );
+    //-----------------------------------------------------
+    // Draw a complete colored map
+    //-----------------------------------------------------
+    virtual void draw_ColoredMapPlain(
+            DataCode dtc,
+            bool smooth,
+            QPainter &pnt,
+            const Projection *proj);
 
-		//-----------------------------------------------------        
-		// draw a mark a each grid vertex
-        virtual void draw_GridPoints (
-						const DataCode &dtc,
-						QPainter &pnt, const Projection *proj );
-    
-    protected:
-        void       	initNewGribPlot (
-						bool interpolateValues=true, 
-						bool windArrowsOnGribGrid=true,
-						bool currentArrowsOnGribGrid=true );
-        
-		GribReader 	*gribReader;        
-        QString 	fileName;
+    virtual void draw_WIND_Arrows(
+            Altitude altitude,
+            bool showBarbules, QColor windArrowsColor,
+            QPainter &pnt, const Projection *proj);
+
+    virtual void draw_CURRENT_Arrows(
+            Altitude altitude,
+            QColor currentArrowsColor,
+            QPainter &pnt, const Projection *proj);
+
+    virtual void draw_WAVES_Arrows(
+            const DataCode &dtc,
+            QPainter &pnt, const Projection *proj);
+
+    //-----------------------------------------------------
+    // draw a mark a each grid vertex
+    virtual void draw_GridPoints(
+            const DataCode &dtc,
+            QPainter &pnt, const Projection *proj);
+
+protected:
+    void initNewGribPlot(
+            bool interpolateValues = true,
+            bool windArrowsOnGribGrid = true,
+            bool currentArrowsOnGribGrid = true);
+
+    GribReader *gribReader;
+    QString fileName;
 };
 
 #endif

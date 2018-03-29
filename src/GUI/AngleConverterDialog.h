@@ -19,28 +19,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef ANGLECONVERTER_DIALOG_H
 #define ANGLECONVERTER_DIALOG_H
 
-
 #include <QDialog>
 #include <QPushButton>
 
 #include "AngleConverterWidget.h"
 
-class AngleConverterDialog :
-		public  QDialog
-{
-Q_OBJECT
-    public:
-        AngleConverterDialog (QWidget *parentWindow);
-        ~AngleConverterDialog();
-    
-    private:
-		AngleConverterWidget * angleConverterWidget;
-		QPushButton  		 * btClose;
-			
-	private slots:
-		void btCloseClicked();
-		void reject();
-};
+class AngleConverterDialog : public QDialog {
+    Q_OBJECT
+public:
+    AngleConverterDialog(QWidget *parentWindow);
+    ~AngleConverterDialog();
 
+private:
+    AngleConverterWidget *angleConverterWidget;
+    QPushButton *btClose;
+
+private slots:
+    void btCloseClicked();
+    void reject();
+};
 
 #endif

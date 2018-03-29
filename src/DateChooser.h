@@ -19,67 +19,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DATECHOOSER_H
 #define DATECHOOSER_H
 
-#include <set>
 #include <list>
+#include <set>
 
 #include <QApplication>
-#include <QLabel>
-#include <QSlider>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QMouseEvent>
+#include <QSlider>
 
 #include "GriddedPlotter.h"
 
-
-
 //--------------------------------------------------
-class DateChooserPopup : public QWidget
-{
+class DateChooserPopup : public QWidget {
     Q_OBJECT
-	public:
-		DateChooserPopup (QWidget *parent);
-		void setDate (time_t date);
-		void setText (QString txt);
-		
-	private:
-		QLabel label;
+public:
+    DateChooserPopup(QWidget *parent);
+    void setDate(time_t date);
+    void setText(QString txt);
+
+private:
+    QLabel label;
 };
 
 //--------------------------------------------------
-class DateChooser : public QWidget
-{
+class DateChooser : public QWidget {
     Q_OBJECT
-	public:
-		DateChooser ();
-		~DateChooser ();
-		
-		void  setDate (time_t date);
-		void  reset ();
-		void  setGriddedPlotter (GriddedPlotter *plotter);
-		void  setMarkToday (bool b) {markToday = b;}
-		
-	public slots:
-		void slotSliderDatesValueChanged (int value);
-		void slotSliderPressed ();
-		void slotSliderReleased ();
-		
-	signals:
-		void  signalDateChanged (time_t date, bool isMoving);
+public:
+    DateChooser();
+    ~DateChooser();
 
-	private:        
-		GriddedPlotter *plotter;
-		time_t *tabDates;
-		int     nbDates;
-		time_t currentDate;
-		bool   markToday;
-		
-		QSlider *slider;
-		DateChooserPopup *popup;
-		
-        void setListDates (std::set<time_t> * listDates, 
-						   time_t currentDate );
-		
-		void  paintEvent(QPaintEvent *ev);
+    void setDate(time_t date);
+    void reset();
+    void setGriddedPlotter(GriddedPlotter *plotter);
+    void setMarkToday(bool b) { markToday = b; }
+
+public slots:
+    void slotSliderDatesValueChanged(int value);
+    void slotSliderPressed();
+    void slotSliderReleased();
+
+signals:
+    void signalDateChanged(time_t date, bool isMoving);
+
+private:
+    GriddedPlotter *plotter;
+    time_t *tabDates;
+    int nbDates;
+    time_t currentDate;
+    bool markToday;
+
+    QSlider *slider;
+    DateChooserPopup *popup;
+
+    void setListDates(std::set<time_t> *listDates,
+            time_t currentDate);
+
+    void paintEvent(QPaintEvent *ev);
 };
 
 #endif

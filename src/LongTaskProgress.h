@@ -22,37 +22,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QProgressDialog>
 
 //-----------------------------------------
-enum LongTaskMessageType
-	{
-		LTASK_OPEN_FILE,
-		LTASK_ANALYSE_DATA,
-		LTASK_PREPARE_MAPS,
-		LTASK_UNCOMPRESS_FILE
-	};
-
-//-----------------------------------------
-class LongTaskProgress : public QObject
-{ Q_OBJECT
-
-	public:
-			
-		LongTaskProgress (QWidget *parent=NULL);
-		~LongTaskProgress ();
-
-		void setWindowTitle (QString title);
-		void setValue (int value);
-		void setVisible (bool vis);
-		void setMessage (LongTaskMessageType msgtype);
-		
-		QProgressDialog *progress;
-		
-		volatile bool continueDownload;
-		
-	public slots :
-		void downloadCanceled ();
+enum LongTaskMessageType {
+    LTASK_OPEN_FILE,
+    LTASK_ANALYSE_DATA,
+    LTASK_PREPARE_MAPS,
+    LTASK_UNCOMPRESS_FILE
 };
 
+//-----------------------------------------
+class LongTaskProgress : public QObject {
+    Q_OBJECT
 
+public:
+    LongTaskProgress(QWidget *parent = NULL);
+    ~LongTaskProgress();
 
+    void setWindowTitle(QString title);
+    void setValue(int value);
+    void setVisible(bool vis);
+    void setMessage(LongTaskMessageType msgtype);
+
+    QProgressDialog *progress;
+
+    volatile bool continueDownload;
+
+public slots:
+    void downloadCanceled();
+};
 
 #endif

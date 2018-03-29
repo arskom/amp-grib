@@ -19,67 +19,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGSERVERSTATUS_H
 #define DIALOGSERVERSTATUS_H
 
+#include <QBuffer>
 #include <QDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QtNetwork>
-#include <QBuffer>
 
 #include "DialogBoxBase.h"
 
-class DialogServerStatus : public  DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogServerStatus (QNetworkAccessManager *manager, 
-							QWidget *parent=NULL);
-        ~DialogServerStatus ();
-    
-    public slots:
-        void slotBtOK();
-        void slotBtCancel();
-        void downloadProgress_step1 (qint64 done, qint64 total);
-		void slotNetworkError (QNetworkReply::NetworkError);
-    
-    private:
-		QHash <QString,QString> readData (const QByteArray &data);
-		QString getData (const QHash <QString,QString> &data, const QString &key);
-        
-		QString getNoaaRunDate (QStringList lsbuf);
-        QString getNoaaRunHour (QStringList lsbuf);
-        QString getServerCurrentJob (QStringList lsbuf);
-        QString getClient (QStringList lsbuf);
-        
-        QFrame *frameGui;
-        QGridLayout *layout;
-        QPushButton *btOK;
-		
-		QString errorMessage;
-		QNetworkReply *reply_step1;
-		bool downloadError;
-        
-        QTime   timeLoad;
-        QLabel *lbResponseStatus;
-        QLabel *lbRunDate;
-        QLabel *lbCurrentJob;
-        QLabel *lbGfsUpdateTime;
-		
-        QLabel *lbFnmocWW3_RunDate;
-        QLabel *lbFnmocWW3_UpdateTime;
-        QLabel *lbFnmocWW3_CurrentJob;
-		
-        QLabel *lbFnmocWW3_Med_RunDate;
-        QLabel *lbFnmocWW3_Med_UpdateTime;
-        QLabel *lbFnmocWW3_Med_CurrentJob;
-		
-        QLabel *lbMblueNMM4RunDate;
-        QLabel *lbMblueNMM4UpdateTime;
-        QLabel *lbMblueNMM4CurrentJob;
-        
-        QLabel *lbMessage;
-        QFrame * createFrameGui(QWidget *parent);
-};
+class DialogServerStatus : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogServerStatus(QNetworkAccessManager *manager,
+            QWidget *parent = NULL);
+    ~DialogServerStatus();
 
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
+    void downloadProgress_step1(qint64 done, qint64 total);
+    void slotNetworkError(QNetworkReply::NetworkError);
+
+private:
+    QHash<QString, QString> readData(const QByteArray &data);
+    QString getData(const QHash<QString, QString> &data, const QString &key);
+
+    QString getNoaaRunDate(QStringList lsbuf);
+    QString getNoaaRunHour(QStringList lsbuf);
+    QString getServerCurrentJob(QStringList lsbuf);
+    QString getClient(QStringList lsbuf);
+
+    QFrame *frameGui;
+    QGridLayout *layout;
+    QPushButton *btOK;
+
+    QString errorMessage;
+    QNetworkReply *reply_step1;
+    bool downloadError;
+
+    QTime timeLoad;
+    QLabel *lbResponseStatus;
+    QLabel *lbRunDate;
+    QLabel *lbCurrentJob;
+    QLabel *lbGfsUpdateTime;
+
+    QLabel *lbFnmocWW3_RunDate;
+    QLabel *lbFnmocWW3_UpdateTime;
+    QLabel *lbFnmocWW3_CurrentJob;
+
+    QLabel *lbFnmocWW3_Med_RunDate;
+    QLabel *lbFnmocWW3_Med_UpdateTime;
+    QLabel *lbFnmocWW3_Med_CurrentJob;
+
+    QLabel *lbMblueNMM4RunDate;
+    QLabel *lbMblueNMM4UpdateTime;
+    QLabel *lbMblueNMM4CurrentJob;
+
+    QLabel *lbMessage;
+    QFrame *createFrameGui(QWidget *parent);
+};
 
 #endif

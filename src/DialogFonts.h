@@ -19,66 +19,64 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGFONTS_H
 #define DIALOGFONTS_H
 
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
 #include <QFrame>
 #include <QGridLayout>
-#include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QButtonGroup>
-#include <QRadioButton>
-#include <QLineEdit>
 #include <QHash>
- 
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
+
 #include "DialogBoxBase.h"
 #include "Font.h"
 
 //-------------------------------------------------
-class FontSelector : public QWidget
-{ Q_OBJECT
-    public:
-		FontSelector (FontCode code, QString txtlabel, QWidget *parent);
-		
-		FontCode getFontCode() { return code; }
-		QFont getFont() { return font; }
-		
-	private:
-		QFont font;
-		FontCode code;
+class FontSelector : public QWidget {
+    Q_OBJECT
+public:
+    FontSelector(FontCode code, QString txtlabel, QWidget *parent);
 
-		QPushButton *btfont;
-		QPushButton *btdefault;
-		
-    public slots:
-		void  btfontClicked();
-		void  btdefaultClicked();
+    FontCode getFontCode() { return code; }
+    QFont getFont() { return font; }
+
+private:
+    QFont font;
+    FontCode code;
+
+    QPushButton *btfont;
+    QPushButton *btdefault;
+
+public slots:
+    void btfontClicked();
+    void btdefaultClicked();
 };
 
 //-------------------------------------------------
-class DialogFonts : public DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogFonts (QWidget *parent=NULL);
-		
-		QFont getFontItem (FontCode code);
+class DialogFonts : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogFonts(QWidget *parent = NULL);
 
-		QHash <FontCode, FontSelector*> hashFontSelectors;
-   
-    public slots:
-        void slotBtOK();
-        void slotBtCancel();
-    
-	private:
-        QFrame *frameGui;
-        QGridLayout *layout;
- 		
-        QPushButton *btOK;
-        QPushButton *btCancel;
+    QFont getFontItem(FontCode code);
 
-        
-        QFrame * createFrameGui(QWidget *parent);
+    QHash<FontCode, FontSelector *> hashFontSelectors;
+
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
+
+private:
+    QFrame *frameGui;
+    QGridLayout *layout;
+
+    QPushButton *btOK;
+    QPushButton *btCancel;
+
+    QFrame *createFrameGui(QWidget *parent);
 };
-
 
 #endif

@@ -21,43 +21,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QDialog>
 #include <QFrame>
-#include <QLayout>
 #include <QLabel>
+#include <QLayout>
 #include <QPushButton>
 
 #include "DialogBoxBase.h"
 
-class DialogBoxColumn  : public DialogBoxBase
-{ Q_OBJECT
-	public :
-		static const int MAXCOLS = 4;
-		
-		DialogBoxColumn ( QWidget *parent, 
-						  int nbColumn, 
-						  QString windowTitle, QString title, 
-						  int nbButtons=2 );
-				
-		bool isAccepted () {return accepted;}
-		
-	protected :
-		void addLabeledWidget (int column, QString label, QWidget *widget); 
-    
-	private slots:
-        void slotBtOK();
-        void slotBtCancel();
+class DialogBoxColumn : public DialogBoxBase {
+    Q_OBJECT
+public:
+    static const int MAXCOLS = 4;
 
-	private :
-		bool accepted;
-		int nbColumn;
-		int currentLig [MAXCOLS];
-		QFrame 		*frameGui [MAXCOLS];
-		QGridLayout *layGui   [MAXCOLS];
-		
-        QPushButton *btOK;
-        QPushButton *btCancel;
+    DialogBoxColumn(QWidget *parent,
+            int nbColumn,
+            QString windowTitle, QString title,
+            int nbButtons = 2);
+
+    bool isAccepted() { return accepted; }
+
+protected:
+    void addLabeledWidget(int column, QString label, QWidget *widget);
+
+private slots:
+    void slotBtOK();
+    void slotBtCancel();
+
+private:
+    bool accepted;
+    int nbColumn;
+    int currentLig[MAXCOLS];
+    QFrame *frameGui[MAXCOLS];
+    QGridLayout *layGui[MAXCOLS];
+
+    QPushButton *btOK;
+    QPushButton *btCancel;
 };
-
-
-
 
 #endif

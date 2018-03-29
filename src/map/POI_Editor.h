@@ -19,56 +19,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef POI_EDITOR_H
 #define POI_EDITOR_H
 
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDialog>
+#include <QDoubleSpinBox>
 #include <QFrame>
 #include <QGridLayout>
-#include <QLabel>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QLineEdit>
-#include <QDoubleSpinBox>
-#include <QComboBox>
 #include <QGroupBox>
-#include <QDialog>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QPushButton>
-#include <QCheckBox>
 
-#include "Projection.h"
 #include "POI.h"
+#include "Projection.h"
 #include "Util.h"
 
 #include "ui_PoiEditorDialog.h"
 
-class POI_Editor :
-		public  QDialog,
-		private Ui_PoiEditorDialog
-{
-Q_OBJECT
-    public:
-    
-    	// Constructor for edit an existing POI
-        POI_Editor(POI *poi, QWidget *parent);
-        
-        // Constructor for edit and create a new POI
-        POI_Editor(uint code, double lon, double lat,
-        			Projection *proj, QWidget *ownerMeteotable, QWidget *parentWindow);
-        
-        ~POI_Editor();
-    
-    private:
-    	POI   *poi;
-    	bool  modeCreation;
-		
-		void closeEvent(QCloseEvent *) {delete this;};
-		void updateInterface();
-	
-	private slots:
-		void reject();
-		
-		void btOkClicked();
-		void btCancelClicked();
-		void btDeleteClicked();
+class POI_Editor : public QDialog,
+                   private Ui_PoiEditorDialog {
+    Q_OBJECT
+public:
+    // Constructor for edit an existing POI
+    POI_Editor(POI *poi, QWidget *parent);
 
+    // Constructor for edit and create a new POI
+    POI_Editor(uint code, double lon, double lat,
+            Projection *proj, QWidget *ownerMeteotable, QWidget *parentWindow);
+
+    ~POI_Editor();
+
+private:
+    POI *poi;
+    bool modeCreation;
+
+    void closeEvent(QCloseEvent *) { delete this; };
+    void updateInterface();
+
+private slots:
+    void reject();
+
+    void btOkClicked();
+    void btCancelClicked();
+    void btDeleteClicked();
 };
-
 
 #endif

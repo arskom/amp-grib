@@ -19,69 +19,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef IMAGEWRITER_H
 #define IMAGEWRITER_H
 
-#include <QSpinBox>
 #include <QCheckBox>
+#include <QSpinBox>
 
+#include "ColorScaleWidget.h"
+#include "DateChooser.h"
 #include "DialogBoxColumn.h"
 #include "Projection.h"
 #include "Terrain.h"
-#include "DateChooser.h"
-#include "ColorScaleWidget.h"
 
 //-------------------------------------------
-class ImageWriterDialog : public DialogBoxColumn 
-{ Q_OBJECT
-	public:
-		ImageWriterDialog (QWidget *parent, int W, int H, int quality, 
-						   bool resizeAfter, 
-						   bool showDateCursor, bool showColorScale,
-						   int Winit, int Hinit);
-		
-		int getW () {return sbWidth->value ();}
-		int getH () {return sbHeight->value ();}
-		int getQ () {return sbQuality->value ();}
-		bool getResizeAfter () {return cbResizeAfter->isChecked ();}
-		bool getShowDateCursor () {return cbShowDateCursor->isChecked ();}
-		bool getShowColorScale () {return cbShowColorScale->isChecked ();}
-		
-		QSpinBox *sbWidth;
-		QSpinBox *sbHeight;
-		QSpinBox *sbQuality;
-		QCheckBox *cbAsScreen;
-		QCheckBox *cbResizeAfter;
-		QCheckBox *cbShowDateCursor;
-		QCheckBox *cbShowColorScale;
-		
-    public slots:
-        void slotUpdateWidgets ();
-		
-	private:
-		int Winit, Hinit;
+class ImageWriterDialog : public DialogBoxColumn {
+    Q_OBJECT
+public:
+    ImageWriterDialog(QWidget *parent, int W, int H, int quality,
+            bool resizeAfter,
+            bool showDateCursor, bool showColorScale,
+            int Winit, int Hinit);
+
+    int getW() { return sbWidth->value(); }
+    int getH() { return sbHeight->value(); }
+    int getQ() { return sbQuality->value(); }
+    bool getResizeAfter() { return cbResizeAfter->isChecked(); }
+    bool getShowDateCursor() { return cbShowDateCursor->isChecked(); }
+    bool getShowColorScale() { return cbShowColorScale->isChecked(); }
+
+    QSpinBox *sbWidth;
+    QSpinBox *sbHeight;
+    QSpinBox *sbQuality;
+    QCheckBox *cbAsScreen;
+    QCheckBox *cbResizeAfter;
+    QCheckBox *cbShowDateCursor;
+    QCheckBox *cbShowColorScale;
+
+public slots:
+    void slotUpdateWidgets();
+
+private:
+    int Winit, Hinit;
 };
 
 //-------------------------------------------
-class ImageWriter : public QObject
-{ Q_OBJECT
-	public:
-		ImageWriter (QWidget *parent, Terrain *terre);
-		~ImageWriter ();
+class ImageWriter : public QObject {
+    Q_OBJECT
+public:
+    ImageWriter(QWidget *parent, Terrain *terre);
+    ~ImageWriter();
 
-		void saveImage (time_t date);
-		void saveCurrentImage ();
-		void saveAllImages ();
+    void saveImage(time_t date);
+    void saveCurrentImage();
+    void saveAllImages();
 
-	private:
-		Terrain  *terre;
-		QWidget  *parent;
-		
-		void saveSettings (ImageWriterDialog &dial, QString filename);
-		QImage * createImage (
-					time_t date, ImageWriterDialog &dial, 
-					int Winit, int Hinit);
-		QString createAnimImageFilename (QString prefix, int n);
+private:
+    Terrain *terre;
+    QWidget *parent;
+
+    void saveSettings(ImageWriterDialog &dial, QString filename);
+    QImage *createImage(
+            time_t date, ImageWriterDialog &dial,
+            int Winit, int Hinit);
+    QString createAnimImageFilename(QString prefix, int n);
 };
-
-
-
 
 #endif

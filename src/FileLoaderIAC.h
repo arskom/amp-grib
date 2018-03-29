@@ -25,51 +25,49 @@ Download IAC File on zygrib server
 #ifndef FILELOADER_IAC_H
 #define FILELOADER_IAC_H
 
+#include <QBuffer>
 #include <QObject>
 #include <QtNetwork>
-#include <QBuffer>
-        
+
 #include "FileLoader.h"
 
-class FileLoaderIAC : public QObject, FileLoader
-{ Q_OBJECT
-    public:
-		enum FileModeIAC
-			{
-				ANALYSE_FILE,
-			  	FORECAST_FILE
-			};
-    
-        FileLoaderIAC (QNetworkAccessManager *manager, QWidget *parent);
-        ~FileLoaderIAC();
-        
-        void getFile(FileModeIAC IACmode);
-        void stop();
-        
-    private:
-        QByteArray arrayContent;
-        QWidget *parent;
-        QString fileName;
-        int     fileSize;
-        int     step;
-        QString zygriblog;
-        QString zygribpwd;
-		
-		QNetworkReply *reply_step1;
-		bool downloadError;
+class FileLoaderIAC : public QObject, FileLoader {
+    Q_OBJECT
+public:
+    enum FileModeIAC {
+        ANALYSE_FILE,
+        FORECAST_FILE
+    };
 
-    public slots:
-        void downloadProgress (qint64 done, qint64 total);
-		void slotNetworkError (QNetworkReply::NetworkError);
-		void slotFinished ();
-		
-    signals:
-        void signalIACdataReceived(QByteArray *content, QString);
-        void signalIACreadProgress(int step, int done, int total);
-        void signalIACsendMessage(QString msg);
-        void signalIACstartLoadData();
-        void signalIACloadError(QString msg);
+    FileLoaderIAC(QNetworkAccessManager *manager, QWidget *parent);
+    ~FileLoaderIAC();
+
+    void getFile(FileModeIAC IACmode);
+    void stop();
+
+private:
+    QByteArray arrayContent;
+    QWidget *parent;
+    QString fileName;
+    int fileSize;
+    int step;
+    QString zygriblog;
+    QString zygribpwd;
+
+    QNetworkReply *reply_step1;
+    bool downloadError;
+
+public slots:
+    void downloadProgress(qint64 done, qint64 total);
+    void slotNetworkError(QNetworkReply::NetworkError);
+    void slotFinished();
+
+signals:
+    void signalIACdataReceived(QByteArray *content, QString);
+    void signalIACreadProgress(int step, int done, int total);
+    void signalIACsendMessage(QString msg);
+    void signalIACstartLoadData();
+    void signalIACloadError(QString msg);
 };
-
 
 #endif

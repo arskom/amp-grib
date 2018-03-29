@@ -24,8 +24,8 @@ Lecture mise en mémoire d'un fichier IAC (fleetcodes)
 #ifndef IACPLOT_H
 #define IACPLOT_H
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <vector>
 
 #include <QApplication>
@@ -33,51 +33,46 @@ Lecture mise en mémoire d'un fichier IAC (fleetcodes)
 #include <QString>
 
 #include "DataMeteoAbstract.h"
-#include "zuFile.h"
 #include "IacReader.h"
 #include "Projection.h"
+#include "zuFile.h"
 
 //===============================================================
-class IacPlot : public DataPlotterAbstract
-{
-    public:
-        IacPlot();
-        IacPlot(QString fname);
-        
-        ~IacPlot () {}
+class IacPlot : public DataPlotterAbstract {
+public:
+    IacPlot();
+    IacPlot(QString fname);
 
-		void  loadFile(QString fileName);
-		bool  isReaderOk()
-					{return iacReader!=NULL && iacReader->isOk();}	
-		IacReader *getReader()
-					{return iacReader;}
+    ~IacPlot() {}
 
-		void  draw_PRESSURE_MinMax      (QPainter &pnt, Projection *proj);
-		void  draw_PRESSURE_TroughLines (QPainter &pnt, Projection *proj);
-		void  draw_PRESSURE_Isobars     (QPainter &pnt, Projection *proj);
-		void  draw_PRESSURE_IsobarsLabels (QPainter &pnt, Projection *proj);
-		
-		void  draw_FRONT_all   (QPainter &pnt, Projection *proj);
-		void  draw_FRONT_Warm       (QPainter &pnt, Projection *proj);
-		void  draw_FRONT_Cold       (QPainter &pnt, Projection *proj);
-		void  draw_FRONT_Occlus     (QPainter &pnt, Projection *proj);
-        
-        void  show_CoverZone (QPainter &pnt, const Projection *proj);
-		void  updateGraphicsParameters ();
+    void loadFile(QString fileName);
+    bool isReaderOk() { return iacReader != NULL && iacReader->isOk(); }
+    IacReader *getReader() { return iacReader; }
 
+    void draw_PRESSURE_MinMax(QPainter &pnt, Projection *proj);
+    void draw_PRESSURE_TroughLines(QPainter &pnt, Projection *proj);
+    void draw_PRESSURE_Isobars(QPainter &pnt, Projection *proj);
+    void draw_PRESSURE_IsobarsLabels(QPainter &pnt, Projection *proj);
 
-    private:
-		IacReader  *iacReader;
+    void draw_FRONT_all(QPainter &pnt, Projection *proj);
+    void draw_FRONT_Warm(QPainter &pnt, Projection *proj);
+    void draw_FRONT_Cold(QPainter &pnt, Projection *proj);
+    void draw_FRONT_Occlus(QPainter &pnt, Projection *proj);
 
-		QString fileName;
-		
-		void drawIacLine(std::vector <IAC_Point *> &lspoints, bool smooth,
-							QPainter &pnt, Projection *proj);
-		void makeBezierPath(QPainterPath &path,
-							std::vector <IAC_Point *> &lspoints,
-							double offsetX,
-							Projection *proj);
+    void show_CoverZone(QPainter &pnt, const Projection *proj);
+    void updateGraphicsParameters();
+
+private:
+    IacReader *iacReader;
+
+    QString fileName;
+
+    void drawIacLine(std::vector<IAC_Point *> &lspoints, bool smooth,
+            QPainter &pnt, Projection *proj);
+    void makeBezierPath(QPainterPath &path,
+            std::vector<IAC_Point *> &lspoints,
+            double offsetX,
+            Projection *proj);
 };
-
 
 #endif

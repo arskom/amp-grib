@@ -19,58 +19,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGPROXY_H
 #define DIALOGPROXY_H
 
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QButtonGroup>
-#include <QRadioButton>
 #include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
 
 #include "DialogBoxBase.h"
 
-class DialogProxy : public DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogProxy (QWidget *parent=NULL);
-    
-    public slots:
-        void slotBtOK();
-        void slotBtCancel();
+class DialogProxy : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogProxy(QWidget *parent = NULL);
 
-    private slots:
-        void slotUseProxyChanged();
-        void slotTrueHttpDownloadChanged();
-		
-    private:
-        QFrame *frameGui;
-        QGridLayout *layout;
-        
-        QPushButton *btOK;
-        QPushButton *btCancel;
-        
-        QRadioButton *btUseProxy;
-        QRadioButton *btDontUseProxy;
-		
-		QComboBox    *cbProxyType;
-        QLineEdit    *lineProxyHostname;
-        QLineEdit    *lineProxyPort;
-        QLineEdit    *lineProxyUserName;
-        QLineEdit    *lineProxyUserPassword;
-		
-        QRadioButton *btStandardDownload;
-        QRadioButton *btStrictHttpDownload;
-        QLineEdit    *lineZygribForumUserName;
-        QLineEdit    *lineZygribForumUserPassword;
-		
-		QList <QLabel*> listProxyLabels;
-		QList <QLabel*> listDownloadLabels;
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
 
-        QFrame * createFrameGui(QWidget *parent);
+private slots:
+    void slotUseProxyChanged();
+    void slotTrueHttpDownloadChanged();
+
+private:
+    QFrame *frameGui;
+    QGridLayout *layout;
+
+    QPushButton *btOK;
+    QPushButton *btCancel;
+
+    QRadioButton *btUseProxy;
+    QRadioButton *btDontUseProxy;
+
+    QComboBox *cbProxyType;
+    QLineEdit *lineProxyHostname;
+    QLineEdit *lineProxyPort;
+    QLineEdit *lineProxyUserName;
+    QLineEdit *lineProxyUserPassword;
+
+    QRadioButton *btStandardDownload;
+    QRadioButton *btStrictHttpDownload;
+    QLineEdit *lineZygribForumUserName;
+    QLineEdit *lineZygribForumUserPassword;
+
+    QList<QLabel *> listProxyLabels;
+    QList<QLabel *> listDownloadLabels;
+
+    QFrame *createFrameGui(QWidget *parent);
 };
-
 
 #endif

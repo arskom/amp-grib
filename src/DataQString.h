@@ -24,35 +24,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Need QT for the QString type and "tr" translation tools
 //----------------------------------------------------------------
 
-#include <QApplication> 
-#include <QStringList> 
+#include <QApplication>
+#include <QStringList>
 
-#include "Util.h"
 #include "DataDefines.h"
+#include "Util.h"
 
-class AltitudeStr : public QObject
-{ Q_OBJECT 
-	public:
-		static QString toString (const Altitude &alt);
-		static QString toStringShort (const Altitude &alt);
-		
-		static QString  serialize   (const Altitude &alt);
-		static Altitude unserialize (const QString &stringCode);
+class AltitudeStr : public QObject {
+    Q_OBJECT
+public:
+    static QString toString(const Altitude &alt);
+    static QString toStringShort(const Altitude &alt);
+
+    static QString serialize(const Altitude &alt);
+    static Altitude unserialize(const QString &stringCode);
 };
 
-class DataCodeStr : public QObject
-{ Q_OBJECT 
-	public:
-		static QString toString (const DataCode &dtc);
-		static QString toString_name  (int dataType);
-		static QString toString_name  (const DataCode &dtc);
-		static QString toString_level (const DataCode &dtc);
-		static QString toString_levelShort (const DataCode &dtc);
-		
-		static QString  serialize   (const DataCode &dtc);
-		static DataCode unserialize (const QString &stringCode);
-		
-		static QString toString (const DataCenterModel &dcm);
+class DataCodeStr : public QObject {
+    Q_OBJECT
+public:
+    static QString toString(const DataCode &dtc);
+    static QString toString_name(int dataType);
+    static QString toString_name(const DataCode &dtc);
+    static QString toString_level(const DataCode &dtc);
+    static QString toString_levelShort(const DataCode &dtc);
+
+    static QString serialize(const DataCode &dtc);
+    static DataCode unserialize(const QString &stringCode);
+
+    static QString toString(const DataCenterModel &dcm);
 };
 
 #endif

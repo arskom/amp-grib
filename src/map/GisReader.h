@@ -25,83 +25,77 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QImage>
 #include <QPainter>
 
-#include "zuFile.h"
+#include "Font.h"
 #include "Projection.h"
 #include "Util.h"
-#include "Font.h"
+#include "zuFile.h"
 
 //==========================================================
 class GisPoint {
-    public:
-        float   x,y;    // longitude, latitude
-        
-        GisPoint(float x_, float y_) {
-            x = x_;
-            y = y_;
-        }
-		virtual ~GisPoint() {}
-        
-        virtual void draw (QPainter *pnt, Projection *proj);
+public:
+    float x, y; // longitude, latitude
+
+    GisPoint(float x_, float y_) {
+        x = x_;
+        y = y_;
+    }
+    virtual ~GisPoint() {}
+
+    virtual void draw(QPainter *pnt, Projection *proj);
 };
 //----------------------------------------------------------
-class GisCountry : public GisPoint
-{
-    public:
-        QString code;
-        QString name;
+class GisCountry : public GisPoint {
+public:
+    QString code;
+    QString name;
 
-        GisCountry (QString code_, QString name_, float lon, float lat)
-            : GisPoint(lon, lat)
-            {
-                code = code_;
-                name = name_;
-            }
-		virtual ~GisCountry() {}
-		
-        virtual void draw (QPainter *pnt, Projection *proj);
+    GisCountry(QString code_, QString name_, float lon, float lat)
+            : GisPoint(lon, lat) {
+        code = code_;
+        name = name_;
+    }
+    virtual ~GisCountry() {}
+
+    virtual void draw(QPainter *pnt, Projection *proj);
 };
 //----------------------------------------------------------
-class GisCity : public GisPoint
-{
-    public:
-        QString country;
-        QString name;
-        int     population;
-		int     level;
-		int     fontCode;
+class GisCity : public GisPoint {
+public:
+    QString country;
+    QString name;
+    int population;
+    int level;
+    int fontCode;
 
-        GisCity (QString country, QString name, int pop, float lon, float lat);
-		~GisCity() {}
-        
-        QString toText () {
-			return (country+" "+name+" %1 %2 %3").arg(level).arg(y).arg(x);
-		}
-		
-        void  draw (QPainter *pnt, Projection *proj, int level);
-        void  getRectName  (QPainter *pnt, Projection *proj, QRect *rectName);
-        void  drawCityName (QPainter *pnt, QRect *rectName);
+    GisCity(QString country, QString name, int pop, float lon, float lat);
+    ~GisCity() {}
 
-	private:
-	    int     x0, y0;   // for drawing
+    QString toText() {
+        return (country + " " + name + " %1 %2 %3").arg(level).arg(y).arg(x);
+    }
+
+    void draw(QPainter *pnt, Projection *proj, int level);
+    void getRectName(QPainter *pnt, Projection *proj, QRect *rectName);
+    void drawCityName(QPainter *pnt, QRect *rectName);
+
+private:
+    int x0, y0; // for drawing
 };
 
 //==========================================================
-class GisReader
-{
-    public:
-        GisReader();
-        ~GisReader();
-        
-        void drawCountriesNames (QPainter &pnt, Projection *proj);
-        void drawCitiesNames (QPainter &pnt, Projection *proj, int level);
-    
-    private:
-        std::vector <GisPoint*> lsCountries;
-        std::vector <GisCity*>  lsCities;
-        
-        void clearLists();
+class GisReader {
+public:
+    GisReader();
+    ~GisReader();
+
+    void drawCountriesNames(QPainter &pnt, Projection *proj);
+    void drawCitiesNames(QPainter &pnt, Projection *proj, int level);
+
+private:
+    std::vector<GisPoint *> lsCountries;
+    std::vector<GisCity *> lsCities;
+
+    void clearLists();
 };
-
-
 
 #endif

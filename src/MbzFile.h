@@ -19,70 +19,65 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MBZFILE_H
 #define MBZFILE_H
 
+#include "LongTaskProgress.h"
 #include "Util.h"
 #include "zuFile.h"
-#include "LongTaskProgress.h"
 
 //------------------------------------------------------
-class MButil
-{
-	public:
-		static bool readInt8   (ZUFILE *f, int *val);
-		static bool readInt16  (ZUFILE *f, int *val);
-		static bool readInt32  (ZUFILE *f, int *val);
-		static bool readFloat32  (ZUFILE *f, float *val);
-		
-		static bool getDateFromName (const char *fname, 
-						  int*year, int*month, int*day, int*href, int*hour);
-		static bool substring2int (int *val, const char *str,int start,int size);
-		static bool readPosition  (char *line, float *x, float *y);
+class MButil {
+public:
+    static bool readInt8(ZUFILE *f, int *val);
+    static bool readInt16(ZUFILE *f, int *val);
+    static bool readInt32(ZUFILE *f, int *val);
+    static bool readFloat32(ZUFILE *f, float *val);
+
+    static bool getDateFromName(const char *fname,
+            int *year, int *month, int *day, int *href, int *hour);
+    static bool substring2int(int *val, const char *str, int start, int size);
+    static bool readPosition(char *line, float *x, float *y);
 };
 
 //------------------------------------------------------
-class MbzLine
-{
-	public:
-		float x, y;
-		int   hour;
-		std::vector <float> data;
-		void print() const;
+class MbzLine {
+public:
+    float x, y;
+    int hour;
+    std::vector<float> data;
+    void print() const;
 };
 
 //---------------------------------------------------
 // MBZfile : read a file in MBZ format
 //---------------------------------------------------
-class MbzFile
-{
-	public:
-		MbzFile ()   
-			{ ok = false; }
-			
-		MbzFile (const char *fname, LongTaskProgress *taskProgress);
-		~MbzFile ();
-		
-		void read_MbzFile  (const char *fname, LongTaskProgress *taskProgress);
+class MbzFile {
+public:
+    MbzFile() { ok = false; }
 
-		int getDataCodeIndex (uint32_t code);
-		int getDataCodeIndex (DataCode dtc)  {return getDataCodeIndex(dtc.toInt32());}
-		
-		bool isOk () const {return ok;}
-		void debugmbz () const;
-		
-		int   year,month,day,href; 
-		float xmin,xmax, ymin,ymax;
-		
-		std::vector <MbzLine*>  vlines;
-		std::vector <uint32_t>  vcodes;		// DataCode
-		
-	private:
-		bool  ok;
-		int   version;
-		int   nbData, nbLines;
-		
-		void read_header (ZUFILE *f);
-		void read_data_codes  (ZUFILE *f);
-		void read_data_lines  (ZUFILE *f, LongTaskProgress *taskProgress);
+    MbzFile(const char *fname, LongTaskProgress *taskProgress);
+    ~MbzFile();
+
+    void read_MbzFile(const char *fname, LongTaskProgress *taskProgress);
+
+    int getDataCodeIndex(uint32_t code);
+    int getDataCodeIndex(DataCode dtc) { return getDataCodeIndex(dtc.toInt32()); }
+
+    bool isOk() const { return ok; }
+    void debugmbz() const;
+
+    int year, month, day, href;
+    float xmin, xmax, ymin, ymax;
+
+    std::vector<MbzLine *> vlines;
+    std::vector<uint32_t> vcodes; // DataCode
+
+private:
+    bool ok;
+    int version;
+    int nbData, nbLines;
+
+    void read_header(ZUFILE *f);
+    void read_data_codes(ZUFILE *f);
+    void read_data_lines(ZUFILE *f, LongTaskProgress *taskProgress);
 };
-
 
 #endif

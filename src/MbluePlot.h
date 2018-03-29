@@ -19,88 +19,84 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MBLUEPLOT_H
 #define MBLUEPLOT_H
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 #include <vector>
 
+#include "zuFile.h"
 #include <QApplication>
 #include <QPainter>
 #include <QString>
-#include "zuFile.h"
-
 
 #include "IrregularGridded.h"
 #include "MblueReader.h"
 
 //===============================================================
-class MbluePlot : public IrregularGridPlot
-{
-    public:
-        MbluePlot ();        
-        virtual ~MbluePlot();
+class MbluePlot : public IrregularGridPlot {
+public:
+    MbluePlot();
+    virtual ~MbluePlot();
 
-		void  loadFile (QString fileName,
-						LongTaskProgress *taskProgress, int nbrecs);
-		
-		virtual bool  isReaderOk() const
-					{return reader!=NULL && reader->isOk();}						
+    void loadFile(QString fileName,
+            LongTaskProgress *taskProgress, int nbrecs);
 
-		virtual MblueReader *getReader () const {return reader;};
+    virtual bool isReaderOk() const { return reader != NULL && reader->isOk(); }
 
-		virtual void setFastInterpolation (bool b)
-						{if (reader) reader->setFastInterpolation(b);}
-		
-		//---------------------------------------------------
-		/** Draw the complete colored map.
-		*/
-		virtual void draw_ColoredMapPlain ( 
-						DataCode dtc,
-						bool smooth,
-						QPainter &pnt, 
-						const Projection *proj);
-		
-		/** Draw wind arrows on the colored map.
-		*/
-		virtual void draw_WIND_Arrows (
-						Altitude altitude, 
-						bool showBarbules, QColor windArrowsColor, 
-						QPainter &pnt, const Projection *proj );
-		
-		/** Draw current arrows on the colored map.
-		*/
-		virtual void draw_CURRENT_Arrows (
-						Altitude altitude, 
-						QColor currentArrowsColor, 
-						QPainter &pnt, const Projection *proj );
-		
-		/** Draw waves arrows on the colored map.
-		*/
-		virtual void draw_WAVES_Arrows (
-						const DataCode &,
-						QPainter &, const Projection *) 
-		{}
-		
-		/** Draw a mark a each grid vertex.
-		*/
-        virtual void draw_GridPoints (
-						const DataCode &dtc,
-						QPainter &pnt, const Projection *proj );
+    virtual MblueReader *getReader() const { return reader; };
 
-		/** Pressure: write H and L at hight and low points (pressure).
+    virtual void setFastInterpolation(bool b) {
+        if (reader)
+            reader->setFastInterpolation(b);
+    }
+
+    //---------------------------------------------------
+    /** Draw the complete colored map.
 		*/
-        virtual void draw_DATA_MinMax (
-						DataCode dtc, 
-						double   meanValue,
-						QString  minSymbol,
-						QString  maxSymbol,
-						QFont 	 labelsFont,
-						QColor   labelsColor,
-						QPainter &pnt, const Projection *proj);
-						
-	private :
-		MblueReader *reader;
-		
+    virtual void draw_ColoredMapPlain(
+            DataCode dtc,
+            bool smooth,
+            QPainter &pnt,
+            const Projection *proj);
+
+    /** Draw wind arrows on the colored map.
+		*/
+    virtual void draw_WIND_Arrows(
+            Altitude altitude,
+            bool showBarbules, QColor windArrowsColor,
+            QPainter &pnt, const Projection *proj);
+
+    /** Draw current arrows on the colored map.
+		*/
+    virtual void draw_CURRENT_Arrows(
+            Altitude altitude,
+            QColor currentArrowsColor,
+            QPainter &pnt, const Projection *proj);
+
+    /** Draw waves arrows on the colored map.
+		*/
+    virtual void draw_WAVES_Arrows(
+            const DataCode &,
+            QPainter &, const Projection *) {}
+
+    /** Draw a mark a each grid vertex.
+		*/
+    virtual void draw_GridPoints(
+            const DataCode &dtc,
+            QPainter &pnt, const Projection *proj);
+
+    /** Pressure: write H and L at hight and low points (pressure).
+		*/
+    virtual void draw_DATA_MinMax(
+            DataCode dtc,
+            double meanValue,
+            QString minSymbol,
+            QString maxSymbol,
+            QFont labelsFont,
+            QColor labelsColor,
+            QPainter &pnt, const Projection *proj);
+
+private:
+    MblueReader *reader;
 };
-
 
 #endif

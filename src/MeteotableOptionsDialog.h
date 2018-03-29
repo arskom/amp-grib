@@ -19,84 +19,83 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef METEOTABLEOPTIONSDIALOG_H
 #define METEOTABLEOPTIONSDIALOG_H
 
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
+#include <QDoubleSpinBox>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QButtonGroup>
-#include <QRadioButton>
 #include <QLineEdit>
-#include <QDoubleSpinBox>
- 
-#include "DialogBoxBase.h"
-#include "ui_MeteotableOptionsDialog.h"
+#include <QPushButton>
+#include <QRadioButton>
+
 #include "DataDefines.h"
+#include "DialogBoxBase.h"
 #include "Settings.h"
+#include "ui_MeteotableOptionsDialog.h"
 
 //-----------------------------------------------
-class MeteotableOptionItem 
-{
-	public :
-		MeteotableOptionItem (
-				QString  name, DataCode dtc, int pos, bool visible, int interncode)
-					{ this->name = name; this->dtc = dtc; this->pos = pos;  
-					  this->visible = visible; 
-					  this->interncode = interncode; }
-		QString  name;
-		DataCode dtc;
-		bool visible;
-		int  pos;
-		int  interncode;
-		
-		static bool lessThan_byPos (MeteotableOptionItem* &a,
-								    MeteotableOptionItem* &b)
-					{ return a->pos < b->pos; }
-		static bool lessThan_byName (MeteotableOptionItem* &a,
-									 MeteotableOptionItem* &b)
-					{ return a->name < b->name; }
+class MeteotableOptionItem {
+public:
+    MeteotableOptionItem(
+            QString name, DataCode dtc, int pos, bool visible, int interncode) {
+        this->name = name;
+        this->dtc = dtc;
+        this->pos = pos;
+        this->visible = visible;
+        this->interncode = interncode;
+    }
+    QString name;
+    DataCode dtc;
+    bool visible;
+    int pos;
+    int interncode;
+
+    static bool lessThan_byPos(MeteotableOptionItem *&a,
+            MeteotableOptionItem *&b) { return a->pos < b->pos; }
+    static bool lessThan_byName(MeteotableOptionItem *&a,
+            MeteotableOptionItem *&b) { return a->name < b->name; }
 };
 
 //-----------------------------------------------
 class DialogMeteotableOptions
-		: public  DialogBoxBase,
-		  private Ui_MeteotableOptionsDialog
-{ Q_OBJECT
-    public:
-        DialogMeteotableOptions ();
-        ~DialogMeteotableOptions ();
-    
-    public slots:
-        void slotBtOK ();
-        void slotBtCancel ();
-        void slotChangeVisibleItems ();
-	
-    private:
-		QList <MeteotableOptionItem *> listAllOptionItems;
-		void  updateListWidgetsItems ();
-		int   nbOptionItems (bool visibility);
-		MeteotableOptionItem * getOptionItemByCode (int interncode);
-		
-		// setting (bool) : data visible or not in meteotable
-        QString getSettingName_vis(uint gribCode) {
-			return QString("MTableData_vis_%1").arg(gribCode,8,16,QLatin1Char('0'));
-        }
-		// setting (int) : vertical position in meteotable
-        QString getSettingName_pos(uint gribCode) {
-			return QString("MTableData_pos_%1").arg(gribCode,8,16,QLatin1Char('0'));
-        }
-        
-        void initInterface ();
-        void createDataLists ();
-        //void addItemInDataList (QString name, int code, bool isVisible, int position);
-        
-		int  currentItemCode;
-		void addData (QString title, 
-					uchar grbtype, uchar leveltype, uint level,
-					bool defaultvis, int defaultpos );
-};
+        : public DialogBoxBase,
+          private Ui_MeteotableOptionsDialog {
+    Q_OBJECT
+public:
+    DialogMeteotableOptions();
+    ~DialogMeteotableOptions();
 
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
+    void slotChangeVisibleItems();
+
+private:
+    QList<MeteotableOptionItem *> listAllOptionItems;
+    void updateListWidgetsItems();
+    int nbOptionItems(bool visibility);
+    MeteotableOptionItem *getOptionItemByCode(int interncode);
+
+    // setting (bool) : data visible or not in meteotable
+    QString getSettingName_vis(uint gribCode) {
+        return QString("MTableData_vis_%1").arg(gribCode, 8, 16, QLatin1Char('0'));
+    }
+    // setting (int) : vertical position in meteotable
+    QString getSettingName_pos(uint gribCode) {
+        return QString("MTableData_pos_%1").arg(gribCode, 8, 16, QLatin1Char('0'));
+    }
+
+    void initInterface();
+    void createDataLists();
+    //void addItemInDataList (QString name, int code, bool isVisible, int position);
+
+    int currentItemCode;
+    void addData(QString title,
+            uchar grbtype, uchar leveltype, uint level,
+            bool defaultvis, int defaultpos);
+};
 
 #endif

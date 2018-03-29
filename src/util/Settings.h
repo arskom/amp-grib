@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QApplication>
 #include <QDir>
 #include <QObject>
-#include <QString>
 #include <QSettings>
+#include <QString>
 
 #include "POI.h"
 
@@ -37,56 +37,44 @@ extern QSettings *GLOB_NatSettings;
 extern QSettings *GLOB_IniSettings;
 extern QSettings *GLOB_IniSettings_POI;
 
-class Settings
-{
+class Settings {
 public:
-	static void     initializeSettingsDir ();	// Don't forget to call it
-	static void     initializeGribFilesDir ();	// Don't forget to call it
-	
-	//--------------------------------
-	// Globals settings
-	//--------------------------------
-	static QString  getSettingsDir ()
-						{ return GLOB_SettingsDir; }
-	static QString  getSettingsFilename ()
-						{ return GLOB_SettingsFilename; }
-	static QString  getSettingsFilename_POI ()
-						{ return GLOB_SettingsFilename_POI; }
+    static void initializeSettingsDir(); // Don't forget to call it
+    static void initializeGribFilesDir(); // Don't forget to call it
 
-    static void     setUserSetting (const QString &key, const QVariant &value);
-    static QVariant getUserSetting (const QString &key, const QVariant &defaultValue);
-    
-    static void     setApplicationNativeSetting
-						(const QString &group, const QString &key, const QVariant &value);
-    static QVariant getApplicationNativeSetting
-						(const QString &group, const QString &key, const QVariant &defaultValue);
+    //--------------------------------
+    // Globals settings
+    //--------------------------------
+    static QString getSettingsDir() { return GLOB_SettingsDir; }
+    static QString getSettingsFilename() { return GLOB_SettingsFilename; }
+    static QString getSettingsFilename_POI() { return GLOB_SettingsFilename_POI; }
 
-	static QStringList getAllKeys();
-    static void     removeUserSetting (const QString &key);
+    static void setUserSetting(const QString &key, const QVariant &value);
+    static QVariant getUserSetting(const QString &key, const QVariant &defaultValue);
 
-	//--------------------------------
-	// POI's
-	//--------------------------------
-    static void  setSettingPOI
-    					( uint code, const QString &key, const QVariant &value);    
-    static QVariant getSettingPOI
-						( uint code, const QString &key, const QVariant &defaultValue,
-						  bool fromOldNativeSettings);
-    
-	static uint        getNewCodePOI();
+    static void setApplicationNativeSetting(const QString &group, const QString &key, const QVariant &value);
+    static QVariant getApplicationNativeSetting(const QString &group, const QString &key, const QVariant &defaultValue);
+
+    static QStringList getAllKeys();
+    static void removeUserSetting(const QString &key);
+
+    //--------------------------------
+    // POI's
+    //--------------------------------
+    static void setSettingPOI(uint code, const QString &key, const QVariant &value);
+    static QVariant getSettingPOI(uint code, const QString &key, const QVariant &defaultValue,
+            bool fromOldNativeSettings);
+
+    static uint getNewCodePOI();
     static QList<uint> getSettingAllCodesPOIs();
-    
-    static void        deleteSettingsPOI(uint code);
-	
 
+    static void deleteSettingsPOI(uint code);
 
 private:
-	static void     copyOldNativeSettingsToIniFile ();
-	static void     copyOldNativeSettingsToIniFile_POI ();
-	// A. Degwerth [Cassidian] added
-        static void     checkAndCopyDefaultIni(const QString& strIni, const QString& strIniDefault);
+    static void copyOldNativeSettingsToIniFile();
+    static void copyOldNativeSettingsToIniFile_POI();
+    // A. Degwerth [Cassidian] added
+    static void checkAndCopyDefaultIni(const QString &strIni, const QString &strIniDefault);
 };
-
-
 
 #endif

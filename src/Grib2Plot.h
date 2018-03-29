@@ -23,20 +23,18 @@ Dessin des données GRIB (avec QT)
 #ifndef GRIB2PLOT_H
 #define GRIB2PLOT_H
 
-#include "GribPlot.h"
 #include "Grib2Reader.h"
- 
-//===============================================================
-class Grib2Plot : public GribPlot
-{
-    public:
-        Grib2Plot ();
-        Grib2Plot (const Grib2Plot &);
-        virtual ~Grib2Plot ();
-        
-		virtual void  loadFile (QString fileName,
-						LongTaskProgress *taskProgress=NULL, int nbrecs=0);
+#include "GribPlot.h"
 
+//===============================================================
+class Grib2Plot : public GribPlot {
+public:
+    Grib2Plot();
+    Grib2Plot(const Grib2Plot &);
+    virtual ~Grib2Plot();
+
+    virtual void loadFile(QString fileName,
+            LongTaskProgress *taskProgress = NULL, int nbrecs = 0);
 };
 
 #endif

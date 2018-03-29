@@ -25,40 +25,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //-------------------------------------------------------
 // POI_Editor: Constructor for edit and create a new POI
 //-------------------------------------------------------
-AngleConverterDialog::AngleConverterDialog (QWidget *parentWindow)
-	: QDialog(parentWindow)
-{
-	angleConverterWidget = new AngleConverterWidget(this);
-	assert(angleConverterWidget);
-	btClose = new QPushButton(tr("Close"), this);
-	assert(btClose);
-	
-	QVBoxLayout  *lay = new QVBoxLayout(this);
-	assert (lay);
-	lay->addWidget (angleConverterWidget);
-	lay->addWidget (btClose, 0,Qt::AlignRight);
-	
-	setLayout(lay);
-		
-	connect(btClose,  SIGNAL(clicked()), this, SLOT(btCloseClicked()));
-	setModal(true);
-	show();
+AngleConverterDialog::AngleConverterDialog(QWidget *parentWindow)
+        : QDialog(parentWindow) {
+    angleConverterWidget = new AngleConverterWidget(this);
+    assert(angleConverterWidget);
+    btClose = new QPushButton(tr("Close"), this);
+    assert(btClose);
+
+    QVBoxLayout *lay = new QVBoxLayout(this);
+    assert(lay);
+    lay->addWidget(angleConverterWidget);
+    lay->addWidget(btClose, 0, Qt::AlignRight);
+
+    setLayout(lay);
+
+    connect(btClose, SIGNAL(clicked()), this, SLOT(btCloseClicked()));
+    setModal(true);
+    show();
 }
 
 //---------------------------------------
-AngleConverterDialog::~AngleConverterDialog()
-{
-	//printf("~AngleConverterDialog\n");
-	delete angleConverterWidget;
+AngleConverterDialog::~AngleConverterDialog() {
+    //printf("~AngleConverterDialog\n");
+    delete angleConverterWidget;
 }
 //---------------------------------------
-void AngleConverterDialog::reject()
-{
-	btCloseClicked();
+void AngleConverterDialog::reject() {
+    btCloseClicked();
 }
 //---------------------------------------
-void AngleConverterDialog::btCloseClicked()
-{
-	delete this;
+void AngleConverterDialog::btCloseClicked() {
+    delete this;
 }
-

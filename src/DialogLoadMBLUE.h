@@ -19,115 +19,114 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGLOAD_MBLUE_H
 #define DIALOGLOAD_MBLUE_H
 
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
+#include <QFileDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QSpinBox>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
 #include <QProgressBar>
-#include <QFileDialog>
+#include <QPushButton>
+#include <QSpinBox>
 
 #include "DialogBoxBase.h"
 #include "FileLoaderMBLUE.h"
 #include "MblueReader.h"
 
-class DialogLoadMBLUE : public DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogLoadMBLUE (MeteoblueZone zone, 
-						 QNetworkAccessManager *manager, QWidget *parent);
-		
-        ~DialogLoadMBLUE ();
-        
-        void setZone(double x0, double y0, double x1, double y1);
-		
-		static QString getFile (MeteoblueZone zone, 
-								QNetworkAccessManager *manager, QWidget *parent,
-								double x0, double y0, double x1, double y1);
+class DialogLoadMBLUE : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogLoadMBLUE(MeteoblueZone zone,
+            QNetworkAccessManager *manager, QWidget *parent);
 
-    public slots:
-        void slotBtOK();
-        void slotBtCancel();
-        void slotBtServerStatus();
-        void slotBtProxy();
-        void slotGribDataReceived(QByteArray *content, QString fileName);
-        void slotGribReadProgress(int step, int done, int total);
-        void slotGribFileError(QString error);
-        void slotGribMessage(QString msg);
-        void slotGribStartLoadData();
-        void slotParameterUpdated();
-        void slotAltitudeAll();
-		void slotFinished (int result);
+    ~DialogLoadMBLUE();
 
-    private:
-        FileLoaderMBLUE   *loadmblue;
-		QNetworkAccessManager *networkManager;
-		MeteoblueZone meteoblueZone;
-		QString  savedFileName;
-		
-		bool  testSelectedZoneInMeteoblueZone ();
-		
-		bool     loadInProgress;
-        QTime    timeLoad;
-        QCursor  oldcursor;
-        
-        QDoubleSpinBox *sbNorth;
-        QDoubleSpinBox *sbSouth;
-        QDoubleSpinBox *sbWest;
-        QDoubleSpinBox *sbEast;
-        
-        QComboBox *cbResolution;
-        QComboBox *cbInterval;
-        QComboBox *cbDays;
+    void setZone(double x0, double y0, double x1, double y1);
 
-        QCheckBox *chkWind;
-        QCheckBox *chkPressure;
-        QCheckBox *chkRain;
-        QCheckBox *chkCloud;
-        QCheckBox *chkTemp;
-        QCheckBox *chkHumid;
-        QCheckBox *chkIsotherm0;
-        QCheckBox *chkTempMin;
-        QCheckBox *chkTempMax;
-        QCheckBox *chkSnowCateg;
-        QCheckBox *chkFrzRainCateg;
-        QCheckBox *chkSnowDepth;
-        QCheckBox *chkCAPEsfc;
-        QCheckBox *chkGUSTsfc;
-		
-        QCheckBox *chkAltitudeAll;
-        QCheckBox *chkAltitude200;
-        QCheckBox *chkAltitude300;
-        QCheckBox *chkAltitude500;
-        QCheckBox *chkAltitude700;
-        QCheckBox *chkAltitude850;
-        
-        QPushButton *btOK;
-        QPushButton *btCancel;
-        QPushButton *btProxy;
-        QPushButton *btServerStatus;
+    static QString getFile(MeteoblueZone zone,
+            QNetworkAccessManager *manager, QWidget *parent,
+            double x0, double y0, double x1, double y1);
 
-        QProgressBar *progressBar;
-        QLabel       *labelMsg;
-        
-        QFrame *createFrameButtonsZone(QWidget *parent);
-        
-        double   xmin,ymin,xmax,ymax,resolution;
-        int     interval,days;
-        
-        bool    rain, cloud, pressure, wind, temp, humid, isotherm0;
-        bool	tempMin, tempMax, snowDepth, snowCateg, frzRainCateg;
-        bool 	CAPEsfc;
-		bool 	GUSTsfc;
-		
-        void    updateParameters();
-        void    addSeparator (QLayout *layout, char orientation);	// 'H' or 'V'
-                                
-        void    closeEvent (QCloseEvent *event);
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
+    void slotBtServerStatus();
+    void slotBtProxy();
+    void slotGribDataReceived(QByteArray *content, QString fileName);
+    void slotGribReadProgress(int step, int done, int total);
+    void slotGribFileError(QString error);
+    void slotGribMessage(QString msg);
+    void slotGribStartLoadData();
+    void slotParameterUpdated();
+    void slotAltitudeAll();
+    void slotFinished(int result);
+
+private:
+    FileLoaderMBLUE *loadmblue;
+    QNetworkAccessManager *networkManager;
+    MeteoblueZone meteoblueZone;
+    QString savedFileName;
+
+    bool testSelectedZoneInMeteoblueZone();
+
+    bool loadInProgress;
+    QTime timeLoad;
+    QCursor oldcursor;
+
+    QDoubleSpinBox *sbNorth;
+    QDoubleSpinBox *sbSouth;
+    QDoubleSpinBox *sbWest;
+    QDoubleSpinBox *sbEast;
+
+    QComboBox *cbResolution;
+    QComboBox *cbInterval;
+    QComboBox *cbDays;
+
+    QCheckBox *chkWind;
+    QCheckBox *chkPressure;
+    QCheckBox *chkRain;
+    QCheckBox *chkCloud;
+    QCheckBox *chkTemp;
+    QCheckBox *chkHumid;
+    QCheckBox *chkIsotherm0;
+    QCheckBox *chkTempMin;
+    QCheckBox *chkTempMax;
+    QCheckBox *chkSnowCateg;
+    QCheckBox *chkFrzRainCateg;
+    QCheckBox *chkSnowDepth;
+    QCheckBox *chkCAPEsfc;
+    QCheckBox *chkGUSTsfc;
+
+    QCheckBox *chkAltitudeAll;
+    QCheckBox *chkAltitude200;
+    QCheckBox *chkAltitude300;
+    QCheckBox *chkAltitude500;
+    QCheckBox *chkAltitude700;
+    QCheckBox *chkAltitude850;
+
+    QPushButton *btOK;
+    QPushButton *btCancel;
+    QPushButton *btProxy;
+    QPushButton *btServerStatus;
+
+    QProgressBar *progressBar;
+    QLabel *labelMsg;
+
+    QFrame *createFrameButtonsZone(QWidget *parent);
+
+    double xmin, ymin, xmax, ymax, resolution;
+    int interval, days;
+
+    bool rain, cloud, pressure, wind, temp, humid, isotherm0;
+    bool tempMin, tempMax, snowDepth, snowCateg, frzRainCateg;
+    bool CAPEsfc;
+    bool GUSTsfc;
+
+    void updateParameters();
+    void addSeparator(QLayout *layout, char orientation); // 'H' or 'V'
+
+    void closeEvent(QCloseEvent *event);
 };
-
 
 #endif

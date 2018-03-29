@@ -19,140 +19,137 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GRIBANIMATOR_H
 #define GRIBANIMATOR_H
 
+#include <QAction>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
 #include <QProgressBar>
-#include <QStackedWidget>
-#include <QAction>
+#include <QPushButton>
 #include <QSlider>
+#include <QStackedWidget>
 #include <vector>
 
 #include "DialogBoxColumn.h"
-#include "Terrain.h"
-#include "Projection.h"
 #include "GribPlot.h"
 #include "POI.h"
+#include "Projection.h"
+#include "Terrain.h"
 
 //=====================================================================================
-class AnimImage 
-{
-    public:
-		AnimImage ();
-		~AnimImage ();
-		
-    	QPixmap *pixmap;
-    	time_t  date;
+class AnimImage {
+public:
+    AnimImage();
+    ~AnimImage();
+
+    QPixmap *pixmap;
+    time_t date;
 };
 
 //=====================================================================================
-class AnimCommand : public QToolBar
-{ Q_OBJECT
-    public:
-		AnimCommand(int nbImages, int speed, bool autoLoop, QWidget *parent);
-	
-	signals:
-		void exitAnim();
-		void saveAnimFile();
-		void startAnim(int);
-		void rewindAnim();
-		void pauseAnim();
-		void setSpeed(int);
-		void setCurrentImage(int);
-		void setAutoLoop(bool);
-	
-	private:
-		int nbImages;
-		int currentImage;
-		int speed;
-		
-	    QAction *acExit;
-	    QAction *acSaveFile;
-	    QAction *acStart;
-	    QAction *acPause;
-	    QAction *acRewind;
-	    QAction *acAutoLoop;
+class AnimCommand : public QToolBar {
+    Q_OBJECT
+public:
+    AnimCommand(int nbImages, int speed, bool autoLoop, QWidget *parent);
 
-		QSlider *sliderSpeed;
-		QSlider *sliderCurrentImage;
-		
-		int speedSlider_ValueToSpeed();
-		int speedSlider_SpeedToValue(int speed);
-		
-	private slots :
-		void actionsCommonSlot();
-	
-		void changeCurrentImage(int);
+signals:
+    void exitAnim();
+    void saveAnimFile();
+    void startAnim(int);
+    void rewindAnim();
+    void pauseAnim();
+    void setSpeed(int);
+    void setCurrentImage(int);
+    void setAutoLoop(bool);
+
+private:
+    int nbImages;
+    int currentImage;
+    int speed;
+
+    QAction *acExit;
+    QAction *acSaveFile;
+    QAction *acStart;
+    QAction *acPause;
+    QAction *acRewind;
+    QAction *acAutoLoop;
+
+    QSlider *sliderSpeed;
+    QSlider *sliderCurrentImage;
+
+    int speedSlider_ValueToSpeed();
+    int speedSlider_SpeedToValue(int speed);
+
+private slots:
+    void actionsCommonSlot();
+
+    void changeCurrentImage(int);
 };
 
 //=====================================================================================
-class CreateAnimProgressBar : public QWidget
-{ Q_OBJECT
-    public:
-		CreateAnimProgressBar(int nbImages, QWidget *parent);
-		void setCurrentValue(int n);
+class CreateAnimProgressBar : public QWidget {
+    Q_OBJECT
+public:
+    CreateAnimProgressBar(int nbImages, QWidget *parent);
+    void setCurrentValue(int n);
 
-	private:
-		int nbImages;
-		QProgressBar *progressBar;
-		
+private:
+    int nbImages;
+    QProgressBar *progressBar;
 };
 
 //=====================================================================================
-class GribAnimator : public QDialog
-{ Q_OBJECT
-    public:
-        GribAnimator (Terrain *terre);
-        ~GribAnimator();
-    
-    signals:
-    	void changeCurrentImage(int);
+class GribAnimator : public QDialog {
+    Q_OBJECT
+public:
+    GribAnimator(Terrain *terre);
+    ~GribAnimator();
 
-	private slots:
-		void showImage(int ind, bool showmsg=true);
-		void showNextImage();
-		void setSpeed(int speed);
-		void startAnim(int speed);
-		void pauseAnim();
-		void exitAnim();
-		void saveAnimFile();
-		void rewindAnim();
-		void setAutoLoop(bool);
-		void timerPauseOut();
-		    
-    private:
-		int 		W, H;
-        MapDrawer 	*drawer;
-        GriddedPlotter 	*gribplot;
-        Projection 	*proj;
-	    QList<POI*> lspois;
-		Terrain 	*terre;
-		
-		volatile int 	closestatus;		
-        std::vector <AnimImage *> vectorImages;
-		void	createImages();
-        unsigned int		currentImage;
-        int 	nbImages;
-        int		speed;
-        bool	autoLoop;
-        
-        QFrame 			*frameGui;
-        QVBoxLayout 	*frameLayout;
-        QStackedWidget 	*stackWidgets;
-        QTimer *timerLoop;
-        QTimer *timerPause;
-        QLabel *lbimage, *lbmessage;
-        CreateAnimProgressBar *createAnimProgressBar;
-        AnimCommand			  *animCommand;
-        
-        QGridLayout *layout;
-        QFrame * createFrameGui(QWidget *parent);
-		void closeEvent(QCloseEvent *) {delete this;};
+signals:
+    void changeCurrentImage(int);
+
+private slots:
+    void showImage(int ind, bool showmsg = true);
+    void showNextImage();
+    void setSpeed(int speed);
+    void startAnim(int speed);
+    void pauseAnim();
+    void exitAnim();
+    void saveAnimFile();
+    void rewindAnim();
+    void setAutoLoop(bool);
+    void timerPauseOut();
+
+private:
+    int W, H;
+    MapDrawer *drawer;
+    GriddedPlotter *gribplot;
+    Projection *proj;
+    QList<POI *> lspois;
+    Terrain *terre;
+
+    volatile int closestatus;
+    std::vector<AnimImage *> vectorImages;
+    void createImages();
+    unsigned int currentImage;
+    int nbImages;
+    int speed;
+    bool autoLoop;
+
+    QFrame *frameGui;
+    QVBoxLayout *frameLayout;
+    QStackedWidget *stackWidgets;
+    QTimer *timerLoop;
+    QTimer *timerPause;
+    QLabel *lbimage, *lbmessage;
+    CreateAnimProgressBar *createAnimProgressBar;
+    AnimCommand *animCommand;
+
+    QGridLayout *layout;
+    QFrame *createFrameGui(QWidget *parent);
+    void closeEvent(QCloseEvent *) { delete this; };
 };
-
 
 #endif

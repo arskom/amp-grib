@@ -21,73 +21,72 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QColor>
 
+#include "ColorScale.h"
 #include "DataDefines.h"
 #include "DataQString.h"
 #include "Util.h"
-#include "ColorScale.h"
 
-class DataColors    // inherited by GriddedPlotter
-{ 
-	public:
-		DataColors ();
-		
-		void setColorDataTypeFunction (const DataCode &dtc);
+class DataColors // inherited by GriddedPlotter
+{
+public:
+    DataColors();
 
-		//----------------------------
-		// Map colors 
-		//----------------------------
-		void   setCloudsColorMode (QString settingName)
-			{ isCloudsColorModeWhite 
-				= Util::getSetting(settingName,"white").toString()=="white"; }
-		
-        QRgb   getWindColor     (double v, bool smooth);
-        QRgb   getWindJetColor  (double v, bool smooth);
-        QRgb   getAltitudeColor (double v, const Altitude &alt, bool smooth);
-        QRgb   getRainColor     (double mm, bool smooth);
-        QRgb   getSnowDepthColor(double mm, bool smooth);
-        QRgb   getHumidColor    (double v, bool smooth);
-        QRgb   getCurrentColor     (double v, bool smooth);
-        QRgb   getTemperatureColor (double v, bool smooth);
-        QRgb   getPressureColor    (double v, bool smooth);
-		QRgb   getDeltaTemperaturesColor (double v, bool smooth);
-        QRgb   getCAPEColor    (double v, bool smooth);
-        QRgb   getCINColor    (double v, bool smooth);
-		QRgb   getCloudColor   (double v, bool smooth);
-		QRgb   getBinaryColor  (double v, bool smooth);
-        QRgb   getWaveHeightColor    (double v, bool smooth);
-        QRgb   getWhiteCapColor    (double v, bool smooth);
-        QRgb   getThetaEColor    (double v, bool smooth);
+    void setColorDataTypeFunction(const DataCode &dtc);
 
-		ColorScale *getColorScale (const DataCode &dtc);
-					
-		QRgb getDataCodeColor (const DataCode &dtc, double v, bool smooth);
-		
-		static QColor getContrastedColor (const QColor &base);
+    //----------------------------
+    // Map colors
+    //----------------------------
+    void setCloudsColorMode(QString settingName) { isCloudsColorModeWhite
+        = Util::getSetting(settingName, "white").toString() == "white"; }
 
-	protected:
-		ColorScale colors_Wind;
-		ColorScale colors_Wind_Jet;
-		ColorScale colors_Current;
-		ColorScale colors_Temp;
-		ColorScale colors_Rain;
-		ColorScale colors_SnowDepth;
-		ColorScale colors_CloudsWhite;
-		ColorScale colors_CloudsBlack;
-		ColorScale colors_CAPE;
-		ColorScale colors_CIN;
-		ColorScale colors_HumidRel;
-		ColorScale colors_DeltaTemp;
-		ColorScale colors_Binary;
-		ColorScale colors_WaveHeight;
-		ColorScale colors_WhiteCap;
-		ColorScale colors_ThetaE;
+    QRgb getWindColor(double v, bool smooth);
+    QRgb getWindJetColor(double v, bool smooth);
+    QRgb getAltitudeColor(double v, const Altitude &alt, bool smooth);
+    QRgb getRainColor(double mm, bool smooth);
+    QRgb getSnowDepthColor(double mm, bool smooth);
+    QRgb getHumidColor(double v, bool smooth);
+    QRgb getCurrentColor(double v, bool smooth);
+    QRgb getTemperatureColor(double v, bool smooth);
+    QRgb getPressureColor(double v, bool smooth);
+    QRgb getDeltaTemperaturesColor(double v, bool smooth);
+    QRgb getCAPEColor(double v, bool smooth);
+    QRgb getCINColor(double v, bool smooth);
+    QRgb getCloudColor(double v, bool smooth);
+    QRgb getBinaryColor(double v, bool smooth);
+    QRgb getWaveHeightColor(double v, bool smooth);
+    QRgb getWhiteCapColor(double v, bool smooth);
+    QRgb getThetaEColor(double v, bool smooth);
 
-        int    mapColorTransp;
-		bool   isCloudsColorModeWhite;
-		
-		QRgb  pasteToWindColorScale (double v, double min, double max, bool smooth);
-		
-		QRgb (DataColors::*function_getColor) (double v, bool smooth);
+    ColorScale *getColorScale(const DataCode &dtc);
+
+    QRgb getDataCodeColor(const DataCode &dtc, double v, bool smooth);
+
+    static QColor getContrastedColor(const QColor &base);
+
+protected:
+    ColorScale colors_Wind;
+    ColorScale colors_Wind_Jet;
+    ColorScale colors_Current;
+    ColorScale colors_Temp;
+    ColorScale colors_Rain;
+    ColorScale colors_SnowDepth;
+    ColorScale colors_CloudsWhite;
+    ColorScale colors_CloudsBlack;
+    ColorScale colors_CAPE;
+    ColorScale colors_CIN;
+    ColorScale colors_HumidRel;
+    ColorScale colors_DeltaTemp;
+    ColorScale colors_Binary;
+    ColorScale colors_WaveHeight;
+    ColorScale colors_WhiteCap;
+    ColorScale colors_ThetaE;
+
+    int mapColorTransp;
+    bool isCloudsColorModeWhite;
+
+    QRgb pasteToWindColorScale(double v, double min, double max, bool smooth);
+
+    QRgb (DataColors::*function_getColor)(double v, bool smooth);
 };
 
 #endif

@@ -20,65 +20,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define POSITIONEDITOR_H
 
 #include <QApplication>
-#include <QToolBar>
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QGroupBox>
-#include <QComboBox>
-
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QToolBar>
+#include <QVBoxLayout>
 
 #include "Util.h"
 
 //===================================================================
-class DegreeMinuteEditor : public QWidget
-{ Q_OBJECT
-    public:
-        DegreeMinuteEditor(QWidget *parent, int degreMin, int degreMax);
-    	
-		virtual  double   getValue();
-    	QString  getDirection()  {return cbDirection->currentText();}
-    	
-    protected:
-		QSpinBox  		*angDeg;
-		QDoubleSpinBox  *angMin;
-		QComboBox 		*cbSigne;
-		QComboBox 		*cbDirection;
-};
-//-------------------------------------------------------------------
-class LongitudeEditor : public DegreeMinuteEditor
-{
-	public:
-		LongitudeEditor(double val, QWidget *parent);
-    	double getValue();
-};
-//-------------------------------------------------------------------
-class LatitudeEditor : public DegreeMinuteEditor
-{
-	public:
-		LatitudeEditor(double val, QWidget *parent);
-    	double getValue();
-};
+class DegreeMinuteEditor : public QWidget {
+    Q_OBJECT
+public:
+    DegreeMinuteEditor(QWidget *parent, int degreMin, int degreMax);
 
+    virtual double getValue();
+    QString getDirection() { return cbDirection->currentText(); }
+
+protected:
+    QSpinBox *angDeg;
+    QDoubleSpinBox *angMin;
+    QComboBox *cbSigne;
+    QComboBox *cbDirection;
+};
+//-------------------------------------------------------------------
+class LongitudeEditor : public DegreeMinuteEditor {
+public:
+    LongitudeEditor(double val, QWidget *parent);
+    double getValue();
+};
+//-------------------------------------------------------------------
+class LatitudeEditor : public DegreeMinuteEditor {
+public:
+    LatitudeEditor(double val, QWidget *parent);
+    double getValue();
+};
 
 //===================================================================
-class PositionEditor : public QWidget
-{
+class PositionEditor : public QWidget {
     Q_OBJECT
 public:
     PositionEditor(double lon, double lat, QWidget *parent);
-    
-	double   getLongitude() {return editLongitude->getValue();}
-	double   getLatitude()  {return editLatitude->getValue();}
 
+    double getLongitude() { return editLongitude->getValue(); }
+    double getLatitude() { return editLatitude->getValue(); }
 
 private:
-	double lon, lat;
-	LatitudeEditor  *editLatitude;
-	LongitudeEditor *editLongitude;
-	
+    double lon, lat;
+    LatitudeEditor *editLatitude;
+    LongitudeEditor *editLongitude;
 };
-
 
 #endif

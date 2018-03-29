@@ -19,42 +19,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Grib2Plot.h"
 
 //---------------------------------------------------
-Grib2Plot::Grib2Plot ()
-{
+Grib2Plot::Grib2Plot() {
 }
 //---------------------------------------------------
-Grib2Plot::Grib2Plot (const Grib2Plot &other)
-	: GribPlot (other)
-{
+Grib2Plot::Grib2Plot(const Grib2Plot &other)
+        : GribPlot(other) {
 }
 //---------------------------------------------------
-Grib2Plot::~Grib2Plot ()
-{
+Grib2Plot::~Grib2Plot() {
 }
 //---------------------------------------------------
 
 //----------------------------------------------------
-void Grib2Plot::loadFile (QString fileName,
-						 LongTaskProgress * taskProgress, int nbrecs)
-{
-	this->fileName = fileName;
-	listDates.clear();
-    
+void Grib2Plot::loadFile(QString fileName,
+        LongTaskProgress *taskProgress, int nbrecs) {
+    this->fileName = fileName;
+    listDates.clear();
+
     if (gribReader != NULL) {
-    	delete gribReader;
+        delete gribReader;
         gribReader = NULL;
     }
-// 	
-	gribReader = new Grib2Reader ();
-    if (gribReader != NULL)
-    {
-		gribReader->openFile (qPrintable(fileName), taskProgress, nbrecs);
-		if (gribReader->isOk())
-		{
-			listDates = gribReader->getListDates();
-			setCurrentDate ( listDates.size()>0 ? *(listDates.begin()) : 0);
-		}
-	}
+    //
+    gribReader = new Grib2Reader();
+    if (gribReader != NULL) {
+        gribReader->openFile(qPrintable(fileName), taskProgress, nbrecs);
+        if (gribReader->isOk()) {
+            listDates = gribReader->getListDates();
+            setCurrentDate(listDates.size() > 0 ? *(listDates.begin()) : 0);
+        }
+    }
 }
-
-

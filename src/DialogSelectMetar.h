@@ -19,48 +19,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGSELECTMETAR_H
 #define DIALOGSELECTMETAR_H
 
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
 #include <QPushButton>
 
+#include <QDesktopWidget>
+#include <QHeaderView>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
-#include <QHeaderView>
-#include <QDesktopWidget>
 
 #include "DialogBoxBase.h"
 #include "Metar.h"
 
-class DialogSelectMetar : public DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogSelectMetar (QWidget *parent=NULL);
-    
-    public slots:
-        void slotBtOK();
-		
-	signals:
-		void metarListChanged ();
-		
-    private:
-        QFrame *frameGui;
-        QGridLayout *layout;        
-        QPushButton *btOK;
-		
-		QList <Airport> allAirports;
-		QMap <QString, QString> mapCountries;
-		QMap <QPair <QString,QString>, QString> mapStates;
-		
-		QTreeWidget *treeWidget;
-		
-		void make_metar_tree ();
+class DialogSelectMetar : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogSelectMetar(QWidget *parent = NULL);
 
-        QFrame * createFrameGui(QWidget *parent);
+public slots:
+    void slotBtOK();
+
+signals:
+    void metarListChanged();
+
+private:
+    QFrame *frameGui;
+    QGridLayout *layout;
+    QPushButton *btOK;
+
+    QList<Airport> allAirports;
+    QMap<QString, QString> mapCountries;
+    QMap<QPair<QString, QString>, QString> mapStates;
+
+    QTreeWidget *treeWidget;
+
+    void make_metar_tree();
+
+    QFrame *createFrameGui(QWidget *parent);
 };
-
 
 #endif

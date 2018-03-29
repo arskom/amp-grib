@@ -19,66 +19,61 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGGRAPHICSPARAMS_H
 #define DIALOGGRAPHICSPARAMS_H
 
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
+#include <QDoubleSpinBox>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
-#include <QButtonGroup>
-#include <QRadioButton>
 #include <QLineEdit>
-#include <QDoubleSpinBox>
+#include <QPushButton>
+#include <QRadioButton>
 
-#include "ui_GraphicsParamsDialog.h"
 #include "DialogBoxColumn.h"
+#include "ui_GraphicsParamsDialog.h"
 
 //-------------------------------------------
-class DialogChooseLang : public DialogBoxColumn 
-{ Q_OBJECT
-	public:
-		DialogChooseLang (QWidget *parent, QString defaultlang);
-		QString getLanguage ();
-		
-	private:
-		QRadioButton * addLanguage (QString name, QString iconfile);
-		QButtonGroup *btGroup;
-		
-		QRadioButton *bt_de;
-		QRadioButton *bt_en;
-		QRadioButton *bt_es;
-		QRadioButton *bt_fi;
-		QRadioButton *bt_fr;
-		QRadioButton *bt_it;
-		QRadioButton *bt_nl;
-		QRadioButton *bt_pt;
-		QRadioButton *bt_ru;
-		QRadioButton *bt_cz;
-		QRadioButton *bt_gr;
-		// A. Degwerth [Cassidian]: added RadioButton for Arabic language
-		QRadioButton *bt_ar;
-};
+class DialogChooseLang : public DialogBoxColumn {
+    Q_OBJECT
+public:
+    DialogChooseLang(QWidget *parent, QString defaultlang);
+    QString getLanguage();
 
+private:
+    QRadioButton *addLanguage(QString name, QString iconfile);
+    QButtonGroup *btGroup;
+
+    QRadioButton *bt_de;
+    QRadioButton *bt_en;
+    QRadioButton *bt_es;
+    QRadioButton *bt_fi;
+    QRadioButton *bt_fr;
+    QRadioButton *bt_it;
+    QRadioButton *bt_nl;
+    QRadioButton *bt_pt;
+    QRadioButton *bt_ru;
+    QRadioButton *bt_cz;
+    QRadioButton *bt_gr;
+    // A. Degwerth [Cassidian]: added RadioButton for Arabic language
+    QRadioButton *bt_ar;
+};
 
 //==============================================================
 class DialogGraphicsParams
-		: public  DialogBoxBase,
-		  private Ui_GraphicsParamsDialog
-{ Q_OBJECT
-    public:
-        DialogGraphicsParams (QWidget *parent=NULL);
-    
-    public slots:
-        void slotBtOK ();
-        void slotBtCancel ();
-    
-    
-    private:
-        
-        
-        void initInterface();
-};
+        : public DialogBoxBase,
+          private Ui_GraphicsParamsDialog {
+    Q_OBJECT
+public:
+    DialogGraphicsParams(QWidget *parent = NULL);
 
+public slots:
+    void slotBtOK();
+    void slotBtCancel();
+
+private:
+    void initInterface();
+};
 
 #endif

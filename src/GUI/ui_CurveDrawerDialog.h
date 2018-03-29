@@ -10,6 +10,7 @@
 #ifndef UI_CURVEDRAWERDIALOG_H
 #define UI_CURVEDRAWERDIALOG_H
 
+#include "qwt_plot.h"
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
@@ -23,12 +24,10 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QVBoxLayout>
-#include "qwt_plot.h"
 
 QT_BEGIN_NAMESPACE
 
-class Ui_CurveDrawerDialog
-{
+class Ui_CurveDrawerDialog {
 public:
     QHBoxLayout *horizontalLayout_2;
     QVBoxLayout *verticalLayout;
@@ -40,8 +39,7 @@ public:
     QPushButton *btExit;
     QwtPlot *qwtDataPlot;
 
-    void setupUi(QDialog *CurveDrawerDialog)
-    {
+    void setupUi(QDialog *CurveDrawerDialog) {
         if (CurveDrawerDialog->objectName().isEmpty())
             CurveDrawerDialog->setObjectName(QString::fromUtf8("CurveDrawerDialog"));
         CurveDrawerDialog->setWindowModality(Qt::NonModal);
@@ -107,7 +105,6 @@ public:
 
         horizontalLayout->addWidget(btExit);
 
-
         verticalLayout->addLayout(horizontalLayout);
 
         qwtDataPlot = new QwtPlot(CurveDrawerDialog);
@@ -127,27 +124,23 @@ public:
 
         verticalLayout->addWidget(qwtDataPlot);
 
-
         horizontalLayout_2->addLayout(verticalLayout);
-
 
         retranslateUi(CurveDrawerDialog);
 
         QMetaObject::connectSlotsByName(CurveDrawerDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *CurveDrawerDialog)
-    {
+    void retranslateUi(QDialog *CurveDrawerDialog) {
         CurveDrawerDialog->setWindowTitle(QApplication::translate("CurveDrawerDialog", "Data Plot", 0, QApplication::UnicodeUTF8));
         lbData->setText(QApplication::translate("CurveDrawerDialog", "Data", 0, QApplication::UnicodeUTF8));
         chkCurrent->setText(QApplication::translate("CurveDrawerDialog", "Current TimeView", 0, QApplication::UnicodeUTF8));
         btExit->setText(QApplication::translate("CurveDrawerDialog", "Exit", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
-
 };
 
 namespace Ui {
-    class CurveDrawerDialog: public Ui_CurveDrawerDialog {};
+class CurveDrawerDialog : public Ui_CurveDrawerDialog {};
 } // namespace Ui
 
 QT_END_NAMESPACE

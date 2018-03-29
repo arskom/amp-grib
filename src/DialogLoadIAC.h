@@ -19,59 +19,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DIALOGLOAD_IAC_H
 #define DIALOGLOAD_IAC_H
 
+#include <QCheckBox>
+#include <QComboBox>
 #include <QDialog>
+#include <QFileDialog>
 #include <QFrame>
 #include <QGridLayout>
 #include <QLabel>
-#include <QSpinBox>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QPushButton>
 #include <QProgressBar>
-#include <QFileDialog>
+#include <QPushButton>
+#include <QSpinBox>
 
 #include "DialogBoxBase.h"
 #include "FileLoaderIAC.h"
 
-class DialogLoadIAC : public DialogBoxBase
-{ Q_OBJECT
-    public:
-        DialogLoadIAC (QNetworkAccessManager *manager, QWidget *parent);
-        ~DialogLoadIAC ();
-		
-		static QString getFile (QNetworkAccessManager *manager, QWidget *parent);
+class DialogLoadIAC : public DialogBoxBase {
+    Q_OBJECT
+public:
+    DialogLoadIAC(QNetworkAccessManager *manager, QWidget *parent);
+    ~DialogLoadIAC();
 
+    static QString getFile(QNetworkAccessManager *manager, QWidget *parent);
 
-    public slots:
-        void slotBtDownload();
-        void slotBtCancel();
-        
-        void slotLoaderDataReceived(QByteArray *content, QString fileName);
-        void slotLoaderReadProgress(int step, int done, int total);
-        void slotLoaderFileError(QString error);
-        void slotLoaderMessage(QString msg);
-        void slotLoaderStartLoadData();
-		void slotFinished (int result);
+public slots:
+    void slotBtDownload();
+    void slotBtCancel();
 
-    private:
-        FileLoaderIAC	*IACloader;
-		QNetworkAccessManager *networkManager;
-		QString  savedFileName;
-		
-        bool     loadInProgress;
-        QTime    timeLoad;
-        
-        QPushButton *btAnalyse;
-        QPushButton *btForecast;
-        QPushButton *btCancel;
+    void slotLoaderDataReceived(QByteArray *content, QString fileName);
+    void slotLoaderReadProgress(int step, int done, int total);
+    void slotLoaderFileError(QString error);
+    void slotLoaderMessage(QString msg);
+    void slotLoaderStartLoadData();
+    void slotFinished(int result);
 
-        QProgressBar *progressBar;
-        QLabel       *labelMsg;
-        
-        QFrame *createFrameButtonsZone(QWidget *parent);
-                
-        void    closeEvent (QCloseEvent *event);
+private:
+    FileLoaderIAC *IACloader;
+    QNetworkAccessManager *networkManager;
+    QString savedFileName;
+
+    bool loadInProgress;
+    QTime timeLoad;
+
+    QPushButton *btAnalyse;
+    QPushButton *btForecast;
+    QPushButton *btCancel;
+
+    QProgressBar *progressBar;
+    QLabel *labelMsg;
+
+    QFrame *createFrameButtonsZone(QWidget *parent);
+
+    void closeEvent(QCloseEvent *event);
 };
-
 
 #endif

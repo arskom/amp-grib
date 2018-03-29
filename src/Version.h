@@ -19,40 +19,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef VERSION_H
 #define VERSION_H
 
-
-#define ZYGRIB_VERSION_NUM   "8.0.1"
-#define ZYGRIB_VERSION_DATE  "2016-11-09"
+#define ZYGRIB_VERSION_NUM "8.0.1"
+#define ZYGRIB_VERSION_DATE "2016-11-09"
 
 #if defined(Q_OS_WIN32)
-	#define ZYGRIB_APP_NAME   "zyGrib_win"
+#define ZYGRIB_APP_NAME "zyGrib_win"
 #elif defined(Q_OS_MAC)
-	#define ZYGRIB_APP_NAME   "zyGrib_mac"
+#define ZYGRIB_APP_NAME "zyGrib_mac"
 #else
-	#define ZYGRIB_APP_NAME   "zyGrib_unx"
+#define ZYGRIB_APP_NAME "zyGrib_unx"
 #endif
-
-
 
 class Version {
 
-    public:
-        static QString getVersion() {
-            return QString(ZYGRIB_VERSION_NUM);
-        }
-        static QString getAppName() {
-            return QString(ZYGRIB_APP_NAME);
-        }
-        static QString getDate() {
-            return QString(ZYGRIB_VERSION_DATE);
-        }
-        static QString getShortName() {
-            return QString( "zyGrib-"+getVersion() );
-        }
-        static QString getCompleteName() {
-            return QString( getAppName()+"-"+getVersion() );
-        }
+public:
+    static QString getVersion() {
+        return QString(ZYGRIB_VERSION_NUM);
+    }
+    static QString getAppName() {
+        return QString(ZYGRIB_APP_NAME);
+    }
+    static QString getDate() {
+        return QString(ZYGRIB_VERSION_DATE);
+    }
+    static QString getShortName() {
+        return QString("zyGrib-" + getVersion());
+    }
+    static QString getCompleteName() {
+        return QString(getAppName() + "-" + getVersion());
+    }
 };
-
-
 
 #endif

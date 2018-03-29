@@ -22,31 +22,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 
 #include <libnova/julian_day.h>
-#include <libnova/solar.h>
 #include <libnova/lunar.h>
+#include <libnova/solar.h>
 
 //------------------------------
-class Almanac
-{
-	public:
-		time_t sunRise, sunTransit, sunSet;
-		time_t moonRise, moonTransit, moonSet;
-		double moonPhase;
-		double moonDisk;
-		
-		time_t date;
-		double lat, lon;
-};
- 
-//------------------------------
-class Astro
-{
-	public:
-		static Almanac getSunMoonAlmanac (time_t t, double lat, double lon);
-		
-		static time_t timestampSetHour (int h, int m, int s);
-	
+class Almanac {
+public:
+    time_t sunRise, sunTransit, sunSet;
+    time_t moonRise, moonTransit, moonSet;
+    double moonPhase;
+    double moonDisk;
+
+    time_t date;
+    double lat, lon;
 };
 
+//------------------------------
+class Astro {
+public:
+    static Almanac getSunMoonAlmanac(time_t t, double lat, double lon);
+
+    static time_t timestampSetHour(int h, int m, int s);
+};
 
 #endif

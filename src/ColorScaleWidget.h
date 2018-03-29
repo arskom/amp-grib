@@ -20,48 +20,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define COLORSCALEWIDGET_H
 
 #include <QApplication>
+#include <QDockWidget>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QDockWidget>
 
 #include <vector>
 
-#include "DataDefines.h"
 #include "DataColors.h"
+#include "DataDefines.h"
 #include "Util.h"
 
 //-------------------------------------------------
-class ColorScaleGraph : public QWidget
-{Q_OBJECT
+class ColorScaleGraph : public QWidget {
+    Q_OBJECT
 
-	public:
-		ColorScaleGraph (QWidget *parent=NULL);
-		void setColorScale (DataColors *datacolors, const DataCode &dtc);
+public:
+    ColorScaleGraph(QWidget *parent = NULL);
+    void setColorScale(DataColors *datacolors, const DataCode &dtc);
 
-	private:
-		void  paintEvent (QPaintEvent *);
-		QString formatValue (double v);
+private:
+    void paintEvent(QPaintEvent *);
+    QString formatValue(double v);
 
-		ColorScale *sc;
-		DataColors *datacolors;
-		DataCode dtc;
+    ColorScale *sc;
+    DataColors *datacolors;
+    DataCode dtc;
 };
-
 
 //-------------------------------------------------
-class ColorScaleWidget : public QDockWidget
-{Q_OBJECT
+class ColorScaleWidget : public QDockWidget {
+    Q_OBJECT
 
-	public:
-		ColorScaleWidget (QWidget *parent=NULL);
-					
-		void setColorScale (DataColors *datacolors, const DataCode &dtc);
-		
-	private:
-		ColorScaleGraph *graph;
+public:
+    ColorScaleWidget(QWidget *parent = NULL);
+
+    void setColorScale(DataColors *datacolors, const DataCode &dtc);
+
+private:
+    ColorScaleGraph *graph;
 };
-
-
-
 
 #endif

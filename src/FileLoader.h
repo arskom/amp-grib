@@ -22,19 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QNetworkAccessManager>
 #include <QNetworkProxy>
 
-class FileLoader
-{
-	public:
-		FileLoader (QNetworkAccessManager *manager) 
-					{ networkManager = manager; }
-					
-		static void setProxy (QNetworkProxy::ProxyType type);
-		
-	protected:
-		QNetworkAccessManager *networkManager;
+class FileLoader {
+public:
+    FileLoader(QNetworkAccessManager *manager) { networkManager = manager; }
+
+    static void setProxy(QNetworkProxy::ProxyType type);
+
+protected:
+    QNetworkAccessManager *networkManager;
 };
-
-
-
 
 #endif
