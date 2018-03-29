@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class MetarWidgetFactory;
 
-//---------------------------------------
 class Airport {
 public:
     QString icao;
@@ -42,7 +41,7 @@ public:
 
     bool operator<(const Airport &o) const;
 };
-//---------------------------------------
+
 class MetarWidget : public QLabel {
     Q_OBJECT
 public:
@@ -69,7 +68,6 @@ private:
     void mouseReleaseEvent(QMouseEvent *e);
 };
 
-//---------------------------------------
 class MetarWidgetFactory {
 public:
     MetarWidgetFactory();

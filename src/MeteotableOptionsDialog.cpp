@@ -28,9 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MeteotableOptionsDialog.h"
 #include "Util.h"
 
-//===========================================================================
 // DialogMeteotableOptions
-//===========================================================================
+
 DialogMeteotableOptions::DialogMeteotableOptions() {
     setupUi(this);
     initInterface();
@@ -41,14 +40,13 @@ DialogMeteotableOptions::DialogMeteotableOptions() {
     connect(btAddVisibleItem, SIGNAL(clicked()), this, SLOT(slotChangeVisibleItems()));
     connect(btRemoveVisibleItem, SIGNAL(clicked()), this, SLOT(slotChangeVisibleItems()));
 }
-//-------------------------------------------------------------------------
+
 DialogMeteotableOptions::~DialogMeteotableOptions() {
     for (int i = 0; i < listAllOptionItems.size(); ++i) {
         delete listAllOptionItems.at(i);
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogMeteotableOptions::slotBtOK() {
     // copy visible items order from widgets
     for (int i = 0; i < listHiddenData->count(); i++) {
@@ -89,11 +87,11 @@ void DialogMeteotableOptions::slotBtOK() {
 
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogMeteotableOptions::slotBtCancel() {
     reject();
 }
-//-----------------------------------------------------------------------
+
 void DialogMeteotableOptions::initInterface() {
     currentItemCode = 1001; // private type for QlistWidgetItem are > 1000
     createDataLists();
@@ -111,7 +109,7 @@ void DialogMeteotableOptions::initInterface() {
     cbSunMoonAlmanac->setChecked(
             Util::getSetting("MTABLE_showSunMoonAlmanac", true).toBool());
 }
-//=============================================================================
+
 void DialogMeteotableOptions::slotChangeVisibleItems() {
     // copy visible items order from widget
     for (int i = 0; i < listVisibleData->count(); i++) {
@@ -156,7 +154,7 @@ void DialogMeteotableOptions::slotChangeVisibleItems() {
 
     updateListWidgetsItems();
 }
-//-----------------------------------------------------------------
+
 int DialogMeteotableOptions::nbOptionItems(bool visibility) {
     int nb = 0;
     for (int i = 0; i < listAllOptionItems.size(); ++i) {
@@ -166,7 +164,7 @@ int DialogMeteotableOptions::nbOptionItems(bool visibility) {
     }
     return nb;
 }
-//-----------------------------------------------------------------
+
 MeteotableOptionItem *DialogMeteotableOptions::getOptionItemByCode(int interncode) {
     MeteotableOptionItem *p = 0;
     for (int i = 0; !p && i < listAllOptionItems.size(); ++i) {
@@ -177,9 +175,8 @@ MeteotableOptionItem *DialogMeteotableOptions::getOptionItemByCode(int interncod
     return p;
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 void DialogMeteotableOptions::addData(QString title, uchar grbtype, uchar leveltype, uint level,
         bool defaultvis, int defaultpos) {
     uint grbcode = DataCode(grbtype, leveltype, level).toInt32();
@@ -193,7 +190,6 @@ void DialogMeteotableOptions::addData(QString title, uchar grbtype, uchar levelt
     listAllOptionItems.append(item);
 }
 
-//-------------------------------------------------------------------------
 void DialogMeteotableOptions::updateListWidgetsItems() {
     // Create 2 temporary separate lists
     QList<MeteotableOptionItem *> listVisibleItems;
@@ -231,7 +227,6 @@ void DialogMeteotableOptions::updateListWidgetsItems() {
     }
 }
 
-//-------------------------------------------------------------------------
 void DialogMeteotableOptions::createDataLists() {
     int defaultpos = 0;
     //----------------------------------

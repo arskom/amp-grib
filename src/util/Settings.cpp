@@ -23,9 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Settings.h"
 #include "Util.h"
 
-//---------------------------------------------------------------------
 // Variables globales... yes I know, it's bad :)
-//---------------------------------------------------------------------
+
 QString GLOB_SettingsDir;
 QString GLOB_SettingsFilename;
 QString GLOB_SettingsFilename_POI;
@@ -34,12 +33,11 @@ QSettings *GLOB_NatSettings;
 QSettings *GLOB_IniSettings;
 QSettings *GLOB_IniSettings_POI;
 
-//---------------------------------------------------------------------
 // Priorité :
 // 1. le répertoire_de_zygrib/data/config/
 // 2. le dossier perso
 // 3. le dossier temporaire (bad news)
-//---------------------------------------------------------------------
+
 void Settings::initializeSettingsDir() {
     QString path = "";
     QDir dir;
@@ -117,7 +115,6 @@ void Settings::initializeSettingsDir() {
     }
 }
 
-//---------------------------------------------------------------------
 void Settings::copyOldNativeSettingsToIniFile() {
     if (GLOB_SettingsDir == "") {
         return;
@@ -143,7 +140,7 @@ void Settings::copyOldNativeSettingsToIniFile() {
     natSettings.endGroup();
     iniSettings.endGroup();
 }
-//---------------------------------------------------------------------
+
 void Settings::copyOldNativeSettingsToIniFile_POI() {
     if (GLOB_SettingsDir == "") {
         return;
@@ -200,7 +197,6 @@ void Settings::copyOldNativeSettingsToIniFile_POI() {
     natSettings.endGroup();
 }
 
-//---------------------------------------------------------------------
 void Settings::setApplicationNativeSetting(const QString &group, const QString &key, const QVariant &value) {
     if (GLOB_NatSettings != NULL) {
         GLOB_NatSettings->beginGroup(group);
@@ -209,7 +205,7 @@ void Settings::setApplicationNativeSetting(const QString &group, const QString &
         GLOB_NatSettings->sync();
     }
 }
-//---------------------------------------------------------------------
+
 QVariant Settings::getApplicationNativeSetting(const QString &group, const QString &key, const QVariant &defaultValue) {
     QVariant val;
     if (GLOB_NatSettings != NULL) {
@@ -221,7 +217,6 @@ QVariant Settings::getApplicationNativeSetting(const QString &group, const QStri
     return val;
 }
 
-//---------------------------------------------------------------------
 void Settings::setUserSetting(const QString &key, const QVariant &value) {
     // save 2 times the settings
     Settings::setApplicationNativeSetting("main", key, value);
@@ -233,7 +228,7 @@ void Settings::setUserSetting(const QString &key, const QVariant &value) {
         GLOB_IniSettings->sync();
     }
 }
-//---------------------------------------------------------------------
+
 QVariant Settings::getUserSetting(const QString &key, const QVariant &defaultValue) {
     QVariant val;
     if (GLOB_IniSettings != NULL) {
@@ -250,7 +245,6 @@ QVariant Settings::getUserSetting(const QString &key, const QVariant &defaultVal
     return val.isValid() ? val : defaultValue;
 }
 
-//---------------------------------------------------------------------
 QStringList Settings::getAllKeys() {
     QStringList list;
     if (GLOB_IniSettings != NULL) {
@@ -265,7 +259,7 @@ QStringList Settings::getAllKeys() {
     }
     return list;
 }
-//---------------------------------------------------------------------
+
 void Settings::removeUserSetting(const QString &key) {
     if (GLOB_IniSettings != NULL) {
         GLOB_IniSettings->beginGroup("main");
@@ -279,9 +273,8 @@ void Settings::removeUserSetting(const QString &key) {
     }
 }
 
-//======================================================================
 // POI's
-//======================================================================
+
 QVariant Settings::getSettingPOI(uint code, const QString &key, const QVariant &defaultValue,
         bool fromOldNativeSettings) {
     QString poikey = QString::number(code) + "/" + key;
@@ -300,7 +293,7 @@ QVariant Settings::getSettingPOI(uint code, const QString &key, const QVariant &
     }
     return val;
 }
-//---------------------------------------------------------------------
+
 void Settings::setSettingPOI(uint code, const QString &key, const QVariant &value) {
     QString poikey = QString::number(code) + "/" + key;
 
@@ -314,7 +307,7 @@ void Settings::setSettingPOI(uint code, const QString &key, const QVariant &valu
         GLOB_IniSettings_POI->sync();
     }
 }
-//---------------------------------------------------------------------
+
 QList<uint> Settings::getSettingAllCodesPOIs() {
     QList<uint> reslist;
     if (GLOB_SettingsDir != "") {
@@ -349,7 +342,7 @@ QList<uint> Settings::getSettingAllCodesPOIs() {
     }
     return reslist;
 }
-//---------------------------------------------------------------------
+
 void Settings::deleteSettingsPOI(uint code) {
     QSettings natSettings("zyGrib");
     natSettings.beginGroup("poi");
@@ -379,7 +372,6 @@ void Settings::deleteSettingsPOI(uint code) {
     }
 }
 
-//---------------------------------------------------------------------
 uint Settings::getNewCodePOI() {
     QSettings settings("zyGrib");
     settings.beginGroup("poi");
@@ -397,7 +389,6 @@ uint Settings::getNewCodePOI() {
     return max + 1;
 }
 
-//============================================================================
 void Settings::initializeGribFilesDir() {
     QString path = "";
     QDir dir;

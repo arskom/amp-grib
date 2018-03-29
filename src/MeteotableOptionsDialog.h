@@ -36,7 +36,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Settings.h"
 #include "ui_MeteotableOptionsDialog.h"
 
-//-----------------------------------------------
 class MeteotableOptionItem {
 public:
     MeteotableOptionItem(
@@ -59,7 +58,6 @@ public:
             MeteotableOptionItem *&b) { return a->name < b->name; }
 };
 
-//-----------------------------------------------
 class DialogMeteotableOptions
         : public DialogBoxBase,
           private Ui_MeteotableOptionsDialog {

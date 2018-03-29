@@ -31,13 +31,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MbzFile.h"
 #include "zuFile.h"
 
-//===============================================================
 enum MeteoblueZone {
     MBLUE_SWISS,
     MBLUE_EUROPE
 };
 
-//===============================================================
 class MblueReader : public IrregularGridReader {
 public:
     MblueReader();

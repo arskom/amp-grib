@@ -2,13 +2,11 @@
 
 #include "LineEditorWidget.h"
 
-//=================================================================================
 LineTestZone::LineTestZone(QWidget *parent)
         : QWidget(parent) {
     lineColor = Qt::yellow;
 }
 
-//----------------------------------------------------------------------
 void LineTestZone::mouseReleaseEvent(QMouseEvent *) {
     // Open Choose color dialog
     QColor col = QColorDialog::getColor(lineColor, this);
@@ -17,7 +15,7 @@ void LineTestZone::mouseReleaseEvent(QMouseEvent *) {
         update();
     }
 }
-//----------------------------------------------------------------------
+
 void LineTestZone::paintEvent(QPaintEvent *) {
     QPainter pnt(this);
     pnt.setRenderHint(QPainter::Antialiasing, true);
@@ -33,7 +31,6 @@ void LineTestZone::paintEvent(QPaintEvent *) {
     pnt.drawLine(0, height() - 1, width() - 1, 0);
 }
 
-//=================================================================================
 LineEditorWidget::LineEditorWidget(
         QWidget *parent,
         double width, QColor color,
@@ -51,7 +48,6 @@ LineEditorWidget::LineEditorWidget(
     testZone->setLineWidth(width);
 }
 
-//---------------------------------------------------------------------------------------
 void LineEditorWidget::slotRaz() {
     testZone->setLineColor(defaultColor);
     sbWidth->setValue(defaultWidth);

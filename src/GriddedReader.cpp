@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GriddedReader.h"
 #include "Util.h"
 
-//------------------------------------------------------------
 bool GriddedReader::hasDataType(int dataType) const {
     int type;
     if (dataType == GRB_PRV_WIND_XY2D) {
@@ -48,7 +47,6 @@ bool GriddedReader::hasDataType(int dataType) const {
     return found;
 }
 
-//------------------------------------------------------------
 bool GriddedReader::hasData(const DataCode &dtc) const {
     int type;
     if (dtc.dataType == GRB_PRV_WIND_XY2D) {
@@ -76,7 +74,6 @@ bool GriddedReader::hasData(const DataCode &dtc) const {
     return found;
 }
 
-//------------------------------------------------------------
 std::set<Altitude> GriddedReader::getAllAltitudes(int dataType) const {
     //DBG("%d", dataType);
     if (dataType == GRB_PRV_WIND_XY2D) {
@@ -99,7 +96,7 @@ std::set<Altitude> GriddedReader::getAllAltitudes(int dataType) const {
     }
     return res;
 }
-//------------------------------------------------------------
+
 time_t GriddedReader::getClosestDateFromNow() {
     // 	time_t now = time(NULL);
     // 	struct tm *pstm;
@@ -109,7 +106,7 @@ time_t GriddedReader::getClosestDateFromNow() {
     time_t utcnow = QDateTime::currentDateTime().toUTC().toTime_t();
     return getClosestDateFromDate(utcnow);
 }
-//------------------------------------------------------------
+
 time_t GriddedReader::getClosestDateFromDate(time_t date) {
     std::set<time_t> sdates = getListDates();
     std::set<time_t>::iterator iter;
@@ -129,12 +126,12 @@ time_t GriddedReader::getClosestDateFromDate(time_t date) {
     }
     return closestdate;
 }
-//--------------------------------------------------------------
+
 bool GriddedReader::isPointInMap(double x, double y) const {
     // 	DBG ("%g %g %g", x,xmin,xmax);
     return x >= xmin && x <= xmax && y >= ymin && y <= ymax;
 }
-//------------------------------------------------------------
+
 bool GriddedReader::hasWaveDataType(int dataType) const {
     bool ok = false;
     switch (dataType) {

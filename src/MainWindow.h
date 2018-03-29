@@ -46,13 +46,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Projection.h"
 #include "SkewT.h"
 
-//--------------------------------------------
 class ThreadNewInstance : public QThread {
 public:
     void run();
 };
 
-//--------------------------------------------
 class MainWindow : public QMainWindow {
     Q_OBJECT
 

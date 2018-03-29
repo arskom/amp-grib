@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 DialogLoadGRIB *globalDial = NULL;
 
-//-------------------------------------------------------------------------------
 QString DialogLoadGRIB::getFile(QNetworkAccessManager *netManager, QWidget *parent,
         double x0, double y0, double x1, double y1) {
     if (!globalDial) {
@@ -41,7 +40,6 @@ QString DialogLoadGRIB::getFile(QNetworkAccessManager *netManager, QWidget *pare
     return globalDial->savedFileName;
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadGRIB::closeEvent(QCloseEvent *) {
     if (loadgrib) {
         loadgrib->deleteLater();
@@ -55,7 +53,6 @@ void DialogLoadGRIB::slotFinished(int) {
     }
 }
 
-//-------------------------------------------------------------------------------
 DialogLoadGRIB::DialogLoadGRIB(QNetworkAccessManager *netManager, QWidget *parent)
         : DialogBoxBase(parent) {
     oldcursor = cursor();
@@ -145,7 +142,7 @@ DialogLoadGRIB::DialogLoadGRIB(QNetworkAccessManager *netManager, QWidget *paren
     connect(bt_FNMOC_WW3_GLB, SIGNAL(clicked()), this, SLOT(slotParameterUpdated()));
     connect(bt_FNMOC_WW3_MED, SIGNAL(clicked()), this, SLOT(slotParameterUpdated()));
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::slotAltitude_All() {
     bool check = chkAltitude_All->isChecked();
     chkAltitude200->setChecked(check);
@@ -157,7 +154,7 @@ void DialogLoadGRIB::slotAltitude_All() {
     chkAltitude850->setChecked(check);
     chkAltitude925->setChecked(check);
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::slotFnmocWW3_All() {
     bool check = chkFnmocWW3_All->isChecked();
     chkFnmocWW3_sig->setChecked(check);
@@ -169,16 +166,13 @@ void DialogLoadGRIB::slotFnmocWW3_All() {
     chkFnmocWW3_wcap->setChecked(check);
 }
 
-//-------------------------------------------------------------------------------
 DialogLoadGRIB::~DialogLoadGRIB() {
 }
 
-//----------------------------------------------------
 void DialogLoadGRIB::slotGribMessage(QString msg) {
     labelMsg->setText(msg);
 }
 
-//----------------------------------------------------
 void DialogLoadGRIB::slotGribDataReceived(QByteArray *content, QString fileName) {
     setCursor(oldcursor);
     QString path = Util::getSetting("gribFilePath", "").toString();
@@ -226,7 +220,6 @@ void DialogLoadGRIB::slotGribDataReceived(QByteArray *content, QString fileName)
     }
 }
 
-//----------------------------------------------------
 void DialogLoadGRIB::slotGribFileError(QString error) {
     setCursor(oldcursor);
     if (!loadInProgress) {
@@ -243,12 +236,10 @@ void DialogLoadGRIB::slotGribFileError(QString error) {
     labelMsg->setText("");
 }
 
-//----------------------------------------------------
 void DialogLoadGRIB::slotGribStartLoadData() {
     timeLoad.start();
 }
 
-//----------------------------------------------------
 void DialogLoadGRIB::slotGribReadProgress(int step, int done, int total) {
     if (step < 2) {
         progressBar->setRange(0, 1000);
@@ -272,7 +263,7 @@ void DialogLoadGRIB::slotGribReadProgress(int step, int done, int total) {
                                 .arg(speedunit));
     }
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::saveParametersSettings() {
     Util::setSetting("downloadIndResolution", cbResolution->currentIndex());
     Util::setSetting("downloadIndInterval", cbInterval->currentIndex());
@@ -317,7 +308,7 @@ void DialogLoadGRIB::saveParametersSettings() {
     Util::setSetting("downloadFnmocWW3_wcap", chkFnmocWW3_wcap->isChecked());
     Util::setSetting("downloadFnmocWW3_DataModel", waveDataModel);
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::updateParameters() {
     double tmp, xm, ym;
 
@@ -388,7 +379,6 @@ void DialogLoadGRIB::updateParameters() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadGRIB::slotParameterUpdated() {
     updateParameters();
     int npts = (int)(ceil(fabs(xmax - xmin) / resolution)
@@ -541,7 +531,7 @@ void DialogLoadGRIB::slotParameterUpdated() {
         btOK->setEnabled(true);
     }
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::slotBtOK() {
     setCursor(Qt::WaitCursor);
     btCancel->setText(tr("Stop"));
@@ -582,7 +572,7 @@ void DialogLoadGRIB::slotBtOK() {
             GUSTsfc,
             SUNSDsfc);
 }
-//-------------------------------------------------------------------------------
+
 QString DialogLoadGRIB::createStringParameters() {
     QString parameters = "";
     if (wind) {
@@ -636,17 +626,17 @@ QString DialogLoadGRIB::createStringParameters() {
 
     return parameters;
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::slotBtServerStatus() {
     DialogServerStatus dial(networkManager, this);
     dial.exec();
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::slotBtProxy() {
     DialogProxy dial(this);
     dial.exec();
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::slotBtCancel() {
     setCursor(oldcursor);
     if (loadInProgress) {
@@ -660,7 +650,7 @@ void DialogLoadGRIB::slotBtCancel() {
         reject();
     }
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadGRIB::setZone(double x0, double y0, double x1, double y1) {
     double tmp;
     if (x0 > x1) {
@@ -683,7 +673,7 @@ void DialogLoadGRIB::setZone(double x0, double y0, double x1, double y1) {
     progressBar->setValue(0);
     slotParameterUpdated();
 }
-//-------------------------------------------------------------------------------
+
 QFrame *DialogLoadGRIB::createFrameButtonsZone(QWidget *parent) {
     int ind, lig, col;
     QFrame *ftmp, *ftmp2;
@@ -1109,12 +1099,12 @@ QFrame *DialogLoadGRIB::createFrameButtonsZone(QWidget *parent) {
 
     return frm;
 }
-//----------------------------------------------------------------------------
+
 void DialogLoadGRIB::addSeparator(QLayout *layout, char orientation) {
     QFrame *ftmp = newSeparator(orientation);
     layout->addWidget(ftmp);
 }
-//----------------------------------------------------------------------------
+
 QFrame *DialogLoadGRIB::newSeparator(char orientation) {
     QFrame *ftmp;
     ftmp = new QFrame();

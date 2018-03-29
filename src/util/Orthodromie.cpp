@@ -26,11 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ZY_R_EARTH 6378.0
 #define ZY_MILE 1.852
 
-//------------------------------------------------------------------------------
 Orthodromie::Orthodromie(double x0, double y0, double x1, double y1) {
     setPoints(x0, y0, x1, y1);
 }
-//------------------------------------------------------------------------------
+
 void Orthodromie::setPoints(double x0, double y0, double x1, double y1) {
     lon0 = x0 * M_PI / 180.0;
     lat0 = y0 * M_PI / 180.0;
@@ -38,7 +37,7 @@ void Orthodromie::setPoints(double x0, double y0, double x1, double y1) {
     lat1 = y1 * M_PI / 180.0;
     initOrthodromie();
 }
-//------------------------------------------------------------------------------
+
 void Orthodromie::initOrthodromie() {
     sinStartLat = sin(lat0);
     cosStartLat = cos(lat0);
@@ -60,7 +59,7 @@ void Orthodromie::initOrthodromie() {
     cosAzimut = cos(azimut);
     azimutDeg = 180.0 / M_PI * azimut;
 }
-//------------------------------------------------------------------------------
+
 //added by Tim Holtschneider, 05.2010
 // calculate end point for distance and azimuth
 void Orthodromie::getCoordsForDist(double sLon, double sLat, double dDist, double dAzmth,
@@ -80,20 +79,19 @@ void Orthodromie::getCoordsForDist(double sLon, double sLat, double dDist, doubl
     *eLat = *eLat * 180. / M_PI;
     *eLon = *eLon * 180. / M_PI;
 }
-//------------------------------------------------------------------------------
+
 void Orthodromie::setStartPoint(double x, double y) {
     lat0 = y * M_PI / 180.0;
     lon0 = x * M_PI / 180.0;
     initOrthodromie();
 }
-//------------------------------------------------------------------------------
+
 void Orthodromie::setEndPoint(double x, double y) {
     lat1 = y * M_PI / 180.0;
     lon1 = x * M_PI / 180.0;
     initOrthodromie();
 }
 
-//------------------------------------------------------------------------------
 void Orthodromie::getMidPoint(double *x, double *y) {
     double Bx = cosEndLat * cosDeltaLng;
     double By = cosEndLat * sinDeltaLng;
@@ -104,7 +102,6 @@ void Orthodromie::getMidPoint(double *x, double *y) {
     //    printf("%f %f\n", *x, *y);
 }
 
-//------------------------------------------------------------------------------
 //// Reduce an angle to (-PI/2, PI/2), for latitudes.
 double Orthodromie::reduceLat(double lat) // old name: fng(x)
 {

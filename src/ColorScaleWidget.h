@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataDefines.h"
 #include "Util.h"
 
-//-------------------------------------------------
 class ColorScaleGraph : public QWidget {
     Q_OBJECT
 
@@ -47,7 +46,6 @@ private:
     DataCode dtc;
 };
 
-//-------------------------------------------------
 class ColorScaleWidget : public QDockWidget {
     Q_OBJECT
 

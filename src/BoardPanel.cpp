@@ -22,21 +22,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataQString.h"
 #include "Font.h"
 
-//=====================================================================
 void BoardPanel::showPosition(double x, double y) {
     if (cellPosition->isVisible()) {
         lbLon.setText(Util::formatLongitude(x));
         lbLat.setText(Util::formatLatitude(y));
     }
 }
-//-----------------------------------------------------
+
 void BoardPanel::clearPosition() {
     if (cellPosition->isVisible()) {
         lbLon.setText("");
         lbLat.setText("");
     }
 }
-//-----------------------------------------------------
+
 void BoardPanel::showDataPointInfo(
         const DataPointInfo &pf, const Altitude &windAlt) {
     QString s;
@@ -292,7 +291,7 @@ void BoardPanel::showDataPointInfo(
         lbWaves_wcap.setText(s);
     }
 }
-//===================================================================================
+
 QString BoardPanel::formatWave(QString title, float ht, float dir, float per) {
     QString r = title;
 
@@ -322,8 +321,6 @@ QString BoardPanel::formatWave(QString title, float ht, float dir, float per) {
     return r;
 }
 
-//===================================================================================
-//===================================================================================
 BoardPanel::BoardPanel(QWidget *parent)
         : QDockWidget(parent) {
     this->setObjectName("BoardPanel");
@@ -394,7 +391,7 @@ BoardPanel::BoardPanel(QWidget *parent)
     lb300.setText("");
     lb200.setText("");
 }
-//---------------------------------------------------------------
+
 void BoardPanel::updateLabelsSizes() {
     QFontMetrics fmt(qApp->font());
     int style = QFrame::Panel | QFrame::Sunken;
@@ -500,11 +497,10 @@ void BoardPanel::updateLabelsSizes() {
     lbWaves_wcap.setFont(fontAlt);
 }
 
-//---------------------------------------------------------------
 void BoardPanel::addWidget(QWidget *widget) {
     mainFrameLay->addWidget(widget);
 }
-//=================================================================
+
 BoardPanelCell::BoardPanelCell(QWidget *parent, QLayout *lay)
         : QFrame(parent) {
     setFrameStyle(QFrame::Panel | QFrame::Sunken);
@@ -512,7 +508,6 @@ BoardPanelCell::BoardPanelCell(QWidget *parent, QLayout *lay)
     lay->addWidget(this);
 }
 
-//=================================================================
 QHBoxLayout *BoardPanel::newQHBoxLayout() {
     int hsp = 1; // horizontal spacing
     int vsp = 1; // vertical spacing
@@ -522,7 +517,7 @@ QHBoxLayout *BoardPanel::newQHBoxLayout() {
     lay->setSpacing(4);
     return lay;
 }
-//---------------------------------------------------------------
+
 QVBoxLayout *BoardPanel::newQVBoxLayout() {
     int hsp = 1; // horizontal spacing
     int vsp = 0; // vertical spacing
@@ -533,7 +528,6 @@ QVBoxLayout *BoardPanel::newQVBoxLayout() {
     return lay;
 }
 
-//--------------------------------------------------------------
 void BoardPanel::mouseReleaseEvent(QMouseEvent *e) {
     switch (e->button()) {
 
@@ -548,7 +542,7 @@ void BoardPanel::mouseReleaseEvent(QMouseEvent *e) {
         break;
     }
 }
-//=================================================================
+
 void BoardPanel::createMenuPopup() {
     menuPopup = new QMenu(this);
     assert(menuPopup);
@@ -569,7 +563,7 @@ void BoardPanel::createMenuPopup() {
     addAction(tr("Altitude"), "boardPanelAltitudeData", cellAltitude);
     addAction(tr("Waves"), "boardPanelWaves", cellWaves);
 }
-//-------------------------------------------------------
+
 void BoardPanel::addAction(QString title, QString settingName,
         BoardPanelCell *cell) {
     QAction *ac = new QAction(title, menuPopup);
@@ -583,7 +577,7 @@ void BoardPanel::addAction(QString title, QString settingName,
     cell->setVisible(vis);
     ac->setChecked(vis);
 }
-//-------------------------------------------------------
+
 void BoardPanel::actionTriggered(bool b) {
     QAction *ac = (QAction *)sender();
     QString settingName = hashActionSettingName.value(ac);
@@ -593,7 +587,7 @@ void BoardPanel::actionTriggered(bool b) {
     //DBGQS(settingName);
     mainFrame->adjustSize();
 }
-//=================================================================
+
 void BoardPanel::createInterface() {
     QHBoxLayout *hlay;
     //--------------------------

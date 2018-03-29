@@ -18,19 +18,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Grib2Plot.h"
 
-//---------------------------------------------------
 Grib2Plot::Grib2Plot() {
 }
-//---------------------------------------------------
+
 Grib2Plot::Grib2Plot(const Grib2Plot &other)
         : GribPlot(other) {
 }
-//---------------------------------------------------
+
 Grib2Plot::~Grib2Plot() {
 }
-//---------------------------------------------------
 
-//----------------------------------------------------
 void Grib2Plot::loadFile(QString fileName,
         LongTaskProgress *taskProgress, int nbrecs) {
     this->fileName = fileName;

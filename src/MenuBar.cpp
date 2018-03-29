@@ -22,18 +22,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Projection.h"
 #include "Util.h"
 
-//===================================================================================
 void ZeroOneActionGroup::addAction(QAction *act) {
     lsactions.append(act);
     connect(act, SIGNAL(triggered(bool)),
             this, SLOT(slot_actionTrigerred(bool)));
 }
-//------------------------------------------------------------------
+
 void ZeroOneActionGroup::slot_actionTrigerred(bool b) {
     QAction *act = (QAction *)sender();
     setCheckedAction(act, b, true);
 }
-//------------------------------------------------------------------
+
 void ZeroOneActionGroup::setCheckedAction(QAction *act, bool val, bool emitSignal) {
     for (int i = 0; i < lsactions.size(); i++) {
         if (lsactions.at(i) == act) {
@@ -53,7 +52,6 @@ void ZeroOneActionGroup::setCheckedAction(QAction *act, bool val, bool emitSigna
     }
 }
 
-//===================================================================================
 MenuBar::MenuBar(QWidget *parent, bool withmblue)
         : QMenuBar(parent) {
 #if defined(Q_OS_UNIX)
@@ -457,7 +455,6 @@ MenuBar::MenuBar(QWidget *parent, bool withmblue)
     updateFonts();
 }
 
-//---------------------------------------------------------
 void MenuBar::updateFonts() {
     cbDatesGrib->setFont(Font::getFont(FONT_ComboBox));
 
@@ -469,9 +466,8 @@ void MenuBar::updateFonts() {
     }
 }
 
-//---------------------------------------------------------
 // Menu popup : bouton droit de la souris
-//---------------------------------------------------------
+
 QMenu *MenuBar::createPopupBtRight(QWidget *parent) {
     QMenu *popup = new QMenu(parent);
 
@@ -485,7 +481,6 @@ QMenu *MenuBar::createPopupBtRight(QWidget *parent) {
     return popup;
 }
 
-//===================================================================================
 QAction *MenuBar::addGroup(ZeroOneActionGroup *group, QMenu *menu,
         QString title, QString shortcut, QString statustip,
         QString iconFileName) {
@@ -493,7 +488,7 @@ QAction *MenuBar::addGroup(ZeroOneActionGroup *group, QMenu *menu,
     group->addAction(action);
     return action;
 }
-//-------------------------------------------------
+
 QAction *MenuBar::addGroup(QActionGroup *group, QMenu *menu,
         QString title, QString shortcut, QString statustip,
         QString iconFileName) {
@@ -501,7 +496,7 @@ QAction *MenuBar::addGroup(QActionGroup *group, QMenu *menu,
     group->addAction(action);
     return action;
 }
-//-------------------------------------------------
+
 QAction *MenuBar::addAction(QMenu *menu,
         QString title, QString shortcut, QString statustip,
         QString iconFileName) {
@@ -519,7 +514,7 @@ QAction *MenuBar::addAction(QMenu *menu,
     }
     return action;
 }
-//-------------------------------------------------
+
 QAction *MenuBar::addActionCheck(QMenu *menu,
         QString title, QString shortcut, QString statustip,
         QString iconFileName) {
@@ -528,7 +523,7 @@ QAction *MenuBar::addActionCheck(QMenu *menu,
     action->setCheckable(true);
     return action;
 }
-//-------------------------------------------------
+
 void MenuBar::setProjection(int idproj) {
     switch (idproj) {
     case Projection::PROJ_MERCATOR:
@@ -548,7 +543,7 @@ void MenuBar::setProjection(int idproj) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setQuality(int q) {
     switch (q) {
     case 0:
@@ -568,7 +563,7 @@ void MenuBar::setQuality(int q) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setIsobarsStep(int step) {
     switch (step) {
     case 1:
@@ -597,7 +592,7 @@ void MenuBar::setIsobarsStep(int step) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setIsotherms0Step(int step) {
     switch (step) {
     case 10:
@@ -623,7 +618,7 @@ void MenuBar::setIsotherms0Step(int step) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setIsotherms_Step(int step) {
     switch (step) {
     case 1:
@@ -640,7 +635,7 @@ void MenuBar::setIsotherms_Step(int step) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setLinesThetaE_Step(int step) {
     switch (step) {
     case 1:
@@ -657,7 +652,7 @@ void MenuBar::setLinesThetaE_Step(int step) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setCitiesNamesLevel(int level) {
     switch (level) {
     case 0:
@@ -680,7 +675,7 @@ void MenuBar::setCitiesNamesLevel(int level) {
         break;
     }
 }
-//-------------------------------------------------
+
 void MenuBar::setWaveArrowsType(int type) {
     switch (type) {
     case GRB_TYPE_NOT_DEFINED:
@@ -704,7 +699,6 @@ void MenuBar::setWaveArrowsType(int type) {
     }
 }
 
-//------------------------------------------------------------
 // Génère la liste des dates des Records du fichier GRIB
 void MenuBar::updateListeDates(std::set<time_t> *setDates, time_t currentDate) {
     listGribDates.clear();
@@ -728,7 +722,7 @@ void MenuBar::updateListeDates(std::set<time_t> *setDates, time_t currentDate) {
 
     updateCurrentDate(currentDate);
 }
-//------------------------------------------------------------
+
 time_t MenuBar::getDateGribById(int id) {
     if (listGribDates.size() > (uint)id) {
         return listGribDates[id];
@@ -737,7 +731,7 @@ time_t MenuBar::getDateGribById(int id) {
         return (time_t)0;
     }
 }
-//------------------------------------------------------------
+
 void MenuBar::updateCurrentDate(time_t currentDate) {
     acDatesGrib_prev->setEnabled(true);
     acDatesGrib_next->setEnabled(true);

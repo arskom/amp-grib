@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MbzFile.h"
 #include "zuFile.h"
 
-//------------------------------------------------------
 class MbluePoint {
 public:
     MbluePoint();
@@ -58,9 +57,8 @@ private:
     std::map<uint32_t, float> mapvalues;
 };
 
-//===================================================
 // All the data valid at the same time
-//===================================================
+
 class MblueRecord : public IrregularGridRecord {
 public:
     MblueRecord(const MbzFile &mbzfile,

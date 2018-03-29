@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Settings.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------------------
 DialogSelectMetar::DialogSelectMetar(QWidget *parent)
         : DialogBoxBase(parent) {
     setWindowTitle(tr("METAR stations"));
@@ -71,7 +70,6 @@ DialogSelectMetar::DialogSelectMetar(QWidget *parent)
     this->setMinimumHeight(qMin(800, r.height()));
 }
 
-//-------------------------------------------------------------------------------
 void DialogSelectMetar::slotBtOK() {
     QTreeWidgetItemIterator iter(treeWidget);
     QTreeWidgetItem *it;
@@ -105,7 +103,6 @@ void DialogSelectMetar::slotBtOK() {
     accept();
 }
 
-//-------------------------------------------------------------------------------
 void DialogSelectMetar::make_metar_tree() {
     MetarWidgetFactory factory;
 
@@ -178,9 +175,9 @@ void DialogSelectMetar::make_metar_tree() {
 
     treeWidget->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
-//=============================================================================
+
 // GUI
-//=============================================================================
+
 QFrame *DialogSelectMetar::createFrameGui(QWidget *parent) {
     QFrame *frm = new QFrame(parent);
 

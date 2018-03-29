@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Settings.h"
 #include "Util.h"
 
-//------------------------------------------------------------------------
 QWidget *MeteoTableDialog::createDataTable() {
     if (dataTable) {
         delete dataTable;
@@ -90,9 +89,9 @@ QWidget *MeteoTableDialog::createDataTable() {
 
     return dataTable;
 }
-//===================================================================
+
 // MeteoTable : dialog + MeteoTableWidget
-//===================================================================
+
 MeteoTableDialog::MeteoTableDialog(
         GriddedPlotter *plotter,
         double lon, double lat, QString locationName)
@@ -198,7 +197,7 @@ MeteoTableDialog::MeteoTableDialog(
     resize(Util::getSetting("meteoTableDialogSize", QSize(w, h)).toSize());
     show();
 }
-//-----------------------------------------
+
 MeteoTableDialog::~MeteoTableDialog() {
     Util::setSetting("meteoTableDialogSize", size());
     if (optionsDialog) {
@@ -206,7 +205,6 @@ MeteoTableDialog::~MeteoTableDialog() {
     }
 }
 
-//-----------------------------------------
 void MeteoTableDialog::slotBtOptions() {
     if (!optionsDialog) {
         optionsDialog = new DialogMeteotableOptions();
@@ -216,7 +214,6 @@ void MeteoTableDialog::slotBtOptions() {
     optionsDialog->show();
 }
 
-//-----------------------------------------
 void MeteoTableDialog::slotOptionsChanged() {
     int index = mainLayout->indexOf(dataTable);
     mainLayout->removeWidget(dataTable);
@@ -224,7 +221,6 @@ void MeteoTableDialog::slotOptionsChanged() {
     mainLayout->insertWidget(index, dataTable);
 }
 
-//-----------------------------------------
 void MeteoTableDialog::slotBtExport() {
     QString path = Util::getSetting("slkFilePath", "").toString();
     if (path == "") {
@@ -253,7 +249,6 @@ void MeteoTableDialog::slotBtExport() {
     }
 }
 
-//===============================================================
 void MeteoTableDialog::saveFileSYLK(SylkFile &slk) {
     int dl, dc, col;
 
@@ -313,7 +308,7 @@ void MeteoTableDialog::saveFileSYLK(SylkFile &slk) {
         }
     }
 }
-//-----------------------------------------------------------------------------
+
 int MeteoTableDialog::SYLK_addData_waves(SylkFile &slk, int lig, int col, DataCode dtc) {
     // 	DBG ("%d %s",dtc.dataType,qPrintable(DataCodeStr::toString(dtc.dataType)));
     std::vector<DataPointInfo *> lspinfos = meteoTableWidget->getListPinfos();
@@ -404,7 +399,7 @@ int MeteoTableDialog::SYLK_addData_waves(SylkFile &slk, int lig, int col, DataCo
     }
     return tht == "" ? 2 : 3;
 }
-//-----------------------------------------------------------------------------
+
 int MeteoTableDialog::SYLK_addData_wind(SylkFile &slk, int lig, int col, DataCode dtc) {
     std::vector<DataPointInfo *> lspinfos = meteoTableWidget->getListPinfos();
     std::vector<DataPointInfo *>::iterator itp;
@@ -435,7 +430,7 @@ int MeteoTableDialog::SYLK_addData_wind(SylkFile &slk, int lig, int col, DataCod
     }
     return nblig;
 }
-//-----------------------------------------------------------------------------
+
 int MeteoTableDialog::SYLK_addData_current(SylkFile &slk, int lig, int col, DataCode dtc) {
     std::vector<DataPointInfo *> lspinfos = meteoTableWidget->getListPinfos();
     std::vector<DataPointInfo *>::iterator itp;
@@ -466,7 +461,7 @@ int MeteoTableDialog::SYLK_addData_current(SylkFile &slk, int lig, int col, Data
     }
     return nblig;
 }
-//-----------------------------------------------------------------------------
+
 int MeteoTableDialog::SYLK_addData_gen(SylkFile &slk, int lig, int col, DataCode dtc) {
     std::vector<DataPointInfo *> lspinfos = meteoTableWidget->getListPinfos();
     std::vector<DataPointInfo *>::iterator itp;

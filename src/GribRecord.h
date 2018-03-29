@@ -47,7 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define zuint uint32_t
 #define zuchar uint8_t
 
-//----------------------------------------------
 class GribRecord : public RegularGridRecord {
 public:
     GribRecord();
@@ -245,7 +244,6 @@ protected:
     bool verticalOrientationIsAmbiguous;
 };
 
-//==========================================================================
 inline bool GribRecord::hasValue(int i, int j) const {
     // is data present in BMS ?
     if (entireWorldInLongitude) {
@@ -265,7 +263,7 @@ inline bool GribRecord::hasValue(int i, int j) const {
     }
     return boolBMStab[j * Ni + i];
 }
-//-----------------------------------------------------------------
+
 inline bool GribRecord::hasValueInBitBMS(int i, int j) const {
     // is data present in BMS ?
     if (entireWorldInLongitude) {

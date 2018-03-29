@@ -37,7 +37,6 @@ Dessin des données GRIB (avec QT)
 
 // TODO: join segments and draw a spline
 
-//===============================================================
 // Elément d'isobare qui passe dans un carré (ab-cd)de la grille.
 // a  b
 // c  d
@@ -67,7 +66,6 @@ private:
             DataCode dtc);
 };
 
-//===============================================================
 class IsoLine {
 public:
     IsoLine(DataCode dtc,

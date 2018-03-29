@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Projection.h"
 
-//-----------------------------------------------------------------------------------------
 Projection_libproj::Projection_libproj(int code, int w, int h, double cx, double cy, double scale)
         : Projection(w, h, cx, cy, scale) {
     setProjection(code);
@@ -32,7 +31,7 @@ Projection_libproj::Projection_libproj(int code, int w, int h, double cx, double
     setScale(scale);
     //    setCenterPosition(cx, cy);
 }
-//-----------------------------------------------------------------------------------------
+
 Projection_libproj::Projection_libproj(const Projection_libproj &model)
         : Projection(model.getW(), model.getH(), model.getCX(), model.getCY(), model.getScale()) {
     setProjection(model.currentProj);
@@ -41,7 +40,7 @@ Projection_libproj::Projection_libproj(const Projection_libproj &model)
     setScale(model.getScale());
     //    setCenterPosition(model.getCX(),model.getCY());
 }
-//-----------------------------------------------------------------------------------------
+
 void Projection_libproj::setProjection(int code) {
     char *params[20];
     int nbpar = 0;
@@ -98,7 +97,6 @@ void Projection_libproj::setProjection(int code) {
     //printf("Projection: %s\n", libProj->descr);
 }
 
-//-----------------------------------------------------------------------------------------
 Projection_libproj::~Projection_libproj() {
     if (libProj != NULL) {
         pj_free(libProj);
@@ -106,7 +104,6 @@ Projection_libproj::~Projection_libproj() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void Projection_libproj::map2screen(double x, double y, int *i, int *j) const {
     projUV data, res;
     if (y <= -90.0) {
@@ -123,7 +120,6 @@ void Projection_libproj::map2screen(double x, double y, int *i, int *j) const {
     //printf("PROJ   map2screen (%f %f) -> (%3d %3d)\n", x,y, *i,*j);
 }
 
-//-------------------------------------------------------------------------------
 void Projection_libproj::screen2map(int i, int j, double *x, double *y) const {
     projUV data, res;
     data.u = ((i - W / 2.0) / scale + CX) * 111319.0;
@@ -133,7 +129,7 @@ void Projection_libproj::screen2map(int i, int j, double *x, double *y) const {
     *y = (double)(res.v * RAD_TO_DEG);
     //printf("PROJ   screen2map (%3d %3d) -> (%f %f)\n", i,j, *x,*y);
 }
-//--------------------------------------------------------------
+
 void Projection_libproj::setVisibleArea(double x0, double y0, double x1, double y1) {
     //printf("setVisibleArea X(%f %f) Y(%f %f)\n", x0, x1,y0,y1);
     if (x1 == x0) {
@@ -233,7 +229,6 @@ void Projection_libproj::setVisibleArea(double x0, double y0, double x1, double 
     }
 }
 
-//--------------------------------------------------------------
 void Projection_libproj::setScale(double sc) {
     double scaleall;
 

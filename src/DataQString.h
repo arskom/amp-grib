@@ -19,10 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef DATAQSTRING_H
 #define DATAQSTRING_H
 
-//----------------------------------------------------------------
 // String conversion.
 // Need QT for the QString type and "tr" translation tools
-//----------------------------------------------------------------
 
 #include <QApplication>
 #include <QStringList>

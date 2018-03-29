@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IacReader.h"
 
-//--------------------------------------------------
 IAC_Front::IAC_Front(std::string cod) {
     type = IAC_Front::IAC_FRONT_UNKNOWN;
     code = cod; // 6_6_Ft_Fi_Fc
@@ -58,7 +57,6 @@ IAC_Front::IAC_Front(std::string cod) {
     }
 }
 
-//----------------------------------------------------------------
 double IAC_Line::distanceFromPoint(double x, double y) {
     double dist = HUGE_VAL;
     double d;
@@ -83,7 +81,6 @@ double IAC_Line::distanceFromPoint(double x, double y) {
     return dist;
 }
 
-//----------------------------------------------------------------
 void IacReader::readIacFileContent() {
     iacFileType = IAC_UNKNOWN;
     is_NOAA_File = false;
@@ -164,7 +161,6 @@ void IacReader::readIacFileContent() {
     }
 }
 
-//---------------------------------------------------
 bool IacReader::getZoneExtension(double *x0, double *y0, double *x1, double *y1) {
     if (ok) {
         *x0 = xmin;
@@ -178,7 +174,6 @@ bool IacReader::getZoneExtension(double *x0, double *y0, double *x1, double *y1)
     }
 }
 
-//---------------------------------------------------
 void IacReader::openFile(const std::string fname) {
     fileName = fname;
     ok = false;
@@ -194,7 +189,6 @@ void IacReader::openFile(const std::string fname) {
     }
 }
 
-//--------------------------------------------------------
 std::string IacReader::readALine() {
     std::string str;
     char c;
@@ -212,19 +206,18 @@ std::string IacReader::readALine() {
     }
     return str;
 }
-//--------------------------------------------------------
+
 bool IacReader::is_alnum(char c) {
     return ((c >= '0' && c <= '9')
             || (c >= 'A' && c <= 'Z')
             || (c >= 'a' && c <= 'z'));
 }
-//--------------------------------------------------------
+
 bool IacReader::is_fleetChar(char c) {
     return (is_alnum(c)
             || c == '/');
 }
 
-//--------------------------------------------------------
 std::vector<std::string> IacReader::readAndSplitLine() {
     std::vector<std::string> vec;
     unsigned char c;
@@ -267,7 +260,6 @@ std::vector<std::string> IacReader::readAndSplitLine() {
     return vec;
 }
 
-//-----------------------------------------------------------
 void IacReader::display_vline(std::vector<std::string> &vline) {
     for (uint i = 0; i < vline.size(); i++) {
         printf("'%s' ", vline[i].c_str());
@@ -275,7 +267,6 @@ void IacReader::display_vline(std::vector<std::string> &vline) {
     printf("\n");
 }
 
-//-----------------------------------------------------------
 bool IacReader::readPosition(std::string word, double *lat, double *lon) {
     bool lonEast_above_100;
     bool lonWest_above_100;

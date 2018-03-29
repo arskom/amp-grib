@@ -19,12 +19,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "IrregularGridded.h"
 #include "Font.h"
 
-//-------------------------------------------------------------------
 IrregularGridPlot::IrregularGridPlot() {
     fileName = "";
 }
 
-//----------------------------------------------------
 void IrregularGridPlot::setCurrentDate(time_t t) {
     currentDate = t;
 }

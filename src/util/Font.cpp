@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 QFont GLOB_Font[FONT_MaxValue];
 
-//-------------------------------------------------------------------
 QString Font::getFontCodeString(FontCode code) {
     switch (code) {
     case FONT_Default:
@@ -86,7 +85,6 @@ QString Font::getFontCodeString(FontCode code) {
     }
 }
 
-//-------------------------------------------------------------------
 QFont Font::getDefaultFont(FontCode code) {
     switch (code) {
     case FONT_Default:
@@ -149,7 +147,6 @@ QFont Font::getDefaultFont(FontCode code) {
     //    f.setStretch(QFont::Condensed);
 }
 
-//----------------------------------------------------------
 void Font::initAppFonts() {
     //-----------------------------------------------
     // Application default font
@@ -191,13 +188,11 @@ void Font::initAppFonts() {
     initGlobalFont(FONT_ColorScale);
 }
 
-//----------------------------------------------------------
 void Font::changeGlobalFont(FontCode code, QFont font) {
     GLOB_Font[code] = font;
     Util::setSetting(getFontCodeString(code), font);
 }
 
-//----------------------------------------------------------
 bool Font::loadFontFamily(QString fname) {
     int id = QFontDatabase::addApplicationFont(fname);
     if (id >= 0) {
@@ -212,7 +207,6 @@ bool Font::loadFontFamily(QString fname) {
     }
 }
 
-//----------------------------------------------------------
 void Font::loadAllFonts() {
 
     QString dirname = Util::pathFonts() + "liberation-fonts/";

@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "Version.h"
 
-//-------------------------------------------------------------------------------
 FileLoaderIAC::FileLoaderIAC(QNetworkAccessManager *manager, QWidget *parent)
         : FileLoader(manager) {
     this->parent = parent;
@@ -37,7 +36,7 @@ FileLoaderIAC::FileLoaderIAC(QNetworkAccessManager *manager, QWidget *parent)
     zygriblog = "a07622b82b18524d2088c9b272bb3feeb0eb1737";
     zygribpwd = "61c9b2b17db77a27841bbeeabff923448b0f6388";
 }
-//-------------------------------------------------------------------------------
+
 FileLoaderIAC::~FileLoaderIAC() {
     if (reply_step1) {
         reply_step1->deleteLater();
@@ -45,7 +44,6 @@ FileLoaderIAC::~FileLoaderIAC() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderIAC::stop() {
     if (reply_step1) {
         reply_step1->deleteLater();
@@ -53,7 +51,6 @@ void FileLoaderIAC::stop() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderIAC::getFile(FileModeIAC IACmode) {
     QString page;
 
@@ -85,7 +82,7 @@ void FileLoaderIAC::getFile(FileModeIAC IACmode) {
     connect(reply_step1, SIGNAL(finished()),
             this, SLOT(slotFinished()));
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderIAC::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
     if (!downloadError) {
         if (sender() == reply_step1) {
@@ -94,7 +91,7 @@ void FileLoaderIAC::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
         }
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderIAC::downloadProgress(qint64 done, qint64 total) {
     if (downloadError) {
         step = 1000;
@@ -102,7 +99,7 @@ void FileLoaderIAC::downloadProgress(qint64 done, qint64 total) {
     }
     emit signalIACreadProgress(step, done, total);
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderIAC::slotFinished() {
     if (!downloadError) {
         //--------------------------------------------------

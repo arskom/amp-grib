@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "DataQString.h"
 
-//-------------------------------------------------
 QString DataCodeStr::toString(const DataCenterModel &dcm) {
     switch (dcm) {
     case NOAA_GFS:
@@ -38,7 +37,7 @@ QString DataCodeStr::toString(const DataCenterModel &dcm) {
         return "";
     }
 }
-//-------------------------------------------------
+
 QString AltitudeStr::toString(const Altitude &alt) {
     QString res;
     switch (alt.levelType) {
@@ -86,7 +85,7 @@ QString AltitudeStr::toString(const Altitude &alt) {
     }
     return res;
 }
-//-------------------------------------------------
+
 QString AltitudeStr::toStringShort(const Altitude &alt) {
     QString res;
     switch (alt.levelType) {
@@ -145,11 +144,11 @@ QString AltitudeStr::toStringShort(const Altitude &alt) {
     }
     return res;
 }
-//-------------------------------------------------
+
 QString DataCodeStr::toString_name(int dataType) {
     return toString_name(DataCode(dataType, LV_GND_SURF, 0));
 }
-//-------------------------------------------------
+
 QString DataCodeStr::toString_name(const DataCode &dtc) {
     switch (dtc.dataType) {
     case GRB_PRESSURE:
@@ -275,11 +274,11 @@ QString DataCodeStr::toString_name(const DataCode &dtc) {
         return "";
     }
 }
-//-------------------------------------------------
+
 QString DataCodeStr::toString_level(const DataCode &dtc) {
     return AltitudeStr::toString(dtc.getAltitude());
 }
-//-------------------------------------------------
+
 QString DataCodeStr::toString(const DataCode &dtc) {
     QString name = toString_name(dtc);
     QString level = toString_level(dtc);
@@ -290,7 +289,7 @@ QString DataCodeStr::toString(const DataCode &dtc) {
         return name;
     }
 }
-//-------------------------------------------------
+
 QString DataCodeStr::toString_levelShort(const DataCode &dtc) {
     QString name = toString_name(dtc);
     QString level = AltitudeStr::toStringShort(dtc.getAltitude());
@@ -302,11 +301,10 @@ QString DataCodeStr::toString_levelShort(const DataCode &dtc) {
     }
 }
 
-//-------------------------------------------------
 QString AltitudeStr::serialize(const Altitude &alt) {
     return QString("%1;%2").arg(alt.levelType).arg(alt.levelValue);
 }
-//-------------------------------------------------
+
 Altitude AltitudeStr::unserialize(const QString &stringCode) {
     Altitude alt;
     QStringList list = stringCode.split(";");
@@ -327,11 +325,10 @@ Altitude AltitudeStr::unserialize(const QString &stringCode) {
     return alt;
 }
 
-//-------------------------------------------------
 QString DataCodeStr::serialize(const DataCode &dtc) {
     return QString("%1;%2;%3").arg(dtc.dataType).arg(dtc.levelType).arg(dtc.levelValue);
 }
-//-------------------------------------------------
+
 DataCode DataCodeStr::unserialize(const QString &stringCode) {
     DataCode dtc;
     QStringList list = stringCode.split(";");

@@ -22,11 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Font.h"
 
-//----------------------------------------------------
 GribPlot::GribPlot() {
     initNewGribPlot();
 }
-//----------------------------------------------------
+
 GribPlot::GribPlot(const GribPlot &model)
         : RegularGridPlot() {
     initNewGribPlot(model.mustInterpolateValues, model.drawWindArrowsOnGrid, model.drawCurrentArrowsOnGrid);
@@ -34,14 +33,14 @@ GribPlot::GribPlot(const GribPlot &model)
     duplicateFirstCumulativeRecord(model.mustDuplicateFirstCumulativeRecord);
     duplicateMissingWaveRecords(model.mustDuplicateMissingWaveRecords);
 }
-//----------------------------------------------------
+
 GribPlot::~GribPlot() {
     if (gribReader != NULL) {
         delete gribReader;
         gribReader = NULL;
     }
 }
-//----------------------------------------------------
+
 void GribPlot::initNewGribPlot(bool interpolateValues, bool windArrowsOnGribGrid, bool currentArrowsOnGribGrid) {
     gribReader = NULL;
 
@@ -49,7 +48,7 @@ void GribPlot::initNewGribPlot(bool interpolateValues, bool windArrowsOnGribGrid
     this->drawWindArrowsOnGrid = windArrowsOnGribGrid;
     this->drawCurrentArrowsOnGrid = currentArrowsOnGribGrid;
 }
-//----------------------------------------------------
+
 void GribPlot::loadFile(QString fileName,
         LongTaskProgress *taskProgress, int nbrecs) {
     this->fileName = fileName;
@@ -70,7 +69,6 @@ void GribPlot::loadFile(QString fileName,
     }
 }
 
-//----------------------------------------------------
 void GribPlot::duplicateFirstCumulativeRecord(bool mustDuplicate) {
     mustDuplicateFirstCumulativeRecord = mustDuplicate;
     if (gribReader != NULL && gribReader->isOk()) {
@@ -83,7 +81,6 @@ void GribPlot::duplicateFirstCumulativeRecord(bool mustDuplicate) {
     }
 }
 
-//----------------------------------------------------
 void GribPlot::duplicateMissingWaveRecords(bool mustDuplicate) {
     mustDuplicateMissingWaveRecords = mustDuplicate;
     if (gribReader != NULL && gribReader->isOk()) {
@@ -96,12 +93,10 @@ void GribPlot::duplicateMissingWaveRecords(bool mustDuplicate) {
     }
 }
 
-//----------------------------------------------------
 void GribPlot::setCurrentDate(time_t t) {
     currentDate = t;
 }
 
-//-------------------------------------------------------------
 // Grille GRIB
 void GribPlot::draw_GridPoints(const DataCode &dtc, QPainter &pnt, const Projection *proj) {
     if (gribReader == NULL) {
@@ -141,9 +136,8 @@ void GribPlot::draw_GridPoints(const DataCode &dtc, QPainter &pnt, const Project
     }
 }
 
-//==================================================================================
 // Flèches de direction du vent
-//==================================================================================
+
 void GribPlot::draw_WIND_Arrows(
         Altitude altitude,
         bool barbules, QColor arrowsColor,
@@ -256,9 +250,8 @@ void GribPlot::draw_WIND_Arrows(
     }
 }
 
-//==================================================================================
 // Flèches de direction du current
-//==================================================================================
+
 void GribPlot::draw_CURRENT_Arrows(
         Altitude altitude,
         QColor arrowsColor,
@@ -335,7 +328,6 @@ void GribPlot::draw_CURRENT_Arrows(
     }
 }
 
-//--------------------------------------------------------------------------
 void GribPlot::draw_ColoredMapPlain(
         DataCode dtc,
         bool smooth,
@@ -397,9 +389,8 @@ void GribPlot::draw_ColoredMapPlain(
     }
 }
 
-//==================================================================================
 // Waves arrows
-//==================================================================================
+
 void GribPlot::draw_WAVES_Arrows(
         const DataCode &dtc,
         QPainter &pnt, const Projection *proj) {

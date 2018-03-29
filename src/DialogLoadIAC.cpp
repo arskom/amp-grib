@@ -24,14 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogLoadIAC.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------------------
 QString DialogLoadIAC::getFile(QNetworkAccessManager *manager, QWidget *parent) {
     DialogLoadIAC dial(manager, parent);
     dial.exec();
     return dial.savedFileName;
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadIAC::closeEvent(QCloseEvent *) {
     if (IACloader) {
         IACloader->deleteLater();
@@ -45,7 +43,6 @@ void DialogLoadIAC::slotFinished(int) {
     }
 }
 
-//-------------------------------------------------------------------------------
 DialogLoadIAC::DialogLoadIAC(QNetworkAccessManager *manager, QWidget *parent)
         : DialogBoxBase(parent) {
     IACloader = NULL;
@@ -65,19 +62,16 @@ DialogLoadIAC::DialogLoadIAC(QNetworkAccessManager *manager, QWidget *parent)
     connect(btForecast, SIGNAL(clicked()), this, SLOT(slotBtDownload()));
 }
 
-//-------------------------------------------------------------------------------
 DialogLoadIAC::~DialogLoadIAC() {
     if (IACloader != NULL) {
         delete IACloader;
     }
 }
 
-//----------------------------------------------------
 void DialogLoadIAC::slotLoaderMessage(QString msg) {
     labelMsg->setText(msg);
 }
 
-//----------------------------------------------------
 void DialogLoadIAC::slotLoaderDataReceived(QByteArray *content, QString fileName) {
     QString path = Util::getSetting("gribFilePath", "").toString();
     if (path == "") {
@@ -123,7 +117,6 @@ void DialogLoadIAC::slotLoaderDataReceived(QByteArray *content, QString fileName
     loadInProgress = false;
 }
 
-//----------------------------------------------------
 void DialogLoadIAC::slotLoaderFileError(QString error) {
     if (!loadInProgress) {
         return;
@@ -139,12 +132,10 @@ void DialogLoadIAC::slotLoaderFileError(QString error) {
     labelMsg->setText("");
 }
 
-//----------------------------------------------------
 void DialogLoadIAC::slotLoaderStartLoadData() {
     timeLoad.start();
 }
 
-//----------------------------------------------------
 void DialogLoadIAC::slotLoaderReadProgress(int, int done, int total) {
     progressBar->setRange(0, total);
     progressBar->setValue(done);
@@ -154,7 +145,6 @@ void DialogLoadIAC::slotLoaderReadProgress(int, int done, int total) {
                               .arg(done));
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadIAC::slotBtDownload() {
     if (IACloader) {
         IACloader->deleteLater();
@@ -187,7 +177,6 @@ void DialogLoadIAC::slotBtDownload() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadIAC::slotBtCancel() {
     if (loadInProgress) {
         loadInProgress = false;
@@ -203,7 +192,6 @@ void DialogLoadIAC::slotBtCancel() {
     }
 }
 
-//-------------------------------------------------------------------------------
 QFrame *DialogLoadIAC::createFrameButtonsZone(QWidget *parent) {
     QFrame *frm = new QFrame(parent);
     assert(frm);

@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GribRecord.h"
 #include "g2clib/grib2.h"
 
-//----------------------------------------
 class Grib2RecordMarker {
 public:
     Grib2RecordMarker(int id, int pdtnum, int paramcat, int paramnumber, int levelType, int levelValue) {
@@ -57,7 +56,7 @@ public:
 private:
     int id, pdtnum, paramcat, paramnumber, levelType, levelValue;
 };
-//----------------------------------------
+
 class Grib2Record : public GribRecord {
 public:
     Grib2Record();

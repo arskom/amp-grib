@@ -30,7 +30,6 @@ Lecture mise en mémoire d'un fichier GRIB
 #include "g2clib/grib2.h"
 #include "zuFile.h"
 
-//===============================================================
 class Grib2Reader : public GribReader {
 public:
     Grib2Reader();

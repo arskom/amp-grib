@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Projection.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------------
 class GshhsRangsPoint {
 public:
     GshhsRangsPoint(double x = 0, double y = 0, bool isCellBorder = false) {
@@ -43,7 +42,6 @@ public:
     bool isCellBorder;
 };
 
-//-------------------------------------------------------------------------
 class GshhsRangsPolygon {
 public:
     ~GshhsRangsPolygon() {
@@ -60,7 +58,6 @@ public:
                         4 inside is pond on island*/
 };
 
-//==========================================================================
 class GshhsRangsCell {
 public:
     GshhsRangsCell(FILE *fcat, FILE *fcel, FILE *frim, int x0, int y0);
@@ -93,7 +90,6 @@ private:
     void readSegmentRim(int RimAddress, int RimLength, GshhsRangsPolygon *polygon);
 };
 
-//==========================================================================
 class GshhsRangsReader {
 public:
     GshhsRangsReader(std::string path_);
@@ -113,8 +109,6 @@ private:
     GshhsRangsCell *allCells[360][180];
 };
 
-//======================================================================
-//======================================================================
 inline int GshhsRangsCell::readInt1(FILE *f) {
     unsigned char buf;
     if (fread(&buf, 1, 1, f) == 1)
@@ -122,7 +116,7 @@ inline int GshhsRangsCell::readInt1(FILE *f) {
     else
         return 0;
 }
-//--------------------------------------------------------
+
 inline int GshhsRangsCell::readInt2(FILE *f) {
     unsigned char buf[2];
     if (fread(buf, 1, 2, f) == 2)
@@ -130,7 +124,7 @@ inline int GshhsRangsCell::readInt2(FILE *f) {
     else
         return 0;
 }
-//--------------------------------------------------------
+
 inline int GshhsRangsCell::readInt4(FILE *f) {
     unsigned char buf[4];
     if (fread(buf, 1, 4, f) == 4)

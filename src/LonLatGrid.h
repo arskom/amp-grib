@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Projection.h"
 
-//==============================================================================
 class LonLatGrid {
 public:
     LonLatGrid(){};

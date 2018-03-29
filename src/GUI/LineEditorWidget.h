@@ -5,7 +5,6 @@
 #include <QFrame>
 #include <QWidget>
 
-//===========================================================
 class LineTestZone : public QWidget {
     Q_OBJECT
 public:
@@ -33,10 +32,8 @@ private:
     double lineWidth;
 };
 
-//===========================================================
 #include "ui_LineEditorWidget.h"
 
-//===========================================================
 class /*QDESIGNER_WIDGET_EXPORT*/ LineEditorWidget
         : public QWidget,
           private Ui::LineEditorWidget {

@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ImageWriter.h"
 #include "Util.h"
 
-//==============================================================
 ImageWriterDialog::ImageWriterDialog(QWidget *parent, int W, int H, int quality,
         bool resizeAfter,
         bool showDateCursor, bool showColorScale,
@@ -75,7 +74,7 @@ ImageWriterDialog::ImageWriterDialog(QWidget *parent, int W, int H, int quality,
     connect(cbShowDateCursor, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateWidgets()));
     connect(cbShowColorScale, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateWidgets()));
 }
-//---------------------------------------------------------
+
 void ImageWriterDialog::slotUpdateWidgets() {
     if (sender() == cbAsScreen) {
         if (cbAsScreen->isChecked()) {
@@ -88,17 +87,14 @@ void ImageWriterDialog::slotUpdateWidgets() {
     }
 }
 
-//==============================================================
 ImageWriter::ImageWriter(QWidget *parent, Terrain *terre) {
     this->parent = parent;
     this->terre = terre;
 }
 
-//-------------------------------------------------
 ImageWriter::~ImageWriter() {
 }
 
-//-------------------------------------------------
 QImage *ImageWriter::createImage(
         time_t date, ImageWriterDialog &dial, int Winit, int Hinit) {
     QPixmap *pixmap = NULL;
@@ -152,11 +148,11 @@ QImage *ImageWriter::createImage(
     }
     return image;
 }
-//-------------------------------------------------
+
 void ImageWriter::saveCurrentImage() {
     saveImage(terre->getCurrentDate());
 }
-//-------------------------------------------------
+
 void ImageWriter::saveImage(time_t date) {
     int W = Util::getSetting("imageSaveWidth", 640).toInt();
     int H = Util::getSetting("imageSaveHeight", 480).toInt();
@@ -197,7 +193,7 @@ void ImageWriter::saveImage(time_t date) {
         }
     }
 }
-//-------------------------------------------------
+
 void ImageWriter::saveSettings(ImageWriterDialog &dial, QString filename) {
     Util::setSetting("imageSaveWidth", dial.getW());
     Util::setSetting("imageSaveHeight", dial.getH());
@@ -207,7 +203,7 @@ void ImageWriter::saveSettings(ImageWriterDialog &dial, QString filename) {
     Util::setSetting("imageShowDateCursor", dial.getShowDateCursor());
     Util::setSetting("imageShowColorScale", dial.getShowColorScale());
 }
-//-------------------------------------------------
+
 void ImageWriter::saveAllImages() {
     GriddedPlotter *plotter = terre->getGriddedPlotter();
     if (!plotter || !plotter->isReaderOk()) {
@@ -273,7 +269,7 @@ void ImageWriter::saveAllImages() {
         }
     }
 }
-//-------------------------------------------------------
+
 QString ImageWriter::createAnimImageFilename(QString prefix, int n) {
     return (prefix + "_%1.jpg").arg(n, 3, 10, QChar('0'));
 }

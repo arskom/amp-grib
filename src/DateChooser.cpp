@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Font.h"
 #include "Util.h"
 
-//=====================================================================
 DateChooserPopup::DateChooserPopup(QWidget *parent)
         : QWidget(parent, Qt::ToolTip) {
     QVBoxLayout *lay = new QVBoxLayout();
@@ -35,12 +34,11 @@ DateChooserPopup::DateChooserPopup(QWidget *parent)
 
     setAutoFillBackground(true);
 }
-//-------------------------------------------------
+
 void DateChooserPopup::setText(QString txt) {
     label.setText(txt);
 }
 
-//=====================================================================
 DateChooser::DateChooser()
         : QWidget() {
     tabDates = NULL;
@@ -74,14 +72,13 @@ DateChooser::DateChooser()
     lay->addWidget(slider);
     this->setLayout(lay);
 }
-//------------------------------------------------------------------------
+
 DateChooser::~DateChooser() {
     if (tabDates) {
         delete[] tabDates;
     }
 }
 
-//------------------------------------------------------------------------
 void DateChooser::slotSliderDatesValueChanged(int pos) {
     if (pos >= 0 && pos < nbDates) {
         currentDate = tabDates[pos];
@@ -90,11 +87,11 @@ void DateChooser::slotSliderDatesValueChanged(int pos) {
     }
     update();
 }
-//------------------------------------------------------------------------
+
 void DateChooser::slotSliderPressed() {
     update();
 }
-//------------------------------------------------------------------------
+
 void DateChooser::slotSliderReleased() {
     popup->setVisible(false);
     int pos = slider->value();
@@ -104,7 +101,7 @@ void DateChooser::slotSliderReleased() {
     }
     update();
 }
-//------------------------------------------------------------------------
+
 void DateChooser::setDate(time_t date) {
     int pos = -1;
     for (int i = 0; pos < 0 && i < nbDates; i++) {
@@ -118,7 +115,7 @@ void DateChooser::setDate(time_t date) {
     }
     update();
 }
-//------------------------------------------------------------------------
+
 void DateChooser::reset() {
     if (tabDates) {
         delete[] tabDates;
@@ -130,7 +127,7 @@ void DateChooser::reset() {
     slider->setValue(0);
     update();
 }
-//------------------------------------------------------------------------
+
 void DateChooser::setGriddedPlotter(GriddedPlotter *plotter) {
     this->plotter = plotter;
     if (plotter && plotter->isReaderOk()) {
@@ -140,7 +137,7 @@ void DateChooser::setGriddedPlotter(GriddedPlotter *plotter) {
         this->reset();
     }
 }
-//------------------------------------------------------------------------
+
 void DateChooser::setListDates(std::set<time_t> *setDates,
         time_t currentDate) {
     if (tabDates) {
@@ -167,7 +164,6 @@ void DateChooser::setListDates(std::set<time_t> *setDates,
     update();
 }
 
-//------------------------------------------------------------------------
 void DateChooser::paintEvent(QPaintEvent * /*event*/) {
     QPainter pnt(this);
     int W = width();

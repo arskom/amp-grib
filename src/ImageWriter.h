@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Projection.h"
 #include "Terrain.h"
 
-//-------------------------------------------
 class ImageWriterDialog : public DialogBoxColumn {
     Q_OBJECT
 public:
@@ -59,7 +58,6 @@ private:
     int Winit, Hinit;
 };
 
-//-------------------------------------------
 class ImageWriter : public QObject {
     Q_OBJECT
 public:

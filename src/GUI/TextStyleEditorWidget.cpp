@@ -2,13 +2,12 @@
 
 #include "TextStyleEditorWidget.h"
 
-//=================================================================================
 TextDisplayLabel::TextDisplayLabel(QWidget *parent)
         : QLabel(parent) {
     parentWidget = parent;
     this->setText((font().family() + " %1").arg(font().pointSizeF()));
 }
-//----------------------------------------------------------------------
+
 void TextDisplayLabel::changeFont(QFont ft) {
     QString description = (ft.family() + " %1").arg(ft.pointSizeF());
     this->setText(description);
@@ -16,7 +15,7 @@ void TextDisplayLabel::changeFont(QFont ft) {
     this->setFont(ft);
     parentWidget->setMinimumHeight(ft.pointSizeF() + 4);
 }
-//----------------------------------------------------------------------
+
 void TextDisplayLabel::setColors(QColor textColor, QColor bgColor) {
     this->textColor = textColor;
     this->bgColor = bgColor;
@@ -28,7 +27,7 @@ void TextDisplayLabel::setColors(QColor textColor, QColor bgColor) {
     this->setPalette(p);
     update();
 }
-//----------------------------------------------------------------------
+
 void TextDisplayLabel::mouseReleaseEvent(QMouseEvent *) {
     bool ok;
     QFont font = QFontDialog::getFont(
@@ -38,13 +37,11 @@ void TextDisplayLabel::mouseReleaseEvent(QMouseEvent *) {
     }
 }
 
-//=================================================================================
 TextColorWidget::TextColorWidget(QWidget *parent)
         : QWidget(parent) {
     color = Qt::yellow;
 }
 
-//----------------------------------------------------------------------
 void TextColorWidget::mouseReleaseEvent(QMouseEvent *) {
     // Open Choose color dialog
     QColor col = QColorDialog::getColor(color, this);
@@ -54,13 +51,12 @@ void TextColorWidget::mouseReleaseEvent(QMouseEvent *) {
         emit colorChanged(color);
     }
 }
-//----------------------------------------------------------------------
+
 void TextColorWidget::paintEvent(QPaintEvent *) {
     QPainter pnt(this);
     pnt.fillRect(0, 0, width(), height(), QBrush(color));
 }
 
-//=================================================================================
 TextStyleEditorWidget::TextStyleEditorWidget(
         QWidget *parent,
         QFont fonte,
@@ -86,12 +82,10 @@ TextStyleEditorWidget::TextStyleEditorWidget(
     connect(bgColorWidget, SIGNAL(colorChanged(QColor)), this, SLOT(slotColorChanged(QColor)));
 }
 
-//---------------------------------------------------------------------------------------
 void TextStyleEditorWidget::slotColorChanged(QColor) {
     testZoneLabel->setColors(textColorWidget->getColor(), bgColorWidget->getColor());
 }
 
-//---------------------------------------------------------------------------------------
 void TextStyleEditorWidget::slotRaz() {
     textColorWidget->setColor(defaultTextColor);
     bgColorWidget->setColor(defaultBgColor);

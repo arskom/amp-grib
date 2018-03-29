@@ -33,7 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Projection.h"
 
-//===================================================================
 class POI : public QWidget {
     Q_OBJECT
 public:
@@ -126,7 +125,6 @@ private:
     void adjustGeometry();
 };
 
-//----------------------------------------------
 // added by Tim Holtschneider
 // list storing selected POIs
 extern QList<POI *> GLOB_listSelectedPOI;

@@ -31,9 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Orthodromie.h"
 #include "Terrain.h"
 
-//---------------------------------------------------------
 // Constructeur
-//---------------------------------------------------------
+
 Terrain::Terrain(QWidget *parent, Projection *proj, GshhsReader *gshhsReader)
         : QWidget(parent) {
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
@@ -96,7 +95,7 @@ Terrain::Terrain(QWidget *parent, Projection *proj, GshhsReader *gshhsReader)
 
     createCrossCursor();
 }
-//-------------------------------------------
+
 void Terrain::updateGraphicsParameters() {
     drawer->updateGraphicsParameters();
     if (griddedPlot) {
@@ -106,7 +105,7 @@ void Terrain::updateGraphicsParameters() {
     mustRedraw = true;
     update();
 }
-//-------------------------------------------------------
+
 void Terrain::createCrossCursor() {
     //---------------------------------------------------
     // Define new cross cursor, more visible
@@ -146,7 +145,6 @@ void Terrain::createCrossCursor() {
     setCursor(myCrossCursor);
 }
 
-//-------------------------------------------------------
 // Tracé récursif de la route orthodromique
 void Terrain::draw_OrthodromieSegment(QPainter &pnt,
         double x0, double y0, double x1, double y1,
@@ -211,17 +209,14 @@ void Terrain::draw_OrthodromieSegment(QPainter &pnt,
     }
 }
 
-//-------------------------------------------------------
 void Terrain::draw_Orthodromie(QPainter &pnt) {
     draw_OrthodromieSegment(pnt, selX0, selY0, selX1, selY1);
 }
 
-//---------------------------------------------------------
 void Terrain::indicateWaitingMap() {
     pleaseWait = true; // Affiche un message d'attente
 }
 
-//-------------------------------------------------------
 void Terrain::setProjection(Projection *proj) {
     indicateWaitingMap();
     this->proj = proj;
@@ -240,7 +235,6 @@ void Terrain::setProjection(Projection *proj) {
     update();
 }
 
-//=========================================================
 void Terrain::setDrawRivers(bool b) {
     if (drawer->showRivers != b) {
         drawer->showRivers = b;
@@ -249,7 +243,7 @@ void Terrain::setDrawRivers(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawLonLatGrid(bool b) {
     if (drawer->showLonLatGrid != b) {
         drawer->showLonLatGrid = b;
@@ -258,7 +252,7 @@ void Terrain::setDrawLonLatGrid(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::slotTemperatureLabels(bool b) {
     if (drawer->showTemperatureLabels != b) {
         drawer->showTemperatureLabels = b;
@@ -267,7 +261,7 @@ void Terrain::slotTemperatureLabels(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawOrthodromie(bool b) {
     if (showOrthodromie != b) {
         showOrthodromie = b;
@@ -276,7 +270,7 @@ void Terrain::setDrawOrthodromie(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawCountriesBorders(bool b) {
     if (drawer->showCountriesBorders != b) {
         drawer->showCountriesBorders = b;
@@ -285,7 +279,7 @@ void Terrain::setDrawCountriesBorders(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setCountriesNames(bool b) {
     if (drawer->showCountriesNames != b) {
         drawer->showCountriesNames = b;
@@ -294,7 +288,7 @@ void Terrain::setCountriesNames(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setCitiesNamesLevel(int level) {
     if (drawer->showCitiesNamesLevel != level) {
         drawer->showCitiesNamesLevel = level;
@@ -303,7 +297,7 @@ void Terrain::setCitiesNamesLevel(int level) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setWaveArrowsType(int type) {
     if (drawer->showWaveArrowsType != type) {
         drawer->showWaveArrowsType = type;
@@ -312,7 +306,7 @@ void Terrain::setWaveArrowsType(int type) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setMapQuality(int q) {
     indicateWaitingMap();
     if (quality != q) {
@@ -331,7 +325,7 @@ void Terrain::setMapQuality(int q) {
         pleaseWait = false;
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDuplicateMissingWaveRecords(bool b) {
     if (duplicateMissingWaveRecords != b) {
         duplicateMissingWaveRecords = b;
@@ -341,7 +335,7 @@ void Terrain::setDuplicateMissingWaveRecords(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDuplicateFirstCumulativeRecord(bool b) {
     if (duplicateFirstCumulativeRecord != b) {
         duplicateFirstCumulativeRecord = b;
@@ -351,7 +345,7 @@ void Terrain::setDuplicateFirstCumulativeRecord(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setInterpolateValues(bool b) {
     if (interpolateValues != b) {
         interpolateValues = b;
@@ -361,7 +355,7 @@ void Terrain::setInterpolateValues(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setWindArrowsOnGribGrid(bool b) {
     if (windArrowsOnGribGrid != b) {
         windArrowsOnGribGrid = b;
@@ -371,7 +365,7 @@ void Terrain::setWindArrowsOnGribGrid(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setColorMapData(const DataCode &dtc) {
     //DBGQS (DataCodeStr::toString (dtc));
     if (drawer) {
@@ -385,7 +379,7 @@ void Terrain::setColorMapData(const DataCode &dtc) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setCurrentArrowsOnGribGrid(bool b) {
     if (currentArrowsOnGribGrid != b) {
         currentArrowsOnGribGrid = b;
@@ -395,7 +389,7 @@ void Terrain::setCurrentArrowsOnGribGrid(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setColorMapSmooth(bool b) {
     if (drawer->colorMapSmooth != b) {
         drawer->colorMapSmooth = b;
@@ -404,7 +398,7 @@ void Terrain::setColorMapSmooth(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawCurrentArrows(bool b) {
     if (drawer->showCurrentArrows != b) {
         drawer->showCurrentArrows = b;
@@ -413,7 +407,7 @@ void Terrain::setDrawCurrentArrows(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawWindArrows(bool b) {
     if (drawer->showWindArrows != b) {
         drawer->showWindArrows = b;
@@ -422,7 +416,7 @@ void Terrain::setDrawWindArrows(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setBarbules(bool b) {
     if (drawer->showBarbules != b) {
         drawer->showBarbules = b;
@@ -431,7 +425,7 @@ void Terrain::setBarbules(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setThinArrows(bool b) {
     bool actual = Util::getSetting("thinWindArrows", false).toBool();
     if (actual != b) {
@@ -443,7 +437,7 @@ void Terrain::setThinArrows(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setGribGrid(bool b) {
     if (drawer->showGribGrid != b) {
         drawer->showGribGrid = b;
@@ -452,7 +446,7 @@ void Terrain::setGribGrid(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setPressureMinMax(bool b) {
     if (drawer->showPressureMinMax != b) {
         drawer->showPressureMinMax = b;
@@ -462,7 +456,6 @@ void Terrain::setPressureMinMax(bool b) {
     }
 }
 
-//-------------------------------------------------------
 void Terrain::setDrawIsobars(bool b) {
     if (drawer->showIsobars != b) {
         drawer->showIsobars = b;
@@ -471,7 +464,7 @@ void Terrain::setDrawIsobars(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setIsobarsStep(double step) {
     if (drawer->isobarsStep != step) {
         Util::setSetting("isobarsStep", step);
@@ -480,7 +473,7 @@ void Terrain::setIsobarsStep(double step) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawIsobarsLabels(bool b) {
     if (drawer->showIsobarsLabels != b) {
         drawer->showIsobarsLabels = b;
@@ -489,7 +482,7 @@ void Terrain::setDrawIsobarsLabels(bool b) {
         update();
     }
 }
-//=============================================================
+
 void Terrain::setDrawIsotherms0(bool b) {
     if (drawer->showIsotherms0 != b) {
         drawer->showIsotherms0 = b;
@@ -498,7 +491,7 @@ void Terrain::setDrawIsotherms0(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setIsotherms0Step(double step) {
     if (drawer->isotherms0Step != step) {
         Util::setSetting("isotherms0Step", step);
@@ -507,7 +500,7 @@ void Terrain::setIsotherms0Step(double step) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawIsotherms0Labels(bool b) {
     if (drawer->showIsotherms0Labels != b) {
         drawer->showIsotherms0Labels = b;
@@ -516,7 +509,7 @@ void Terrain::setDrawIsotherms0Labels(bool b) {
         update();
     }
 }
-//=================================================================
+
 void Terrain::setIsotherms_Altitude(Altitude alt) {
     if (drawer->isothermsAltitude != alt) {
         drawer->isothermsAltitude = alt;
@@ -526,7 +519,7 @@ void Terrain::setIsotherms_Altitude(Altitude alt) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawIsotherms(bool b) {
     if (drawer->showIsotherms != b) {
         drawer->showIsotherms = b;
@@ -535,7 +528,7 @@ void Terrain::setDrawIsotherms(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setIsotherms_Step(double step) {
     if (drawer->isotherms_Step != step) {
         Util::setSetting("isotherms_Step", step);
@@ -544,7 +537,7 @@ void Terrain::setIsotherms_Step(double step) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawIsotherms_Labels(bool b) {
     if (drawer->showIsotherms_Labels != b) {
         drawer->showIsotherms_Labels = b;
@@ -553,7 +546,7 @@ void Terrain::setDrawIsotherms_Labels(bool b) {
         update();
     }
 }
-//=================================================================
+
 void Terrain::setLinesThetaE_Altitude(Altitude alt) {
     if (drawer->linesThetaEAltitude != alt) {
         drawer->linesThetaEAltitude = alt;
@@ -563,7 +556,7 @@ void Terrain::setLinesThetaE_Altitude(Altitude alt) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawLinesThetaE(bool b) {
     if (drawer->showLinesThetaE != b) {
         drawer->showLinesThetaE = b;
@@ -572,7 +565,7 @@ void Terrain::setDrawLinesThetaE(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setLinesThetaE_Step(double step) {
     if (drawer->linesThetaE_Step != step) {
         Util::setSetting("linesThetaE_Step", step);
@@ -581,7 +574,7 @@ void Terrain::setLinesThetaE_Step(double step) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawLinesThetaE_Labels(bool b) {
     if (drawer->showLinesThetaE_Labels != b) {
         drawer->showLinesThetaE_Labels = b;
@@ -591,7 +584,6 @@ void Terrain::setDrawLinesThetaE_Labels(bool b) {
     }
 }
 
-//=================================================================
 bool Terrain::getSelectedRectangle(double *x0, double *y0, double *x1, double *y1) {
     if (selX0 != selX1 && selY0 != selY1) { // Si nécessaire, réoriente le rectangle sélectionné
         if (selX0 > selX1) {
@@ -616,7 +608,7 @@ bool Terrain::getSelectedRectangle(double *x0, double *y0, double *x1, double *y
         return false;
     }
 }
-//---------------------------------------------------------
+
 bool Terrain::getSelectedLine(double *x0, double *y0, double *x1, double *y1) {
     *x0 = selX0;
     *x1 = selX1;
@@ -624,7 +616,7 @@ bool Terrain::getSelectedLine(double *x0, double *y0, double *x1, double *y1) {
     *y1 = selY1;
     return true;
 }
-//---------------------------------------------------------
+
 bool Terrain::getGribFileRectangle(double *x0, double *y0, double *x1, double *y1) {
     if (griddedPlot) {
         if (griddedPlot->isReaderOk()) {
@@ -634,9 +626,8 @@ bool Terrain::getGribFileRectangle(double *x0, double *y0, double *x1, double *y
     return false;
 }
 
-//---------------------------------------------------------
 // Grib or IAC files or ...
-//---------------------------------------------------------
+
 FileDataType Terrain::loadMeteoDataFile(QString fileName, bool zoom) {
     indicateWaitingMap();
     currentFileType = DATATYPE_NONE;
@@ -792,7 +783,6 @@ FileDataType Terrain::loadMeteoDataFile(QString fileName, bool zoom) {
     }
 }
 
-//---------------------------------------------------------
 GriddedPlotter *Terrain::getGriddedPlotter() {
     if (currentFileType == DATATYPE_GRIB
             || currentFileType == DATATYPE_MBLUE) {
@@ -803,7 +793,6 @@ GriddedPlotter *Terrain::getGriddedPlotter() {
     }
 }
 
-//---------------------------------------------------------
 void Terrain::closeMeteoDataFile() {
     if (griddedPlot != NULL) {
         delete griddedPlot;
@@ -818,7 +807,6 @@ void Terrain::closeMeteoDataFile() {
     update();
 }
 
-//---------------------------------------------------------
 void Terrain::zoomOnFileZone() {
     double x0, y0, x1, y1;
     bool ok = false;
@@ -838,7 +826,7 @@ void Terrain::zoomOnFileZone() {
         this->zoomOnZone(x0, y0, x1, y1);
     }
 }
-//---------------------------------------------------------
+
 void Terrain::setSpecialZone(double x0, double y0, double x1, double y1) {
     double tmp;
     if (x0 > y0) {
@@ -857,12 +845,10 @@ void Terrain::setSpecialZone(double x0, double y0, double x1, double y1) {
     specialZoneY1 = y1;
 }
 
-//---------------------------------------------------------
 void Terrain::showSpecialZone(bool b) {
     mustShowSpecialZone = b;
 }
 
-//---------------------------------------------------------
 void Terrain::zoomOnZone(double x0, double y0, double x1, double y1) {
     double mh, mv;
     mh = fabs(x0 - x1) * 0.05;
@@ -871,14 +857,13 @@ void Terrain::zoomOnZone(double x0, double y0, double x1, double y1) {
     setProjection(proj);
 }
 
-//---------------------------------------------------------
 void Terrain::slotMustRedraw() {
     indicateWaitingMap();
     isEarthMapValid = false;
     mustRedraw = true;
     update();
 }
-//---------------------------------------------------------
+
 void Terrain::setCurrentDate(time_t t) {
     if (griddedPlot->getCurrentDate() != t) {
         indicateWaitingMap();
@@ -888,23 +873,20 @@ void Terrain::setCurrentDate(time_t t) {
     }
 }
 
-//---------------------------------------------------------
 // Events
-//---------------------------------------------------------
-//---------------------------------------------------------
+
 void Terrain::enterEvent(QEvent * /*e*/) {
     //printf("enter\n");
     enterCursor = cursor();
     setCursor(myCrossCursor);
 }
-//---------------------------------------------------------
+
 void Terrain::leaveEvent(QEvent *e) {
     //printf("leave\n");
     emit mouseLeave(e);
     setCursor(enterCursor);
 }
 
-//---------------------------------------------------------
 void Terrain::keyPressEvent(QKeyEvent *e) {
     //printf("Terrain::keyPressEvent\n");
     keyModifiers = e->modifiers();
@@ -918,7 +900,7 @@ void Terrain::keyPressEvent(QKeyEvent *e) {
         setCursor(myCrossCursor);
     }
 }
-//---------------------------------------------------------
+
 void Terrain::keyReleaseEvent(QKeyEvent *e) {
     //printf("keyReleaseEvent\n");
     keyModifiers = e->modifiers();
@@ -932,7 +914,7 @@ void Terrain::keyReleaseEvent(QKeyEvent *e) {
         setCursor(myCrossCursor);
     }
 }
-//---------------------------------------------------------
+
 void Terrain::wheelEvent(QWheelEvent *e) {
     //printf("wheelEvent\n");
     double k = 1.3;
@@ -948,7 +930,7 @@ void Terrain::wheelEvent(QWheelEvent *e) {
     timerZoomWheel->stop(); // pas d'update() tout de suite
     timerZoomWheel->start(100); // update() seulement après une petite inactivité
 }
-//---------------------------------------------------------
+
 void Terrain::slotTimerZoomWheel() {
     if (deltaZoomWheel != 1) {
         //printf("slotTimerZoomWheel\n");
@@ -959,7 +941,6 @@ void Terrain::slotTimerZoomWheel() {
     }
 }
 
-//---------------------------------------------------------
 void Terrain::mousePressEvent(QMouseEvent *e) {
     //printf("press\n");
     if (e->button() == Qt::LeftButton) {
@@ -979,7 +960,7 @@ void Terrain::mousePressEvent(QMouseEvent *e) {
         update();
     }
 }
-//---------------------------------------------------------
+
 void Terrain::mouseReleaseEvent(QMouseEvent *e) {
     double x0, y0, x1, y1;
 
@@ -1010,7 +991,6 @@ void Terrain::mouseReleaseEvent(QMouseEvent *e) {
     }
 }
 
-//---------------------------------------------------------
 void Terrain::mouseMoveEvent(QMouseEvent *e) {
     if (isDraggingMapEnCours) {
         // TODO use  tiles to drag map
@@ -1032,7 +1012,6 @@ void Terrain::mouseMoveEvent(QMouseEvent *e) {
     emit mouseMoved(e);
 }
 
-//---------------------------------------------------------
 void Terrain::resizeEvent(QResizeEvent * /*e*/) {
     static int cpt = 0;
     cpt++;
@@ -1054,7 +1033,7 @@ void Terrain::resizeEvent(QResizeEvent * /*e*/) {
     timerResize->stop(); // pas d'update() tout de suite
     timerResize->start(100); // update() seulement après une petite inactivité
 }
-//---------------------------------------------------------
+
 void Terrain::slotTimerResize() {
     if (isResizing) {
         isEarthMapValid = false;
@@ -1064,9 +1043,8 @@ void Terrain::slotTimerResize() {
     }
 }
 
-//---------------------------------------------------------
 // paintEvent
-//---------------------------------------------------------
+
 void Terrain::paintEvent(QPaintEvent *) {
     QPainter pnt(this);
     QColor transp;
@@ -1156,7 +1134,7 @@ void Terrain::paintEvent(QPaintEvent *) {
         pnt.drawText(rect, Qt::AlignHCenter | Qt::AlignVCenter, txt);
     }
 }
-//------------------------------------------------------------------
+
 time_t Terrain::getCurrentDate() {
     switch (currentFileType) {
     case DATATYPE_GRIB:
@@ -1174,7 +1152,7 @@ time_t Terrain::getCurrentDate() {
     }
     return 0;
 }
-//------------------------------------------------------------------------
+
 QPixmap *Terrain::createPixmap(time_t date, int width, int height) {
     Projection *scaledproj = proj->clone();
     MapDrawer *scaleddrawer = new MapDrawer(*drawer);
@@ -1219,7 +1197,6 @@ QPixmap *Terrain::createPixmap(time_t date, int width, int height) {
     return pixmap;
 }
 
-//---------------------------------------------------------
 void Terrain::slot_Zoom_In() {
     proj->zoom(1.3);
     setProjection(proj);
@@ -1228,7 +1205,7 @@ void Terrain::slot_Zoom_Out() {
     proj->zoom(0.7);
     setProjection(proj);
 }
-//---------------------------------------------------------
+
 void Terrain::slot_Zoom_Sel() {
     double x0, y0, x1, y1;
     if (getSelectedRectangle(&x0, &y0, &x1, &y1)) {
@@ -1250,12 +1227,12 @@ void Terrain::slot_Zoom_Sel() {
     }
     setProjection(proj);
 }
-//---------------------------------------------------------
+
 void Terrain::slot_Zoom_All() {
     proj->setVisibleAreaEarth();
     setProjection(proj);
 }
-//------------------------------------------------
+
 void Terrain::slot_Go_Left() {
     proj->move(0.25, 0);
     setProjection(proj);
@@ -1273,7 +1250,6 @@ void Terrain::slot_Go_Down() {
     setProjection(proj);
 }
 
-//---------------------------------------------------------
 void Terrain::setShowPOIs(bool show) {
     Util::setSetting("showPOIs", show);
     // list of all the POI's
@@ -1288,7 +1264,6 @@ void Terrain::setShowPOIs(bool show) {
     }
 }
 
-//-------------------------------------------------------
 void Terrain::setGeopotentialData(const DataCode &dtc) {
     //	griddedPlot->getReader()->hasData (dtc);
     if (drawer->getGeopotentialData() != dtc) {
@@ -1298,7 +1273,7 @@ void Terrain::setGeopotentialData(const DataCode &dtc) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawGeopotential(bool b) {
     if (drawer->showGeopotential != b) {
         drawer->showGeopotential = b;
@@ -1307,7 +1282,7 @@ void Terrain::setDrawGeopotential(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setDrawGeopotentialLabels(bool b) {
     if (drawer->showGeopotentialLabels != b) {
         drawer->showGeopotentialLabels = b;
@@ -1316,7 +1291,7 @@ void Terrain::setDrawGeopotentialLabels(bool b) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setGeopotentialStep(int step) {
     if (drawer->geopotentialStep != step) {
         drawer->geopotentialStep = step;
@@ -1325,7 +1300,7 @@ void Terrain::setGeopotentialStep(int step) {
         update();
     }
 }
-//-------------------------------------------------------
+
 void Terrain::setMBlueFastInterpolation(bool b) {
     if (b != fastInterpolation_MBlue) {
         Util::setSetting("MBfastInterpolation", b);
@@ -1337,7 +1312,7 @@ void Terrain::setMBlueFastInterpolation(bool b) {
         }
     }
 }
-//-------------------------------------------------------
+
 DataCode Terrain::getColorMapData() {
     DataCode dtc = drawer->getColorMapData();
     if (dtc.dataType == GRB_PRV_WIND_XY2D) {

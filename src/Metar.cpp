@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Metar.h"
 
-//==============================================================
 bool Airport::operator<(const Airport &o) const {
     if (country < o.country) {
         return true;
@@ -36,7 +35,6 @@ bool Airport::operator<(const Airport &o) const {
     return false;
 }
 
-//==============================================================
 MetarWidget::MetarWidget(const Airport &airport, Projection *proj, QWidget *parent)
         : QLabel(parent) {
     this->proj = proj;
@@ -50,12 +48,11 @@ MetarWidget::MetarWidget(const Airport &airport, Projection *proj, QWidget *pare
     adjustGeometry();
     connect(proj, SIGNAL(projectionUpdated()), this, SLOT(projectionUpdated()));
 }
-//-------------------------------------------------------------------------------
+
 void MetarWidget::projectionUpdated() {
     adjustGeometry();
 }
 
-//-------------------------------------------------------------------------------
 void MetarWidget::adjustGeometry() {
     if (proj == NULL) {
         return;
@@ -73,12 +70,12 @@ void MetarWidget::adjustGeometry() {
         move(-1000, -1000);
     }
 }
-//-------------------------------------------------------------------------------
+
 void MetarWidget::enterEvent(QEvent *) {
     enterCursor = cursor();
     setCursor(Qt::UpArrowCursor);
 }
-//-------------------------------------------------------------------------------
+
 void MetarWidget::leaveEvent(QEvent *) {
     setCursor(enterCursor);
 }
@@ -87,24 +84,24 @@ void MetarWidget::mousePressEvent(QMouseEvent *) {
 void MetarWidget::mouseReleaseEvent(QMouseEvent *) {
     DBGQS("Open METAR : " + airport.icao + " : " + airport.name);
 }
-//==============================================================
+
 MetarWidgetFactory::MetarWidgetFactory() {
     read_metar_list();
 }
-//-----------------------------------------------
+
 MetarWidgetFactory::~MetarWidgetFactory() {
     mapAirports.clear();
     mapCountries.clear();
     mapStates.clear();
 }
-//-----------------------------------------------
+
 MetarWidget *MetarWidgetFactory::createMetarWidget(const QString &icao, bool isVisible, Projection *proj, QWidget *parent) {
     MetarWidget *w = NULL;
     w = new MetarWidget(mapAirports.value(icao), proj, parent);
     w->setVisible(isVisible);
     return w;
 }
-//-------------------------------------------------------------------------------
+
 void MetarWidgetFactory::read_metar_list() {
     char buf[512];
     ZUFILE *f;

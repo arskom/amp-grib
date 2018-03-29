@@ -32,14 +32,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "Version.h"
 
-//======================================================================
 QHash<QString, QVariant> GLOB_hashSettings;
 
 void Util::setSetting(const QString &key, const QVariant &value) {
     GLOB_hashSettings.insert(key, value);
     Settings::setUserSetting(key, value);
 }
-//---------------------------------------------------------------------
+
 QVariant Util::getSetting(const QString &key, const QVariant &defaultValue) {
     if (GLOB_hashSettings.contains(key)) {
         return GLOB_hashSettings.value(key);
@@ -50,7 +49,7 @@ QVariant Util::getSetting(const QString &key, const QVariant &defaultValue) {
         return v;
     }
 }
-//========================================================================
+
 QString Util::getSaveFileName(QWidget *parent, const QString &caption,
         const QString &dir, const QString &filter) {
 #ifdef Q_OS_MACX
@@ -68,7 +67,7 @@ QString Util::getSaveFileName(QWidget *parent, const QString &caption,
 #endif
     return QFileDialog::getSaveFileName(parent, caption, dir, filter);
 }
-//------------------------------------------------------------
+
 QString Util::getOpenFileName(QWidget *parent, const QString &caption,
         const QString &dir, const QString &filter) {
 #ifdef Q_OS_MACX
@@ -86,11 +85,11 @@ QString Util::getOpenFileName(QWidget *parent, const QString &caption,
 #endif
     return QFileDialog::getOpenFileName(parent, caption, dir, filter);
 }
-//------------------------------------------------------------
+
 QString Util::getServerName() {
     return "www.zygrib.org";
 }
-//------------------------------------------------------------
+
 void Util::setApplicationProxy() {
     QNetworkProxy proxy;
 
@@ -121,7 +120,7 @@ void Util::setApplicationProxy() {
         QNetworkProxy::setApplicationProxy(proxy);
     }
 }
-//-------------------------------------------------------------------------------
+
 QNetworkRequest Util::makeNetworkRequest(QString url, double x0, double y0, double x1, double y1) {
     QNetworkRequest request;
     QString now = QTime::currentTime().toString("HHmmss");
@@ -145,7 +144,7 @@ QNetworkRequest Util::makeNetworkRequest(QString url, double x0, double y0, doub
     validArea(request, x0, y0, x1, y1);
     return request;
 }
-//======================================================================
+
 bool Util::isDirWritable(const QDir &dir) {
     if (!dir.exists()) {
         return false;
@@ -166,7 +165,6 @@ bool Util::isDirWritable(const QDir &dir) {
     }
 }
 
-//======================================================================
 float Util::convertTemperature(float tempKelvin) {
     QString unit = Util::getSetting("unitsTemp", QVariant(tr("°C"))).toString();
     if (unit == tr("°K")) {
@@ -179,7 +177,7 @@ float Util::convertTemperature(float tempKelvin) {
         return tempKelvin - 273.15;
     }
 }
-//-------------------------------------------------------
+
 QString Util::formatTemperature(float tempKelvin, bool withUnit) {
     QString unit = Util::getSetting("unitsTemp", QVariant(tr("°C"))).toString();
     QString r;
@@ -195,7 +193,7 @@ QString Util::formatTemperature(float tempKelvin, bool withUnit) {
     }
     return (withUnit) ? r + "" + unit : r;
 }
-//-------------------------------------------------------
+
 QString Util::formatTemperature_short(float tempKelvin, bool withUnit) {
     QString unit = Util::getSetting("unitsTemp", tr("°C")).toString();
     QString r;
@@ -211,7 +209,7 @@ QString Util::formatTemperature_short(float tempKelvin, bool withUnit) {
     }
     return (withUnit) ? r + "" + unit : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatSpeed(float meterspersecond, bool withUnit, QString unit) {
     QString r;
     if (unit == "m/s") {
@@ -228,24 +226,24 @@ QString Util::formatSpeed(float meterspersecond, bool withUnit, QString unit) {
     }
     return (withUnit) ? r + " " + unit : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatSpeed_Wind(float meterspersecond, bool withUnit) {
     QString unit = Util::getSetting("unitsWindSpeed", tr("km/h")).toString();
     return Util::formatSpeed(meterspersecond, withUnit, unit);
 }
-//----------------------------------------------------------------
+
 QString Util::formatSpeed_Current(float meterspersecond, bool withUnit) {
     QString unit = Util::getSetting("unitsCurrentSpeed", tr("kts")).toString();
     return Util::formatSpeed(meterspersecond, withUnit, unit);
 }
-//----------------------------------------------------------------
+
 QString Util::formatDirection(float angle, bool withUnit) {
     QString unite = tr("°");
     QString r;
     r.sprintf("%d", (int)(angle + 0.5));
     return (withUnit) ? r + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatDistance(float mille, bool withUnit) {
     QString unit = Util::getSetting("unitsDistance", tr("km")).toString();
     QString r;
@@ -269,15 +267,15 @@ QString Util::formatDistance(float mille, bool withUnit) {
     }
     return (withUnit) ? r + " " + unit : r;
 }
-//----------------------------------------------------------------
+
 QString Util::getDataUnit(int dataType) {
     return getDataUnit(DataCode(dataType, LV_GND_SURF, 0));
 }
-//----------------------------------------------------------------
+
 QByteArray Util::sha1(const QByteArray &v) {
     return QCryptographicHash::hash(v, QCryptographicHash::Sha1).toHex();
 }
-//----------------------------------------------------------------
+
 QString Util::encode(const QString &v, const QString &k) {
     QByteArray pv = v.toUtf8();
     QString ke = k.trimmed();
@@ -296,7 +294,7 @@ QString Util::encode(const QString &v, const QString &k) {
     }
     return QString(re.toBase64());
 }
-//----------------------------------------------------------------
+
 QString Util::decode(const QString &v, const QString &k) {
     QByteArray pv = QByteArray::fromBase64(v.toUtf8());
     QString ke = k.trimmed();
@@ -315,7 +313,7 @@ QString Util::decode(const QString &v, const QString &k) {
     }
     return QString(re);
 }
-//----------------------------------------------------------------
+
 QString Util::getDataUnit(const DataCode &dtc) {
     QString unit;
     switch (dtc.dataType) {
@@ -413,7 +411,7 @@ QString Util::getDataUnit(const DataCode &dtc) {
     }
     return "?";
 }
-//----------------------------------------------------------------
+
 double Util::getDataCoef(const DataCode &dtc) {
     QString unit;
     switch (dtc.dataType) {
@@ -439,7 +437,7 @@ double Util::getDataCoef(const DataCode &dtc) {
     }
     return 1.0;
 }
-//----------------------------------------------------------------
+
 QString Util::formatGeopotAltitude(float meter, bool withUnit) {
     QString unite = Util::getDataUnit(DataCode(GRB_GEOPOT_HGT, LV_ISOBARIC, 0));
     double coef = Util::getDataCoef(DataCode(GRB_GEOPOT_HGT, LV_ISOBARIC, 0));
@@ -448,7 +446,7 @@ QString Util::formatGeopotAltitude(float meter, bool withUnit) {
     r.sprintf("%d", d);
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatRain(float mmh, bool withUnit) {
     QString unite = Util::getDataUnit(DataCode(GRB_PRECIP_TOT, LV_GND_SURF, 0));
     QString r;
@@ -460,7 +458,7 @@ QString Util::formatRain(float mmh, bool withUnit) {
     }
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatPressure(float pasc, bool withUnit, int precision) {
     QString unite = Util::getDataUnit(DataCode(GRB_PRESSURE_MSL, LV_MSL, 0));
     QString r;
@@ -474,14 +472,14 @@ QString Util::formatPressure(float pasc, bool withUnit, int precision) {
     }
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatCAPEsfc(float jkg, bool withUnit) {
     QString unite = Util::getDataUnit(DataCode(GRB_CAPE, LV_GND_SURF, 0));
     QString r;
     r.sprintf("%d", qRound(jkg));
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatWaveHeight(float meter, bool withUnit) {
     QString unit = Util::getSetting("waveHeightUnit", tr("m")).toString();
     QString r, unite;
@@ -502,18 +500,18 @@ QString Util::formatWaveHeight(float meter, bool withUnit) {
     }
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatWavePeriod(float second, bool withUnit) {
     QString unit = Util::getSetting("waveHeightPeriod", tr("s")).toString();
     QString r;
     r.sprintf("%.0f", second);
     return (withUnit) ? r + " " + unit : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatWaveDirection(float angle, bool withUnit) {
     return formatDirection(angle, withUnit);
 }
-//----------------------------------------------------------------
+
 QString Util::formatWhiteCap(float prb, bool withUnit) {
     QString unite = "%";
     QString r;
@@ -526,7 +524,7 @@ QString Util::formatWhiteCap(float prb, bool withUnit) {
     }
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatSnowDepth(float meter, bool withUnit) {
     QString unit = Util::getSetting("snowDepthUnit", tr("m")).toString();
     QString r, unite;
@@ -548,7 +546,7 @@ QString Util::formatSnowDepth(float meter, bool withUnit) {
     }
     return (withUnit) ? r + " " + unite : r;
 }
-//----------------------------------------------------------------
+
 QString Util::formatDegres(float x, bool inf100) // 123.4 -> 123°24.00'
 {
     const char *cdeg = "°";
@@ -592,7 +590,7 @@ QString Util::formatDegres(float x, bool inf100) // 123.4 -> 123°24.00'
     }
     return r;
 }
-//---------------------------------------------------------------------
+
 QString Util::formatPosition(float x, float y) // 123°24.00'W 45°67.89'N
 {
     if (Util::getSetting("orderLatitudeLongitude", true).toBool()) {
@@ -602,7 +600,7 @@ QString Util::formatPosition(float x, float y) // 123°24.00'W 45°67.89'N
         return formatLongitude(x) + " " + formatLatitude(y);
     }
 }
-//---------------------------------------------------------------------
+
 QString Util::formatLongitude(float x) {
     QString dir = Util::getSetting("longitudeDirection", "").toString();
     while (x > 360) {
@@ -647,7 +645,7 @@ QString Util::formatLongitude(float x) {
         }
     }
 }
-//---------------------------------------------------------------------
+
 QString Util::formatLatitude(float y) {
     QString dir = Util::getSetting("latitudeDirection", "").toString();
     if (dir == "South+") {
@@ -666,7 +664,7 @@ QString Util::formatLatitude(float y) {
         }
     }
 }
-//---------------------------------------------------------------------
+
 QString Util::formatPercentValue(float v, bool withUnit) {
     if (v == GRIB_NOTDEF) {
         return withUnit ? "    %%" : "   ";
@@ -697,7 +695,6 @@ QString Util::formatPercentValue(float v, bool withUnit) {
     return r;
 }
 
-//======================================================================
 QString Util::formatDayName(QDate dt) {
     QString sday;
     if (getSetting("appLanguage", "").toString() == "fr") {
@@ -734,17 +731,17 @@ QString Util::formatDayName(QDate dt) {
     }
     return sday;
 }
-//------------------------------------------------
+
 QString Util::formatDayName(time_t t) {
     QDateTime dt = applyTimeZone(t);
     return formatDayName(dt.date());
 }
-//------------------------------------------------
+
 int Util::getDayNum(time_t t) {
     QDateTime dt = applyTimeZone(t);
     return dt.date().dayOfWeek();
 }
-//------------------------------------------------
+
 QString Util::formatDateLong(time_t t, bool localTime) {
     QDateTime dt;
     if (localTime) {
@@ -755,7 +752,7 @@ QString Util::formatDateLong(time_t t, bool localTime) {
     }
     return formatDayName(dt.date()) + " " + formatDateShort(t);
 }
-//---------------------------------------------------------------------
+
 QString Util::formatDateShort(time_t t) {
     QDateTime dt = applyTimeZone(t);
     if (getSetting("appLanguage", "").toString() == "fr") {
@@ -765,21 +762,21 @@ QString Util::formatDateShort(time_t t) {
         return dt.toString("yyyy-MM-dd");
     }
 }
-//---------------------------------------------------------------------
+
 QString Util::formatDateTimeLong(time_t t) {
     return formatDateLong(t) + " " + formatTime(t);
 }
-//---------------------------------------------------------------------
+
 QString Util::formatDateTimeShort(time_t t) {
     return formatDateShort(t) + " " + formatTime(t);
 }
-//---------------------------------------------------------------------
+
 QString Util::formatTime(time_t t) {
     QString suffix;
     QDateTime dt = applyTimeZone(t, &suffix);
     return dt.toString("hh:mm ") + suffix;
 }
-//---------------------------------------------------------------------
+
 QDateTime Util::applyTimeZone(time_t t, QString *suffix) {
     QDateTime dt;
     dt.setTime_t(t);
@@ -815,7 +812,7 @@ QDateTime Util::applyTimeZone(time_t t, QString *suffix) {
 
     return dt;
 }
-//-------------------------------------------------------------------------------
+
 void Util::validArea(QNetworkRequest &request, double x0, double y0, double x1, double y1) {
     int c1 = (int)floor(fabs((17.6 * x0 + 89.23 * x1 - 7.23 * y0) * y1));
     int c2 = (int)ceil(fabs((37.12 * x0 - 53.2 * x1 + 7.23) * y0 * y1));
@@ -823,7 +820,7 @@ void Util::validArea(QNetworkRequest &request, double x0, double y0, double x1, 
     QTextStream(&formatrange) << c1 << "-" << c2;
     request.setRawHeader("Range", qPrintable(formatrange));
 }
-//============================================================================
+
 double Util::distancePointSegment(double a, double b, // point
         double x0, double y0, // segment start
         double x1, double y1 // segment end
@@ -864,7 +861,7 @@ double Util::distancePointSegment(double a, double b, // point
     }
     return dist;
 }
-//----------------------------------------------------------------
+
 double Util::roundMultiple(double x, double mul) {
     int sg;
     if (x < 0) {
@@ -876,7 +873,7 @@ double Util::roundMultiple(double x, double mul) {
     }
     return sg * ((int)floor(x / mul + 0.5)) * mul;
 }
-//----------------------------------------------------------------
+
 time_t Util::timestampSetHour(time_t t, int hour, int min, int sec) {
     struct tm dt;
     memcpy(&dt, gmtime(&t), sizeof(struct tm)); // no gmtime_r in windows mingw
@@ -885,7 +882,7 @@ time_t Util::timestampSetHour(time_t t, int hour, int min, int sec) {
     dt.tm_sec = sec;
     return mktime(&dt);
 }
-//------------------------------------
+
 void Util::dumpchars(unsigned char *buf, size_t offset, size_t len) {
     for (size_t i = 0; i < len; i++) {
         unsigned char c = buf[i + offset];

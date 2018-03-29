@@ -34,7 +34,6 @@
 
 class SkewT;
 
-//-----------------------------------------------------------
 class PersPath : public QPainterPath {
 public:
     PersPath(SkewT *skewt);
@@ -51,7 +50,6 @@ private:
     QRectF rectglob;
 };
 
-//-----------------------------------------------------------
 class SkewT : public QWidget {
     Q_OBJECT
     friend class PersPath;
@@ -157,7 +155,7 @@ protected:
     bool printerRendering;
     void paintGlobalImage(QPainter &pnt);
 };
-//---------------------------------------------
+
 class MiniSkewT : public SkewT {
     Q_OBJECT
 public:
@@ -169,7 +167,6 @@ private:
     void paintPixmap(QPainter &pnt);
 };
 
-//---------------------------------------------
 class SkewTWindow : public QMainWindow {
     Q_OBJECT
 public:

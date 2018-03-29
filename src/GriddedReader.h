@@ -29,9 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GriddedRecord.h"
 #include "zuFile.h"
 
-//---------------------------------------------------------------
 // Minimal set of functions provided by a data reader.
-//---------------------------------------------------------------
+
 class GriddedReader : public DataReaderAbstract {
 public:
     GriddedReader() {}

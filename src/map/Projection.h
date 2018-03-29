@@ -100,7 +100,6 @@ private:
     void init(int w, int h, double cx, double cy, double scale);
 };
 
-//=========================================================
 class Projection_ZYGRIB : public Projection {
 public:
     Projection_ZYGRIB(int w, int h, double cx, double cy, double scale);
@@ -118,7 +117,6 @@ private:
     double dscale; // rapport scaley/scalex
 };
 
-//=========================================================
 class Projection_libproj : public Projection {
 public:
     Projection_libproj(int codeProj, int w, int h, double cx, double cy, double scale);
@@ -141,14 +139,13 @@ private:
     int currentProj;
 };
 
-//=========================================================
 class Projection_EQU_CYL : public Projection_libproj {
 public:
     Projection_EQU_CYL(int w, int h, double cx, double cy, double scale)
             : Projection_libproj(Projection::PROJ_EQU_CYL, w, h, cx, cy, scale) {}
     Projection_EQU_CYL *clone() { return new Projection_EQU_CYL(*this); }
 };
-//----------------------------------------------------------
+
 class Projection_CENTRAL_CYL : public Projection_libproj {
 public:
     Projection_CENTRAL_CYL(int w, int h, double cx, double cy, double scale)
@@ -157,14 +154,14 @@ public:
 
     void setVisibleAreaEarth() { setVisibleArea(-180, -72, 180, 72); }
 };
-//----------------------------------------------------------
+
 class Projection_MERCATOR : public Projection_libproj {
 public:
     Projection_MERCATOR(int w, int h, double cx, double cy, double scale)
             : Projection_libproj(Projection::PROJ_MERCATOR, w, h, cx, cy, scale) {}
     Projection_MERCATOR *clone() { return new Projection_MERCATOR(*this); }
 };
-//----------------------------------------------------------
+
 class Projection_MILLER : public Projection_libproj {
 public:
     Projection_MILLER(int w, int h, double cx, double cy, double scale)

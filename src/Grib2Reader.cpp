@@ -18,14 +18,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Grib2Reader.h"
 
-//-----------------------------------------------------
 Grib2Reader::Grib2Reader()
         : GribReader() {
 }
-//-----------------------------------------------------
+
 Grib2Reader::~Grib2Reader() {
 }
-//-------------------------------------------------------------------------------
+
 void Grib2Reader::openFile(const std::string fname,
         LongTaskProgress *taskProgress, int nbrecs) {
     allUnknownRecords.clear();
@@ -48,7 +47,7 @@ void Grib2Reader::openFile(const std::string fname,
         clean_all_vectors();
     }
 }
-//-------------------------------------------------------------------------------
+
 void Grib2Reader::openFilePriv(const std::string fname, int nbrecs) {
     //     debug("Open file: %s", fname.c_str());
     fileName = fname;
@@ -75,7 +74,7 @@ void Grib2Reader::openFilePriv(const std::string fname, int nbrecs) {
     }
     zu_close(file);
 }
-//-------------------------------------------------------------------------
+
 void Grib2Reader::seekgb_zu(ZUFILE *lugb, g2int iseek, g2int mseek, g2int *lskip, g2int *lgrib) { // g2clib function modified to use zuFile
     g2int k, k4, ipos, nread, lim, lengrib;
     uint32_t end;
@@ -109,7 +108,7 @@ void Grib2Reader::seekgb_zu(ZUFILE *lugb, g2int iseek, g2int mseek, g2int *lskip
     }
     free(cbuf);
 }
-//---------------------------------------------------------------------------------
+
 void Grib2Reader::readGrib2FileContent(int nbrecs) {
     fileSize = zu_filesize(file);
 
@@ -177,7 +176,7 @@ void Grib2Reader::readGrib2FileContent(int nbrecs) {
         free(cgrib);
     }
 }
-//---------------------------------------------------------------------------------
+
 void Grib2Reader::analyseRecords() {
     // Make a speed wind gust record from a vx and a vy records
     // TODO : display also gust direction

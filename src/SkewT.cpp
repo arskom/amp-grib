@@ -1,7 +1,6 @@
 
 #include "SkewT.h"
 
-//------------------------------------------------------
 SkewT::SkewT(int W, int H, QWidget *parent)
         : QWidget(parent) {
     setFocusPolicy(Qt::StrongFocus);
@@ -43,11 +42,11 @@ SkewT::SkewT(int W, int H, QWidget *parent)
     fillCINColor = QColor(240, 150, 150);
     surfaceLevelColor = QColor(60, 60, 60);
 }
-//------------------------------------------------------
+
 SkewT::~SkewT() {
     Util::cleanMapPointers(mapSaturatedAdiabats);
 }
-//------------------------------------------------------
+
 void SkewT::paintGlobalImage(QPainter &pnt) {
     sounding.compute_convective_levels(hpa0max, hpa0min);
 
@@ -85,20 +84,20 @@ void SkewT::paintGlobalImage(QPainter &pnt) {
     draw_sounding(pnt);
     draw_windArrows(pnt);
 }
-//------------------------------------------------------
+
 void SkewT::setSkewTSize(int W, int H) {
     this->W = W;
     this->H = H;
     setFixedSize(W, H);
     setTempPressLimits(tempCMax, hpaMin);
 }
-//------------------------------------------------------
+
 void SkewT::setConvectiveBase(double hpa0max, double hpa0min) {
     this->hpa0max = hpa0max;
     this->hpa0min = hpa0min;
     setTempPressLimits(tempCMax, hpaMin);
 }
-//------------------------------------------------------
+
 void SkewT::setConvectiveBase(QString cbase) {
     double hmax, hmin;
     QString p1, p2;
@@ -140,7 +139,7 @@ void SkewT::setConvectiveBase(QString cbase) {
         }
     }
 }
-//------------------------------------------------------
+
 void SkewT::initFromGriddedReader(GriddedReader *reader, double lon, double lat, time_t date) {
     if (!reader || !reader->isOk()) {
         return;
@@ -230,7 +229,7 @@ void SkewT::initFromGriddedReader(GriddedReader *reader, double lon, double lat,
         surfaceHpa = GRIB_NOTDEF;
     }
 }
-//------------------------------------------------------
+
 PersPath *SkewT::newPath_saturatedAdiabat(double tempC) {
     double P, hpa0 = 1000;
     QPointF pt;
@@ -257,7 +256,7 @@ PersPath *SkewT::newPath_saturatedAdiabat(double tempC) {
     }
     return path;
 }
-//------------------------------------------------------
+
 void SkewT::draw_saturatedAdiabats(QPainter &pnt) {
     QPen pen(saturatedAdiabatColor);
     pen.setStyle(Qt::DashLine);
@@ -292,7 +291,7 @@ void SkewT::draw_saturatedAdiabats(QPainter &pnt) {
     pen.setStyle(Qt::SolidLine);
     pnt.setPen(pen);
 }
-//-------------------------------------------------------
+
 void PersPath::drawLabelPixel(QPainter &pnt, double pixel, const QString &txt) {
     double pos;
     if (pixel >= 0) {
@@ -303,7 +302,7 @@ void PersPath::drawLabelPixel(QPainter &pnt, double pixel, const QString &txt) {
     }
     this->drawLabelPercent(pnt, this->percentAtLength(pos), txt);
 }
-//-------------------------------------------------------
+
 void PersPath::drawLabelPercent(QPainter &pnt, double percent, const QString &txt) {
     QPointF pt = this->pointAtPercent(percent);
     double angle = this->angleAtPercent(percent);
@@ -324,7 +323,7 @@ void PersPath::drawLabelPercent(QPainter &pnt, double percent, const QString &tx
     pnt.drawText(rect, Qt::AlignCenter, txt);
     pnt.restore();
 }
-//------------------------------------------------------
+
 void SkewT::draw_dryAdiabats(QPainter &pnt) {
     QPen pen(dryAdiabatColor);
     pnt.setPen(pen);
@@ -359,7 +358,7 @@ void SkewT::draw_dryAdiabats(QPainter &pnt) {
         delete path;
     }
 }
-//------------------------------------------------------
+
 void SkewT::draw_mixingRatio(QPainter &pnt) {
     QPen pen(mixingRatioColor);
     pen.setStyle(Qt::DashLine);
@@ -383,7 +382,7 @@ void SkewT::draw_mixingRatio(QPainter &pnt) {
     pen.setStyle(Qt::SolidLine);
     pnt.setPen(pen);
 }
-//------------------------------------------------------
+
 void SkewT::draw_oneMixingRatioCurve(double mixr, QPainter &pnt) {
     double hpa, tempC;
     mixr = mixr / 1000.0; // g/kg => kg/kg
@@ -401,7 +400,7 @@ void SkewT::draw_oneMixingRatioCurve(double mixr, QPainter &pnt) {
                 QString("%1").arg(1000 * mixr));
     }
 }
-//------------------------------------------------------
+
 void SkewT::draw_temperatureScale(QPainter &pnt, bool withLabels) {
     QFontMetrics fmet(mainFont);
     double fh = fmet.lineSpacing();
@@ -458,7 +457,7 @@ void SkewT::draw_temperatureScale(QPainter &pnt, bool withLabels) {
         pnt.drawText(DX1 - fmet.width(txt) - 5, H - DY2 + fh, txt);
     }
 }
-//------------------------------------------------------
+
 void SkewT::draw_pressureScale(QPainter &pnt, bool withLabels) {
     QFontMetrics fmet(mainFont);
     QPen pen(pressureScaleColor);
@@ -502,7 +501,7 @@ void SkewT::draw_pressureScale(QPainter &pnt, bool withLabels) {
         pnt.drawLine(i0, j, i1, j);
     }
 }
-//------------------------------------------------------
+
 void SkewT::draw_surface_level(QPainter &pnt) {
     QFontMetrics fmet(mainFont);
     QPen pen(surfaceLevelColor);
@@ -515,7 +514,7 @@ void SkewT::draw_surface_level(QPainter &pnt) {
     j = (int)(hpa2pix(surfaceHpa) + 0.5);
     pnt.drawLine(i0, j, i1, j);
 }
-//------------------------------------------------------
+
 void SkewT::draw_altitudeScale(QPainter &pnt) {
     QPen pen(pressureScaleColor);
     pnt.setPen(pen);
@@ -539,20 +538,20 @@ void SkewT::draw_altitudeScale(QPainter &pnt) {
     }
     pnt.drawText(i + 4, DY1 - 6, "km");
 }
-//------------------------------------------------------
+
 // Conversions
-//------------------------------------------------------
+
 double SkewT::hpa2pix(double hpa) {
     return m2pix(Therm::hpa2m(hpa));
 }
-//------------------------------------------------------
+
 double SkewT::m2pix(double z) {
     double p0 = H - DY2; // level 0 m
     double pm = DY1; // level max
     double r = (altmMax - z) / (altmMax - altmMin) * (p0 - pm) + pm;
     return r;
 }
-//--------------------------------------------------------
+
 QPointF SkewT::tempPressPoint(double tempC, double hpa) {
     double jp = hpa2pix(hpa);
     double i0 = W - DX2 - (tempCMax - tempC) / deltaTemp; // temp coordinate on x-axis
@@ -561,17 +560,17 @@ QPointF SkewT::tempPressPoint(double tempC, double hpa) {
     double i1 = i0 + hp;
     return QPointF(i1, jp);
 }
-//--------------------------------------------------------
+
 QPointF SkewT::tempPressPoint(const TPoint &tp) {
     return tempPressPoint(tp.tempC, tp.hpa);
 }
-//------------------------------------------------------
+
 PersPath::PersPath(SkewT *skewt) {
     this->skewt = skewt;
     rectglob = skewt->getDiagramRectangle();
     isFirstPoint = true;
 }
-//------------------------------------------------------
+
 void PersPath::addPoint(QPointF &pt) {
     if (rectglob.contains(pt)) {
         if (isFirstPoint) {
@@ -586,7 +585,7 @@ void PersPath::addPoint(QPointF &pt) {
         isFirstPoint = true;
     }
 }
-//------------------------------------------------------
+
 void PersPath::addPointNoClip(QPointF &pt) {
     if (isFirstPoint) {
         this->moveTo(pt);
@@ -596,29 +595,28 @@ void PersPath::addPointNoClip(QPointF &pt) {
         this->lineTo(pt);
     }
 }
-//------------------------------------------------------
+
 void PersPath::fromTPCurve(TPCurve *curve) {
     foreach (TPoint pt, curve->points) {
         QPointF pf = skewt->tempPressPoint(pt.tempC, pt.hpa);
         addPoint(pf);
     }
 }
-//------------------------------------------------------
+
 QRect SkewT::getDiagramRectangle() const {
     return QRect(DX1, DY1, W - DX1 - DX2, H - DY1 - DY2);
 }
-//------------------------------------------------------
+
 void SkewT::addSoundingPoint(double hpa, double tempK, double dewpK) {
     sounding.addSoundingPointK(hpa, tempK, dewpK);
 }
-//------------------------------------------------------
+
 void SkewT::addSoundingPointWind(double hpa, double vx, double vy) {
     sounding.addSoundingPointWind(hpa, vx, vy);
 }
 
-//------------------------------------------------------
 // MiniSkewT
-//------------------------------------------------------
+
 MiniSkewT::MiniSkewT(int W, int H, QWidget *parent)
         : SkewT(W, H, parent) {
     DX1 = 0.04 * W;
@@ -633,12 +631,12 @@ MiniSkewT::MiniSkewT(int W, int H, QWidget *parent)
     deltaTemp = k * (m2 - m1) / 1000.0; // xxx °C/hpa
     deltaTemp = deltaTemp / (H - DY1 - DY2); // degrees/pixel
 }
-//----------------------------------------------
+
 void MiniSkewT::paintEvent(QPaintEvent *) {
     QPainter pnt(this);
     paintPixmap(pnt);
 }
-//------------------------------------------------------
+
 void MiniSkewT::paintPixmap(QPainter &pnt) {
     pnt.setClipRect(clipRect);
     pnt.setClipping(false);
@@ -651,16 +649,16 @@ void MiniSkewT::paintPixmap(QPainter &pnt) {
     draw_temperatureScale(pnt, false);
     draw_sounding(pnt);
 }
-//------------------------------------------------------
+
 QPixmap MiniSkewT::createPixmap() {
     QPixmap pixmap(W, H);
     QPainter pnt(&pixmap);
     paintPixmap(pnt);
     return pixmap;
 }
-//===========================================================
+
 // Paint SkewT
-//===========================================================
+
 void SkewT::paintEvent(QPaintEvent *) {
     if (!globalPixmap) {
         globalPixmap = new QPixmap(W, H);
@@ -676,11 +674,11 @@ void SkewT::paintEvent(QPaintEvent *) {
         pnt.drawPixmap(0, 0, *globalPixmap);
     }
 }
-//------------------------------------------------------
+
 void SkewT::resetGraphic() {
     setTempPressLimits(tempCMax, hpaMin);
 }
-//------------------------------------------------------
+
 void SkewT::setTempPressLimits(double tempCMax, double hpaMin) {
     sounding.invalidateConvectiveLevels();
     this->hpaMax = 1013.25;
@@ -715,7 +713,7 @@ void SkewT::setTempPressLimits(double tempCMax, double hpaMin) {
     }
     update();
 }
-//------------------------------------------------------
+
 void SkewT::fill_plain_area(QPainter &pnt, const QList<TPoint> &pts, const QColor &color) {
     QPainterPath path;
     TPoint pt;
@@ -735,7 +733,6 @@ void SkewT::fill_plain_area(QPainter &pnt, const QList<TPoint> &pts, const QColo
     pnt.setClipping(false);
 }
 
-//------------------------------------------------------
 void SkewT::draw_windArrows(QPainter &pnt) {
     foreach (SoundingPointWind sw, *sounding.getAllSoundsWind()) {
         QPointF pt = tempPressPoint(0, sw.hpa);
@@ -749,7 +746,7 @@ void SkewT::draw_windArrows(QPainter &pnt) {
                 true);
     }
 }
-//------------------------------------------------------
+
 void SkewT::draw_linesCAPE(QPainter &pnt) {
     if (!hasSoundingData()) {
         return;
@@ -829,7 +826,7 @@ void SkewT::draw_linesCAPE(QPainter &pnt) {
     }
     pnt.restore();
 }
-//------------------------------------------------------
+
 void SkewT::draw_comments(QPainter &pnt) {
     QFontMetrics fmet(pnt.font());
     double fw = fmet.width("W");
@@ -983,7 +980,7 @@ void SkewT::draw_comments(QPainter &pnt) {
 
     pnt.restore();
 }
-//------------------------------------------------------
+
 void SkewT::draw_sounding(QPainter &pnt) {
     if (hasSoundingData()) {
         // Sounding

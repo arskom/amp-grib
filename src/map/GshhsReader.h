@@ -44,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // greenwich:	1 if Greenwich is crossed
 // source:	0 = CIA WDBII, 1 = WVS
 
-//==========================================================
 class GshhsPoint {
 public:
     double lon, lat; // longitude, latitude
@@ -54,9 +53,8 @@ public:
     }
 };
 
-//==========================================================
 // GshhsPolygon  (compatible avec le format .rim de RANGS)
-//==========================================================
+
 class GshhsPolygon {
 public:
     GshhsPolygon(){};
@@ -84,9 +82,8 @@ protected:
     inline virtual int readInt2();
 };
 
-//==========================================================
 // GshhsPolygon_WDB     (entete de type GSHHS récent)
-//==========================================================
+
 class GshhsPolygon_WDB : public GshhsPolygon {
 public:
     GshhsPolygon_WDB(ZUFILE *file);
@@ -97,7 +94,6 @@ protected:
     inline virtual int readInt2();
 };
 
-//==========================================================
 class GshhsReader {
 public:
     GshhsReader(std::string fpath, int quality);
@@ -160,7 +156,6 @@ private:
     void clearLists();
 };
 
-//-------------------------------------------------
 inline int GshhsPolygon::readInt4() {
     unsigned char tab[4];
     if (zu_read(file, tab, 4) != 4) {
@@ -169,7 +164,6 @@ inline int GshhsPolygon::readInt4() {
     return ((int)tab[3] << 24) + ((int)tab[2] << 16) + ((int)tab[1] << 8) + ((int)tab[0]);
 }
 
-//-------------------------------------------------
 inline int GshhsPolygon_WDB::readInt4() { // pas le même indien
     unsigned char tab[4];
     if (zu_read(file, tab, 4) != 4) {
@@ -178,7 +172,6 @@ inline int GshhsPolygon_WDB::readInt4() { // pas le même indien
     return ((int)tab[0] << 24) + ((int)tab[1] << 16) + ((int)tab[2] << 8) + ((int)tab[3]);
 }
 
-//-------------------------------------------------
 inline int GshhsPolygon::readInt2() {
     unsigned char tab[2];
     if (zu_read(file, tab, 2) != 2) {
@@ -186,7 +179,7 @@ inline int GshhsPolygon::readInt2() {
     }
     return ((int)tab[1] << 8) + ((int)tab[0]);
 }
-//-------------------------------------------------
+
 inline int GshhsPolygon_WDB::readInt2() {
     unsigned char tab[2];
     if (zu_read(file, tab, 2) != 2) {

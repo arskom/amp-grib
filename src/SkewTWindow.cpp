@@ -1,7 +1,6 @@
 
 #include "SkewT.h"
 
-//---------------------------------------------------------------
 SkewTWindow::SkewTWindow(SkewT *skewt) {
     this->skewt = skewt;
     createToolBar();
@@ -25,25 +24,25 @@ SkewTWindow::SkewTWindow(SkewT *skewt) {
     skewt->setFocus(Qt::PopupFocusReason);
     setWindowTitle("SkewT - " + skewt->getLocation());
 }
-//------------------------------------------------------
+
 SkewTWindow::~SkewTWindow() {
     if (skewt) {
         delete skewt;
         skewt = NULL;
     }
 }
-//------------------------------------------------------
+
 void SkewTWindow::closeEvent(QCloseEvent *) {
     if (skewt) {
         delete skewt;
         skewt = NULL;
     }
 }
-//------------------------------------------------------
+
 void SkewTWindow::resizeEvent(QResizeEvent *) {
     Util::setSetting("skewt_windowGeometry", saveGeometry());
 }
-//---------------------------------------------------------------
+
 void SkewTWindow::createToolBar() {
     QToolBar *toolBar = addToolBar(tr("skewt"));
     toolBar->setFloatable(false);
@@ -153,7 +152,7 @@ void SkewTWindow::createToolBar() {
     cbConvBase->setEnabled(chkShowConv->isChecked());
     toolBar->addWidget(cbConvBase);
 }
-//---------------------------------------------------------------
+
 void SkewTWindow::actionsCommonSlot() {
     setCursor(Qt::WaitCursor);
     QObject *send = sender();
@@ -267,7 +266,7 @@ void SkewTWindow::actionsCommonSlot() {
     }
     unsetCursor();
 }
-//-------------------------------------------------------------------
+
 void SkewTWindow::saveFileSYLK(SylkFile &slk) {
     int lig, col;
     lig = 1;

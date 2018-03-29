@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogBoxColumn.h"
 #include "Util.h"
 
-//==============================================================================
 DialogBoxColumn::DialogBoxColumn(QWidget *parent,
         int nbColumn, QString windowTitle, QString title, int nbButtons)
         : DialogBoxBase(parent) {
@@ -103,18 +102,16 @@ DialogBoxColumn::DialogBoxColumn(QWidget *parent,
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogBoxColumn::slotBtOK() {
     accepted = true;
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogBoxColumn::slotBtCancel() {
     accepted = false;
     reject();
 }
 
-//-----------------------------------------------------------------------------
 void DialogBoxColumn::addLabeledWidget(int col, QString label, QWidget *widget) {
     if (col >= 0 && col < nbColumn) {
         layGui[col]->addWidget(new QLabel(label), currentLig[col], 0, Qt::AlignRight);

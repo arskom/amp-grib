@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "Version.h"
 
-//-------------------------------------------------------------------------------
 FileLoaderMBLUE::FileLoaderMBLUE(QNetworkAccessManager *manager, QWidget *parent)
         : FileLoader(manager) {
     this->parent = parent;
@@ -40,7 +39,7 @@ FileLoaderMBLUE::FileLoaderMBLUE(QNetworkAccessManager *manager, QWidget *parent
     zygriblog = "a07622b82b18524d2088c9b272bb3feeb0eb1737";
     zygribpwd = "61c9b2b17db77a27841bbeeabff923448b0f6388";
 }
-//-------------------------------------------------------------------------------
+
 FileLoaderMBLUE::~FileLoaderMBLUE() {
     if (reply_step1) {
         reply_step1->close();
@@ -52,7 +51,6 @@ FileLoaderMBLUE::~FileLoaderMBLUE() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderMBLUE::stop() {
     if (reply_step1) {
         reply_step1->close();
@@ -64,7 +62,6 @@ void FileLoaderMBLUE::stop() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderMBLUE::getMblueFile(
         float x0, float y0, float x1, float y1,
         float /*resolution*/, int interval, int days,
@@ -173,7 +170,6 @@ void FileLoaderMBLUE::getMblueFile(
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderMBLUE::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
     if (!downloadError) {
         if (sender() == reply_step1) {
@@ -186,7 +182,7 @@ void FileLoaderMBLUE::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
         }
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderMBLUE::downloadProgress(qint64 done, qint64 total) {
     if (downloadError) {
         step = 1000;
@@ -196,7 +192,7 @@ void FileLoaderMBLUE::downloadProgress(qint64 done, qint64 total) {
         emit signalGribReadProgress(step, done, total);
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderMBLUE::slotFinished_step1() {
     if (!downloadError) {
         QString page;
@@ -261,7 +257,6 @@ void FileLoaderMBLUE::slotFinished_step1() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderMBLUE::slotFinished_step2() {
     if (!downloadError) {
         //--------------------------------------------------

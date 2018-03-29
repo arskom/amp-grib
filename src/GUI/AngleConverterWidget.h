@@ -6,7 +6,6 @@
 
 #include "ui_AngleConverterWidget.h"
 
-//===========================================================
 class AngleConverterWidget
         : public QWidget,
           private Ui::AngleConverterWidget {

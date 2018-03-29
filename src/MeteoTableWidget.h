@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MTABLE_CURRENT_CELL 3
 #define MTABLE_SKEWT_CELL 4
 
-//===================================================================
 class TableCell : public QWidget {
     Q_OBJECT
 public:
@@ -59,7 +58,6 @@ protected:
     int borders;
 };
 
-//===================================================================
 class TableCell_SkewT : public TableCell {
     Q_OBJECT
 public:
@@ -80,7 +78,6 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
 };
 
-//===================================================================
 class TableCell_Wind : public TableCell {
     Q_OBJECT
 public:
@@ -99,7 +96,6 @@ protected:
     void paintEvent(QPaintEvent *event);
 };
 
-//===================================================================
 class TableCell_Current : public TableCell {
     Q_OBJECT
 public:
@@ -119,7 +115,6 @@ protected:
     void paintEvent(QPaintEvent *event);
 };
 
-//===================================================================
 class TableCell_Clouds : public TableCell {
     Q_OBJECT
 public:
@@ -135,7 +130,6 @@ protected:
     void paintEvent(QPaintEvent *event);
 };
 
-//===================================================================
 //
 class MTGribData {
 public:
@@ -154,7 +148,6 @@ public:
     int pos;
 };
 
-//===================================================================
 class MeteoTableWidget : public QWidget {
     Q_OBJECT
 public:

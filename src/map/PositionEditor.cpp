@@ -18,9 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "PositionEditor.h"
 
-//=====================================================
 // AngleEditor
-//=====================================================
+
 DegreeMinuteEditor::DegreeMinuteEditor(QWidget *parent,
         int degreMin, int degreMax)
         : QWidget(parent) {
@@ -55,7 +54,6 @@ DegreeMinuteEditor::DegreeMinuteEditor(QWidget *parent,
     setLayout(layout);
 }
 
-//-------------------------------------------------------
 double DegreeMinuteEditor::getValue() {
     double deg = angDeg->value();
     double min = angMin->value() / 60.0;
@@ -67,7 +65,6 @@ double DegreeMinuteEditor::getValue() {
     }
 }
 
-//=============================================================
 LongitudeEditor::LongitudeEditor(double val, QWidget *parent)
         : DegreeMinuteEditor(parent, 0, 359) {
     //printf("longitude constructor : val=%f\n", val);
@@ -124,7 +121,7 @@ LongitudeEditor::LongitudeEditor(double val, QWidget *parent)
     min = 60.0 * fabs(val - trunc(val));
     angMin->setValue(min);
 }
-//----------------------------------------------
+
 double LongitudeEditor::getValue() {
     QString signe = cbSigne->currentText();
     QString dir = cbDirection->currentText();
@@ -143,7 +140,6 @@ double LongitudeEditor::getValue() {
     return val;
 }
 
-//=============================================================
 LatitudeEditor::LatitudeEditor(double val, QWidget *parent)
         : DegreeMinuteEditor(parent, 0, 89) {
     //printf("latitude constructor : val=%f\n", val);
@@ -180,7 +176,6 @@ LatitudeEditor::LatitudeEditor(double val, QWidget *parent)
     angMin->setValue(min);
 }
 
-//----------------------------------------------
 double LatitudeEditor::getValue() {
     QString signe = cbSigne->currentText();
     QString dir = cbDirection->currentText();
@@ -198,7 +193,7 @@ double LatitudeEditor::getValue() {
 
     return val;
 }
-//-------------------------------------------------------------------------------
+
 void QStrinq::append(QByteArray in) {
     if (data == "") {
         data = in;
@@ -210,7 +205,7 @@ void QStrinq::append(QByteArray in) {
         }
     }
 }
-//=============================================================
+
 PositionEditor::PositionEditor(double lon, double lat, QWidget *parent)
         : QWidget(parent) {
     this->lon = lon;

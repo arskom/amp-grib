@@ -26,8 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogFonts.h"
 #include "Util.h"
 
-//==============================================================================
-//==============================================================================
 FontSelector::FontSelector(FontCode code, QString txtlabel, QWidget *parent)
         : QWidget(parent) {
     this->code = code;
@@ -52,14 +50,14 @@ FontSelector::FontSelector(FontCode code, QString txtlabel, QWidget *parent)
     lay->addWidget(btfont, 0, 1, Qt::AlignLeft);
     lay->addWidget(btdefault, 0, 2, Qt::AlignCenter);
 }
-//-----------------------------------------------------
+
 void FontSelector::btdefaultClicked() {
     font = Font::getDefaultFont(code);
     QString txt = font.family() + QString(" %1").arg(font.pointSize());
     btfont->setFont(font);
     btfont->setText(txt);
 }
-//-----------------------------------------------------
+
 void FontSelector::btfontClicked() {
     bool ok;
     QFont newfont = QFontDialog::getFont(&ok, font, this, tr("Choose a font"));
@@ -71,8 +69,6 @@ void FontSelector::btfontClicked() {
     }
 }
 
-//==============================================================================
-//==============================================================================
 DialogFonts::DialogFonts(QWidget *parent)
         : DialogBoxBase(parent) {
     setWindowTitle(tr("Fonts"));
@@ -113,23 +109,21 @@ DialogFonts::DialogFonts(QWidget *parent)
     connect(btOK, SIGNAL(clicked()), this, SLOT(slotBtOK()));
 }
 
-//-------------------------------------------------------------------------------
 void DialogFonts::slotBtOK() {
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogFonts::slotBtCancel() {
     reject();
 }
-//-------------------------------------------------------------------
+
 QFont DialogFonts::getFontItem(FontCode code) {
     FontSelector *fsel = hashFontSelectors.value(code);
     return fsel->getFont();
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 QFrame *DialogFonts::createFrameGui(QWidget *parent) {
     QFrame *frm = new QFrame(parent);
     int lig, col;

@@ -20,9 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "GribRecord.h"
 
-//-------------------------------------------------------------------------------
 // Adjust data type from different meteo center
-//-------------------------------------------------------------------------------
+
 void GribRecord::translateDataType() {
     this->knownData = true;
     //------------------------
@@ -243,9 +242,8 @@ void GribRecord::translateDataType() {
     }
 }
 
-//----------------------------------------------------------------------------
 // Try to detect ambiguous header from bad grib file providers :(
-//----------------------------------------------------------------------------
+
 bool GribRecord::verticalDataAreMirrored() {
     //---------------------------------------------
     // Malformed Maxsea grib file ?
@@ -287,7 +285,6 @@ bool GribRecord::verticalDataAreMirrored() {
     return false;
 }
 
-//-------------------------------------------------------------------------------
 void GribRecord::print(const char *title) {
     fprintf(stderr, "====== GribRecord %d : %s\n", id, title);
     fprintf(stderr, "idCenter=%d idModel=%d idGrid=%d\n", idCenter, idModel, idGrid);
@@ -302,9 +299,8 @@ void GribRecord::print(const char *title) {
             hasBMS, isScanIpositive, isScanJpositive, isAdjacentI);
 }
 
-//-------------------------------------------------------------------------------
 // Constructor
-//-------------------------------------------------------------------------------
+
 GribRecord::GribRecord() {
     ok = false;
     data = NULL;
@@ -312,9 +308,8 @@ GribRecord::GribRecord() {
     boolBMStab = NULL;
 }
 
-//-------------------------------------------------------------------------------
 // Lecture depuis un fichier
-//-------------------------------------------------------------------------------
+
 GribRecord::GribRecord(ZUFILE *file, int id_) {
     id = id_;
     seekStart = zu_tell(file);
@@ -378,9 +373,9 @@ GribRecord::GribRecord(ZUFILE *file, int id_) {
         //this->print("");
     }
 }
-//-------------------------------------------------------------------------------
+
 // Constructeur de recopie
-//-------------------------------------------------------------------------------
+
 GribRecord::GribRecord(const GribRecord &rec)
         : RegularGridRecord() {
     *this = rec;
@@ -412,7 +407,7 @@ GribRecord::GribRecord(const GribRecord &rec)
     }
     checkOrientation();
 }
-//--------------------------------------------------------------------------
+
 GribRecord::~GribRecord() {
     if (data) {
         delete[] data;
@@ -427,7 +422,7 @@ GribRecord::~GribRecord() {
         boolBMStab = NULL;
     }
 }
-//------------------------------------------------------------------------------
+
 void GribRecord::checkOrientation() {
     if (!ok || !data || ymin == ymax
             || Ni <= 1 || Nj <= 1) {
@@ -471,7 +466,7 @@ void GribRecord::checkOrientation() {
         Dj = fabs(Dj);
     }
 }
-//------------------------------------------------------------------------------
+
 void GribRecord::reverseData(char orientation) // orientation = 'H' or 'V'
 {
     int i, j, i1, j1, i2, j2;
@@ -508,25 +503,25 @@ void GribRecord::reverseData(char orientation) // orientation = 'H' or 'V'
         }
     }
 }
-//------------------------------------------------------------------------------
+
 void GribRecord::setDataCode(const DataCode &dtc) {
     dataType = dtc.dataType;
     levelType = dtc.levelType;
     levelValue = dtc.levelValue;
     dataKey = makeKey(dataType, levelType, levelValue);
 }
-//------------------------------------------------------------------------------
+
 void GribRecord::setDataType(const zuchar t) {
     dataType = t;
     dataKey = makeKey(dataType, levelType, levelValue);
 }
-//------------------------------------------------------------------------------
+
 std::string GribRecord::makeKey(int dataType, int levelType, int levelValue) { // Make data type key  sample:'11-100-850'
     char ktmp[32];
     snprintf(ktmp, 32, "%d-%d-%d", dataType, levelType, levelValue);
     return std::string(ktmp);
 }
-//-------------------------------------------------------------------------------
+
 void GribRecord::multiplyAllData(double k) {
     for (int j = 0; j < Nj; j++) {
         for (int i = 0; i < Ni; i++) {
@@ -537,12 +532,10 @@ void GribRecord::multiplyAllData(double k) {
     }
 }
 
-//==============================================================
 // Lecture des données
-//==============================================================
-//----------------------------------------------
+
 // SECTION 0: THE INDICATOR SECTION (IS)
-//----------------------------------------------
+
 bool GribRecord::readGribSection0_IS(ZUFILE *file) {
     char strgrib[4];
     fileOffset0 = zu_tell(file);
@@ -583,9 +576,9 @@ bool GribRecord::readGribSection0_IS(ZUFILE *file) {
 
     return true;
 }
-//----------------------------------------------
+
 // SECTION 1: THE PRODUCT DEFINITION SECTION (PDS)
-//----------------------------------------------
+
 bool GribRecord::readGribSection1_PDS(ZUFILE *file) {
     fileOffset1 = zu_tell(file);
     if (zu_read(file, data1, 28) != 28) {
@@ -638,9 +631,9 @@ bool GribRecord::readGribSection1_PDS(ZUFILE *file) {
     }
     return ok;
 }
-//----------------------------------------------
+
 // SECTION 2: THE GRID DESCRIPTION SECTION (GDS)
-//----------------------------------------------
+
 bool GribRecord::readGribSection2_GDS(ZUFILE *file) {
     if (!hasGDS) {
         return 0;
@@ -704,9 +697,9 @@ bool GribRecord::readGribSection2_GDS(ZUFILE *file) {
 
     return ok;
 }
-//----------------------------------------------
+
 // SECTION 3: BIT MAP SECTION (BMS)
-//----------------------------------------------
+
 bool GribRecord::readGribSection3_BMS(ZUFILE *file) {
     fileOffset3 = zu_tell(file);
     if (!hasBMS) {
@@ -730,9 +723,9 @@ bool GribRecord::readGribSection3_BMS(ZUFILE *file) {
     }
     return ok;
 }
-//----------------------------------------------
+
 // SECTION 4: BINARY DATA SECTION (BDS)
-//----------------------------------------------
+
 bool GribRecord::readGribSection4_BDS(ZUFILE *file) {
     fileOffset4 = zu_tell(file);
     sectionSize4 = readInt3(file); // byte 1-2-3
@@ -852,9 +845,8 @@ bool GribRecord::readGribSection4_BDS(ZUFILE *file) {
     return ok;
 }
 
-//----------------------------------------------
 // SECTION 5: END SECTION (ES)
-//----------------------------------------------
+
 bool GribRecord::readGribSection5_ES(ZUFILE *file) {
 
     // DBG ("7777? ftell=%ld %lx", zu_tell (file), zu_tell (file));
@@ -874,9 +866,8 @@ bool GribRecord::readGribSection5_ES(ZUFILE *file) {
     return ok;
 }
 
-//==============================================================
 // Fonctions utiles
-//==============================================================
+
 double GribRecord::readFloat4(ZUFILE *file) {
     unsigned char t[4];
     if (zu_read(file, t, 4) != 4) {
@@ -897,7 +888,7 @@ double GribRecord::readFloat4(ZUFILE *file) {
         return val;
     }
 }
-//----------------------------------------------
+
 zuchar GribRecord::readChar(ZUFILE *file) {
     zuchar t;
     if (zu_read(file, &t, 1) != 1) {
@@ -907,7 +898,7 @@ zuchar GribRecord::readChar(ZUFILE *file) {
     }
     return t;
 }
-//----------------------------------------------
+
 int GribRecord::readSignedInt3(ZUFILE *file) {
     unsigned char t[3];
     if (zu_read(file, t, 3) != 3) {
@@ -923,7 +914,7 @@ int GribRecord::readSignedInt3(ZUFILE *file) {
         return val;
     }
 }
-//----------------------------------------------
+
 int GribRecord::readSignedInt2(ZUFILE *file) {
     unsigned char t[2];
     if (zu_read(file, t, 2) != 2) {
@@ -939,7 +930,7 @@ int GribRecord::readSignedInt2(ZUFILE *file) {
         return val;
     }
 }
-//----------------------------------------------
+
 zuint GribRecord::readInt3(ZUFILE *file) {
     unsigned char t[3];
     if (zu_read(file, t, 3) != 3) {
@@ -949,7 +940,7 @@ zuint GribRecord::readInt3(ZUFILE *file) {
     }
     return ((zuint)t[0] << 16) + ((zuint)t[1] << 8) + (zuint)t[2];
 }
-//----------------------------------------------
+
 zuint GribRecord::readInt2(ZUFILE *file) {
     unsigned char t[2];
     if (zu_read(file, t, 2) != 2) {
@@ -959,15 +950,15 @@ zuint GribRecord::readInt2(ZUFILE *file) {
     }
     return ((zuint)t[0] << 8) + (zuint)t[1];
 }
-//----------------------------------------------
+
 zuint GribRecord::makeInt3(zuchar a, zuchar b, zuchar c) {
     return ((zuint)a << 16) + ((zuint)b << 8) + (zuint)c;
 }
-//----------------------------------------------
+
 zuint GribRecord::makeInt2(zuchar b, zuchar c) {
     return ((zuint)b << 8) + (zuint)c;
 }
-//----------------------------------------------
+
 zuint GribRecord::readPackedBits(zuchar *buf, zuint first, zuint nbBits) {
     zuint oct = first / 8;
     zuint bit = first % 8;
@@ -978,7 +969,6 @@ zuint GribRecord::readPackedBits(zuchar *buf, zuint first, zuint nbBits) {
     return val;
 }
 
-//----------------------------------------------
 void GribRecord::setRecordCurrentDate(time_t t) {
     curDate = t;
     struct tm *date = gmtime(&t);
@@ -989,7 +979,7 @@ void GribRecord::setRecordCurrentDate(time_t t) {
     zuint minute = date->tm_min;
     sprintf(strCurDate, "%04d-%02d-%02d %02d:%02d", year, month, day, hour, minute);
 }
-//----------------------------------------------
+
 zuint GribRecord::periodSeconds(zuchar unit, zuchar P1, zuchar P2, zuchar range) {
     zuint res, dur;
     switch (unit) {
@@ -1052,7 +1042,6 @@ zuint GribRecord::periodSeconds(zuchar unit, zuchar P1, zuchar P2, zuchar range)
     return res * dur;
 }
 
-//===============================================================================================
 double GribRecord::getInterpolatedValue(double px, double py, bool interpolate) const {
     double val;
     double eps = 1e-4;
@@ -1234,7 +1223,7 @@ double GribRecord::getInterpolatedValue(double px, double py, bool interpolate) 
     }
     return val;
 }
-//--------------------------------------------------------------------------
+
 double GribRecord::getValueOnRegularGrid(DataCode dtc, int i, int j) const {
     if (getDataCode() != dtc) {
         return GRIB_NOTDEF;
@@ -1243,7 +1232,7 @@ double GribRecord::getValueOnRegularGrid(DataCode dtc, int i, int j) const {
         return getValue(i, j);
     }
 }
-//--------------------------------------------------------------------------
+
 double GribRecord::getInterpolatedValue(
         DataCode dtc,
         double px, double py,

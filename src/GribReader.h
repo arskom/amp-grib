@@ -28,7 +28,6 @@ Lecture mise en mémoire d'un fichier GRIB
 #include "RegularGridded.h"
 #include "zuFile.h"
 
-//===============================================================
 class GribReader : public RegularGridReader {
 public:
     GribReader();

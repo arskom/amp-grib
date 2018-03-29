@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataDefines.h"
 #include "Util.h"
 
-//------------------------------------------------
 class ColorElement {
 public:
     ColorElement(double vmin, double vmax,
@@ -45,7 +44,6 @@ public:
     int rb, gb, bb; // rgb for vmax value
 };
 
-//------------------------------------------------
 class ColorScale {
 public:
     ColorScale();

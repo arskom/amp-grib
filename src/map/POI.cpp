@@ -27,14 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "POI_Editor.h"
 #include "Settings.h"
 
-//----------------------------------------------
 // added by Tim Holtschneider, 05.2010
 // list storing selected POIs
 QList<POI *> GLOB_listSelectedPOI;
 
-//-------------------------------------------------------------------------------
 // Read from old settings format (version <= 3.3.0)
-//-------------------------------------------------------------------------------
+
 POI::POI(QString seralizedPOI_oldFormat) //
         // Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow)
         : QWidget(NULL) {
@@ -60,7 +58,6 @@ POI::POI(QString seralizedPOI_oldFormat) //
     widgetFocus = NULL;
 }
 
-//-------------------------------------------------------------------------------
 POI::POI(uint code, QString name, double lon, double lat,
         Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow)
         : QWidget(parentWindow) {
@@ -79,7 +76,6 @@ POI::POI(uint code, QString name, double lon, double lat,
     widgetFocus = NULL;
 }
 
-//-------------------------------------------------------------------------------
 // Read POI's params from native settings file
 POI::POI(uint codeFromOldSettings) {
     valid = true;
@@ -89,7 +85,6 @@ POI::POI(uint codeFromOldSettings) {
     widgetFocus = NULL;
 }
 
-//-------------------------------------------------------------------------------
 // Read POI's params from current (.ini) settings file
 POI::POI(uint code,
         Projection *proj, QWidget *ownerSlotsPOI, QWidget *parentWindow)
@@ -103,7 +98,7 @@ POI::POI(uint code,
     adjustGeometry();
     widgetFocus = NULL;
 }
-//-------------------------------------------------------------------------------
+
 void POI::setDisplayParams(QColor markColor,
         QFont labelFont,
         QColor textColor,
@@ -121,7 +116,6 @@ void POI::setDisplayParams(QColor markColor,
     }
 }
 
-//-------------------------------------------------------------------------------
 void POI::readSettings(uint code, bool fnat) {
     name = Settings::getSettingPOI(code, "name", "", fnat).toString();
     if (name == "") {
@@ -136,7 +130,7 @@ void POI::readSettings(uint code, bool fnat) {
             Settings::getSettingPOI(code, "labelTextColor", QColor(Qt::black), fnat).value<QColor>(),
             Settings::getSettingPOI(code, "labelBgColor", QColor(Qt::white), fnat).value<QColor>());
 }
-//-------------------------------------------------------------------------------
+
 void POI::writeSettings() {
     //printf("write poi: %s\n", qPrintable(name));
     Settings::setSettingPOI(code, "name", name);
@@ -156,7 +150,6 @@ void POI::writeSettings() {
     Settings::setSettingPOI(code, "showLabel", showLabel);
 }
 
-//-------------------------------------------------------------------------------
 void POI::createWidget(QWidget *ownerSlotsPOI) {
     connect(proj, SIGNAL(projectionUpdated()), this, SLOT(projectionUpdated()));
     connect(this, SIGNAL(signalOpenMeteotablePOI(POI *)),
@@ -170,7 +163,6 @@ void POI::createWidget(QWidget *ownerSlotsPOI) {
     adjustGeometry();
 }
 
-//-------------------------------------------------------------------------------
 void POI::adjustGeometry() {
     if (proj == NULL) {
         return;
@@ -204,7 +196,6 @@ void POI::adjustGeometry() {
     }
 }
 
-//-------------------------------------------------------------------------------
 // serialized POI = "code;base64(name);lon;lat"
 QString POI::serialize() {
     QString r;
@@ -219,25 +210,21 @@ QString POI::serialize() {
     return r;
 }
 
-//-------------------------------------------------------------------------------
 void POI::setName(QString name) {
     this->name = name;
     setToolTip(tr("Point of interest: ") + name);
     adjustGeometry();
 }
 
-//-------------------------------------------------------------------------------
 void POI::setProjection(Projection *proj) {
     this->proj = proj;
     adjustGeometry();
 }
 
-//-------------------------------------------------------------------------------
 void POI::projectionUpdated() {
     setProjection(proj);
 }
 
-//-------------------------------------------------------------------------------
 void POI::drawContent(QPainter &pnt, Projection *proj, bool drawingInPixmap) {
     pnt.save();
     int dy = height() / 2;
@@ -268,13 +255,11 @@ void POI::drawContent(QPainter &pnt, Projection *proj, bool drawingInPixmap) {
     pnt.restore();
 }
 
-//-------------------------------------------------------------------------------
 void POI::paintEvent(QPaintEvent *) {
     QPainter pnt(this);
     drawContent(pnt, proj, false);
 }
 
-//=========================================================================
 void POI::enterEvent(QEvent *) {
     //printf("POI::enterEvent\n");
     enterCursor = cursor();
@@ -284,7 +269,7 @@ void POI::enterEvent(QEvent *) {
     this->setEnabled(true);
     this->setFocus();
 }
-//-------------------------------------------------------------------------------
+
 void POI::leaveEvent(QEvent *) {
     //printf("POI::leaveEvent\n");
     setCursor(enterCursor);
@@ -293,7 +278,6 @@ void POI::leaveEvent(QEvent *) {
     }
 }
 
-//=========================================================================
 void POI::keyPressEvent(QKeyEvent *e) {
     //printf("POI::keyPressEvent\n");
     if (isMovable && e->modifiers() == Qt::ControlModifier) {
@@ -302,11 +286,11 @@ void POI::keyPressEvent(QKeyEvent *e) {
         setCursor(Qt::SizeAllCursor);
     }
 }
-//-------------------------------------------------------------------------------
+
 void POI::keyReleaseEvent(QKeyEvent *) {
     setCursor(Qt::PointingHandCursor);
 }
-//=========================================================================
+
 void POI::mouseMoveEvent(QMouseEvent *e) {
     if (moveInCourse) {
         int i, j; // position on screen
@@ -320,7 +304,7 @@ void POI::mouseMoveEvent(QMouseEvent *e) {
         }
     }
 }
-//---------------------------------------------------------
+
 void POI::mousePressEvent(QMouseEvent *e) {
     if (isMovable && e->modifiers() == Qt::ControlModifier) {
         moveInCourse = true; // Ctrl+Clic : move POI
@@ -337,7 +321,7 @@ void POI::mousePressEvent(QMouseEvent *e) {
         moveInCourse = false;
     }
 }
-//-------------------------------------------------------------------------------
+
 void POI::mouseReleaseEvent(QMouseEvent *e) {
     if (e->x() < 0 || e->x() > width() || e->y() < 0 || e->y() > height()) {
         return;
@@ -373,7 +357,7 @@ void POI::mouseReleaseEvent(QMouseEvent *e) {
     }
     moveInCourse = false;
 }
-//-------------------------------------------------------------------------------
+
 void POI::timerClickEvent() {
     if (countClick == 1) {
         // Single clic : Meteotable for this Point Of Interest
@@ -381,7 +365,7 @@ void POI::timerClickEvent() {
     }
     countClick = 0;
 }
-//-------------------------------------------------------------------------------
+
 // Restore background color for all selected POIs, TH20110103
 void POI::restoreBgOfSelectedPOIs() {
     QList<POI *>::iterator iterPOI;

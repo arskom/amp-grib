@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "GriddedPlotter.h"
 
-//--------------------------------------------------
 class DateChooserPopup : public QWidget {
     Q_OBJECT
 public:
@@ -42,7 +41,6 @@ private:
     QLabel label;
 };
 
-//--------------------------------------------------
 class DateChooser : public QWidget {
     Q_OBJECT
 public:

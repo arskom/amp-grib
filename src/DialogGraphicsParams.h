@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogBoxColumn.h"
 #include "ui_GraphicsParamsDialog.h"
 
-//-------------------------------------------
 class DialogChooseLang : public DialogBoxColumn {
     Q_OBJECT
 public:
@@ -60,7 +59,6 @@ private:
     QRadioButton *bt_ar;
 };
 
-//==============================================================
 class DialogGraphicsParams
         : public DialogBoxBase,
           private Ui_GraphicsParamsDialog {

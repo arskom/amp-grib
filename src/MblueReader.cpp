@@ -20,11 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataQString.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------
 MblueReader::MblueReader() {
     ok = false;
 }
-//-------------------------------------------------------------------
+
 void MblueReader::openFile(const std::string fname,
         bool fastInterpolation,
         LongTaskProgress *taskProgress) {
@@ -39,12 +38,12 @@ void MblueReader::openFile(const std::string fname,
         ok = false;
     }
 }
-//---------------------------------------------------
+
 MblueReader::~MblueReader() {
     // 	DBGS("Destroy MblueReader");
     Util::cleanMapPointers(mapRecords);
 }
-//-------------------------------------------------------------------
+
 bool MblueReader::getMeteoblueTotalArea(
         MeteoblueZone zone,
         double *x0, double *y0, double *x1, double *y1) {
@@ -60,7 +59,6 @@ bool MblueReader::getMeteoblueTotalArea(
     }
 }
 
-//-------------------------------------------------------------------
 void MblueReader::openFile(const std::string fname, bool fastInterpolation) {
     // 	DBG("MblueReader::loadFile '%s'", fname.c_str());
     fileName = fname;
@@ -182,7 +180,7 @@ void MblueReader::openFile(const std::string fname, bool fastInterpolation) {
         ok = false;
     }
 }
-//---------------------------------------------------------------------------
+
 MblueRecord *MblueReader::getMblueRecordByDate(time_t date) {
     std::map<time_t, MblueRecord *>::const_iterator iter;
     iter = mapRecords.find(date);
@@ -192,7 +190,7 @@ MblueRecord *MblueReader::getMblueRecordByDate(time_t date) {
     }
     return NULL;
 }
-//---------------------------------------------------------------------------
+
 GriddedRecord *MblueReader::getRecord(DataCode dtc, time_t date) {
     std::map<time_t, MblueRecord *>::const_iterator iter;
     iter = mapRecords.find(date);
@@ -205,7 +203,6 @@ GriddedRecord *MblueReader::getRecord(DataCode dtc, time_t date) {
     return NULL;
 }
 
-//---------------------------------------------------------------------------
 GriddedRecord *MblueReader::getFirstRecord() {
     if (mapRecords.size() > 0) {
         return mapRecords.begin()->second;
@@ -215,7 +212,6 @@ GriddedRecord *MblueReader::getFirstRecord() {
     }
 }
 
-//---------------------------------------------------------------------------
 double MblueReader::getDateInterpolatedValue(
         DataCode dtc, double px, double py, time_t date) {
     MblueRecord *rec = getMblueRecordByDate(date);
@@ -227,7 +223,6 @@ double MblueReader::getDateInterpolatedValue(
     }
 }
 
-//-------------------------------------------------------------------
 bool MblueReader::getZoneExtension(
         double *x0, double *y0, double *x1, double *y1) {
     MblueRecord *rec = mapRecords.begin()->second;
@@ -239,7 +234,6 @@ bool MblueReader::getZoneExtension(
     }
 }
 
-//-------------------------------------------------------------------
 void MblueReader::setFastInterpolation(bool b) {
     std::map<time_t, MblueRecord *>::const_iterator iter;
     for (iter = mapRecords.begin(); iter != mapRecords.end(); iter++) {
@@ -248,15 +242,14 @@ void MblueReader::setFastInterpolation(bool b) {
     }
 }
 
-//------------------------------------------------------------
 time_t MblueReader::getFirstRefDate() {
     return getRefDateForDataCenter(METEOBLUE_NMM4);
 }
-//------------------------------------------------------------
+
 time_t MblueReader::getRefDateForData(const DataCode &) {
     return getRefDateForDataCenter(METEOBLUE_NMM4);
 }
-//------------------------------------------------------------
+
 time_t MblueReader::getRefDateForDataCenter(const DataCenterModel &dcm) {
     std::map<time_t, MblueRecord *>::const_iterator iter;
     for (iter = mapRecords.begin(); iter != mapRecords.end(); iter++) {

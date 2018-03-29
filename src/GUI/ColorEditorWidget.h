@@ -5,7 +5,6 @@
 #include <QFrame>
 #include <QWidget>
 
-//===========================================================
 class ColorTestZone : public QWidget {
     Q_OBJECT
 public:
@@ -25,10 +24,8 @@ private:
     QColor color;
 };
 
-//===========================================================
 #include "ui_ColorEditorWidget.h"
 
-//===========================================================
 class /*QDESIGNER_WIDGET_EXPORT*/ ColorEditorWidget
         : public QWidget,
           private Ui::ColorEditorWidget {

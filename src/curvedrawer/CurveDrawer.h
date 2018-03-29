@@ -34,7 +34,6 @@
 #include <qwt6/qwt_plot_picker.h>
 #include <qwt6/qwt_scale_engine.h>
 
-//=====================================================================================
 //
 //
 class CurveDrawerButtonBar : public QToolBar {
@@ -64,9 +63,8 @@ private slots:
     void slotCommonActions();
 };
 
-//===================================================================
 // DataPlotter : dialog
-//===================================================================
+
 class CurveDrawer : public QWidget {
     Q_OBJECT
 

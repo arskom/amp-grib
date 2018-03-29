@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "IrregularGridded.h"
 #include "MblueReader.h"
 
-//===============================================================
 class MbluePlot : public IrregularGridPlot {
 public:
     MbluePlot();

@@ -18,16 +18,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Grib2Record.h"
 
-//----------------------------------------
 Grib2Record::Grib2Record()
         : GribRecord() {
     ok = false;
     verticalOrientationIsAmbiguous = false;
 }
-//----------------------------------------
+
 Grib2Record::~Grib2Record() {
 }
-//----------------------------------------
+
 Grib2Record::Grib2Record(gribfield *gfld, int id, int idCenter, time_t refDate)
         : GribRecord() {
     if (gfld->locallen != 0) {
@@ -184,7 +183,7 @@ Grib2Record::Grib2Record(gribfield *gfld, int id, int idCenter, time_t refDate)
     // this->print("");
     //========================
 }
-//---------------------------------------------------------------
+
 void Grib2Record::analyseProductDefinitionTemplate(gribfield *gfld) {
     if (gfld->ipdtlen < 15) {
         DBG("Missing parameters: ipdtlen=%ld", gfld->ipdtlen);
@@ -282,7 +281,7 @@ void Grib2Record::analyseProductDefinitionTemplate(gribfield *gfld) {
     // 		print("");
     // 	}
 }
-//----------------------------------------------
+
 void Grib2Record::readAltitude(gribfield *gfld) {
     qint64 surfaceType1 = gfld->ipdtmpl[9]; // Type of first fixed surface (see Code table 4.5)
     qint64 surfaceScale1 = gfld->ipdtmpl[10]; // Scale factor of first fixed surface
@@ -409,7 +408,7 @@ void Grib2Record::readAltitude(gribfield *gfld) {
         levelValue /= pow(10.0, surfaceScale1);
     }
 }
-//----------------------------------------------
+
 int Grib2Record::analyseProductType() {
     if (pdtnum < 0 || pdtnum > 65535
             || paramcat < 0 || paramcat > 65535) {
@@ -549,7 +548,7 @@ int Grib2Record::analyseProductType() {
     // 			);
     return GRB_TYPE_NOT_DEFINED;
 }
-//---------------------------------------------
+
 void Grib2Record::print(const char *title) {
     if (ok) {
         fprintf(stderr, "====== Grib2Record %d : %s\n", id, title);

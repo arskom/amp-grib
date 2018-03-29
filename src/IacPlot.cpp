@@ -19,18 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "IacPlot.h"
 #include "Font.h"
 
-//---------------------------------------------------
 IacPlot::IacPlot() {
     iacReader = NULL;
 }
 
-//---------------------------------------------------
 IacPlot::IacPlot(QString fname) {
     iacReader = NULL;
     loadFile(fname);
 }
 
-//---------------------------------------------------
 void IacPlot::loadFile(QString fname) {
     this->fileName = fname;
     if (iacReader != NULL) {
@@ -43,11 +40,10 @@ void IacPlot::loadFile(QString fname) {
         //iacReader->display_text();
     }
 }
-//---------------------------------------------------
+
 void IacPlot::updateGraphicsParameters() {
 }
 
-//======================================================================
 void IacPlot::draw_PRESSURE_TroughLines(QPainter &pnt, Projection *proj) {
     if (iacReader == NULL || !iacReader->isOk()) {
         return;
@@ -61,7 +57,7 @@ void IacPlot::draw_PRESSURE_TroughLines(QPainter &pnt, Projection *proj) {
         drawIacLine(lspoints, true, pnt, proj);
     }
 }
-//======================================================================
+
 void IacPlot::draw_PRESSURE_IsobarsLabels(QPainter &pnt, Projection *proj) {
     if (iacReader == NULL || !iacReader->isOk()) {
         return;
@@ -107,7 +103,7 @@ void IacPlot::draw_PRESSURE_IsobarsLabels(QPainter &pnt, Projection *proj) {
         }
     }
 }
-//======================================================================
+
 void IacPlot::draw_PRESSURE_Isobars(QPainter &pnt, Projection *proj) {
     if (iacReader == NULL || !iacReader->isOk()) {
         return;
@@ -121,7 +117,7 @@ void IacPlot::draw_PRESSURE_Isobars(QPainter &pnt, Projection *proj) {
         drawIacLine(lspoints, true, pnt, proj);
     }
 }
-//======================================================================
+
 void IacPlot::draw_PRESSURE_MinMax(QPainter &pnt, Projection *proj) {
     if (iacReader == NULL || !iacReader->isOk()) {
         return;
@@ -167,7 +163,6 @@ void IacPlot::draw_PRESSURE_MinMax(QPainter &pnt, Projection *proj) {
     }
 }
 
-//==========================================================================
 // Rectangle translucide sur la zone couverte par les données
 void IacPlot::show_CoverZone(QPainter &pnt, const Projection *proj) {
     if (iacReader == NULL || !iacReader->isOk()) {
@@ -188,7 +183,6 @@ void IacPlot::show_CoverZone(QPainter &pnt, const Projection *proj) {
     }
 }
 
-//======================================================================
 void IacPlot::IacPlot::draw_FRONT_all(QPainter &pnt, Projection *proj) {
     if (iacReader == NULL || !iacReader->isOk()) {
         return;
@@ -223,7 +217,7 @@ void IacPlot::IacPlot::draw_FRONT_all(QPainter &pnt, Projection *proj) {
         drawIacLine(lspoints, true, pnt, proj);
     }
 }
-//---------------------------------------------------------------------
+
 void IacPlot::drawIacLine(std::vector<IAC_Point *> &lspoints, bool smooth,
         QPainter &pnt, Projection *proj) {
     pnt.setBrush(Qt::NoBrush);
@@ -258,7 +252,7 @@ void IacPlot::drawIacLine(std::vector<IAC_Point *> &lspoints, bool smooth,
         }
     }
 }
-//---------------------------------------------------------------------
+
 void IacPlot::makeBezierPath(QPainterPath &path,
         std::vector<IAC_Point *> &lspoints,
         double offsetX,

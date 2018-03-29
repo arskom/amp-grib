@@ -1,7 +1,6 @@
 
 #include "Therm.h"
 
-//----------------------------------------------------------------------
 double Therm::hpa2m(double hpa) {
     const double L = -6.5e-3;
     const double Ra = 287.05;
@@ -11,7 +10,7 @@ double Therm::hpa2m(double hpa) {
     double Ps = hpa * 100;
     return (Tb * pow(Pb / Ps, L * Ra / gb) - Tb) / L;
 }
-//------------------------------------------------------
+
 double Therm::m2hpa(double z) {
     const double L = -6.5e-3;
     const double Ra = 287.05;
@@ -21,13 +20,13 @@ double Therm::m2hpa(double z) {
     double Ps = Pb / pow((z * L + Tb) / Tb, gb / L / Ra);
     return Ps / 100.0;
 }
-//------------------------------------------------------
+
 double Therm::gByAlt(double z) {
     const double R = 6378 * 1e3;
     const double g0 = 9.81;
     return g0 * R * R / ((R + z) * (R + z));
 }
-//------------------------------------------------------
+
 double Therm::vaporPressure(double tempC) {
     // August-Roche-Magnus formula
     // http://en.wikipedia.org/wiki/Clausius%E2%80%93Clapeyron_relation
@@ -36,7 +35,7 @@ double Therm::vaporPressure(double tempC) {
     const double C = 6.1094;
     return C * exp(A * tempC / (tempC + B)); // hPa
 }
-//------------------------------------------------------
+
 double Therm::tempFromVaporPressure(double hpa) {
     // inverse August-Roche-Magnus formula
     // http://en.wikipedia.org/wiki/Clausius%E2%80%93Clapeyron_relation
@@ -46,26 +45,26 @@ double Therm::tempFromVaporPressure(double hpa) {
     double esc = log(hpa / C);
     return B * esc / (A - esc);
 }
-//------------------------------------------------------
+
 double Therm::mixingRatio(double tempC, double hpa) {
     const double eps = 0.622;
     double psat = vaporPressure(tempC);
     return eps * psat / (hpa - psat);
 }
-//------------------------------------------------------
+
 double Therm::tempFromMixingRatio(double mixr, double hpa) {
     const double eps = 0.622;
     double psat = hpa * mixr / (eps + mixr);
     return tempFromVaporPressure(psat);
 }
-//------------------------------------------------------
+
 double Therm::virtualTemperatureC(double tempC, double hpa) {
     double r = Therm::mixingRatio(tempC, hpa);
     double tv = (tempC + 273.15) * (1.0 + 0.61 * r) - 273.15;
     //DBG ("T=%g TV=%g    r=%g", tempC,tv, r);
     return tv;
 }
-//------------------------------------------------------
+
 double Therm::specHumidFromRelative(double tempK, double hr) {
     // Nadeau et Puiggali formula: http://fr.wikipedia.org/wiki/Humidit%C3%A9_sp%C3%A9cifique
     double rap = 472.68 / tempK;
@@ -73,7 +72,7 @@ double Therm::specHumidFromRelative(double tempK, double hr) {
     hr = hr / 100.0; // 0..100 -> 0..1
     return 0.622 * psat * hr / (101325 - psat * hr);
 }
-//------------------------------------------------------
+
 double Therm::relHumidFromSpecific(double tempK, double hs) {
     double ps = exp(23.3265 - 3802.7 / tempK - (472.68 * 472.68) / (tempK * tempK));
     double hr = 100.0 * (101325.0 * hs / ((0.622 + hs) * ps));
@@ -85,14 +84,14 @@ double Therm::relHumidFromSpecific(double tempK, double hs) {
     }
     return hr;
 }
-//----------------------------------------------------------------------
+
 double Therm::thetaEfromHR(double tempK, double hpa, double hr) {
     if (hr == GRIB_NOTDEF || hpa == GRIB_NOTDEF || tempK == GRIB_NOTDEF) {
         return GRIB_NOTDEF;
     }
     return thetaEfromHS(tempK, hpa, specHumidFromRelative(tempK, hr));
 }
-//----------------------------------------------------------------------
+
 double Therm::thetaEfromHS(double tempK, double hpa, double hs) {
     if (tempK == GRIB_NOTDEF || hpa == GRIB_NOTDEF || hs == GRIB_NOTDEF
             || hs == 1.0 || hpa == 0.0) {
@@ -119,7 +118,7 @@ double Therm::thetaEfromHS(double tempK, double hpa, double hs) {
     thetae = (tempK + Lv / Cp * mr) * pow(P0 / hpa, Rd / Cp);
     return thetae;
 }
-//------------------------------------------------------
+
 double Therm::latentHeatWater(double tempC) // J/kg
 {
     // http://en.wikipedia.org/wiki/Latent_heat
@@ -129,7 +128,7 @@ double Therm::latentHeatWater(double tempC) // J/kg
     const double D = 2500.79;
     return 1000.0 * (A * tempC * tempC * tempC + B * tempC * tempC + C * tempC + D);
 }
-//------------------------------------------------------
+
 double Therm::gammaSaturatedAdiabatic(double tempC, double hpa) {
     // return saturated adiabatic lapse rate in Kelvin/m
     const double g = 9.8076; // m/s2
@@ -143,7 +142,7 @@ double Therm::gammaSaturatedAdiabatic(double tempC, double hpa) {
     return g * (1.0 + r) * (1.0 + Hv * r / (Rsd * T))
             / (Cpd + r * Cpv + Hv * Hv * r * (eps + r) / (Rsd * T * T));
 }
-//------------------------------------------------------
+
 double Therm::saturated_dT_dP(double tempC, double hpa) {
     const double Rd = 287.053; // J kg−1 K−1;
     const double Rv = 461.5; // J kg−1 K−1;
@@ -155,7 +154,6 @@ double Therm::saturated_dT_dP(double tempC, double hpa) {
     return gamma / (g * rho);
 }
 
-//------------------------------------------------------
 double Therm::saturatedAdiabaticTemperature(double tempC0, double hpa0, double hpa) {
     double deltap = 0.1;
     double T = tempC0;
@@ -173,7 +171,7 @@ double Therm::saturatedAdiabaticTemperature(double tempC0, double hpa0, double h
     }
     return T;
 }
-//------------------------------------------------------
+
 void Therm::curveSaturatedAdiabatic(TPCurve *curve, double tempC0, double hpa0, double hpaLimit, double step) {
     double T, P;
     curve->clear();
@@ -192,18 +190,18 @@ void Therm::curveSaturatedAdiabatic(TPCurve *curve, double tempC0, double hpa0, 
         }
     }
 }
-//------------------------------------------------------
+
 void Therm::curveSaturatedAdiabatic(TPCurve *curve, TPoint &start, double hpaLimit, double step) {
     Therm::curveSaturatedAdiabatic(curve, start.tempC, start.hpa, hpaLimit, step);
 }
-//------------------------------------------------------
+
 double Therm::dryAdiabaticTemperature(double hpa0, double t0, double hpa) {
     const double R = 8.314472;
     const double Ma = 0.029;
     const double Cpa = 1005;
     return (t0 + 273.15) * pow(hpa / hpa0, R / (Ma * Cpa)) - 273.15;
 }
-//------------------------------------------------------
+
 double Therm::dryAdiabaticPressure(double hpa0, double t0, double tempC) {
     const double R = 8.314472;
     const double Ma = 0.029;
@@ -211,31 +209,30 @@ double Therm::dryAdiabaticPressure(double hpa0, double t0, double tempC) {
     return hpa0 * pow((tempC + 273.15) / (t0 + 273.15), (Ma * Cpa) / R);
 }
 
-//===================================================================
 // Sounding
-//===================================================================
+
 Sounding::Sounding() {
     levelsAreValid = false;
     levelsAreValid = false;
 }
-//------------------------------------------------------
+
 void Sounding::addSoundingPointC(double hpa, double tempC, double dewpC) {
     allSounds << SoundingPoint(hpa, tempC, dewpC);
     qSort(allSounds);
     levelsAreValid = false;
 }
-//------------------------------------------------------
+
 void Sounding::addSoundingPointK(double hpa, double tempK, double dewpK) {
     addSoundingPointC(hpa, tempK - 273.15, dewpK - 273.15);
 }
-//------------------------------------------------------
+
 void Sounding::addSoundingPointWind(double hpa, double vx, double vy) {
     if (vx != GRIB_NOTDEF && vy != GRIB_NOTDEF) {
         allSoundsWind << SoundingPointWind(hpa, vx, vy);
         levelsAreValid = false;
     }
 }
-//------------------------------------------------------
+
 double Sounding::hpaMax() {
     if (allSounds.size() > 0) {
         return allSounds[allSounds.size() - 1].hpa;
@@ -244,7 +241,7 @@ double Sounding::hpaMax() {
         return GRIB_NOTDEF;
     }
 }
-//------------------------------------------------------
+
 double Sounding::hpaMin() {
     if (allSounds.size() > 0) {
         return allSounds[0].hpa;
@@ -253,7 +250,7 @@ double Sounding::hpaMin() {
         return GRIB_NOTDEF;
     }
 }
-//------------------------------------------------------
+
 SoundingPointWind Sounding::getWindByAlt(double hpa) {
     for (int i = 0; i < allSoundsWind.size(); i++) {
         SoundingPointWind pw = allSoundsWind[i];
@@ -263,7 +260,7 @@ SoundingPointWind Sounding::getWindByAlt(double hpa) {
     }
     return SoundingPointWind();
 }
-//------------------------------------------------------
+
 double Sounding::getTempCByAlt(double hpa) {
     double res = GRIB_NOTDEF;
     bool found = false;
@@ -287,7 +284,7 @@ double Sounding::getTempCByAlt(double hpa) {
     }
     return res;
 }
-//------------------------------------------------------
+
 double Sounding::getDewpCByAlt(double hpa) {
     double res = GRIB_NOTDEF;
     bool found = false;
@@ -311,7 +308,7 @@ double Sounding::getDewpCByAlt(double hpa) {
     }
     return res;
 }
-//------------------------------------------------------
+
 double Sounding::getAvgTempCByAlt(double hpa1, double hpa2) {
     Util::orderMinMax(hpa1, hpa2);
     int n = 0;
@@ -325,7 +322,7 @@ double Sounding::getAvgTempCByAlt(double hpa1, double hpa2) {
     }
     return (n > 0) ? res / n : GRIB_NOTDEF;
 }
-//------------------------------------------------------
+
 double Sounding::getAvgDewpCByAlt(double hpa1, double hpa2) {
     Util::orderMinMax(hpa1, hpa2);
     int n = 0;
@@ -339,7 +336,7 @@ double Sounding::getAvgDewpCByAlt(double hpa1, double hpa2) {
     }
     return (n > 0) ? res / n : GRIB_NOTDEF;
 }
-//------------------------------------------------------
+
 double Sounding::getAltByTempC(double tempC) {
     double res = GRIB_NOTDEF;
     bool found = false;
@@ -367,7 +364,7 @@ double Sounding::getAltByTempC(double tempC) {
     }
     return res;
 }
-//------------------------------------------------------
+
 double Sounding::getAltByDewpC(double dewpC) {
     double res = GRIB_NOTDEF;
     bool found = false;
@@ -395,7 +392,7 @@ double Sounding::getAltByDewpC(double dewpC) {
     }
     return res;
 }
-//------------------------------------------------------
+
 TPoint Sounding::get_LCL(double hpa0max, double hpa0min) {
     if (levelsAreValid) {
         return LCL;
@@ -403,7 +400,7 @@ TPoint Sounding::get_LCL(double hpa0max, double hpa0min) {
     compute_convective_levels(hpa0max, hpa0min);
     return LCL;
 }
-//------------------------------------------------------
+
 TPoint Sounding::get_CCL(double hpa0max, double hpa0min) {
     if (levelsAreValid) {
         return CCL;
@@ -411,7 +408,7 @@ TPoint Sounding::get_CCL(double hpa0max, double hpa0min) {
     compute_convective_levels(hpa0max, hpa0min);
     return CCL;
 }
-//------------------------------------------------------
+
 TPoint Sounding::get_LFC(double hpa0max, double hpa0min) {
     if (levelsAreValid) {
         return LFC;
@@ -419,7 +416,7 @@ TPoint Sounding::get_LFC(double hpa0max, double hpa0min) {
     compute_convective_levels(hpa0max, hpa0min);
     return LFC;
 }
-//------------------------------------------------------
+
 TPoint Sounding::get_EL(double hpa0max, double hpa0min) {
     if (levelsAreValid) {
         return EL;
@@ -427,7 +424,7 @@ TPoint Sounding::get_EL(double hpa0max, double hpa0min) {
     compute_convective_levels(hpa0max, hpa0min);
     return EL;
 }
-//------------------------------------------------------
+
 TPoint Sounding::compute_LCL(double hpa0, double temp0, double dewp0, double deltap) {
     // Compute LCL from level hpa0 (follows mixing ratio)
     TPoint lcl;
@@ -445,7 +442,7 @@ TPoint Sounding::compute_LCL(double hpa0, double temp0, double dewp0, double del
     }
     return lcl;
 }
-//------------------------------------------------------
+
 void Sounding::compute_convective_levels(double hpa0max, double hpa0min) {
     if (levelsAreValid) {
         return;

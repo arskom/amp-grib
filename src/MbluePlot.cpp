@@ -20,12 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataColors.h"
 #include "Font.h"
 
-//-------------------------------------------------------------------
 MbluePlot::MbluePlot() {
     reader = NULL;
     windAltitude = Altitude(LV_ABOV_GND, 10);
 }
-//-------------------------------------------------------------------
+
 MbluePlot::~MbluePlot() {
     // 	DBGS("Destroy MbluePlot");
     if (reader != NULL) {
@@ -33,7 +32,7 @@ MbluePlot::~MbluePlot() {
         reader = NULL;
     }
 }
-//--------------------------------------------------------------------
+
 void MbluePlot::loadFile(QString fname,
         LongTaskProgress *taskProgress, int /*nbrecs*/) {
     if (reader != NULL) {
@@ -49,7 +48,7 @@ void MbluePlot::loadFile(QString fname,
         }
     }
 }
-//--------------------------------------------------------------------
+
 /** Draw a mark at each grid vertex.
 */
 void MbluePlot::draw_GridPoints(const DataCode &,
@@ -76,7 +75,7 @@ void MbluePlot::draw_GridPoints(const DataCode &,
         pnt.drawLine(px, py - dl, px, py + dl);
     }
 }
-//--------------------------------------------------------------------
+
 /** Draw wind arrows on the colored map.
 */
 void MbluePlot::draw_WIND_Arrows(
@@ -159,7 +158,6 @@ void MbluePlot::draw_WIND_Arrows(
     }
 }
 
-//--------------------------------------------------------------------
 /** Draw current arrows on the colored map.
 */
 void MbluePlot::draw_CURRENT_Arrows(
@@ -231,7 +229,6 @@ void MbluePlot::draw_CURRENT_Arrows(
     }
 }
 
-//--------------------------------------------------------------------
 /** Draw the complete colored map.
 */
 void MbluePlot::draw_ColoredMapPlain(
@@ -287,7 +284,7 @@ void MbluePlot::draw_ColoredMapPlain(
         break;
     }
 }
-//-------------------------------------------------------------------------
+
 void MbluePlot::draw_DATA_MinMax(
         DataCode dtc,
         double meanValue,

@@ -48,9 +48,8 @@ GisCity::GisCity(QString country, QString name, int pop, float lon, float lat)
     }
 }
 
-//==========================================================
 // GisReader
-//==========================================================
+
 GisReader::GisReader() {
     QString lang = Util::getSetting("appLanguage", "none").toString();
 
@@ -134,13 +133,11 @@ GisReader::GisReader() {
     delete[] buf;
 }
 
-//-----------------------------------------------------------------------
 // Destructeur
 GisReader::~GisReader() {
     clearLists();
 }
 
-//-----------------------------------------------------------------------
 void GisReader::clearLists() {
     std::vector<GisPoint *>::iterator itp;
     for (itp = lsCountries.begin(); itp != lsCountries.end(); itp++) {
@@ -157,10 +154,9 @@ void GisReader::clearLists() {
     lsCities.clear();
 }
 
-//-----------------------------------------------------------------------
 void GisPoint::draw(QPainter * /*img*/, Projection * /*proj*/) {
 }
-//-----------------------------------------------------------------------
+
 void GisCountry::draw(QPainter *pnt, Projection *proj) {
     int x0, y0;
     if (proj->isPointVisible(x, y)) {
@@ -169,7 +165,6 @@ void GisCountry::draw(QPainter *pnt, Projection *proj) {
     }
 }
 
-//-----------------------------------------------------------------------
 void GisReader::drawCountriesNames(QPainter &pnt, Projection *proj) {
     pnt.setPen(QColor(120, 100, 60));
     pnt.setFont(Font::getFont(FONT_MapCountry));
@@ -179,7 +174,6 @@ void GisReader::drawCountriesNames(QPainter &pnt, Projection *proj) {
     }
 }
 
-//-----------------------------------------------------------------------
 void GisCity::draw(QPainter *pnt, Projection *proj, int popmin) {
     if (population < popmin) {
         return;
@@ -191,13 +185,13 @@ void GisCity::draw(QPainter *pnt, Projection *proj, int popmin) {
         pnt->drawText(QRect(x0, y0 - 7, 1, 1), Qt::AlignCenter | Qt::TextDontClip, name);
     }
 }
-//-----------------------------------------------------------------------
+
 void GisCity::drawCityName(QPainter *pnt, QRect *rectName) {
     // Warning: getRectName must be called first !!!
     pnt->drawEllipse(x0 - 2, y0 - 2, 5, 5);
     pnt->drawText(*rectName, Qt::AlignCenter, name);
 }
-//-----------------------------------------------------------------------
+
 void GisCity::getRectName(QPainter *pnt, Projection *proj, QRect *rectName) {
     proj->map2screen(x, y, &x0, &y0);
     QFont font = Font::getFont(fontCode);
@@ -210,11 +204,11 @@ void GisCity::getRectName(QPainter *pnt, Projection *proj, QRect *rectName) {
     rectName->setWidth(prect.width());
     rectName->setHeight(prect.height());
 }
-//-----------------------------------------------------------------------
+
 bool compareCities_sup(GisCity *a, GisCity *b) {
     return a->population > b->population;
 }
-//-----------------------------------------------------------------------
+
 void GisReader::drawCitiesNames(QPainter &pnt, Projection *proj, int level) {
     pnt.setPen(QColor(40, 40, 40));
     pnt.setBrush(QColor(0, 0, 0));

@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Util.h"
 
-//===================================================================
 class DegreeMinuteEditor : public QWidget {
     Q_OBJECT
 public:
@@ -45,20 +44,19 @@ protected:
     QComboBox *cbSigne;
     QComboBox *cbDirection;
 };
-//-------------------------------------------------------------------
+
 class LongitudeEditor : public DegreeMinuteEditor {
 public:
     LongitudeEditor(double val, QWidget *parent);
     double getValue();
 };
-//-------------------------------------------------------------------
+
 class LatitudeEditor : public DegreeMinuteEditor {
 public:
     LatitudeEditor(double val, QWidget *parent);
     double getValue();
 };
 
-//===================================================================
 class PositionEditor : public QWidget {
     Q_OBJECT
 public:

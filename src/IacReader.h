@@ -38,7 +38,6 @@ http://weather.noaa.gov/pub/data/raw/fs/fsxx21.egrr..txt
 #include "Util.h"
 #include "zuFile.h"
 
-//--------------------------------------------------------
 class IAC_Point {
 public:
     IAC_Point(double lat, double lon) {
@@ -48,7 +47,6 @@ public:
     double x, y;
 };
 
-//--------------------------------------------------------
 class IAC_Line {
 public:
     virtual ~IAC_Line() {
@@ -62,7 +60,6 @@ public:
     std::vector<IAC_Point *> points;
 };
 
-//--------------------------------------------------------
 class IAC_Front : public IAC_Line {
 public:
     enum IacFrontType {
@@ -82,19 +79,16 @@ public:
     std::string code; // 6_6_Ft_Fi_Fc
 };
 
-//--------------------------------------------------------
 class IAC_Isobar : public IAC_Line {
 public:
     IAC_Isobar(int val) { value = val; }
     int value;
 };
 
-//--------------------------------------------------------
 class IAC_TroughLine : public IAC_Line {
     // not different, just a new line type
 };
 
-//--------------------------------------------------------
 class IAC_HighLowPressurePoint : public IAC_Point {
 public:
     IAC_HighLowPressurePoint(std::string t, double lat, double lon, int v)
@@ -111,7 +105,6 @@ public:
     int completevalue;
 };
 
-//===============================================================
 class IacReader : public DataReaderAbstract {
 public:
     enum PositionMode { // yyyyy posiion group mode

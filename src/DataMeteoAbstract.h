@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define isleapyear(y) ((((y) % 4 == 0) && ((y) % 100 != 0)) || ((y) % 400 == 0))
 
-//--------------------------------------------------------
 enum FileDataType {
     DATATYPE_NONE,
     DATATYPE_CANCELLED,
@@ -34,7 +33,6 @@ enum FileDataType {
     DATATYPE_MBLUE,
 };
 
-//--------------------------------------------------------
 class DataRecordAbstract {
 public:
     DataRecordAbstract() {}
@@ -65,7 +63,6 @@ public:
     );
 };
 
-//--------------------------------------------------------
 class DataReaderAbstract {
 public:
     DataReaderAbstract() {}
@@ -74,7 +71,6 @@ public:
     virtual FileDataType getReaderFileDataType() = 0;
 };
 
-//--------------------------------------------------------
 class DataPlotterAbstract {
 public:
     DataPlotterAbstract() {}

@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "MbzFile.h"
 
-//==================================================================
 bool MButil::readInt8(ZUFILE *f, int *val) {
     unsigned char a;
     if (zu_read(f, &a, 1) != 1) {
@@ -29,7 +28,7 @@ bool MButil::readInt8(ZUFILE *f, int *val) {
     *val = a;
     return true;
 }
-//----------------------------------------------------------
+
 bool MButil::readInt16(ZUFILE *f, int *val) {
     unsigned char a, b;
     if (zu_read(f, &a, 1) != 1) {
@@ -41,7 +40,7 @@ bool MButil::readInt16(ZUFILE *f, int *val) {
     *val = (a << 8) + b;
     return true;
 }
-//----------------------------------------------------------
+
 bool MButil::readInt32(ZUFILE *f, int *val) {
     unsigned char a, b, c, d;
     if (zu_read(f, &a, 1) != 1) {
@@ -59,7 +58,7 @@ bool MButil::readInt32(ZUFILE *f, int *val) {
     *val = (a << 24) + (b << 16) + (c << 8) + d;
     return true;
 }
-//----------------------------------------------------------
+
 bool MButil::readFloat32(ZUFILE *f, float *val) {
     if (zu_read(f, val, 4) != 4) {
         return false;
@@ -67,7 +66,6 @@ bool MButil::readFloat32(ZUFILE *f, float *val) {
     return true;
 }
 
-//==================================================================
 bool MButil::getDateFromName(const char *fname,
         int *year, int *month, int *day, int *href, int *hour) {
     // fname = 20090619_00_006.dat.....
@@ -95,7 +93,7 @@ bool MButil::getDateFromName(const char *fname,
         return false;
     }
 }
-//-----------------------------------------------------------------------
+
 bool MButil::substring2int(int *val, const char *str, int start, int size) {
     bool res = true;
     int p = start;
@@ -123,7 +121,7 @@ bool MButil::substring2int(int *val, const char *str, int start, int size) {
     }
     return res;
 }
-//-------------------------------------------------------------
+
 bool MButil::readPosition(char *line, float *x, float *y) {
     // format 03473E4599N
     int i = 0;
@@ -164,18 +162,17 @@ bool MButil::readPosition(char *line, float *x, float *y) {
     return true;
 }
 
-//---------------------------------------------------
 // MbzFile
-//---------------------------------------------------
+
 MbzFile::MbzFile(const char *fname, LongTaskProgress *taskProgress) {
     read_MbzFile(fname, taskProgress);
 }
-//---------------------------------------------------
+
 MbzFile::~MbzFile() {
     // 	DBGS("Destroy MbzFile");
     Util::cleanVectorPointers(vlines);
 }
-//---------------------------------------------------
+
 void MbzFile::read_MbzFile(const char *fname, LongTaskProgress *taskProgress) {
     ok = true;
     vlines.clear();
@@ -211,7 +208,7 @@ void MbzFile::read_MbzFile(const char *fname, LongTaskProgress *taskProgress) {
 
     zu_close(fin);
 }
-//---------------------------------------------------
+
 int MbzFile::getDataCodeIndex(uint32_t code) {
     int ind = -1;
     for (unsigned int i = 0; ind < 0 && i < vcodes.size(); i++) {
@@ -221,7 +218,7 @@ int MbzFile::getDataCodeIndex(uint32_t code) {
     }
     return ind;
 }
-//---------------------------------------------------
+
 void MbzFile::read_data_codes(ZUFILE *f) {
     DataCode dtc;
     uint32_t v;
@@ -234,7 +231,6 @@ void MbzFile::read_data_codes(ZUFILE *f) {
     }
 }
 
-//---------------------------------------------------
 void MbzFile::read_data_lines(ZUFILE *f, LongTaskProgress *taskProgress) {
     float v;
     MbzLine *line;
@@ -272,7 +268,6 @@ void MbzFile::read_data_lines(ZUFILE *f, LongTaskProgress *taskProgress) {
     }
 }
 
-//---------------------------------------------------
 void MbzFile::read_header(ZUFILE *f) {
     char buf[128];
     int pad;
@@ -342,7 +337,7 @@ void MbzFile::read_header(ZUFILE *f) {
         return;
     }
 }
-//---------------------------------------------------
+
 void MbzFile::debugmbz() const {
     DBGS("--------------------");
     if (ok) {
@@ -383,7 +378,7 @@ void MbzFile::debugmbz() const {
         DBG("Error in file");
     }
 }
-//---------------------------------------------------
+
 void MbzLine::print() const {
     fprintf(stderr, "hr=%3d (%5g %5g) :", hour, x, y);
     for (unsigned int i = 0; i < data.size(); i++) {

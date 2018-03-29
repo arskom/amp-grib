@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MeteoTableWidget.h"
 #include "Settings.h"
 
-//-------------------------------------------------------------------------------
 MeteoTableWidget::MeteoTableWidget(GriddedPlotter *plotter,
         double lon, double lat, QString locationName, QWidget *parent)
         : QWidget(parent) {
@@ -46,7 +45,7 @@ MeteoTableWidget::MeteoTableWidget(GriddedPlotter *plotter,
 
     createTable();
 }
-//----------------------------------------------------------------
+
 void MeteoTableWidget::addCell_title_dataline(QString txt, bool bold,
         int lig, int col) {
     QColor bgcolor(200, 200, 255);
@@ -56,11 +55,11 @@ void MeteoTableWidget::addCell_title_dataline(QString txt, bool bold,
     cell2->setBorders(lig, col);
     headerLayout->addWidget(cell2, lig, col, 1, 1);
 }
-//------------------------------------------------------------------------
+
 QWidget *MeteoTableWidget::getDataHeaders() {
     return headerWidget;
 }
-//------------------------------------------------------------------------
+
 void MeteoTableWidget::showEvent(QShowEvent * /*event*/) {
     QRect r;
     // Adjust header height to row height
@@ -75,12 +74,11 @@ void MeteoTableWidget::showEvent(QShowEvent * /*event*/) {
     }
 }
 
-//-------------------------------------------------------------------------------
 MeteoTableWidget::~MeteoTableWidget() {
     Util::cleanVectorPointers(lspinfos);
     qDeleteAll(listVisibleData);
 }
-//----------------------------------------------------------------
+
 void MeteoTableWidget::addCell_SunMoonAlmanac(time_t t, double lat, double lon,
         QGridLayout *layout, int lig, int col, int rowspan, int colspan) {
     TableCell *cell = new TableCell(this);
@@ -103,7 +101,6 @@ void MeteoTableWidget::addCell_SunMoonAlmanac(time_t t, double lat, double lon,
     layout->addWidget(cell, lig, col, rowspan, colspan);
 }
 
-//-------------------------------------------------------------------------------
 void MeteoTableWidget::createTable() {
     reader = plotter->getReader();
     if (!reader) {
@@ -309,7 +306,7 @@ void MeteoTableWidget::createTable() {
         }
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_WaveWhitecap(int type, int lig) {
     std::vector<time_t>::iterator it;
     std::vector<DataPointInfo *>::iterator iter;
@@ -332,7 +329,7 @@ void MeteoTableWidget::addLine_WaveWhitecap(int type, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_WaveCompleteCell(int prvtype, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -363,7 +360,7 @@ void MeteoTableWidget::addLine_WaveCompleteCell(int prvtype, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_WaveHeight(int type, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -386,12 +383,10 @@ void MeteoTableWidget::addLine_WaveHeight(int type, int lig) {
     }
 }
 
-//-----------------------------------------------------------------
 bool lessThanMTGribData(const MTGribData *a, const MTGribData *b) {
     return (a->pos < b->pos);
 }
 
-//-----------------------------------------------------------------
 void MeteoTableWidget::createListVisibleGribData() {
     qDeleteAll(listVisibleData);
 
@@ -435,7 +430,7 @@ void MeteoTableWidget::createListVisibleGribData() {
     // Sort visible data by position
     qSort(listVisibleData.begin(), listVisibleData.end(), lessThanMTGribData);
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Isotherm0Height(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -456,7 +451,7 @@ void MeteoTableWidget::addLine_Isotherm0Height(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_GeopotentialAltitude(const Altitude &alt, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -479,7 +474,7 @@ void MeteoTableWidget::addLine_GeopotentialAltitude(const Altitude &alt, int lig
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Pressure(const Altitude &alt, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -501,7 +496,7 @@ void MeteoTableWidget::addLine_Pressure(const Altitude &alt, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Wind(const Altitude &alt, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     std::vector<time_t>::iterator it;
@@ -535,7 +530,7 @@ void MeteoTableWidget::addLine_Wind(const Altitude &alt, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor, MTABLE_WIND_CELL, vx, vy);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Current(const Altitude &alt, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     std::vector<time_t>::iterator it;
@@ -564,7 +559,7 @@ void MeteoTableWidget::addLine_Current(const Altitude &alt, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor, MTABLE_CURRENT_CELL, cx, cy);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_GUSTsfc(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -586,7 +581,7 @@ void MeteoTableWidget::addLine_GUSTsfc(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_HumidRel(const Altitude &alt, int lig) {
     std::vector<time_t>::iterator it;
     std::vector<DataPointInfo *>::iterator iter;
@@ -612,7 +607,7 @@ void MeteoTableWidget::addLine_HumidRel(const Altitude &alt, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Temperature(const Altitude &alt, uchar type, int lig) {
     std::vector<time_t>::iterator it;
     QColor bgColor = Qt::white;
@@ -662,7 +657,7 @@ void MeteoTableWidget::addLine_Temperature(const Altitude &alt, uchar type, int 
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_DeltaTemperature(const Altitude &alt, uchar type, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -696,7 +691,7 @@ void MeteoTableWidget::addLine_DeltaTemperature(const Altitude &alt, uchar type,
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_DewPoint(const Altitude &alt, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -719,7 +714,7 @@ void MeteoTableWidget::addLine_DewPoint(const Altitude &alt, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_CAPEsfc(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -742,7 +737,7 @@ void MeteoTableWidget::addLine_CAPEsfc(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_CINsfc(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -765,7 +760,7 @@ void MeteoTableWidget::addLine_CINsfc(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Rain(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -788,7 +783,7 @@ void MeteoTableWidget::addLine_Rain(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_CloudCover(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -811,7 +806,7 @@ void MeteoTableWidget::addLine_CloudCover(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor, MTABLE_CLOUD_CELL, v);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_Categorical(uchar type, int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -847,7 +842,7 @@ void MeteoTableWidget::addLine_Categorical(uchar type, int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_SnowDepth(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     QColor bgColor = Qt::white;
@@ -871,7 +866,7 @@ void MeteoTableWidget::addLine_SnowDepth(int lig) {
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
-//-----------------------------------------------------------------
+
 void MeteoTableWidget::addLine_SkewT(int lig) {
     std::vector<DataPointInfo *>::iterator iter;
     int col = 0;
@@ -883,7 +878,6 @@ void MeteoTableWidget::addLine_SkewT(int lig) {
     }
 }
 
-//===================================================================
 void MeteoTableWidget::addCell_SkewT(
         QGridLayout *layout, int lig, int col,
         time_t date) {
@@ -892,7 +886,7 @@ void MeteoTableWidget::addCell_SkewT(
     cell->setBorders(lig, col);
     layout->addWidget(cell, lig, col, 1, 1, Qt::AlignCenter);
 }
-//----------------------------------------------------------------
+
 void MeteoTableWidget::addCell_content(
         QString txt,
         QGridLayout *layout, int lig, int col,
@@ -922,7 +916,7 @@ void MeteoTableWidget::addCell_content(
     cell->setBorders(lig, col);
     layout->addWidget(cell, lig, col, rowspan, colspan);
 }
-//----------------------------------------------------------------
+
 void MeteoTableWidget::addCell_title(QString txt, bool bold,
         QGridLayout *layout, int lig, int col, int rowspan, int colspan,
         bool isNowDate) {
@@ -935,9 +929,9 @@ void MeteoTableWidget::addCell_title(QString txt, bool bold,
     cell->setBorders(lig, col);
     layout->addWidget(cell, lig, col, rowspan, colspan);
 }
-//===================================================================
+
 // TableCell : case seule
-//===================================================================
+
 TableCell::TableCell(QWidget *parent, QString txt, bool bold,
         QColor bgcolor,
         Qt::Alignment alignment)
@@ -961,7 +955,7 @@ TableCell::TableCell(QWidget *parent, QString txt, bool bold,
     //	layout->addWidget(label, 0,0, Qt::AlignHCenter|Qt::AlignBottom);
     layout->addWidget(label, 0, 0, alignment);
 }
-//----------------------------------------------------------
+
 void TableCell::setContrastedTextColor(QColor bgcolor) {
     QColor fgcolor = DataColors::getContrastedColor(bgcolor);
     QPalette p;
@@ -969,7 +963,7 @@ void TableCell::setContrastedTextColor(QColor bgcolor) {
     p.setBrush(QPalette::Inactive, QPalette::WindowText, fgcolor);
     label->setPalette(p);
 }
-//---------------------------------------------------------
+
 void TableCell::setBorders(int lig, int col) {
     if (lig == 0 && col == 0) {
         this->setBorders(TableCell::all);
@@ -984,7 +978,7 @@ void TableCell::setBorders(int lig, int col) {
         this->setBorders(TableCell::south + TableCell::east);
     }
 }
-//---------------------------------------------------------
+
 void TableCell::paintEvent(QPaintEvent * /*event*/) {
     QPainter pnt(this);
 
@@ -1009,9 +1003,8 @@ void TableCell::paintEvent(QPaintEvent * /*event*/) {
     }
 }
 
-//===================================================================
 // TableCell_Wind : case seule spécialisée pour le vent (flêche+barbules)
-//===================================================================
+
 TableCell_Wind::TableCell_Wind(double vx, double vy, bool south,
         GriddedPlotter *plotter,
         QWidget *parent, QString txt, bool bold,
@@ -1029,7 +1022,7 @@ TableCell_Wind::TableCell_Wind(double vx, double vy, bool south,
         setMinimumHeight(label->minimumSizeHint().height() + 50);
     }
 }
-//---------------------------------------------------------
+
 void TableCell_Wind::paintEvent(QPaintEvent *e) {
     TableCell::paintEvent(e);
     QPainter pnt(this);
@@ -1041,9 +1034,8 @@ void TableCell_Wind::paintEvent(QPaintEvent *e) {
     }
 }
 
-//===================================================================
 // TableCell_Current : case seule spécialisée pour le courant (flêche)
-//===================================================================
+
 TableCell_Current::TableCell_Current(double cx, double cy, bool south,
         GriddedPlotter *plotter,
         QWidget *parent, QString txt, bool bold,
@@ -1061,7 +1053,7 @@ TableCell_Current::TableCell_Current(double cx, double cy, bool south,
         setMinimumHeight(label->minimumSizeHint().height() + 50);
     }
 }
-//---------------------------------------------------------
+
 void TableCell_Current::paintEvent(QPaintEvent *e) {
     TableCell::paintEvent(e);
     QPainter pnt(this);
@@ -1073,9 +1065,8 @@ void TableCell_Current::paintEvent(QPaintEvent *e) {
     }
 }
 
-//===================================================================
 // TableCell_Clouds : case seule spécialisée pour la nébulosité
-//===================================================================
+
 TableCell_Clouds::TableCell_Clouds(
         double val,
         GriddedPlotter *plotter,
@@ -1100,16 +1091,15 @@ TableCell_Clouds::TableCell_Clouds(
 
     setContrastedTextColor(this->bgcolor);
 }
-//---------------------------------------------------------
+
 void TableCell_Clouds::paintEvent(QPaintEvent *e) {
     TableCell::paintEvent(e);
     QPainter pnt(this);
     pnt.setRenderHint(QPainter::Antialiasing, true);
 }
 
-//===================================================================
 // TableCell_SkewT
-//===================================================================
+
 TableCell_SkewT::TableCell_SkewT(QWidget *parent,
         double lon, double lat, QString locationName,
         time_t date,
@@ -1125,22 +1115,22 @@ TableCell_SkewT::TableCell_SkewT(QWidget *parent,
     pixmap = miniskewt.createPixmap();
     setFixedSize(miniskewt.size());
 }
-//---------------------------------------------------------
+
 void TableCell_SkewT::paintEvent(QPaintEvent *e) {
     TableCell::paintEvent(e);
     QPainter pnt(this);
     pnt.setRenderHint(QPainter::Antialiasing, true);
     pnt.drawPixmap(0, 0, pixmap);
 }
-//---------------------------------------------------------
+
 void TableCell_SkewT::enterEvent(QEvent *) {
     setCursor(Qt::PointingHandCursor);
 }
-//---------------------------------------------------------
+
 void TableCell_SkewT::leaveEvent(QEvent *) {
     unsetCursor();
 }
-//---------------------------------------------------------
+
 void TableCell_SkewT::mouseReleaseEvent(QMouseEvent *e) {
     if (this->rect().contains(e->pos())) {
         SkewT *skewt = new SkewT();

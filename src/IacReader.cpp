@@ -20,7 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "IacReader.h"
 
-//---------------------------------------------------
 IacReader::IacReader(const std::string fname) {
     ok = false;
     endOfFile = true;
@@ -31,12 +30,11 @@ IacReader::IacReader(const std::string fname) {
     file = NULL;
     openFile(fname);
 }
-//---------------------------------------------------
+
 IacReader::~IacReader() {
     cleanAllVectors();
 }
 
-//-----------------------------------------------------------
 void IacReader::decodeDataLine_preamble(std::vector<std::string> &vline) {
     if (vline.size() >= 3) {
         if (vline.size() == 3
@@ -88,7 +86,6 @@ void IacReader::decodeDataLine_preamble(std::vector<std::string> &vline) {
     }
 }
 
-//-----------------------------------------------------------
 void IacReader::decodeDataLine_header_NOAA(std::vector<std::string> &vline) {
     // (vline[0]=="ASXX21" || vline[0]=="FSXX21")
     // Sample: FSXX21 EGRR 031800	03=day   18=hour  00=minutes
@@ -130,7 +127,6 @@ void IacReader::decodeDataLine_header_NOAA(std::vector<std::string> &vline) {
     }
 }
 
-//-----------------------------------------------------------
 void IacReader::decodeLine(std::vector<std::string> &vline) {
     if (vline.size() == 0) {
         return;
@@ -190,9 +186,8 @@ void IacReader::decodeLine(std::vector<std::string> &vline) {
     }
 }
 
-//-----------------------------------------------------------
 // Section 0 : pressure Low/High + Trough pressure lines
-//-----------------------------------------------------------
+
 void IacReader::decodeDataLine_sec_0(std::vector<std::string> &vline) {
     double lon, lat;
 
@@ -262,9 +257,8 @@ void IacReader::decodeDataLine_sec_0(std::vector<std::string> &vline) {
     }
 }
 
-//-----------------------------------------------------------
 // Section 1 : Fronts
-//-----------------------------------------------------------
+
 void IacReader::decodeDataLine_sec_1_Fronts(std::vector<std::string> &vline) {
     double lon, lat;
 
@@ -306,9 +300,8 @@ void IacReader::decodeDataLine_sec_1_Fronts(std::vector<std::string> &vline) {
     }
 }
 
-//-----------------------------------------------------------
 // Section 2 : Isobars
-//-----------------------------------------------------------
+
 void IacReader::decodeDataLine_sec_2_Isobars(std::vector<std::string> &vline) {
     double lon, lat;
 
@@ -357,7 +350,7 @@ void IacReader::decodeDataLine_sec_2_Isobars(std::vector<std::string> &vline) {
         currentIsobar = NULL;
     }
 }
-//-----------------------------------------------------------
+
 void IacReader::decodeDataLine(std::vector<std::string> &vline) {
     switch (currentSECTION) {
     case 0:
@@ -371,7 +364,7 @@ void IacReader::decodeDataLine(std::vector<std::string> &vline) {
         break;
     }
 }
-//-----------------------------------------------------------
+
 void IacReader::display_text() {
     //========================================
     // Test: display data

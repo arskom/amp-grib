@@ -39,9 +39,9 @@ enum DataCenterModel {
     SKIRON,
     OTHER_DATA_CENTER
 };
-//--------------------------------------------------------
+
 // dataTypes      cf. GribRecord::translateDataType()
-//--------------------------------------------------------
+
 #define GRB_PRESSURE 1 /* Pa     */
 #define GRB_PRESSURE_MSL 2 /* Pa     */
 #define GRB_GEOPOT_HGT 7 /* gpm    */
@@ -72,9 +72,9 @@ enum DataCenterModel {
 #define GRB_WIND_GUST 180 /* m/s */
 #define GRB_WIND_GUST_VX 181 /* m/s */
 #define GRB_WIND_GUST_VY 182 /* m/s */
-//----------------------------------------------------
+
 // Waves
-//----------------------------------------------------
+
 #define GRB_WAV_SIG_HT 100 /* m */
 #define GRB_WAV_WND_DIR 101 /* deg */
 #define GRB_WAV_WND_HT 102 /* m */
@@ -98,7 +98,6 @@ enum DataCenterModel {
 #define GRB_PRV_WAV_PRIM 246 /* private: all parameter */
 #define GRB_PRV_WAV_SCDY 247 /* private: all parameter */
 
-//----------------------------------------------------
 #define GRB_PRV_WIND_JET 248 /* private: wind jet stream */
 #define GRB_PRV_WIND_DIR 249 /* private: wind direction in degrees */
 #define GRB_PRV_WIND_XY2D 250 /* private: GRB_WIND_VX+GRB_WIND_VX */
@@ -109,9 +108,8 @@ enum DataCenterModel {
 
 #define GRB_TYPE_NOT_DEFINED 0 /* private */
 
-//--------------------------------------------------------
 // Levels types (altitude reference)
-//--------------------------------------------------------
+
 #define LV_GND_SURF 1
 #define LV_ISOTHERM0 4
 #define LV_ISOBARIC 100 // hPa
@@ -146,9 +144,8 @@ enum DataCenterModel {
 #define GEOPOTidx(h) ((h) == 925 ? 0 : (h) == 850 ? 1 : (h) == 700 ? 2 : (h) == 600 ? 3 : (h) == 500 ? 4 : (h) == 400 ? 5 : (h) == 300 ? 6 : (h) == 200 ? 7 : -1)
 #define GEOPOThgt(i) ((i) == 0 ? 925 : (i) == 1 ? 850 : (i) == 2 ? 700 : (i) == 3 ? 600 : (i) == 4 ? 500 : (i) == 5 ? 400 : (i) == 6 ? 300 : (i) == 7 ? 200 : -1)
 
-//--------------------------------------------------------
 // Data definition
-//--------------------------------------------------------
+
 class Altitude {
 public:
     Altitude(int levelType = -1, int levelValue = -1) {
@@ -179,7 +176,7 @@ public:
     bool operator<(const Altitude &alt) const { return alt.levelType < levelType
         || (alt.levelType == levelType && alt.levelValue < levelValue); }
 };
-//--------------------------------------------------------
+
 class DataCode {
 public:
     DataCode(int dataType = GRB_TYPE_NOT_DEFINED, int levelType = -1, int levelValue = -1) {

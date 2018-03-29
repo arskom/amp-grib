@@ -22,19 +22,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Projection.h"
 
-//---------------------------------------------------------------------------
 // Constructeur
-//---------------------------------------------------------------------------
+
 Projection::Projection(int w, int h, double cx, double cy, double scale)
         : QObject() {
     init(w, h, cx, cy, scale);
 }
-//---------------------------------------------------------------------------
+
 Projection::Projection(const Projection &model)
         : QObject() {
     init(model.getW(), model.getH(), model.getCX(), model.getCY(), model.getScale());
 }
-//---------------------------------------------------------------------------
+
 void Projection::init(int w, int h, double cx, double cy, double scale) {
     scalemax = 40000;
     cylindrical = true;
@@ -44,7 +43,7 @@ void Projection::init(int w, int h, double cx, double cy, double scale) {
     CY = cy;
     this->scale = scale;
 }
-//--------------------------------------------------------------
+
 void Projection::updateBoundaries() {
     // Extrémités de la zone
     double x0, y0, x1, y1;
@@ -75,7 +74,6 @@ void Projection::updateBoundaries() {
     emit projectionUpdated();
 }
 
-//--------------------------------------------------------------
 void Projection::setMapPointInScreen(double x, double y, int pi, int pj) {
     while (x > 180.0) {
         x -= 360.0;
@@ -132,41 +130,36 @@ void Projection::setMapPointInScreen(double x, double y, int pi, int pj) {
     updateBoundaries();
 }
 
-//---------------------------------------------------------------------------
 bool Projection::intersect(double w, double e, double s, double n) const {
     return !(w > xmax || e < xmin || s > ymax || n < ymin);
 }
-//---------------------------------------------------------------------------
+
 bool Projection::isPointVisible(double x, double y) const {
     return (x <= xmax && x >= xmin && y <= ymax && y >= ymin);
 }
-//--------------------------------------------------------------
+
 void Projection::setCentralPixel(int pi, int pj) {
     double x, y;
     screen2map(pi, pj, &x, &y);
     setMapPointInScreen(x, y, W / 2, H / 2);
 }
 
-//--------------------------------------------------------------
 void Projection::setScreenSize(int w, int h) {
     W = w;
     H = h;
     updateBoundaries();
 }
 
-//--------------------------------------------------------------
 void Projection::move(double dx, double dy) {
     double px, py;
     screen2map(W / 2, H / 2, &px, &py);
     setMapPointInScreen(px, py, (int)(W / 2 + dx * W + 0.5), (int)(H / 2 - dy * H + 0.5));
 }
 
-//--------------------------------------------------------------
 void Projection::zoom(double k) {
     setScale(scale * k);
 }
 
-//-------------------------------------------------------------------------------
 bool Projection::map2screen_glob(double lon, double lat, int *pi, int *pj) const {
     if (isPointVisible(lon, lat)) {
         map2screen(lon, lat, pi, pj);
@@ -183,9 +176,6 @@ bool Projection::map2screen_glob(double lon, double lat, int *pi, int *pj) const
     return false;
 }
 
-//====================================================================================
-//====================================================================================
-//---------------------------------------------------------------------------
 Projection_ZYGRIB::Projection_ZYGRIB(int w, int h, double cx, double cy, double scale)
         : Projection(w, h, cx, cy, scale) {
     //printf("init Projection_ZYGRIB : W=%d H=%d   CX=%f CY=%f  scale=%f\n", W,H,CX,CY,scale);
@@ -193,14 +183,14 @@ Projection_ZYGRIB::Projection_ZYGRIB(int w, int h, double cx, double cy, double 
     setMapPointInScreen(CX, CY, W / 2, H / 2);
     setScale(scale);
 }
-//---------------------------------------------------------------------------
+
 Projection_ZYGRIB::Projection_ZYGRIB(const Projection_ZYGRIB &model)
         : Projection(model) {
     dscale = 1.2;
     setMapPointInScreen(CX, CY, W / 2, H / 2);
     setScale(scale);
 }
-//-------------------------------------------------------------------------------
+
 void Projection_ZYGRIB::map2screen(double x, double y, int *i, int *j) const {
     double scaley = scale * dscale;
     *i = W / 2 + (int)(scale * (x - CX) + 0.5);
@@ -208,7 +198,6 @@ void Projection_ZYGRIB::map2screen(double x, double y, int *i, int *j) const {
     //printf("Projection_ZYGRIB::map2screen: x= %g   %d\n", x, *i);
 }
 
-//-------------------------------------------------------------------------------
 void Projection_ZYGRIB::screen2map(int i, int j, double *x, double *y) const {
     double scaley = scale * dscale;
     *x = (double)(i - W / 2 + scale * CX) / scale;
@@ -216,7 +205,6 @@ void Projection_ZYGRIB::screen2map(int i, int j, double *x, double *y) const {
     //printf("screen2map : i=%d j=%d  ->  x=%f y=%f \n", i,j, *x,*y);
 }
 
-//--------------------------------------------------------------
 void Projection_ZYGRIB::setVisibleArea(double x0, double y0, double x1, double y1) {
     if (x1 == x0) {
         x1 = x0 + 0.1;
@@ -259,7 +247,6 @@ void Projection_ZYGRIB::setVisibleArea(double x0, double y0, double x1, double y
     setScale(scale);
 }
 
-//--------------------------------------------------------------
 void Projection_ZYGRIB::setScale(double sc) {
     double sx, sy, scaleall;
 

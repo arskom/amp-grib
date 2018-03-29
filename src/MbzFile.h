@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "zuFile.h"
 
-//------------------------------------------------------
 class MButil {
 public:
     static bool readInt8(ZUFILE *f, int *val);
@@ -37,7 +36,6 @@ public:
     static bool readPosition(char *line, float *x, float *y);
 };
 
-//------------------------------------------------------
 class MbzLine {
 public:
     float x, y;
@@ -46,9 +44,8 @@ public:
     void print() const;
 };
 
-//---------------------------------------------------
 // MBZfile : read a file in MBZ format
-//---------------------------------------------------
+
 class MbzFile {
 public:
     MbzFile() { ok = false; }

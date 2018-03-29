@@ -13,23 +13,23 @@
  *   Custom Scale Draw Class
  *=========================================================================================
  */
-//-------------------------------------------------------------------------------
+
 // Constructor
-//-------------------------------------------------------------------------------
+
 CustomQwtScale::CustomQwtScale(const QVector<double> &qvOrig, const QVector<double> &qvNew) {
     myOrig = qvOrig;
     myRepl = qvNew;
 }
-//-------------------------------------------------------------------------------
+
 // Constructor
-//-------------------------------------------------------------------------------
+
 CustomQwtScale::CustomQwtScale(const QVector<double> &qvOrig, const QVector<QString> &qvNew) {
     myOrig = qvOrig;
     myReplStr = qvNew;
 }
-//-------------------------------------------------------------------------------
+
 // Custom Label
-//-------------------------------------------------------------------------------
+
 QwtText CustomQwtScale::label(double val) const {
     if (myOrig.contains(val)) {
         int iElement = myOrig.indexOf(val);
@@ -48,9 +48,9 @@ QwtText CustomQwtScale::label(double val) const {
  *  Custom Plot Picker Class
  *=========================================================================================
  */
-//-------------------------------------------------------------------------------
+
 // Constructor for custom picker class with current date and picker machine
-//-------------------------------------------------------------------------------
+
 CustomQwtPicker::CustomQwtPicker(int xAxis, int yAxis, RubberBand rubberBand, QwtPickerMachine *pickerMachine, DisplayMode trackerMode,
         QWidget *canvas, const QDateTime &dtCurrent, QwtPlotCurve *qwtCurve)
         : QwtPlotPicker(xAxis, yAxis, rubberBand, trackerMode, canvas) {
@@ -65,9 +65,9 @@ CustomQwtPicker::CustomQwtPicker(int xAxis, int yAxis, RubberBand rubberBand, Qw
 
     //	setEnabled( true );
 }
-//-------------------------------------------------------------------------------
+
 // Draw a box beginning at the picked points of the plot canvas and the plot curve
-//-------------------------------------------------------------------------------
+
 void CustomQwtPicker::drawRubberBand(QPainter *painter) const {
 
     // get start value of plot line and calculate delta to current position
@@ -88,9 +88,9 @@ void CustomQwtPicker::drawRubberBand(QPainter *painter) const {
             transform(qCur).x(), transform(qCur).y());
     //	}
 }
-//-------------------------------------------------------------------------------
+
 // Display timestamp and delta of first plot line as tracker text
-//-------------------------------------------------------------------------------
+
 QwtText CustomQwtPicker::trackerTextF(const QPointF &pos) const {
     float fXPos0, fXPos1, fDX, fDY;
     QString sText;
@@ -125,9 +125,9 @@ QwtText CustomQwtPicker::trackerTextF(const QPointF &pos) const {
 
     return sText;
 }
-//-------------------------------------------------------------------------------
+
 // Extrakt curve coordinates from picked points on the plot canvas
-//-------------------------------------------------------------------------------
+
 void CustomQwtPicker::updEndPoints(const QPointF &qPos0, const QPointF &qPos1) const {
     // get start value of plot line and calculate delta to current position
     QVector<double> myXData = ((QwtPointArrayData *)qwtCurve->data())->xData();

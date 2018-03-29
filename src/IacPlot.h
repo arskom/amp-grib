@@ -37,7 +37,6 @@ Lecture mise en mémoire d'un fichier IAC (fleetcodes)
 #include "Projection.h"
 #include "zuFile.h"
 
-//===============================================================
 class IacPlot : public DataPlotterAbstract {
 public:
     IacPlot();

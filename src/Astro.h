@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <libnova/lunar.h>
 #include <libnova/solar.h>
 
-//------------------------------
 class Almanac {
 public:
     time_t sunRise, sunTransit, sunSet;
@@ -37,7 +36,6 @@ public:
     double lat, lon;
 };
 
-//------------------------------
 class Astro {
 public:
     static Almanac getSunMoonAlmanac(time_t t, double lat, double lon);

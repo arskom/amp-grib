@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataDefines.h"
 #include "DataMeteoAbstract.h"
 
-//====================================================================
 class GriddedRecord : public DataRecordAbstract {
 public:
     GriddedRecord();

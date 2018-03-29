@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "Version.h"
 
-//-------------------------------------------------------------------------------
 DialogServerStatus::DialogServerStatus(QNetworkAccessManager *manager, QWidget *parent)
         : DialogBoxBase(parent) {
     QString page;
@@ -74,7 +73,7 @@ DialogServerStatus::DialogServerStatus(QNetworkAccessManager *manager, QWidget *
     connect(reply_step1, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(slotNetworkError(QNetworkReply::NetworkError)));
 }
-//-------------------------------------------------------------------------------
+
 DialogServerStatus::~DialogServerStatus() {
     if (reply_step1) {
         reply_step1->deleteLater();
@@ -82,7 +81,6 @@ DialogServerStatus::~DialogServerStatus() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogServerStatus::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
     if (!downloadError) {
         downloadError = true;
@@ -91,7 +89,6 @@ void DialogServerStatus::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogServerStatus::downloadProgress_step1(qint64 done, qint64 total) {
     QString strDur;
     int tp = timeLoad.elapsed();
@@ -136,7 +133,6 @@ void DialogServerStatus::downloadProgress_step1(qint64 done, qint64 total) {
     }
 }
 
-//-------------------------------------------------------------------------------
 QString DialogServerStatus::getData(const QHash<QString, QString> &data, const QString &key) {
     QString rep = data.value(key, "");
     /*    if (rep == "")
@@ -144,7 +140,6 @@ QString DialogServerStatus::getData(const QHash<QString, QString> &data, const Q
     return rep;
 }
 
-//-------------------------------------------------------------------------------
 QHash<QString, QString> DialogServerStatus::readData(const QByteArray &data) {
     QHash<QString, QString> result;
     QString tmp;
@@ -255,18 +250,17 @@ QHash<QString, QString> DialogServerStatus::readData(const QByteArray &data) {
     }
     return result;
 }
-//-------------------------------------------------------------------------------
+
 void DialogServerStatus::slotBtOK() {
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogServerStatus::slotBtCancel() {
     reject();
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 QFrame *DialogServerStatus::createFrameGui(QWidget *parent) {
     QFont fontBold;
     fontBold.setBold(true);

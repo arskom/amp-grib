@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "GshhsRangsReader.h"
 
-//------------------------------------------------------------------------
 GshhsRangsCell::GshhsRangsCell(FILE *fcat_, FILE *fcel_, FILE *frim_, int x0_, int y0_) {
     fcat = fcat_;
     fcel = fcel_;
@@ -41,7 +40,6 @@ GshhsRangsCell::GshhsRangsCell(FILE *fcat_, FILE *fcel_, FILE *frim_, int x0_, i
     readPolygonList();
 }
 
-//------------------------------------------------------------------------
 bool GshhsRangsCell::readPolygonList() {
     // if ((x0cell==x0debug && y0cell==y0debug)) printf("\n--- START POLYGON ---\n");
 
@@ -67,7 +65,6 @@ bool GshhsRangsCell::readPolygonList() {
     }
 }
 
-//------------------------------------------------------------------------
 int GshhsRangsCell::readSegmentLoop() {
     //printf("============  readSegmentLoop ==========\n");
     int i, x, y, SegmentByte, PolygonId;
@@ -118,7 +115,6 @@ int GshhsRangsCell::readSegmentLoop() {
     return newPolygon->lsPoints.size();
 }
 
-//------------------------------------------------------------------------
 void GshhsRangsCell::readSegmentRim(
         int RimAddress, int RimLength, GshhsRangsPolygon *polygon) {
     int i, x, y;
@@ -136,8 +132,6 @@ void GshhsRangsCell::readSegmentRim(
     }
 }
 
-//=======================================================================================
-//=======================================================================================
 void GshhsRangsCell::drawMapPlain(QPainter &pnt, double dx, QPoint *pts, Projection *proj,
         QColor seaColor, QColor landColor) {
     // if (!(x0cell==x0debug && y0cell==y0debug))
@@ -185,7 +179,6 @@ void GshhsRangsCell::drawMapPlain(QPainter &pnt, double dx, QPoint *pts, Project
     }
 }
 
-//------------------------------------------------------------------------
 void GshhsRangsCell::drawSeaBorderLines(QPainter &pnt, double dx, Projection *proj) {
     std::vector<GshhsRangsPolygon *>::iterator iterPolygons;
     std::vector<GshhsRangsPoint *>::iterator iterPoints;
@@ -261,13 +254,8 @@ void GshhsRangsCell::drawSeaBorderLines(QPainter &pnt, double dx, Projection *pr
     }
 }
 
-//========================================================================
-//========================================================================
-//========================================================================
 //                GshhsRangsReader
-//========================================================================
-//========================================================================
-//========================================================================
+
 GshhsRangsReader::GshhsRangsReader(std::string rangspath) {
     path = rangspath + "/";
     fcat = NULL;
@@ -282,7 +270,7 @@ GshhsRangsReader::GshhsRangsReader(std::string rangspath) {
     currentQuality = -1;
     setQuality(1);
 }
-//-------------------------------------------------------------------------
+
 GshhsRangsReader::~GshhsRangsReader() {
     for (int i = 0; i < 360; i++) {
         for (int j = 0; j < 180; j++) {
@@ -294,7 +282,6 @@ GshhsRangsReader::~GshhsRangsReader() {
     }
 }
 
-//-------------------------------------------------------------------------
 void GshhsRangsReader::setQuality(int quality) // 5 levels: 0=low ... 4=full
 {
     if (currentQuality != quality) {
@@ -336,7 +323,6 @@ void GshhsRangsReader::setQuality(int quality) // 5 levels: 0=low ... 4=full
     }
 }
 
-//-------------------------------------------------------------------------
 void GshhsRangsReader::drawGshhsRangsMapPlain(QPainter &pnt, Projection *proj,
         QColor seaColor, QColor landColor) {
     if (!fcat || !fcel || !frim) {
@@ -391,7 +377,6 @@ void GshhsRangsReader::drawGshhsRangsMapPlain(QPainter &pnt, Projection *proj,
     delete[] pts;
 }
 
-//-------------------------------------------------------------------------
 void GshhsRangsReader::drawGshhsRangsMapSeaBorders(QPainter &pnt, Projection *proj) {
     if (!fcat || !fcel || !frim) {
         return;

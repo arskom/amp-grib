@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "IsoLine.h"
 #include "Font.h"
 
-//---------------------------------------------------------------
 IsoLine::IsoLine(DataCode dtc, double val, GriddedRecord *rec, int deltaI, int deltaJ) {
     this->rec = rec;
     this->value = val;
@@ -33,7 +32,7 @@ IsoLine::IsoLine(DataCode dtc, double val, GriddedRecord *rec, int deltaI, int d
     // Génère la liste des segments.
     extractIsoLine(rec, deltaI, deltaJ);
 }
-//---------------------------------------------------------------
+
 IsoLine::~IsoLine() {
     std::vector<Segment *>::iterator it;
     for (it = trace.begin(); it != trace.end(); it++) {
@@ -43,7 +42,6 @@ IsoLine::~IsoLine() {
     trace.clear();
 }
 
-//---------------------------------------------------------------
 void IsoLine::drawIsoLine(QPainter &pnt,
         const Projection *proj) {
     std::vector<Segment *>::iterator it;
@@ -74,7 +72,6 @@ void IsoLine::drawIsoLine(QPainter &pnt,
     }
 }
 
-//---------------------------------------------------------------
 void IsoLine::drawIsoLineLabels(QPainter &pnt, QColor &couleur,
         const Projection *proj,
         int density, int first, double coef, double offset) {
@@ -121,9 +118,9 @@ void IsoLine::drawIsoLineLabels(QPainter &pnt, QColor &couleur,
         }
     }
 }
-//==================================================================================
+
 // Segment
-//==================================================================================
+
 Segment::Segment(int I, int J,
         char c1, char c2, char c3, char c4,
         GriddedRecord *rec, double val,
@@ -139,7 +136,7 @@ Segment::Segment(int I, int J,
     intersectionAreteGrille(i, j, k, l, &px1, &py1, rec, val, dtc);
     intersectionAreteGrille(m, n, o, p, &px2, &py2, rec, val, dtc);
 }
-//-----------------------------------------------------------------------
+
 void Segment::intersectionAreteGrille(
         int i, int j, int k, int l,
         double *x, double *y,
@@ -175,7 +172,7 @@ void Segment::intersectionAreteGrille(
     }
     *y = a + (b - a) * dec;
 }
-//---------------------------------------------------------------
+
 void Segment::traduitCode(int I, int J, char c1, int &i, int &j) {
     switch (c1) {
     case 'a':
@@ -200,10 +197,9 @@ void Segment::traduitCode(int I, int J, char c1, int &i, int &j) {
     }
 }
 
-//-----------------------------------------------------------------------
 // Génère la liste des segments.
 // Les coordonnées sont les indices dans la grille du GriddedRecord
-//---------------------------------------------------------
+
 void IsoLine::extractIsoLine(GriddedRecord *rec, int deltaI, int deltaJ) {
     int i, j, W, H;
     double a, b, c, d;

@@ -25,9 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "POI_Editor.h"
 #include "Settings.h"
 
-//-------------------------------------------------------
 // POI_Editor: Constructor for edit and create a new POI
-//-------------------------------------------------------
+
 POI_Editor::POI_Editor(uint code, double lon, double lat,
         Projection *proj, QWidget *ownerMeteotable, QWidget *parentWindow)
         : QDialog(parentWindow) {
@@ -38,9 +37,9 @@ POI_Editor::POI_Editor(uint code, double lon, double lat,
     assert(this->poi);
     updateInterface();
 }
-//-------------------------------------------------------
+
 // POI_Editor: Constructor for edit an existing POI
-//-------------------------------------------------------
+
 POI_Editor::POI_Editor(POI *poi_, QWidget *parent)
         : QDialog(parent) {
     setupUi(this);
@@ -50,11 +49,11 @@ POI_Editor::POI_Editor(POI *poi_, QWidget *parent)
     setWindowTitle(tr("Point of interest: ") + poi->getName());
     updateInterface();
 }
-//---------------------------------------
+
 POI_Editor::~POI_Editor() {
     //printf("delete POI_Editor\n");
 }
-//---------------------------------------
+
 void POI_Editor::updateInterface() {
     inputName->setText(poi->name);
 
@@ -86,11 +85,11 @@ void POI_Editor::updateInterface() {
     setModal(false);
     show();
 }
-//---------------------------------------
+
 void POI_Editor::reject() {
     btCancelClicked();
 }
-//---------------------------------------
+
 void POI_Editor::btOkClicked() {
     QString name = (inputName->text()).trimmed();
     if (name == "") {
@@ -121,14 +120,14 @@ void POI_Editor::btOkClicked() {
     }
     delete this;
 }
-//---------------------------------------
+
 void POI_Editor::btCancelClicked() {
     if (modeCreation) {
         delete poi;
     }
     delete this;
 }
-//---------------------------------------
+
 void POI_Editor::btDeleteClicked() {
     if (!modeCreation) {
         int rep = QMessageBox::question(this,

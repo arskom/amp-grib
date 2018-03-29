@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LongTaskProgress.h"
 #include "Util.h"
 
-//------------------------------------------------------------
 LongTaskProgress::LongTaskProgress(QWidget *parent) {
     progress = new QProgressDialog(QObject::tr("Loading file..."),
             QObject::tr("Cancel"),
@@ -42,37 +41,31 @@ LongTaskProgress::LongTaskProgress(QWidget *parent) {
     connect(progress, SIGNAL(canceled()), this, SLOT(downloadCanceled()));
 }
 
-//------------------------------------------------------------
 LongTaskProgress::~LongTaskProgress() {
     if (progress) {
         delete progress;
     }
 }
 
-//-------------------------------------------
 void LongTaskProgress::downloadCanceled() {
     continueDownload = false;
 }
 
-//------------------------------------------------------------
 void LongTaskProgress::setWindowTitle(QString title) {
     progress->setWindowTitle(title);
 }
 
-//------------------------------------------------------------
 void LongTaskProgress::setValue(int value) {
     progress->setValue(value);
     progress->open();
     qApp->processEvents();
 }
 
-//------------------------------------------------------------
 void LongTaskProgress::setVisible(bool vis) {
     progress->setVisible(vis);
     qApp->processEvents();
 }
 
-//------------------------------------------------------------
 void LongTaskProgress::setMessage(LongTaskMessageType msgtype) {
     switch (msgtype) {
     case LTASK_OPEN_FILE:

@@ -18,7 +18,7 @@
 #ifndef GRIB_NOTDEF
 #define GRIB_NOTDEF -99999
 #endif
-//-----------------------------------------------------------
+
 class TPoint {
 public:
     TPoint(double tempC = GRIB_NOTDEF, double hpa = GRIB_NOTDEF) {
@@ -34,7 +34,7 @@ public:
     double hpa; // altitude
     double tempC; // °C
 };
-//-----------------------------------------------------------
+
 class TPCurve {
 public:
     QList<TPoint> points;
@@ -57,7 +57,6 @@ public:
     }
 };
 
-//-----------------------------------------------------------
 class Therm {
 public:
     static double hpa2m(double hpa); // Conversion altitude/pressure
@@ -90,7 +89,6 @@ public:
     static void curveSaturatedAdiabatic(TPCurve *curve, double tempC0, double hpa0, double hpaLimit, double step);
 };
 
-//-----------------------------------------------------------
 class SoundingPoint {
 public:
     SoundingPoint(double hpa = 1000, double tempC = 0, double dewpC = 0) {
@@ -104,7 +102,6 @@ public:
     bool operator<(const SoundingPoint &other) const { return this->hpa < other.hpa; }
 };
 
-//-----------------------------------------------------------
 class SoundingPointWind {
 public:
     SoundingPointWind(double hpa = GRIB_NOTDEF, double vx = GRIB_NOTDEF, double vy = GRIB_NOTDEF) {
@@ -120,7 +117,6 @@ public:
     double degrees() { return -atan2(-vx, vy) * 180.0 / M_PI + 180; }
 };
 
-//-----------------------------------------------------------
 class Sounding {
 public:
     enum ConvBase {

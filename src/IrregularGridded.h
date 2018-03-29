@@ -32,7 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "GriddedPlotter.h"
 #include "Projection.h"
 
-//===============================================================
 class IrregularGridRecord : public GriddedRecord {
 public:
     IrregularGridRecord(){};
@@ -40,14 +39,12 @@ public:
     virtual bool isRegularGrid() const { return false; }
 };
 
-//===============================================================
 class IrregularGridReader : public GriddedReader {
 public:
     IrregularGridReader(){};
     virtual ~IrregularGridReader(){};
 };
 
-//===============================================================
 class IrregularGridPlot : public GriddedPlotter {
 public:
     IrregularGridPlot();

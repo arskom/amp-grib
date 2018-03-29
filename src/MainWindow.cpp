@@ -40,7 +40,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "Version.h"
 
-//-----------------------------------------------------------
 void ThreadNewInstance::run() {
     QStringList args = QCoreApplication::arguments();
     if (args.size() >= 1) {
@@ -51,14 +50,12 @@ void ThreadNewInstance::run() {
     }
 }
 
-//-----------------------------------------------------------
 void MainWindow::autoClose() { // for debuging purpose
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(slotFile_Quit()));
     //timer->start (300);
 }
 
-//-----------------------------------------------------------
 void MainWindow::InitActionsStatus() {
     QString strdtc;
     DataCode dtc;
@@ -225,16 +222,14 @@ void MainWindow::InitActionsStatus() {
     updateGriddedData();
 }
 
-//-----------------------------------------------------------
 void MainWindow::updateGraphicsParameters() {
     if (colorScaleWidget && earth->getGriddedPlotter() && earth->getGriddedPlotter()->isReaderOk()) {
         colorScaleWidget->setColorScale(earth->getGriddedPlotter(), earth->getColorMapData());
     }
 }
 
-//-----------------------------------------------------------
 // Connexions des signaux
-//-----------------------------------------------------------
+
 void MainWindow::connectSignals() {
     MenuBar *mb = menuBar;
     autoClose();
@@ -459,9 +454,6 @@ void MainWindow::connectSignals() {
     }
 }
 
-//===========================================================================
-//===========================================================================
-//===========================================================================
 MainWindow::MainWindow(int w, int h, bool withmblue, QWidget *parent)
         : QMainWindow(parent) {
     setWindowIcon(QIcon(Util::pathImg("zyGrib_32.xpm")));
@@ -560,13 +552,13 @@ MainWindow::MainWindow(int w, int h, bool withmblue, QWidget *parent)
     move(Util::getSetting("mainWindowPos", QPoint()).toPoint());
     restoreState(Util::getSetting("mainWindowState", QByteArray()).toByteArray());
 }
-//-----------------------------------------------
+
 MainWindow::~MainWindow() {
     Util::setSetting("mainWindowSize", size());
     Util::setSetting("mainWindowPos", pos());
     Util::setSetting("mainWindowState", this->saveState());
 }
-//-----------------------------------------------
+
 void MainWindow::createToolBar(bool withmblue) {
     toolBar = addToolBar(tr("Tools"));
     assert(toolBar);
@@ -601,16 +593,15 @@ void MainWindow::createToolBar(bool withmblue) {
     toolBar->addAction(menuBar->ac_CreateAnimation);
     toolBar->addSeparator();
 }
-//-----------------------------------------------
+
 void MainWindow::moveEvent(QMoveEvent *) {
     Util::setSetting("mainWindowPos", pos());
 }
-//-----------------------------------------------
+
 void MainWindow::resizeEvent(QResizeEvent *) {
     Util::setSetting("mainWindowSize", size());
 }
 
-//---------------------------------------------------------------
 void MainWindow::initProjection() {
     if (proj != NULL) {
         delete proj;
@@ -642,7 +633,7 @@ void MainWindow::initProjection() {
     assert(proj);
     menuBar->setProjection(idproj);
 }
-//-------------------------------------------------
+
 void MainWindow::slotMap_Projection(QAction *act) {
     int idproj = Projection::PROJ_ZYGRIB;
     MenuBar *mb = menuBar;
@@ -675,7 +666,7 @@ void MainWindow::slotMap_Projection(QAction *act) {
 
     earth->setProjection(proj);
 }
-//-------------------------------------------------
+
 void MainWindow::slotTimeZoneChanged() {
     if (earth->getGriddedPlotter()->isReaderOk()) {
         menuBar->updateListeDates(
@@ -683,7 +674,7 @@ void MainWindow::slotTimeZoneChanged() {
                 earth->getGriddedPlotter()->getCurrentDate());
     }
 }
-//-------------------------------------------------
+
 void MainWindow::openMeteoDataFile(QString fileName) {
     QCursor oldcursor = cursor();
     setCursor(Qt::WaitCursor);
@@ -927,16 +918,16 @@ void MainWindow::openMeteoDataFile(QString fileName) {
     }
     setCursor(oldcursor);
 }
-//-------------------------------------------------------
+
 void MainWindow::slotUseJetStreamColorMap(bool b) {
     Util::setSetting("useJetStreamColorMap", b);
     updateGriddedData();
 }
-//--------------------------------------------------------------
+
 // Ajuste les paramètres des cartes colorées.
 // Essaye de réutiliser les paramètres d'affichage précédents
 // si compatible avec le fichier.
-//--------------------------------------------------------------
+
 void MainWindow::updateGriddedData() {
     GriddedPlotter *plotter = earth->getGriddedPlotter();
     if (plotter != NULL && plotter->isReaderOk()) {
@@ -974,7 +965,7 @@ void MainWindow::updateGriddedData() {
         earth->setColorMapData(dtc);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotCreateAnimation() {
     GriddedPlotter *plotter = earth->getGriddedPlotter();
 
@@ -996,13 +987,12 @@ void MainWindow::slotCreateAnimation() {
     }
 }
 
-//-------------------------------------------------
 void MainWindow::slotCreatePOI() {
     double lon, lat;
     proj->screen2map(mouseClicX, mouseClicY, &lon, &lat);
     new POI_Editor(Settings::getNewCodePOI(), lon, lat, proj, this, earth);
 }
-//-------------------------------------------------
+
 void MainWindow::createPOIs() {
     POI *poi;
     QList<uint> lscodes = Settings::getSettingAllCodesPOIs();
@@ -1012,7 +1002,7 @@ void MainWindow::createPOIs() {
         connectPOI(poi);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::connectPOI(POI *poi) {
     bool visible = Util::getSetting("showPOIs", true).toBool();
     if (poi != NULL) {
@@ -1026,7 +1016,7 @@ void MainWindow::connectPOI(POI *poi) {
         }
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotOpenSelectMetar() {
     DBG(" ");
     if (dialogSelectMetar == NULL) {
@@ -1036,11 +1026,11 @@ void MainWindow::slotOpenSelectMetar() {
     }
     dialogSelectMetar->exec();
 }
-//-------------------------------------------------
+
 void MainWindow::slotMETARsListChanged() {
     createAllMETARs();
 }
-//-------------------------------------------------
+
 void MainWindow::createAllMETARs() {
     MetarWidget *mw;
     MetarWidgetFactory *factory;
@@ -1059,20 +1049,20 @@ void MainWindow::createAllMETARs() {
         delete factory;
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotMETARSvisibility(bool vis) {
     Util::setSetting("showMETARs", vis);
     for (int i = 0; i < listAllMetars.size(); i++) {
         listAllMetars.at(i)->setVisible(vis);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotPOImoved(POI *poi) {
     QString message = poi->getName() + " : "
             + Util::formatPosition(poi->getLongitude(), poi->getLatitude());
     statusBar->showMessage(message);
 }
-//-------------------------------------------------
+
 void MainWindow::slotFile_Close() {
     gribFileName = "";
     Util::setSetting("gribFileName", gribFileName);
@@ -1091,7 +1081,6 @@ void MainWindow::slotFile_Close() {
     }
 }
 
-//-------------------------------------------------
 void MainWindow::slotOpenMeteotablePOI(POI *poi) {
     GriddedPlotter *griddedPlot = earth->getGriddedPlotter();
     if (griddedPlot && griddedPlot->isReaderOk()) {
@@ -1100,7 +1089,7 @@ void MainWindow::slotOpenMeteotablePOI(POI *poi) {
                 poi->getLongitude(), poi->getLatitude(), poi->getName());
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotOpenMeteotable() {
     double lon, lat;
     proj->screen2map(mouseClicX, mouseClicY, &lon, &lat);
@@ -1111,7 +1100,7 @@ void MainWindow::slotOpenMeteotable() {
                 lon, lat, "");
     }
 }
-//-------------------------------------------------
+
 // added by Tim Holtschneider, 05.2010
 // slot for extra context menu entry to plot data in a graph
 void MainWindow::slotOpenCurveDrawer() {
@@ -1133,11 +1122,11 @@ void MainWindow::slotOpenCurveDrawer() {
                 tr("Currently it is only possible to select 1 POI for data plot.\nUnselected by left click in map holding shift at the same time"));
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotOpenAngleConverter() {
     new AngleConverterDialog(this);
 }
-//-------------------------------------------------
+
 void MainWindow::slotOptions_Language() {
     QString oldlang = Util::getSetting("appLanguage", "").toString();
     DialogChooseLang langChooser(this, oldlang);
@@ -1160,7 +1149,7 @@ void MainWindow::slotOptions_Language() {
         }
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotMap_Quality() {
     int quality = 0;
     MenuBar *mb = menuBar;
@@ -1185,10 +1174,9 @@ void MainWindow::slotMap_Quality() {
     emit signalMapQuality(quality);
 }
 
-//-------------------------------------------------
 void MainWindow::slotMap_FindCity() {
 }
-//-------------------------------------------------
+
 void MainWindow::slotMap_CitiesNames() {
     MenuBar *mb = menuBar;
     QAction *act = mb->acMap_GroupCitiesNames->checkedAction();
@@ -1211,7 +1199,7 @@ void MainWindow::slotMap_CitiesNames() {
         earth->setCitiesNamesLevel(5);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotIsobarsStep() {
     int s = 4;
     MenuBar *mb = menuBar;
@@ -1242,7 +1230,7 @@ void MainWindow::slotIsobarsStep() {
     }
     earth->setIsobarsStep(s);
 }
-//-------------------------------------------------
+
 void MainWindow::slotIsotherms0Step() {
     int s = 100;
     MenuBar *mb = menuBar;
@@ -1270,7 +1258,7 @@ void MainWindow::slotIsotherms0Step() {
     }
     earth->setIsotherms0Step(s);
 }
-//-------------------------------------------------
+
 void MainWindow::slotIsotherms_Step() {
     int s = 2;
     MenuBar *mb = menuBar;
@@ -1289,7 +1277,7 @@ void MainWindow::slotIsotherms_Step() {
     }
     earth->setIsotherms_Step(s);
 }
-//-------------------------------------------------
+
 void MainWindow::slotGroupLinesThetaE_Step() {
     int s = 2;
     MenuBar *mb = menuBar;
@@ -1308,7 +1296,7 @@ void MainWindow::slotGroupLinesThetaE_Step() {
     }
     earth->setLinesThetaE_Step(s);
 }
-//-------------------------------------------------
+
 void MainWindow::slotGroupIsotherms(QAction *ac) {
     Util::setSetting("showIsotherms_2m", false);
     Util::setSetting("showIsotherms_925hpa", false);
@@ -1365,7 +1353,7 @@ void MainWindow::slotGroupIsotherms(QAction *ac) {
         earth->setDrawIsotherms(false);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotGroupLinesThetaE(QAction *ac) {
     Util::setSetting("showLinesThetaE_925hpa", false);
     Util::setSetting("showLinesThetaE_850hpa", false);
@@ -1418,7 +1406,6 @@ void MainWindow::slotGroupLinesThetaE(QAction *ac) {
     }
 }
 
-//-------------------------------------------------
 void MainWindow::slotHelp_Help() {
     QMessageBox::question(this,
             tr("Help"),
@@ -1439,7 +1426,7 @@ void MainWindow::slotHelp_Help() {
                     + tr("either anything of the other one, ")
                     + tr("and you will see what happens..."));
 }
-//-------------------------------------------------
+
 void MainWindow::slotHelp_APropos() {
     QMessageBox::information(this,
             tr("About"),
@@ -1449,16 +1436,15 @@ void MainWindow::slotHelp_APropos() {
                     + "\n" + tr("Licence : GNU GPL v3")
                     + "\n" + tr("http://www.zygrib.org"));
 }
-//-------------------------------------------------
+
 void MainWindow::slotHelp_AProposQT() {
     QMessageBox::aboutQt(this);
 }
 
-//-------------------------------------------------
 void MainWindow::slotFile_Quit() {
     QApplication::quit();
 }
-//-------------------------------------------------
+
 void MainWindow::slotFile_Open() {
     QString filter;
     /*    filter =  tr("Fichiers GRIB (*.grb *.grib *.grb.bz2 *.grib.bz2 *.grb.gz *.grib.gz)")
@@ -1476,14 +1462,13 @@ void MainWindow::slotFile_Open() {
     }
 }
 
-//========================================================================
 void MainWindow::slotFile_Load_IAC() {
     QString fname = DialogLoadIAC::getFile(networkManager, this);
     if (fname != "") {
         openMeteoDataFile(fname);
     }
 }
-//---------------------------------------------
+
 void MainWindow::slotFile_MBLUE_Load() {
     double x0, y0, x1, y1;
     if (earth->getSelectedRectangle(&x0, &y0, &x1, &y1)
@@ -1500,7 +1485,7 @@ void MainWindow::slotFile_MBLUE_Load() {
                 tr("Please select an area on the map."));
     }
 }
-//---------------------------------------------
+
 void MainWindow::slotFile_MBLUE_ShowArea() {
     QAction *bt = (QAction *)sender();
 
@@ -1526,7 +1511,6 @@ void MainWindow::slotFile_MBLUE_ShowArea() {
     }
 }
 
-//---------------------------------------------
 void MainWindow::slotFile_Load_GRIB() {
     double x0, y0, x1, y1;
     if (earth->getSelectedRectangle(&x0, &y0, &x1, &y1)
@@ -1543,13 +1527,11 @@ void MainWindow::slotFile_Load_GRIB() {
     }
 }
 
-//-----------------------------------------------
 void MainWindow::slotFile_GribServerStatus() {
     DialogServerStatus dial(networkManager);
     dial.exec();
 }
 
-//-----------------------------------------------
 QString MainWindow::dataPresentInGrib(GribReader *grib,
         int dataType, int levelType, int levelValue,
         bool *ok) {
@@ -1592,7 +1574,6 @@ QString MainWindow::dataPresentInGrib(GribReader *grib,
     }
 }
 
-//-----------------------------------------------
 void MainWindow::slotFile_Info_GRIB() {
     GriddedPlotter *plotter = earth->getGriddedPlotter();
     if (!plotter || !plotter->isReaderOk()) {
@@ -1698,7 +1679,6 @@ void MainWindow::slotFile_Info_GRIB() {
             msg);
 }
 
-//========================================================================
 void MainWindow::slotDateGribChanged(int id) {
     time_t date = menuBar->getDateGribById(id);
     //printf("id= %d : %d %s\n",id, (int)date, qPrintable(Util::formatDateTimeLong(date)));
@@ -1708,7 +1688,7 @@ void MainWindow::slotDateGribChanged(int id) {
     dateChooser->setDate(date);
     updateBoardPanel();
 }
-//-------------------------------------------------
+
 void MainWindow::slotDateGribChanged_next() {
     int id = menuBar->cbDatesGrib->currentIndex();
     if (id < menuBar->cbDatesGrib->count() - 1) {
@@ -1716,7 +1696,7 @@ void MainWindow::slotDateGribChanged_next() {
         slotDateGribChanged(id + 1);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotDateGribChanged_prev() {
     int id = menuBar->cbDatesGrib->currentIndex();
     if (id > 0) {
@@ -1724,38 +1704,38 @@ void MainWindow::slotDateGribChanged_prev() {
         slotDateGribChanged(id - 1);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotDateChooserChanged(time_t date, bool isMoving) {
     if (!isMoving) {
         menuBar->updateCurrentDate(date);
         earth->setCurrentDate(date);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotShowDateChooser(bool b) {
     dateChooser->setVisible(b);
     Util::setSetting("showDateChooser", b);
 }
-//-------------------------------------------------
+
 void MainWindow::slotShowColorScale(bool b) {
     if (colorScaleWidget) {
         colorScaleWidget->setVisible(b);
         Util::setSetting("showColorScale", b);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotShowBoardPanel(bool b) {
     if (boardPanel) {
         boardPanel->setVisible(b);
         Util::setSetting("showBoardPanel", b);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotWindArrows(bool b) {
     // pas de barbules sans flèches
     menuBar->acView_Barbules->setEnabled(b);
 }
-//-------------------------------------------------
+
 void MainWindow::statusBar_showSelectedZone() {
     double x0, y0, x1, y1;
     earth->getSelectedLine(&x0, &y0, &x1, &y1);
@@ -1776,7 +1756,6 @@ void MainWindow::statusBar_showSelectedZone() {
     statusBar->showMessage(message);
 }
 
-//--------------------------------------------------------------
 void MainWindow::slotMouseClicked(QMouseEvent *e) {
     statusBar_showSelectedZone();
 
@@ -1806,7 +1785,7 @@ void MainWindow::slotMouseClicked(QMouseEvent *e) {
         break;
     }
 }
-//----------------------------------------------------
+
 void MainWindow::slotMouseMoved(QMouseEvent *) {
     if (earth->isSelectingZone()) {
         statusBar_showSelectedZone();
@@ -1815,7 +1794,7 @@ void MainWindow::slotMouseMoved(QMouseEvent *) {
         updateBoardPanel();
     }
 }
-//----------------------------------------------------
+
 void MainWindow::updateBoardPanel() {
     if (earth->underMouse()) {
         GriddedPlotter *plotter = earth->getGriddedPlotter();
@@ -1833,12 +1812,12 @@ void MainWindow::updateBoardPanel() {
         }
     }
 }
-//--------------------------------------------------------------
+
 void MainWindow::slotMouseLeaveTerre(QEvent *) {
     DataPointInfo pf(NULL, 0, 0, 0);
     boardPanel->showDataPointInfo(pf, 0);
 }
-//--------------------------------------------------------------
+
 void MainWindow::slotChangeFonts() {
     foreach (FontSelector *fontsel, dialogFonts->hashFontSelectors) {
         Font::changeGlobalFont(fontsel->getFontCode(), fontsel->getFont());
@@ -1854,7 +1833,6 @@ void MainWindow::slotChangeFonts() {
     statusBar->setFont(Font::getFont(FONT_StatusBar));
 }
 
-//-------------------------------------------------
 void MainWindow::setMenubarColorMapData(const DataCode &dtc, bool trigAction) {
     MenuBar *mb = menuBar;
     QAction *act = NULL;
@@ -1912,7 +1890,6 @@ void MainWindow::setMenubarColorMapData(const DataCode &dtc, bool trigAction) {
     mb->acView_GroupColorMap->setCheckedAction(act, trigAction, false);
 }
 
-//=======================================================================
 void MainWindow::slot_GroupColorMap(QAction *act) {
     if (!earth->getGriddedPlotter() || !earth->getGriddedPlotter()->isReaderOk()) {
         return;
@@ -2073,7 +2050,7 @@ void MainWindow::slot_GroupColorMap(QAction *act) {
         colorScaleWidget->setColorScale(earth->getGriddedPlotter(), dtc);
     }
 }
-//--------------------------------------------------------
+
 void MainWindow::slot_GroupAltitude(QAction *act) {
     if (!earth->getGriddedPlotter() || !earth->getGriddedPlotter()->isReaderOk()) {
         return;
@@ -2143,7 +2120,7 @@ void MainWindow::slot_GroupAltitude(QAction *act) {
         colorScaleWidget->setColorScale(earth->getGriddedPlotter(), dtc);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::setMenubarAltitudeData(DataCode dtc) {
     if (!earth->getGriddedPlotter() || !earth->getGriddedPlotter()->isReaderOk()) {
         return;
@@ -2194,7 +2171,7 @@ void MainWindow::setMenubarAltitudeData(DataCode dtc) {
         checkAltitude(LV_ATMOS_ALL, 0, mb->acAlt_Atmosphere, alt, dtc);
     }
 }
-//----------------------------------------------------------------------
+
 void MainWindow::checkAltitude(int levelType, int levelValue,
         QAction *action,
         const Altitude &alt,
@@ -2206,7 +2183,7 @@ void MainWindow::checkAltitude(int levelType, int levelValue,
         }
     }
 }
-//----------------------------------------------------
+
 void MainWindow::setMenuBarGeopotentialLines(
         const DataCode &dtc,
         bool drawGeopot,
@@ -2272,7 +2249,7 @@ void MainWindow::setMenuBarGeopotentialLines(
     }
     mb->acAlt_GeopotLabels->setChecked(drawLabels);
 }
-//----------------------------------------------------
+
 void MainWindow::slot_GroupGeopotentialLines(QAction *act) {
     MenuBar *mb = menuBar;
     DataCode dtc;
@@ -2312,7 +2289,7 @@ void MainWindow::slot_GroupGeopotentialLines(QAction *act) {
         earth->setDrawGeopotential(false);
     }
 }
-//----------------------------------------------------
+
 void MainWindow::slot_GroupGeopotentialStep(QAction *act) {
     MenuBar *mb = menuBar;
     DataCode dtc;
@@ -2338,12 +2315,12 @@ void MainWindow::slot_GroupGeopotentialStep(QAction *act) {
         earth->setGeopotentialStep(100);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotExportImage() {
     ImageWriter writer(this, earth);
     writer.saveCurrentImage();
 }
-//--------------------------------------------------------
+
 void MainWindow::slot_GroupWavesArrows(QAction *act) {
     if (!earth->getGriddedPlotter() || !earth->getGriddedPlotter()->isReaderOk()) {
         return;
@@ -2368,13 +2345,13 @@ void MainWindow::slot_GroupWavesArrows(QAction *act) {
         earth->setWaveArrowsType(GRB_PRV_WAV_SCDY);
     }
 }
-//-------------------------------------------------
+
 void MainWindow::slotShowSkewtDiagram() {
     double lon, lat;
     proj->screen2map(mouseClicX, mouseClicY, &lon, &lat);
     openSkewtDiagramWindow(lon, lat);
 }
-//-------------------------------------------------
+
 void MainWindow::openSkewtDiagramWindow(double lon, double lat,
         GriddedReader *reader, time_t date) {
     //DBG("%g, %g",lon,lat);
@@ -2391,7 +2368,7 @@ void MainWindow::openSkewtDiagramWindow(double lon, double lat,
     SkewTWindow *sdial = new SkewTWindow(skewt);
     sdial->show();
 }
-//-------------------------------------------------
+
 void MainWindow::slotGenericAction() {
     QAction *ac = (QAction *)sender();
     if (ac == menuBar->acMap_AutoZoomOnGribArea) {

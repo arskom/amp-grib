@@ -17,9 +17,9 @@
  *   Curve Drawer
  *=========================================================================================
  */
-//-------------------------------------------------------------------------------
+
 // CurveDrawer: Constructor for single point
-//-------------------------------------------------------------------------------
+
 CurveDrawer::CurveDrawer(GriddedPlotter *plotter,
         double lon, double lat)
         : QWidget(NULL, Qt::Window) {
@@ -49,9 +49,9 @@ CurveDrawer::CurveDrawer(GriddedPlotter *plotter,
         this->show();
     }
 }
-//-------------------------------------------------------------------------------
+
 // CurveDrawer: Constructor for two POIs
-//-------------------------------------------------------------------------------
+
 //CurveDrawer::CurveDrawer( GriddedPlotter *plotter, QWidget *parentWindow )
 //:	QDialog(parentWindow)
 //{
@@ -99,9 +99,9 @@ CurveDrawer::CurveDrawer(GriddedPlotter *plotter,
 //		this->show();
 //	}
 //}
-//-------------------------------------------------------------------------------
+
 // Destructor
-//-------------------------------------------------------------------------------
+
 CurveDrawer::~CurveDrawer() {
     for (int i = 0; i < 4; i++) {
         if (qwtCurve[i]) {
@@ -122,9 +122,9 @@ CurveDrawer::~CurveDrawer() {
     // OpenCPN, polar boat parameters
     //	if( myPolar ) {delete myPolar;};
 }
-//-------------------------------------------------------------------------------
+
 // create data tables for single point
-//-------------------------------------------------------------------------------
+
 bool CurveDrawer::createTable(const int &iDataChosen) {
     bool bFirst;
     float dDir, dDirH, dStep;
@@ -199,9 +199,9 @@ bool CurveDrawer::createTable(const int &iDataChosen) {
     qvY2Axis = &qvWindDir;
     return true;
 }
-//-------------------------------------------------------------------------------
+
 // create data tables for POIs
-//-------------------------------------------------------------------------------
+
 // OpenCPN
 //bool CurveDrawer::createTablePOI( const int &iDataChosen )
 //{
@@ -307,9 +307,8 @@ bool CurveDrawer::createTable(const int &iDataChosen) {
 //	return true;
 //}
 
-//-------------------------------------------------------------------------------
 // init all data strcture for plotting
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::initDataPlot(const int &iDataChosen) {
     //------------------------------------------------------------------
     // set up x-axis
@@ -446,10 +445,9 @@ void CurveDrawer::initDataPlot(const int &iDataChosen) {
     qwtDataPlot->replot();
 }
 
-//-------------------------------------------------------------------------------
 // Create data plot
 // todo: method must be redone
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::createDataPlot(const int &iDataChosen, const QString &sTitle) {
     QString sUnitYLeft;
 
@@ -509,13 +507,13 @@ void CurveDrawer::createDataPlot(const int &iDataChosen, const QString &sTitle) 
 
     qwtDataPlot->replot();
 }
-//-------------------------------------------------------------------------------
+
 // slots for button events
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::slotExitClicked() { delete this; }
-//-------------------------------------------------------------------------------
+
 // Change from current time to date display on x-axis
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::slotFileSelector() {
     QString fileName = Util::getSetting("boatParameterFileName", "").toString();
     QFileInfo finfo(fileName);
@@ -528,9 +526,9 @@ void CurveDrawer::slotFileSelector() {
         // update polar data from new file
     }
 }
-//-------------------------------------------------------------------------------
+
 // Change from current time to date display on x-axis
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::slotCurrentClicked(bool bState) {
     if (bState) {
         // display graph starting from current time
@@ -545,9 +543,9 @@ void CurveDrawer::slotCurrentClicked(bool bState) {
     }
     qwtDataPlot->replot();
 }
-//-------------------------------------------------------------------------------
+
 // slot for new data is chosen from drop-down box
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::slotDataChosen(int iDataChosen) {
     int iData;
     QString sTitle;
@@ -563,9 +561,9 @@ void CurveDrawer::slotDataChosen(int iDataChosen) {
     createTable(iData);
     createDataPlot(iData, sTitle);
 }
-//-------------------------------------------------------------------------------
+
 // slot: new track in drop-down box selected
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::slotSelectTrack(int iSelectedTrack) {
     int iData;
     QString sTitle;
@@ -604,18 +602,18 @@ void CurveDrawer::slotSelectTrack(int iSelectedTrack) {
     setupXAxis(qvXAxis->first(), qvXAxis->last());
     createDataPlot(iData, sTitle);
 }
-//-------------------------------------------------------------------------------
+
 // slot for legend item checking
 // toggle legend item check box and do replot
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::slotLegendChecked(const QVariant &itemInfo, bool on, int /*index*/) {
     QwtPlotItem *item = qwtDataPlot->infoToItem(itemInfo);
     activateLegend(item, on);
     qwtDataPlot->replot();
 }
-//-------------------------------------------------------------------------------
+
 // check / decheck legend without a replot
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::activateLegend(QwtPlotItem *pItem, bool on) {
     // switch between wind direction and derivateive of direction for Y2 axis
     if (pItem == qwtCurve[1]) {
@@ -647,9 +645,9 @@ void CurveDrawer::activateLegend(QwtPlotItem *pItem, bool on) {
         lgdItem->setChecked(on);
     }
 }
-//-------------------------------------------------------------------------------
+
 // get data unit for axis title
-//-------------------------------------------------------------------------------
+
 QString CurveDrawer::getPlotUnit(const int &iDataChosen) {
     QString sUnit;
     switch (iDataChosen) {
@@ -677,9 +675,9 @@ QString CurveDrawer::getPlotUnit(const int &iDataChosen) {
     }
     return sUnit;
 }
-//-------------------------------------------------------------------------------
+
 // Append data to the curves based on chosen curvesfor display
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::appendCurves(const int &iDataChosen, const DataPointInfo *pinfo) {
     if (iDataChosen == GRB_WIND_SPEED) {
         qvY1Axis << convertData(GRB_WIND_SPEED, pinfo->windSpeed_10m);
@@ -700,9 +698,9 @@ void CurveDrawer::appendCurves(const int &iDataChosen, const DataPointInfo *pinf
         qvY1Axis << convertData(iDataChosen, pinfo->getDataValue(DataCode(iDataChosen, LV_ABOV_GND, 0)));
     }
 }
-//-------------------------------------------------------------------------------
+
 // Convert data to display plot corespondingly to user settings
-//-------------------------------------------------------------------------------
+
 float CurveDrawer::convertData(const int &iDataKey, const float &fDataVal) {
     float fVal;
     QString sUnit;
@@ -727,10 +725,10 @@ float CurveDrawer::convertData(const int &iDataKey, const float &fDataVal) {
         return fDataVal;
     }
 }
-//-------------------------------------------------------------------------------
+
 // Calculate inbound angle between two directions
 //		bool parameter controls return of absulte difference
-//-------------------------------------------------------------------------------
+
 float CurveDrawer::getInboundAngle(const float &fAngle1, const float &fAngle2, bool bAbs) {
     float fDiff;
     float sfDiff;
@@ -749,9 +747,9 @@ float CurveDrawer::getInboundAngle(const float &fAngle1, const float &fAngle2, b
         return (sfDiff * fDiff);
     }
 }
-//-------------------------------------------------------------------------------
+
 // additional constructor
-//-------------------------------------------------------------------------------
+
 bool CurveDrawer::privateConstructor() {
     setWindowTitle(tr("Plot data of chosen point"));
 
@@ -818,9 +816,8 @@ bool CurveDrawer::privateConstructor() {
     return true;
 }
 
-//--------------------------------------------------------------------------------------------
 // setup x axis at initialization and replot of new track
-//--------------------------------------------------------------------------------------------
+
 void CurveDrawer::setupXAxis(const double &dFirst, const double &dLast) {
     double dTimeStep = (abs(dFirst - dLast) > 30) ? 12. : 3.;
     qwtDataPlot->setAxisScale(QwtPlot::xBottom, dFirst, dLast, dTimeStep);
@@ -838,9 +835,9 @@ void CurveDrawer::setupXAxis(const double &dFirst, const double &dLast) {
         qwtDataPlot->enableAxis(QwtPlot::xTop, false);
     }
 }
-//--------------------------------------------------------------------------------------------
+
 // initialize object attributes at creation
-//--------------------------------------------------------------------------------------------
+
 void CurveDrawer::initObj() {
     for (int i = 0; i < 4; i++) {
         qwtCurve[i] = NULL;
@@ -853,9 +850,8 @@ void CurveDrawer::initObj() {
     //	myPolar = NULL;
 };
 
-//-------------------------------------------------------------------------------
 // Initialize interface by registring signals and call of show
-//-------------------------------------------------------------------------------
+
 void CurveDrawer::initInterface() {
     this->resize(940, 740);
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -927,9 +923,9 @@ void CurveDrawer::initInterface() {
  *   Curve Drawer Tool Bar 
  *=========================================================================================
  */
-//-------------------------------------------------------------------------------
+
 // Constructor
-//-------------------------------------------------------------------------------
+
 CurveDrawerButtonBar::CurveDrawerButtonBar(QWidget *parent, bool bSingle)
         : QToolBar(parent) {
     this->setFloatable(false);
@@ -1000,9 +996,9 @@ CurveDrawerButtonBar::CurveDrawerButtonBar(QWidget *parent, bool bSingle)
         tmpWPLabel->setVisible(false);
     }
 }
-//-------------------------------------------------------------------------------
+
 // Slot for aggregated signal handling
-//-------------------------------------------------------------------------------
+
 void CurveDrawerButtonBar::slotCommonActions() {
     if (sender() == acExit) {
         emit signalExitClicked();

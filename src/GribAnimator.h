@@ -38,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Projection.h"
 #include "Terrain.h"
 
-//=====================================================================================
 class AnimImage {
 public:
     AnimImage();
@@ -48,7 +47,6 @@ public:
     time_t date;
 };
 
-//=====================================================================================
 class AnimCommand : public QToolBar {
     Q_OBJECT
 public:
@@ -88,7 +86,6 @@ private slots:
     void changeCurrentImage(int);
 };
 
-//=====================================================================================
 class CreateAnimProgressBar : public QWidget {
     Q_OBJECT
 public:
@@ -100,7 +97,6 @@ private:
     QProgressBar *progressBar;
 };
 
-//=====================================================================================
 class GribAnimator : public QDialog {
     Q_OBJECT
 public:

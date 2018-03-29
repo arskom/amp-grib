@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <cmath>
 #include <cstdio>
 
-//----------------------------------------------------------------------
 double DataRecordAbstract::dewpointMagnusTetens(double tempK, double humidRel) {
     double dewpoint = GRIB_NOTDEF;
     if (tempK != GRIB_NOTDEF && humidRel != GRIB_NOTDEF) {
@@ -45,7 +44,7 @@ double DataRecordAbstract::dewpointMagnusTetens(double tempK, double humidRel) {
     }
     return dewpoint;
 }
-//----------------------------------------------------------------------
+
 double DataRecordAbstract::dewpointHardy(double tempK, double humidRel) {
     double dewpoint = GRIB_NOTDEF;
     if (tempK != GRIB_NOTDEF && humidRel != GRIB_NOTDEF) {
@@ -63,7 +62,7 @@ double DataRecordAbstract::dewpointHardy(double tempK, double humidRel) {
     }
     return dewpoint;
 }
-//----------------------------------------------------------------------
+
 double DataRecordAbstract::computeGeopotentialAltitude(
         double Phpa // pressure (hPa)
 ) {
@@ -77,7 +76,6 @@ double DataRecordAbstract::computeGeopotentialAltitude(
     return ((Tb + L * Zb) * pow(Pb / Ps, L * Ra / gb) - Tb) / L;
 }
 
-//----------------------------------------------------------------------
 /** Compute a timestamp in the UTC timezone.
 */
 time_t DataRecordAbstract::UTC_mktime(

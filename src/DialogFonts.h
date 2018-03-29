@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogBoxBase.h"
 #include "Font.h"
 
-//-------------------------------------------------
 class FontSelector : public QWidget {
     Q_OBJECT
 public:
@@ -55,7 +54,6 @@ public slots:
     void btdefaultClicked();
 };
 
-//-------------------------------------------------
 class DialogFonts : public DialogBoxBase {
     Q_OBJECT
 public:

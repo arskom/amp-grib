@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogServerStatus.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------------------
 QString DialogLoadMBLUE::getFile(MeteoblueZone zone,
         QNetworkAccessManager *manager, QWidget *parent,
         double x0, double y0, double x1, double y1) {
@@ -35,7 +34,6 @@ QString DialogLoadMBLUE::getFile(MeteoblueZone zone,
     return dial.savedFileName;
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadMBLUE::closeEvent(QCloseEvent *) {
     if (loadmblue) {
         loadmblue->deleteLater();
@@ -49,7 +47,6 @@ void DialogLoadMBLUE::slotFinished(int) {
     }
 }
 
-//-------------------------------------------------------------------------------
 DialogLoadMBLUE::DialogLoadMBLUE(MeteoblueZone zone,
         QNetworkAccessManager *manager, QWidget *parent)
         : DialogBoxBase(parent) {
@@ -127,19 +124,16 @@ DialogLoadMBLUE::DialogLoadMBLUE(MeteoblueZone zone,
     connect(chkAltitudeAll, SIGNAL(stateChanged(int)), this, SLOT(slotAltitudeAll()));
 }
 
-//-------------------------------------------------------------------------------
 DialogLoadMBLUE::~DialogLoadMBLUE() {
     if (loadmblue != NULL) {
         delete loadmblue;
     }
 }
 
-//----------------------------------------------------
 void DialogLoadMBLUE::slotGribMessage(QString msg) {
     labelMsg->setText(msg);
 }
 
-//----------------------------------------------------
 void DialogLoadMBLUE::slotGribDataReceived(QByteArray *content, QString fileName) {
     setCursor(oldcursor);
     QString path;
@@ -193,7 +187,6 @@ void DialogLoadMBLUE::slotGribDataReceived(QByteArray *content, QString fileName
     }
 }
 
-//----------------------------------------------------
 void DialogLoadMBLUE::slotGribFileError(QString error) {
     setCursor(oldcursor);
     if (!loadInProgress) {
@@ -211,12 +204,10 @@ void DialogLoadMBLUE::slotGribFileError(QString error) {
     labelMsg->setText("");
 }
 
-//----------------------------------------------------
 void DialogLoadMBLUE::slotGribStartLoadData() {
     timeLoad.start();
 }
 
-//----------------------------------------------------
 void DialogLoadMBLUE::slotGribReadProgress(int step, int done, int total) {
     if (step < 2) {
         progressBar->setRange(0, 1000);
@@ -241,7 +232,6 @@ void DialogLoadMBLUE::slotGribReadProgress(int step, int done, int total) {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadMBLUE::updateParameters() {
     double tmp, xm, ym;
 
@@ -328,7 +318,6 @@ void DialogLoadMBLUE::updateParameters() {
     Util::setSetting("MBdownloadAltitudeData850", chkAltitude850->isChecked());
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadMBLUE::slotParameterUpdated() {
     updateParameters();
 
@@ -384,7 +373,7 @@ void DialogLoadMBLUE::slotParameterUpdated() {
         btOK->setEnabled(true);
     }
 }
-//-------------------------------------------------------------------------------
+
 bool DialogLoadMBLUE::testSelectedZoneInMeteoblueZone() {
     double x0, y0, x1, y1;
     if (xmin < xmax) {
@@ -419,7 +408,6 @@ bool DialogLoadMBLUE::testSelectedZoneInMeteoblueZone() {
     return false;
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadMBLUE::slotAltitudeAll() {
     bool check = chkAltitudeAll->isChecked();
     chkAltitude200->setChecked(check);
@@ -428,7 +416,7 @@ void DialogLoadMBLUE::slotAltitudeAll() {
     chkAltitude700->setChecked(check);
     chkAltitude850->setChecked(check);
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadMBLUE::slotBtOK() {
     if (!testSelectedZoneInMeteoblueZone()) {
         return;
@@ -473,17 +461,17 @@ void DialogLoadMBLUE::slotBtOK() {
             chkAltitude850->isChecked(),
             GUSTsfc);
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadMBLUE::slotBtServerStatus() {
     DialogServerStatus dial(networkManager);
     dial.exec();
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadMBLUE::slotBtProxy() {
     DialogProxy dial(this);
     dial.exec();
 }
-//-------------------------------------------------------------------------------
+
 void DialogLoadMBLUE::slotBtCancel() {
     setCursor(oldcursor);
 
@@ -500,7 +488,6 @@ void DialogLoadMBLUE::slotBtCancel() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogLoadMBLUE::setZone(double x0, double y0, double x1, double y1) {
     double tmp;
     if (x0 > x1) {
@@ -525,7 +512,6 @@ void DialogLoadMBLUE::setZone(double x0, double y0, double x1, double y1) {
     testSelectedZoneInMeteoblueZone();
 }
 
-//-------------------------------------------------------------------------------
 QFrame *DialogLoadMBLUE::createFrameButtonsZone(QWidget *parent) {
     QFrame *ftmp;
     QFrame *frm = new QFrame(parent);
@@ -827,7 +813,7 @@ QFrame *DialogLoadMBLUE::createFrameButtonsZone(QWidget *parent) {
 
     return frm;
 }
-//----------------------------------------------------------------------------
+
 void DialogLoadMBLUE::addSeparator(QLayout *layout, char orientation) {
     QFrame *ftmp;
     ftmp = new QFrame();

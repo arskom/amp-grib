@@ -33,7 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataPointInfo.h"
 #include "Util.h"
 
-//----------------------------------------------------------
 class BoardPanelCell : public QFrame {
 public:
     BoardPanelCell(QWidget *parent, QLayout *lay);
@@ -48,7 +47,6 @@ private:
     bool visible;
 };
 
-//----------------------------------------------------------
 class BoardPanel : public QDockWidget {
     Q_OBJECT
 public:

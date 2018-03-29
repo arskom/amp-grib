@@ -25,7 +25,6 @@ struct tyWindBoatSpeed {
     double dBoatSpeed;
 };
 
-//----------------------------------------------------------------------
 class BoatSpeed {
 public:
     BoatSpeed(QString);

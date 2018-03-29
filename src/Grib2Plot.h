@@ -26,7 +26,6 @@ Dessin des données GRIB (avec QT)
 #include "Grib2Reader.h"
 #include "GribPlot.h"
 
-//===============================================================
 class Grib2Plot : public GribPlot {
 public:
     Grib2Plot();

@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ImageWriter.h"
 #include "Util.h"
 
-//=========================================================================================
 AnimImage::AnimImage() {
     pixmap = NULL;
 }
@@ -38,7 +37,6 @@ AnimImage::~AnimImage() {
     }
 }
 
-//=========================================================================================
 AnimCommand::AnimCommand(int nbImages, int speed, bool autoLoop, QWidget *parent)
         : QToolBar(parent) {
     this->nbImages = nbImages;
@@ -109,7 +107,7 @@ AnimCommand::AnimCommand(int nbImages, int speed, bool autoLoop, QWidget *parent
     this->addWidget(sliderCurrentImage);
     connect(sliderCurrentImage, SIGNAL(valueChanged(int)), this, SLOT(actionsCommonSlot()));
 }
-//---------------------------------------------------
+
 void AnimCommand::actionsCommonSlot() {
     if (sender() == acExit) {
         emit exitAnim();
@@ -138,25 +136,24 @@ void AnimCommand::actionsCommonSlot() {
         emit setAutoLoop(acAutoLoop->isChecked());
     }
 }
-//---------------------------------------------------
+
 int AnimCommand::speedSlider_ValueToSpeed() {
     int v = sliderSpeed->value();
     int max = sliderSpeed->maximum();
     speed = (int)(10.0 * pow(3.0 * (max + 1 - v), 1.2) + 0.5);
     return speed;
 }
-//---------------------------------------------------
+
 int AnimCommand::speedSlider_SpeedToValue(int speed) {
     int max = sliderSpeed->maximum();
     int v = (int)(max + 1 - pow(speed / 10.0, 1 / 1.2) / 3.0 + 0.5);
     return v;
 }
-//---------------------------------------------------
+
 void AnimCommand::changeCurrentImage(int ind) {
     sliderCurrentImage->setValue(ind + 1);
 }
 
-//=========================================================================================
 CreateAnimProgressBar::CreateAnimProgressBar(int nbImages, QWidget *parent)
         : QWidget(parent) {
     this->nbImages = nbImages;
@@ -170,13 +167,11 @@ CreateAnimProgressBar::CreateAnimProgressBar(int nbImages, QWidget *parent)
 
     lay->addWidget(progressBar);
 }
-//---------------------------------------------------------
+
 void CreateAnimProgressBar::setCurrentValue(int n) {
     progressBar->setValue(n);
 }
 
-//=========================================================================================
-//-------------------------------------------------------------------------------
 void GribAnimator::showImage(int ind, bool showmsg) {
     if (closestatus != 0) {
         return; // animation creation interrupted
@@ -193,7 +188,7 @@ void GribAnimator::showImage(int ind, bool showmsg) {
         emit changeCurrentImage(currentImage);
     }
 }
-//---------------------------------------
+
 void GribAnimator::showNextImage() {
     currentImage++;
 
@@ -217,21 +212,21 @@ void GribAnimator::showNextImage() {
         showImage(currentImage);
     }
 }
-//---------------------------------------
+
 void GribAnimator::setAutoLoop(bool auto_) {
     Util::setSetting("animAutoLoop", auto_);
     autoLoop = auto_;
 }
-//---------------------------------------
+
 void GribAnimator::exitAnim() {
     closestatus = 2;
     close();
 }
-//---------------------------------------
+
 void GribAnimator::rewindAnim() {
     showImage(0);
 }
-//---------------------------------------
+
 void GribAnimator::startAnim(int speed) {
     if (currentImage >= vectorImages.size()) {
         currentImage = 0;
@@ -239,23 +234,22 @@ void GribAnimator::startAnim(int speed) {
     }
     timerLoop->start(speed);
 }
-//---------------------------------------
+
 void GribAnimator::setSpeed(int speed) {
     Util::setSetting("animSpeed", speed);
     timerLoop->setInterval(speed);
 }
-//---------------------------------------
+
 void GribAnimator::pauseAnim() {
     timerLoop->stop();
 }
-//---------------------------------------
+
 void GribAnimator::timerPauseOut() {
     if (autoLoop) {
         timerLoop->start();
     }
 }
 
-//===================================================================
 void GribAnimator::createImages() {
     QPainter pnt;
     std::set<time_t>::iterator iter;
@@ -318,9 +312,8 @@ void GribAnimator::createImages() {
     }
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 QFrame *GribAnimator::createFrameGui(QWidget *parent) {
     QFrame *frm = new QFrame(parent);
     QVBoxLayout *frameLayout = new QVBoxLayout(frm);
@@ -341,8 +334,6 @@ QFrame *GribAnimator::createFrameGui(QWidget *parent) {
     return frm;
 }
 
-//=========================================================================================
-
 GribAnimator::~GribAnimator() {
     closestatus = 1;
     // 	DBG ("destructor GribAnimator");
@@ -358,7 +349,6 @@ GribAnimator::~GribAnimator() {
     }
 }
 
-//-------------------------------------------------------------------------------
 GribAnimator::GribAnimator(Terrain *terre) {
     setModal(false);
     setWindowTitle(tr("Animation"));
@@ -408,7 +398,6 @@ GribAnimator::GribAnimator(Terrain *terre) {
     rewindAnim();
 }
 
-//---------------------------------------
 void GribAnimator::saveAnimFile() {
     ImageWriter writer(this, terre);
     writer.saveAllImages();

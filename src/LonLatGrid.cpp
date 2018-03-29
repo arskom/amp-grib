@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Font.h"
 #include "LonLatGrid.h"
 
-//---------------------------------------------------------------
 double LonLatGrid::computeDeltaGrid(int *min, double pixperdeg) {
     double pixmin = 140; // Ecart mini en pixels entre lignes
 
@@ -79,7 +78,6 @@ double LonLatGrid::computeDeltaGrid(int *min, double pixperdeg) {
     return delta;
 }
 
-//---------------------------------------------------------------
 void LonLatGrid::drawLongitude(QPainter &pnt, Projection *proj) {
     int min = (int)floor(proj->getXmin());
     int max = (int)ceil(proj->getXmax());
@@ -101,7 +99,6 @@ void LonLatGrid::drawLongitude(QPainter &pnt, Projection *proj) {
     }
 }
 
-//---------------------------------------------------------------
 void LonLatGrid::drawLatitude(QPainter &pnt, Projection *proj) {
     int min = (int)floor(proj->getYmin());
     int max = (int)ceil(proj->getYmax());
@@ -123,13 +120,11 @@ void LonLatGrid::drawLatitude(QPainter &pnt, Projection *proj) {
     }
 }
 
-//---------------------------------------------------------------
 void LonLatGrid::drawLonLatGrid(QPainter &pnt, Projection *proj) {
     drawLongitude(pnt, proj);
     drawLatitude(pnt, proj);
 }
 
-//---------------------------------------------------------------
 void LonLatGrid::drawLabel(QPainter &pnt, const Projection *proj,
         double value, int i, int j) {
     int a, b, c, d;

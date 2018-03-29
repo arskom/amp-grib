@@ -21,12 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataQString.h"
 #include "Font.h"
 
-//================================================================
 ColorScaleGraph::ColorScaleGraph(QWidget *parent)
         : QWidget(parent) {
     sc = NULL;
 }
-//---------------------------------------------------------------
+
 void ColorScaleGraph::setColorScale(DataColors *datacolors, const DataCode &dtc) {
     // 	DBGQS(DataCodeStr::toString(dtc));
     this->datacolors = datacolors;
@@ -34,7 +33,7 @@ void ColorScaleGraph::setColorScale(DataColors *datacolors, const DataCode &dtc)
     this->dtc = dtc;
     update();
 }
-//---------------------------------------------------------------
+
 void ColorScaleGraph::paintEvent(QPaintEvent *) {
     int W = width(), H = height();
     QPainter pnt(this);
@@ -75,7 +74,7 @@ void ColorScaleGraph::paintEvent(QPaintEvent *) {
         }
     }
 }
-//------------------------------------------------------------
+
 QString ColorScaleGraph::formatValue(double v) {
     float t0, tv;
     switch (dtc.dataType) {
@@ -117,7 +116,6 @@ QString ColorScaleGraph::formatValue(double v) {
     }
 }
 
-//================================================================
 ColorScaleWidget::ColorScaleWidget(QWidget *parent)
         : QDockWidget(parent) {
     this->setObjectName("ColorScaleWidget");
@@ -132,7 +130,7 @@ ColorScaleWidget::ColorScaleWidget(QWidget *parent)
 
     setVisible(true);
 }
-//---------------------------------------------------------------
+
 void ColorScaleWidget::setColorScale(DataColors *datacolors, const DataCode &dtc) {
     graph->setColorScale(datacolors, dtc);
 }

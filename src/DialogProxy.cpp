@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogProxy.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------------------
 DialogProxy::DialogProxy(QWidget *parent)
         : DialogBoxBase(parent) {
     QLabel *label;
@@ -87,7 +86,6 @@ DialogProxy::DialogProxy(QWidget *parent)
     connect(btOK, SIGNAL(clicked()), this, SLOT(slotBtOK()));
 }
 
-//-------------------------------------------------------------------------------
 void DialogProxy::slotUseProxyChanged() {
     bool usep = btUseProxy->isChecked();
     lineProxyHostname->setEnabled(usep);
@@ -99,7 +97,7 @@ void DialogProxy::slotUseProxyChanged() {
         listProxyLabels[i]->setEnabled(usep);
     }
 }
-//-------------------------------------------------------------------------------
+
 void DialogProxy::slotTrueHttpDownloadChanged() {
     bool usep = btStrictHttpDownload->isChecked();
     lineZygribForumUserName->setEnabled(usep);
@@ -109,7 +107,6 @@ void DialogProxy::slotTrueHttpDownloadChanged() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void DialogProxy::slotBtOK() {
     Util::setSetting("httpUseProxy", btUseProxy->isChecked());
     Util::setSetting("httpProxyHostname", Util::encode(lineProxyHostname->text()));
@@ -126,14 +123,13 @@ void DialogProxy::slotBtOK() {
 
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogProxy::slotBtCancel() {
     reject();
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 QFrame *DialogProxy::createFrameGui(QWidget *parent) {
     QFrame *frm = new QFrame(parent);
     QFrame *ftmp;

@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "zuFile.h"
 
-//==========================================================
 class GisPoint {
 public:
     float x, y; // longitude, latitude
@@ -43,7 +42,7 @@ public:
 
     virtual void draw(QPainter *pnt, Projection *proj);
 };
-//----------------------------------------------------------
+
 class GisCountry : public GisPoint {
 public:
     QString code;
@@ -58,7 +57,7 @@ public:
 
     virtual void draw(QPainter *pnt, Projection *proj);
 };
-//----------------------------------------------------------
+
 class GisCity : public GisPoint {
 public:
     QString country;
@@ -82,7 +81,6 @@ private:
     int x0, y0; // for drawing
 };
 
-//==========================================================
 class GisReader {
 public:
     GisReader();

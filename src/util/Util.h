@@ -252,11 +252,11 @@ public:
     QByteArray data;
     void append(QByteArray in);
 };
-//======================================================================
+
 inline int Util::kmhToBeaufort(float v) {
     return (int)(kmhToBeaufort_F(v) + 0.5);
 }
-//-----------------------------------------------------------------------------
+
 inline float Util::kmhToBeaufort_F(float v) {
     float bf = pow(v * v / 9.0, 0.33333);
     if (bf > 12.0)
@@ -266,7 +266,7 @@ inline float Util::kmhToBeaufort_F(float v) {
 inline float Util::BeaufortToKmh_F(float bf) {
     return sqrt(bf * bf * bf * 9.0);
 }
-//-----------------------------------------------------------------------------
+
 inline int Util::msToBeaufort(float v) {
     return (int)(msToBeaufort_F(v) + 0.5);
 }

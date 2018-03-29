@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include "Version.h"
 
-//========================================================================
 FileLoaderGRIB::FileLoaderGRIB(QNetworkAccessManager *manager, QWidget *parent)
         : FileLoader(manager) {
     this->parent = parent;
@@ -41,7 +40,7 @@ FileLoaderGRIB::FileLoaderGRIB(QNetworkAccessManager *manager, QWidget *parent)
     zygriblog = "a07622b82b18524d2088c9b272bb3feeb0eb1737";
     zygribpwd = "61c9b2b17db77a27841bbeeabff923448b0f6388";
 }
-//-------------------------------------------------------------------------------
+
 FileLoaderGRIB::~FileLoaderGRIB() {
     if (reply_step1) {
         reply_step1->deleteLater();
@@ -53,7 +52,6 @@ FileLoaderGRIB::~FileLoaderGRIB() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderGRIB::stop() {
     if (reply_step1) {
         reply_step1->close();
@@ -65,7 +63,6 @@ void FileLoaderGRIB::stop() {
     }
 }
 
-//-------------------------------------------------------------------------------
 void FileLoaderGRIB::getGribFile(
         float x0, float y0, float x1, float y1,
         float resolution, int interval, int days,
@@ -241,7 +238,7 @@ void FileLoaderGRIB::getGribFile(
                 this, SLOT(slotFinished_step1()));
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderGRIB::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
     if (!downloadError) {
         if (sender() == reply_step1) {
@@ -254,7 +251,7 @@ void FileLoaderGRIB::slotNetworkError(QNetworkReply::NetworkError /*err*/) {
         }
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderGRIB::downloadProgress(qint64 done, qint64 total) {
     if (downloadError) {
         step = 1000;
@@ -264,7 +261,7 @@ void FileLoaderGRIB::downloadProgress(qint64 done, qint64 total) {
         emit signalGribReadProgress(step, done, total);
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderGRIB::slotFinished_step1() {
     // DBG("slotFinished_step1");
     if (!downloadError) {
@@ -327,7 +324,7 @@ void FileLoaderGRIB::slotFinished_step1() {
         }
     }
 }
-//-------------------------------------------------------------------------------
+
 void FileLoaderGRIB::slotFinished_step2() {
     // DBG("slotFinished_step2");
     if (!downloadError) {

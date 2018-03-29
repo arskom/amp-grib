@@ -3,7 +3,6 @@
 
 #include "PositionEditorWidget.h"
 
-//--------------------------------------------------------------
 PositionEditorWidget::PositionEditorWidget(QWidget *parent,
         double lat,
         double lon,
@@ -28,7 +27,6 @@ PositionEditorWidget::PositionEditorWidget(QWidget *parent,
     setLongitude(lon);
 }
 
-//-------------------------------------------------------
 double PositionEditorWidget::getLongitude() {
     QString signe = lon_sign->itemData(lon_sign->currentIndex()).toString();
     QString dir = lon_EW->itemData(lon_EW->currentIndex()).toString();
@@ -46,7 +44,6 @@ double PositionEditorWidget::getLongitude() {
     return val;
 }
 
-//-------------------------------------------------------
 double PositionEditorWidget::getLatitude() {
     QString signe = lat_sign->itemData(lat_sign->currentIndex()).toString();
     QString dir = lat_NS->itemData(lat_NS->currentIndex()).toString();
@@ -64,7 +61,6 @@ double PositionEditorWidget::getLatitude() {
     return val;
 }
 
-//--------------------------------------------------------------
 void PositionEditorWidget::setLongitude(double val) {
     lat_sign->setCurrentIndex(lat_sign->findData("+"));
 
@@ -117,7 +113,6 @@ void PositionEditorWidget::setLongitude(double val) {
     lon_minutes->setValue(min);
 }
 
-//--------------------------------------------------------------
 void PositionEditorWidget::setLatitude(double val) {
     lat_sign->setCurrentIndex(lat_sign->findData("+"));
 

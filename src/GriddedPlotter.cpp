@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TF_MINC 0.5
 #define TF_MAXC 8.0
 
-//--------------------------------------------------------------------
 GriddedPlotter::GriddedPlotter() {
     fastInterpolation = true;
     windAltitude = Altitude(LV_TYPE_NOT_DEFINED, 0);
@@ -59,19 +58,17 @@ GriddedPlotter::GriddedPlotter() {
     useJetStreamColorMap = false;
 }
 
-//--------------------------------------------------------------------
 GriddedPlotter::~GriddedPlotter() {
     listDates.clear();
 }
-//---------------------------------------------------
+
 void GriddedPlotter::updateGraphicsParameters() {
     setCloudsColorMode("cloudsColorMode");
     thinWindArrows = Util::getSetting("thinWindArrows", false).toBool();
 }
 
-//==================================================================================
 // Flèches de direction du vent
-//==================================================================================
+
 void GriddedPlotter::drawTransformedLine(QPainter &pnt,
         double si, double co, int di, int dj, int i, int j, int k, int l) {
     //     int ii, jj, kk, ll;
@@ -94,7 +91,7 @@ void GriddedPlotter::drawTransformedLine(QPainter &pnt,
         pnt.drawLine(ii, jj, kk, ll);
     }
 }
-//-----------------------------------------------------------------------------
+
 void GriddedPlotter::drawWaveArrow(QPainter &pnt,
         int i, int j, double dir, double /*period*/) {
     double ang = (dir - 90) / 180.0 * M_PI;
@@ -106,7 +103,7 @@ void GriddedPlotter::drawWaveArrow(QPainter &pnt,
     drawTransformedLine(pnt, si, co, i + windArrowSize / 2, j, 0, 0, 5, 2); // flèche
     drawTransformedLine(pnt, si, co, i + windArrowSize / 2, j, 0, 0, 5, -2); // flèche
 }
-//-----------------------------------------------------------------------------
+
 void GriddedPlotter::drawCurrentArrow(QPainter &pnt, int i, int j, double cx, double cy) {
     double vkn = sqrt(cx * cx + cy * cy) * 3.6 / 1.852;
     // double ang = atan2(cy, -cx)-M_PI;  // unlike wind, arrows follows the current
@@ -165,7 +162,7 @@ void GriddedPlotter::drawCurrentArrow(QPainter &pnt, int i, int j, double cx, do
     drawTransformedLine(pnt, si, co, i + coefLen / 2, j, 0, 0, 5, -2 * ytt); // flèche
     drawTransformedLine(pnt, si, co, i + coefLen / 2, j, 5, 2 * ytt, 5, -2 * ytt); // flèche
 }
-//-----------------------------------------------------------------------------
+
 // Called from MeteoTable
 void GriddedPlotter::drawCurrentArrow(
         QPainter &pnt,
@@ -194,7 +191,7 @@ void GriddedPlotter::drawCurrentArrow(
         drawTransformedLine(pnt, si, co, i, j, dec, 0, dec + 5, -2); // flèche
     }
 }
-//-----------------------------------------------------------------------------
+
 void GriddedPlotter::drawWindArrow(QPainter &pnt, int i, int j, double vx, double vy) {
     double ang = atan2(vy, -vx);
     double si = sin(ang), co = cos(ang);
@@ -210,7 +207,7 @@ void GriddedPlotter::drawWindArrow(QPainter &pnt, int i, int j, double vx, doubl
     drawTransformedLine(pnt, si, co, i - windArrowSize / 2, j, 0, 0, 5, 2); // flèche
     drawTransformedLine(pnt, si, co, i - windArrowSize / 2, j, 0, 0, 5, -2); // flèche
 }
-//-----------------------------------------------------------------------------
+
 void GriddedPlotter::drawWindArrowWithBarbs(
         QPainter &pnt,
         int i, int j, double vx, double vy,
@@ -224,7 +221,7 @@ void GriddedPlotter::drawWindArrowWithBarbs(
             this->windBarbuleSize,
             this->thinWindArrows);
 }
-//-----------------------------------------------------------------------------
+
 void GriddedPlotter::drawWindArrowWithBarbs_static(
         QPainter &pnt,
         int i, int j, double vx, double vy,
@@ -329,7 +326,7 @@ void GriddedPlotter::drawWindArrowWithBarbs_static(
         }
     }
 }
-//---------------------------------------------------------------
+
 void GriddedPlotter::drawPetiteBarbule(QPainter &pnt, bool south,
         double si, double co, int di, int dj, int b) {
     if (south) {
@@ -339,7 +336,7 @@ void GriddedPlotter::drawPetiteBarbule(QPainter &pnt, bool south,
         drawTransformedLine(pnt, si, co, di, dj, b, 0, b + 2, 5);
     }
 }
-//---------------------------------------------------------------
+
 void GriddedPlotter::drawGrandeBarbule(QPainter &pnt, bool south,
         double si, double co, int di, int dj, int b) {
     if (south) {
@@ -349,7 +346,7 @@ void GriddedPlotter::drawGrandeBarbule(QPainter &pnt, bool south,
         drawTransformedLine(pnt, si, co, di, dj, b, 0, b + 4, 10);
     }
 }
-//---------------------------------------------------------------
+
 void GriddedPlotter::drawTriangle(QPainter &pnt, bool south,
         double si, double co, int di, int dj, int b) {
     if (south) {
@@ -362,7 +359,6 @@ void GriddedPlotter::drawTriangle(QPainter &pnt, bool south,
     }
 }
 
-//==========================================================================
 // Rectangle translucide sur la zone couverte par les données
 void GriddedPlotter::draw_CoveredZone(QPainter &pnt, const Projection *proj) {
     GriddedReader *reader = getReader();
@@ -383,12 +379,10 @@ void GriddedPlotter::draw_CoveredZone(QPainter &pnt, const Projection *proj) {
     }
 }
 
-//==========================================================================
 // draw colored map
 
-//--------------------------------------------------------------------------
 // Carte de couleurs générique en dimension 1
-//--------------------------------------------------------------------------
+
 void GriddedPlotter::drawColorMapGeneric_1D(
         QPainter &pnt, const Projection *proj, bool smooth,
         DataCode dtc,
@@ -426,9 +420,9 @@ void GriddedPlotter::drawColorMapGeneric_1D(
     pnt.drawImage(0, 0, *image);
     delete image;
 }
-//--------------------------------------------------------------------------
+
 // Carte de couleurs générique en dimension 2
-//--------------------------------------------------------------------------
+
 void GriddedPlotter::drawColorMapGeneric_2D(
         QPainter &pnt, const Projection *proj, bool smooth,
         DataCode dtcX, DataCode dtcY,
@@ -471,9 +465,9 @@ void GriddedPlotter::drawColorMapGeneric_2D(
     pnt.drawImage(0, 0, *image);
     delete image;
 }
-//--------------------------------------------------------------------------
+
 // Carte de couleurs générique de la différence entre 2 champs
-//--------------------------------------------------------------------------
+
 void GriddedPlotter::drawColorMapGeneric_Abs_Delta_Data(
         QPainter &pnt, const Projection *proj, bool smooth,
         DataCode dtc1, DataCode dtc2,
@@ -516,7 +510,6 @@ void GriddedPlotter::drawColorMapGeneric_Abs_Delta_Data(
     delete image;
 }
 
-//-------------------------------------------------------------------------
 void GriddedPlotter::draw_listIsolines(
         std::vector<IsoLine *> &listIsolines,
         QPainter &pnt, const Projection *proj) {
@@ -525,7 +518,7 @@ void GriddedPlotter::draw_listIsolines(
         (*it)->drawIsoLine(pnt, proj);
     }
 }
-//--------------------------------------------------------------------------
+
 void GriddedPlotter::draw_listIsolines_labels(
         std::vector<IsoLine *> &listIsolines,
         double coef,
@@ -558,7 +551,7 @@ void GriddedPlotter::draw_listIsolines_labels(
         (*it)->drawIsoLineLabels(pnt, color, proj, density, first, coef, offset);
     }
 }
-//----------------------------------------------------
+
 void GriddedPlotter::complete_listIsolines(
         std::vector<IsoLine *> *listIsolines,
         DataCode dtc,
@@ -589,7 +582,7 @@ void GriddedPlotter::complete_listIsolines(
         }
     }
 }
-//-----------------------------------------------------------------
+
 void GriddedPlotter::analyseVisibleGridDensity(const Projection *proj, GriddedRecord *rec,
         double coef, int *deltaI, int *deltaJ) {
     int i0, j0, i1, j1;
@@ -615,7 +608,7 @@ void GriddedPlotter::analyseVisibleGridDensity(const Projection *proj, GriddedRe
         *deltaJ = 1;
     }
 }
-//======================================================================
+
 void GriddedPlotter::draw_DATA_Labels(
         DataCode dtc,
         QFont labelsFont,
@@ -649,7 +642,7 @@ void GriddedPlotter::draw_DATA_Labels(
         }
     }
 }
-//------------------------------------------------------------
+
 void GriddedPlotter::draw_DATA_MinMax(
         DataCode dtc,
         double meanValue,
@@ -715,7 +708,6 @@ void GriddedPlotter::draw_DATA_MinMax(
     }
 }
 
-//------------------------------------------------------------
 void GriddedPlotter::setCurrentDateClosestFromNow() {
     GriddedReader *reader = getReader();
     if (reader == NULL || !reader->isOk()) {
@@ -726,7 +718,7 @@ void GriddedPlotter::setCurrentDateClosestFromNow() {
         setCurrentDate(date);
     }
 }
-//------------------------------------------------------------
+
 std::set<Altitude> GriddedPlotter::getAllAltitudes(int dataType) const {
     std::set<Altitude> empty;
     GriddedReader *reader = getReader();
@@ -737,7 +729,7 @@ std::set<Altitude> GriddedPlotter::getAllAltitudes(int dataType) const {
         return getReader()->getAllAltitudes(dataType);
     }
 }
-//------------------------------------------------------------
+
 std::set<DataCode> GriddedPlotter::getAllDataCode() const {
     std::set<DataCode> empty;
     GriddedReader *reader = getReader();
@@ -748,7 +740,7 @@ std::set<DataCode> GriddedPlotter::getAllDataCode() const {
         return getReader()->getAllDataCode();
     }
 }
-//------------------------------------------------------------
+
 bool GriddedPlotter::hasWaveDataType(int dataType) const {
     if (!isReaderOk()) {
         return false;

@@ -22,9 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "AngleConverterDialog.h"
 
-//-------------------------------------------------------
 // POI_Editor: Constructor for edit and create a new POI
-//-------------------------------------------------------
+
 AngleConverterDialog::AngleConverterDialog(QWidget *parentWindow)
         : QDialog(parentWindow) {
     angleConverterWidget = new AngleConverterWidget(this);
@@ -44,16 +43,15 @@ AngleConverterDialog::AngleConverterDialog(QWidget *parentWindow)
     show();
 }
 
-//---------------------------------------
 AngleConverterDialog::~AngleConverterDialog() {
     //printf("~AngleConverterDialog\n");
     delete angleConverterWidget;
 }
-//---------------------------------------
+
 void AngleConverterDialog::reject() {
     btCloseClicked();
 }
-//---------------------------------------
+
 void AngleConverterDialog::btCloseClicked() {
     delete this;
 }

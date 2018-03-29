@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMenuBar>
 #include <set>
 
-//================================================================
 // ActionGroup which allows 0 or 1 checked action
 class ZeroOneActionGroup : public QObject {
     Q_OBJECT
@@ -44,7 +43,6 @@ private:
     QList<QAction *> lsactions;
 };
 
-//================================================================
 class MenuBar : public QMenuBar {
     Q_OBJECT
 public:

@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QProgressDialog>
 
-//-----------------------------------------
 enum LongTaskMessageType {
     LTASK_OPEN_FILE,
     LTASK_ANALYSE_DATA,
@@ -29,7 +28,6 @@ enum LongTaskMessageType {
     LTASK_UNCOMPRESS_FILE
 };
 
-//-----------------------------------------
 class LongTaskProgress : public QObject {
     Q_OBJECT
 

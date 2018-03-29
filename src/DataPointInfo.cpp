@@ -254,7 +254,7 @@ DataPointInfo::DataPointInfo(
         }
     }
 }
-//------------------------------------------------------------------
+
 float DataPointInfo::getDataValue(const DataCode &dtc) const {
     switch (dtc.dataType) {
     case GRB_CAPE:
@@ -367,7 +367,7 @@ float DataPointInfo::getDataValue(const DataCode &dtc) const {
         return GRIB_NOTDEF;
     }
 }
-//--------------------------------------------------------
+
 bool DataPointInfo::getWaveValues(int prvtype,
         float *ht, float *per, float *dir) const {
     switch (prvtype) {
@@ -404,15 +404,15 @@ bool DataPointInfo::getWaveValues(int prvtype,
     }
     return *ht != GRIB_NOTDEF || *dir != GRIB_NOTDEF || *per != GRIB_NOTDEF;
 }
-//--------------------------------------------------------
+
 float DataPointInfo::getWaveData(int type) const {
     return getDataValue(DataCode(type, LV_GND_SURF, 0));
 }
-//--------------------------------------------------------
+
 bool DataPointInfo::hasWaveData(int type) const {
     return getWaveData(type) != GRIB_NOTDEF;
 }
-//--------------------------------------------------------
+
 bool DataPointInfo::hasWind(const Altitude &alt) const {
     if (alt.levelType == LV_ISOBARIC) {
         int i = alt.index();
@@ -425,11 +425,11 @@ bool DataPointInfo::hasWind(const Altitude &alt) const {
         return windDir_10m != GRIB_NOTDEF && windSpeed_10m != GRIB_NOTDEF;
     }
 }
-//--------------------------------------------------------
+
 bool DataPointInfo::hasCurrent() const {
     return currentDir != GRIB_NOTDEF && currentSpeed != GRIB_NOTDEF;
 }
-//--------------------------------------------------------
+
 bool DataPointInfo::getWindValues(const Altitude &alt, float *speed, float *dir) const {
     if (!hasWind(alt)) {
         *speed = GRIB_NOTDEF;
@@ -451,7 +451,7 @@ bool DataPointInfo::getWindValues(const Altitude &alt, float *speed, float *dir)
     }
     return true;
 }
-//--------------------------------------------------------
+
 bool DataPointInfo::getCurrentValues(float *speed, float *dir) const {
     if (!hasCurrent()) {
         *speed = GRIB_NOTDEF;
@@ -464,7 +464,7 @@ bool DataPointInfo::getCurrentValues(float *speed, float *dir) const {
 
     return true;
 }
-//--------------------------------------------------------
+
 void DataPointInfo::getWindVxVy(const Altitude &alt, float *vx, float *vy) const {
     if (!hasWind(alt)) {
         *vx = GRIB_NOTDEF;
@@ -485,7 +485,7 @@ void DataPointInfo::getWindVxVy(const Altitude &alt, float *vx, float *vy) const
         *vy = vy_10m;
     }
 }
-//--------------------------------------------------------
+
 void DataPointInfo::getCurrentCxCy(const Altitude &alt, float *vx, float *vy) const {
     if (!hasCurrent()) {
         *vx = GRIB_NOTDEF;

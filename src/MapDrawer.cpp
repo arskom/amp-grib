@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "LonLatGrid.h"
 #include "MapDrawer.h"
 
-//===========================================================
 MapDrawer::MapDrawer(GshhsReader *gshhsReader)
         : QObject() {
     imgEarth = NULL;
@@ -45,7 +44,7 @@ MapDrawer::MapDrawer(GshhsReader *gshhsReader)
     initGraphicsParameters();
     updateGraphicsParameters();
 }
-//---------------------------------------------------------------------
+
 MapDrawer::MapDrawer(const MapDrawer &model)
         : QObject() {
     imgEarth = NULL;
@@ -73,7 +72,7 @@ MapDrawer::MapDrawer(const MapDrawer &model)
     initGraphicsParameters();
     updateGraphicsParameters();
 }
-//---------------------------------------------------------------------
+
 MapDrawer::~MapDrawer() {
     if (gisReaderIsNew) {
         delete gisReader;
@@ -89,7 +88,6 @@ MapDrawer::~MapDrawer() {
     }
 }
 
-//===========================================================
 void MapDrawer::initGraphicsParameters() {
     showGeopotential = false;
     showGeopotentialLabels = false;
@@ -141,7 +139,6 @@ void MapDrawer::initGraphicsParameters() {
     showGribGrid = Util::getSetting("showGribGrid", false).toBool();
 }
 
-//-------------------------------------------
 void MapDrawer::updateGraphicsParameters() {
     backgroundColor = Util::getSetting("backgroundColor", QColor(0, 0, 45)).value<QColor>();
     seaColor = Util::getSetting("seaColor", QColor(50, 50, 150)).value<QColor>();
@@ -169,7 +166,6 @@ void MapDrawer::updateGraphicsParameters() {
     linesThetaE_Pen.setWidthF(Util::getSetting("linesThetaE_LineWidth", 1.6).toDouble());
 }
 
-//---------------------------------------------------------------------
 void MapDrawer::setGeopotentialData(const DataCode &dtc) {
     if (dtc.getAltitude().levelType == LV_ISOBARIC) {
         geopotentialData = dtc;
@@ -215,7 +211,6 @@ void MapDrawer::setGeopotentialData(const DataCode &dtc) {
     }
 }
 
-//---------------------------------------------------------------------
 void MapDrawer::draw_Map_Background(bool isEarthMapValid, Projection *proj) {
     if (imgAll != NULL) {
         delete imgAll;
@@ -245,7 +240,7 @@ void MapDrawer::draw_Map_Background(bool isEarthMapValid, Projection *proj) {
     }
     pnt.drawPixmap(0, 0, *imgEarth);
 }
-//----------------------------------------------------------------------
+
 void MapDrawer::draw_Map_Foreground(QPainter &pnt, Projection *proj) {
     if (gshhsReader != NULL) {
         pnt.setPen(seaBordersPen);
@@ -272,9 +267,8 @@ void MapDrawer::draw_Map_Foreground(QPainter &pnt, Projection *proj) {
     }
 }
 
-//=======================================================================
 // GSHHS Map
-//=======================================================================
+
 void MapDrawer::draw_GSHHS(
         QPainter &pntGlobal,
         bool mustRedraw, bool isEarthMapValid,
@@ -295,9 +289,8 @@ void MapDrawer::draw_GSHHS(
     pntGlobal.drawPixmap(0, 0, *imgAll);
 }
 
-//=======================================================================
 // IAC Files
-//=======================================================================
+
 void MapDrawer::draw_GSHHS_and_IAC(
         QPainter &pntGlobal,
         bool mustRedraw, bool isEarthMapValid,
@@ -330,9 +323,9 @@ void MapDrawer::draw_GSHHS_and_IAC(
     // Recopie l'image complète
     pntGlobal.drawPixmap(0, 0, *imgAll);
 }
-//=======================================================================
+
 // Gridded data
-//=======================================================================
+
 void MapDrawer::draw_GSHHS_and_GriddedData(
         QPainter &pntGlobal,
         bool mustRedraw, bool isEarthMapValid,
@@ -366,7 +359,7 @@ void MapDrawer::draw_GSHHS_and_GriddedData(
     // Recopie l'image complète
     pntGlobal.drawPixmap(0, 0, *imgAll);
 }
-//===================================================================
+
 void MapDrawer::addUsedDataCenterModel(const DataCode &dtc, GriddedPlotter *plotter) {
     int type;
     if (dtc.dataType == GRB_PRV_WIND_XY2D) {
@@ -386,9 +379,9 @@ void MapDrawer::addUsedDataCenterModel(const DataCode &dtc, GriddedPlotter *plot
         setUsedDataCenters.insert(rec->getDataCenterModel());
     }
 }
-//===================================================================
+
 // Draw gridded data
-//===================================================================
+
 void MapDrawer::draw_MeteoData_Gridded(QPainter &pnt, Projection *proj,
         GriddedPlotter *plotter) {
     setUsedDataCenters.clear();
@@ -615,9 +608,9 @@ void MapDrawer::draw_MeteoData_Gridded(QPainter &pnt, Projection *proj,
         plotter->draw_GridPoints(colorMapData, pnt, proj);
     }
 }
-//-------------------------------------------------------------
+
 // Cartouche : dates de la prévision courante + infos générales
-//-------------------------------------------------------------
+
 void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, GriddedPlotter *plotter) {
     GriddedReader *reader = plotter->getReader();
     if (reader == NULL) {
@@ -793,9 +786,8 @@ void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, Gr
     }
 }
 
-//===================================================================
 // Draw IAC data
-//===================================================================
+
 void MapDrawer::draw_MeteoData_IAC(QPainter &pnt, Projection *proj, IacPlot *iacPlot) {
     bool iac_showPressureMinMax = true;
     bool iac_showPressureTroughLine = true;
@@ -831,7 +823,6 @@ void MapDrawer::draw_MeteoData_IAC(QPainter &pnt, Projection *proj, IacPlot *iac
     }
 }
 
-//-------------------------------------------------------------
 // Cartouche : dates de la prévision courante + infos générales
 void MapDrawer::draw_Cartouche_IAC(QPainter &pnt, const Projection *proj, IacPlot *iacPlot) {
     IacReader *iacReader = iacPlot->getReader();
@@ -905,7 +896,6 @@ void MapDrawer::draw_Cartouche_IAC(QPainter &pnt, const Projection *proj, IacPlo
     }
 }
 
-//===========================================================
 QPixmap *MapDrawer::createPixmap_GriddedData(
         time_t date,
         bool isEarthMapValid,

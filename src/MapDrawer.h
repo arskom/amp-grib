@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "IacPlot.h"
 #include "IrregularGridded.h"
 
-//==============================================================================
 class MapDrawer : public QObject {
     Q_OBJECT
 

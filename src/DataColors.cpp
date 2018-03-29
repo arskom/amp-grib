@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DataColors.h"
 #include <cstdlib>
 
-//--------------------------------------------------------------------
 DataColors::DataColors() {
     setCloudsColorMode("cloudsColorMode");
     mapColorTransp = 255;
@@ -47,7 +46,7 @@ DataColors::DataColors() {
     v = 170;
     colors_Temp.getColor(v, true);
 }
-//--------------------------------------------------------------------------
+
 QColor DataColors::getContrastedColor(const QColor &base) {
     double gris = 0.30 * base.redF() + 0.59 * base.greenF() + 0.11 * base.blueF();
     if (gris < 0.35) {
@@ -60,59 +59,59 @@ QColor DataColors::getContrastedColor(const QColor &base) {
         return Qt::black;
     }
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getWindColor(double v, bool smooth) {
     return colors_Wind.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getWindJetColor(double v, bool smooth) {
     return colors_Wind_Jet.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getCurrentColor(double v, bool smooth) {
     return colors_Current.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getTemperatureColor(double v, bool smooth) {
     return colors_Temp.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getThetaEColor(double v, bool smooth) {
     return colors_ThetaE.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getRainColor(double v, bool smooth) {
     return colors_Rain.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getSnowDepthColor(double v, bool smooth) {
     return colors_SnowDepth.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getCAPEColor(double v, bool smooth) {
     return colors_CAPE.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getCINColor(double v, bool smooth) {
     return colors_CIN.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getHumidColor(double v, bool smooth) {
     return colors_HumidRel.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getBinaryColor(double v, bool smooth) {
     return colors_Binary.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getWaveHeightColor(double v, bool smooth) {
     return colors_WaveHeight.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getWhiteCapColor(double v, bool smooth) {
     return colors_WhiteCap.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getCloudColor(double v, bool smooth) {
     QRgb rgb;
     int tr;
@@ -126,11 +125,11 @@ QRgb DataColors::getCloudColor(double v, bool smooth) {
     }
     return qRgba(qRed(rgb), qGreen(rgb), qBlue(rgb), tr);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getDeltaTemperaturesColor(double v, bool smooth) {
     return colors_DeltaTemp.getColor(v, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getAltitudeColor(double v, const Altitude &alt, bool smooth) {
     double k = 0.001, vmin = 0, vmax = 20000, vmoy = 10000;
     if (alt == Altitude(LV_ISOTHERM0, 0)) {
@@ -177,7 +176,7 @@ QRgb DataColors::getAltitudeColor(double v, const Altitude &alt, bool smooth) {
     }
     return pasteToWindColorScale(v, vmin, vmax, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::getPressureColor(double v, bool smooth) {
     // Même échelle colorée que pour le vent
     double x = v / 100.0; // Pa->hPa
@@ -185,7 +184,7 @@ QRgb DataColors::getPressureColor(double v, bool smooth) {
     double t1 = 1050; // valeur maxi de l'échelle
     return pasteToWindColorScale(x, t0, t1, smooth);
 }
-//--------------------------------------------------------------------------
+
 QRgb DataColors::pasteToWindColorScale(double v, double min, double max, bool smooth) {
     double b0 = 0; // min beauforts
     double b1 = 12; // max beauforts
@@ -198,7 +197,7 @@ QRgb DataColors::pasteToWindColorScale(double v, double min, double max, bool sm
     }
     return getWindColor(Util::BeaufortToMs_F(eqbeauf), smooth);
 }
-//--------------------------------------------------------------------------
+
 void DataColors::setColorDataTypeFunction(const DataCode &dtc) {
     switch (dtc.dataType) {
     case GRB_PRV_WIND_XY2D:
@@ -262,7 +261,6 @@ void DataColors::setColorDataTypeFunction(const DataCode &dtc) {
     }
 }
 
-//--------------------------------------------------------------------------
 QRgb DataColors::getDataCodeColor(const DataCode &dtc, double v, bool smooth) {
     switch (dtc.dataType) {
     case GRB_PRV_WIND_XY2D:
@@ -307,7 +305,6 @@ QRgb DataColors::getDataCodeColor(const DataCode &dtc, double v, bool smooth) {
     }
 }
 
-//--------------------------------------------------------------------------
 ColorScale *DataColors::getColorScale(const DataCode &dtc) {
     // 	DBGQS(DataCodeStr::toString(dtc));
     switch (dtc.dataType) {

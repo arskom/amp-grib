@@ -11,19 +11,18 @@
 
 #include <QFile>
 
-//------------------------------------------------------------------
 // Constructor
 // build up wind boat speed relation
 BoatSpeed::BoatSpeed(QString fileName) {
     qhWindBoatCard.clear();
     loadBoatParams(fileName);
 }
-//------------------------------------------------------------------
+
 // Deconstructor
 /*BoatSpeed::~BoatSpeed() {
 	delete this;
 }*/
-//------------------------------------------------------------------
+
 // get quantisized wind degree steps for boat speed parameters
 int BoatSpeed::getDegSteps(double dTWindDir, double dBoatDir) {
     double dDir;
@@ -46,7 +45,7 @@ int BoatSpeed::getDegSteps(double dTWindDir, double dBoatDir) {
     }
     return iKeyTmp;
 }
-//------------------------------------------------------------------
+
 // get boat speed by true wind parameters for given boat parameters
 double BoatSpeed::getBoatSpeed(double dTWindDir, double dTWindSpeed, double dBoatDir) {
     tyWindBoatSpeed ptLastMin = { 0, 0 };
@@ -91,15 +90,15 @@ double BoatSpeed::getBoatSpeed(double dTWindDir, double dTWindSpeed, double dBoa
     }
     return dBoatSpeed;
 }
-//------------------------------------------------------------------
+
 // get apparent wind speed by true wind parameters for given boat parameters
 //float BoatSpeed::getAppWindSpeed( float fBoatDir, float fTWindDir, float fTWindSpeed ) {
 //}
-//------------------------------------------------------------------
+
 // get apparent wind direction by true wind parameters for given boat parameters
 //float BoatSpeed::getAppWindDir( float fBoatDir, float fTWindDir, float fTWindSpeed ) {
 //}
-//------------------------------------------------------------------
+
 // get interpolattion of boat speed
 // currently linear interpolation is implemented
 double BoatSpeed::getInterpolatedSpeed(double dWindSpeed, tyWindBoatSpeed ptFst, tyWindBoatSpeed ptLast) {
@@ -111,9 +110,8 @@ double BoatSpeed::getInterpolatedSpeed(double dWindSpeed, tyWindBoatSpeed ptFst,
     return (dDelta * dWindSpeed + dOffset);
 }
 
-//---------------------------------------------------------------------
 // load boat wind parameters
-//---------------------------------------------------------------------
+
 void BoatSpeed::loadBoatParams(QString fileName) {
     char *myLine;
     long lLineMax = 10000000;
@@ -150,9 +148,8 @@ void BoatSpeed::loadBoatParams(QString fileName) {
     delete myLine;
 }
 
-//----------------------------------------------------------------------------
 // convert wind speed (m/s) into knots, as boat parameters are given in knots
-//----------------------------------------------------------------------------
+
 double BoatSpeed::getWindKnots(double &dTWindSpeed) {
     return 3.6 / ZY_MILE * dTWindSpeed;
 }

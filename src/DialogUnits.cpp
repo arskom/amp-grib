@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogUnits.h"
 #include "Util.h"
 
-//-------------------------------------------------------------------------------
 DialogUnits::DialogUnits(QWidget *parent)
         : DialogBoxBase(parent) {
     setWindowTitle(tr("Units"));
@@ -112,7 +111,6 @@ DialogUnits::DialogUnits(QWidget *parent)
     connect(btOK, SIGNAL(clicked()), this, SLOT(slotBtOK()));
 }
 
-//-------------------------------------------------------------------------------
 void DialogUnits::slotBtOK() {
     QComboBox *cb;
 
@@ -145,15 +143,14 @@ void DialogUnits::slotBtOK() {
     }
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogUnits::slotBtCancel() {
     isTimeZoneChanged = false;
     reject();
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 QFrame *DialogUnits::createFrameGui(QWidget *parent) {
     QFrame *frm = new QFrame(parent);
     QLabel *label;
@@ -274,7 +271,6 @@ QFrame *DialogUnits::createFrameGui(QWidget *parent) {
     return frm;
 }
 
-//---------------------------------------------------
 void DialogUnits::slotTimeZoneChanged(int index) {
     isTimeZoneChanged = true;
     QString val = cbTimeZone->itemData(index).toString();

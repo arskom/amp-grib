@@ -20,16 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Util.h"
 #include <cstdlib>
 
-//------------------------------------------------------------
 GriddedRecord::GriddedRecord() {
     dataCenterModel = OTHER_DATA_CENTER;
     duplicated = false;
     entireWorldInLongitude = false;
 }
 
-//=====================================================================
 // Interpolation using a regular rectangular grid
-//=====================================================================
+
 double GriddedRecord::getInterpolatedValueUsingRegularGrid(
         DataCode dtc,
         double px, double py,

@@ -34,17 +34,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int comptepts = 0;
 int comptedestroy = 0;
 
-//===============================================================================
 MbluePoint::MbluePoint() {
     ok = false;
 }
-//--------------------------------------------------------------------------------
+
 MbluePoint::~MbluePoint() {
     /*comptedestroy ++;
 if (comptedestroy%1000 == 0) DBG("destroy %d", comptedestroy);*/
     mapvalues.clear();
 }
-//--------------------------------------------------------------------------------
+
 MbluePoint::MbluePoint(
         const std::vector<uint32_t> datacodes,
         const MbzLine *mbzline) {
@@ -140,7 +139,6 @@ MbluePoint::MbluePoint(
     }
 }
 
-//--------------------------------------------------------------------------------
 MbluePoint::MbluePoint(double px, double py,
         int nbPoints,
         MbluePoint *p1,
@@ -233,12 +231,11 @@ MbluePoint::MbluePoint(double px, double py,
         }
     }
 }
-//-------------------------------------------------------------
+
 bool MbluePoint::hasData(const DataCode &dtc) const {
     return (mapvalues.find(dtc.toInt32()) != mapvalues.end());
 }
 
-//-------------------------------------------------------------
 double MbluePoint::getValue(const DataCode &dtc) const {
     std::map<uint32_t, float>::const_iterator iter;
     iter = mapvalues.find(dtc.toInt32());
@@ -250,13 +247,8 @@ double MbluePoint::getValue(const DataCode &dtc) const {
     }
 }
 
-//===========================================================
-//===========================================================
-//===========================================================
 // MblueRecord
-//===========================================================
-//===========================================================
-//===========================================================
+
 MblueRecord::MblueRecord(const MbzFile &mbzfile,
         time_t curDate,
         bool fastInterpolation) {
@@ -278,7 +270,7 @@ MblueRecord::MblueRecord(const MbzFile &mbzfile,
         ok = true;
     }
 }
-//--------------------------------------------------------------
+
 void MblueRecord::finalize() {
     if (ok) {
         makeClusters();
@@ -291,11 +283,11 @@ void MblueRecord::finalize() {
         // 		}
     }
 }
-//--------------------------------------------------------------
+
 void MblueRecord::addMbluePoint(MbluePoint *pt) {
     allPoints.push_back(pt);
 }
-//--------------------------------------------------------------
+
 bool MblueRecord::hasData(const DataCode &dtc) const {
     if (allPoints.size() == 0) {
         return false;
@@ -304,7 +296,7 @@ bool MblueRecord::hasData(const DataCode &dtc) const {
     MbluePoint *pt = *(allPoints.begin());
     return pt->hasData(dtc);
 }
-//-----------------------------------------------------
+
 MblueRecord::~MblueRecord() {
     // DBGS("Destroy MblueRecord");
     if (clusters != NULL) {
@@ -323,7 +315,7 @@ MblueRecord::~MblueRecord() {
 
     Util::cleanVectorPointers(allPoints);
 }
-//-----------------------------------------------------
+
 void MblueRecord::makeSmoothPressureGrid() {
     if (!ok) {
         return;
@@ -469,7 +461,7 @@ void MblueRecord::makeSmoothPressureGrid() {
         smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
     }
 }
-//-----------------------------------------------------
+
 void MblueRecord::makeVirtualRegularGrid() {
     if (!ok) {
         return;
@@ -512,7 +504,7 @@ void MblueRecord::makeVirtualRegularGrid() {
         }
     }
 }
-//-----------------------------------------------------
+
 void MblueRecord::makeClusters() {
     int clustersize = 20; // mean number of points in each cluster
     int nbclusters = allPoints.size() / clustersize;
@@ -541,7 +533,6 @@ void MblueRecord::makeClusters() {
     }
 }
 
-//-----------------------------------------------------
 std::vector<MbluePoint *> &MblueRecord::getCluster(double x, double y) const {
     double dx = (xmax - xmin) / clustersNi;
     double dy = (ymax - ymin) / clustersNj;
@@ -564,13 +555,12 @@ std::vector<MbluePoint *> &MblueRecord::getCluster(double x, double y) const {
     return clusters[j * clustersNi + i];
 }
 
-//-----------------------------------------------------
 std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList(
         double x, double y) const {
     // 	return getClustersList_9max (x,y);
     return getClustersList_4max(x, y);
 }
-//-----------------------------------------------------
+
 std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList_4max(
         double x, double y) const {
     std::vector<std::vector<MbluePoint *>> *listclusters;
@@ -629,7 +619,7 @@ std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList_4max(
     }
     return listclusters;
 }
-//-----------------------------------------------------
+
 std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList_9max(
         double x, double y) const {
     std::vector<std::vector<MbluePoint *>> *listclusters;
@@ -684,7 +674,6 @@ std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList_9max(
     return listclusters;
 }
 
-//-----------------------------------------------------
 int MblueRecord::findNeighbour_clusters(
         double lon, double lat,
         MbluePoint **p1, MbluePoint **p2,
@@ -714,7 +703,7 @@ int MblueRecord::findNeighbour_clusters(
     }
     return nb;
 }
-//-------------------------------------------------------
+
 int MblueRecord::findBestNeighboursInCluster(
         double lon, double lat,
         std::vector<MbluePoint *> cluster,
@@ -767,7 +756,6 @@ int MblueRecord::findBestNeighboursInCluster(
     return nb;
 }
 
-//--------------------------------------------------------------------
 bool MblueRecord::getZoneExtension(double *x0, double *y0, double *x1, double *y1) {
     *x0 = xmin;
     *y0 = ymin;
@@ -775,7 +763,7 @@ bool MblueRecord::getZoneExtension(double *x0, double *y0, double *x1, double *y
     *y1 = ymax;
     return ok;
 }
-//--------------------------------------------------------------------
+
 double MblueRecord::getInterpolatedValueWithoutGrid(
         DataCode dtc,
         double px, double py,
@@ -850,7 +838,6 @@ double MblueRecord::getInterpolatedValueWithoutGrid(
     return GRIB_NOTDEF;
 }
 
-//--------------------------------------------------------------------
 double MblueRecord::getInterpolatedValue(
         DataCode dtc,
         double px, double py,
@@ -867,7 +854,6 @@ double MblueRecord::getInterpolatedValue(
     }
 }
 
-//--------------------------------------------------------------------
 double MblueRecord::getValueOnRegularGrid(DataCode dtc, int i, int j) const {
     if (i >= 0 && i < Ni && j >= 0 && j < Nj) {
         if (dtc.equals(GRB_PRESSURE_MSL, LV_MSL, 0)) {
@@ -883,7 +869,6 @@ double MblueRecord::getValueOnRegularGrid(DataCode dtc, int i, int j) const {
     }
 }
 
-//--------------------------------------------------------------------
 double MblueRecord::getRawPressureOnRegularGrid(int i, int j) const {
     if (i >= 0 && i < Ni && j >= 0 && j < Nj) {
         MbluePoint *pt = regularGrid[i + j * Ni];
@@ -894,7 +879,6 @@ double MblueRecord::getRawPressureOnRegularGrid(int i, int j) const {
     }
 }
 
-//--------------------------------------------------------------------
 int MblueRecord::getNi() const {
     return Ni;
 }
@@ -907,7 +891,7 @@ double MblueRecord::getDeltaX() const {
 double MblueRecord::getDeltaY() const {
     return Dj;
 }
-//--------------------------------------------------------------------
+
 double MblueRecord::getX(int i) const {
     return xmin + i * Di;
 }

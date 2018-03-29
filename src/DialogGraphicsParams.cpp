@@ -27,9 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "DialogGraphicsParams.h"
 #include "Util.h"
 
-//===========================================================================
 // DialogGraphicsParams
-//===========================================================================
+
 DialogChooseLang::DialogChooseLang(QWidget *parent, QString defaultlang)
         : DialogBoxColumn(parent, 1,
                   "Welcome to zyGrib",
@@ -92,7 +91,7 @@ DialogChooseLang::DialogChooseLang(QWidget *parent, QString defaultlang)
         bt_en->setChecked(true);
     }
 }
-//--------------------------------------------------------------------------------
+
 QString DialogChooseLang::getLanguage() {
     if (bt_de->isChecked()) {
         return "de";
@@ -135,7 +134,7 @@ QString DialogChooseLang::getLanguage() {
         return "en";
     }
 }
-//--------------------------------------------------------------------------------
+
 QRadioButton *DialogChooseLang::addLanguage(QString name, QString iconfile) {
     QRadioButton *bt = new QRadioButton(name, this);
     assert(bt);
@@ -146,9 +145,8 @@ QRadioButton *DialogChooseLang::addLanguage(QString name, QString iconfile) {
     return bt;
 }
 
-//===========================================================================
 // DialogGraphicsParams
-//===========================================================================
+
 DialogGraphicsParams::DialogGraphicsParams(QWidget *parent)
         : DialogBoxBase(parent) {
     setupUi(this);
@@ -158,7 +156,6 @@ DialogGraphicsParams::DialogGraphicsParams(QWidget *parent)
     connect(btOK, SIGNAL(clicked()), this, SLOT(slotBtOK()));
 }
 
-//-------------------------------------------------------------------------------
 void DialogGraphicsParams::slotBtOK() {
     Util::setSetting("seaColor", inputSeaColor->getColor());
     Util::setSetting("landColor", inputLandColor->getColor());
@@ -183,14 +180,13 @@ void DialogGraphicsParams::slotBtOK() {
 
     accept();
 }
-//-------------------------------------------------------------------------------
+
 void DialogGraphicsParams::slotBtCancel() {
     reject();
 }
 
-//=============================================================================
 // GUI
-//=============================================================================
+
 void DialogGraphicsParams::initInterface() {
     inputBgColor->setColor(Util::getSetting("backgroundColor", QColor(0, 0, 45)).value<QColor>());
     inputBgColor->setDefaultColor(QColor(0, 0, 45));

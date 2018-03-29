@@ -29,7 +29,6 @@ Dessin des données GRIB (avec QT)
 #include "GribReader.h"
 #include "IsoLine.h"
 
-//===============================================================
 class GribPlot : public RegularGridPlot {
 public:
     GribPlot();

@@ -28,9 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MeteotableOptionsDialog.h"
 #include "SylkFile.h"
 
-//===================================================================
 // MeteoTable : dialog + MeteoTableWidget
-//===================================================================
+
 class MeteoTableDialog : public QWidget {
     Q_OBJECT
 public:

@@ -7,7 +7,6 @@
 #include <QLabel>
 #include <QWidget>
 
-//===========================================================
 class TextDisplayLabel : public QLabel {
     Q_OBJECT
 public:
@@ -29,7 +28,6 @@ private:
     QColor textColor, bgColor;
 };
 
-//===========================================================
 class TextColorWidget : public QWidget {
     Q_OBJECT
 public:
@@ -52,10 +50,8 @@ private:
     QColor color;
 };
 
-//===========================================================
 #include "ui_TextStyleEditorWidget.h"
 
-//===========================================================
 class /*QDESIGNER_WIDGET_EXPORT*/ TextStyleEditorWidget
         : public QWidget,
           private Ui::TextStyleEditorWidget {

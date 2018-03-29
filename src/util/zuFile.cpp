@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "zuFile.h"
 
-//----------------------------------------------------
 int zu_can_read_file(const char *fname) {
     ZUFILE *f;
     f = zu_open(fname, "rb");
@@ -31,7 +30,6 @@ int zu_can_read_file(const char *fname) {
     }
 }
 
-//----------------------------------------------------
 ZUFILE *zu_open(const char *fname, const char *mode, int type) {
     ZUFILE *f;
     if (!fname || strlen(fname) == 0) {
@@ -92,7 +90,6 @@ ZUFILE *zu_open(const char *fname, const char *mode, int type) {
     return f;
 }
 
-//-----------------------------------------------------------------
 bool zu_isGZIP(const char *fname) {
     FILE *f = fopen(fname, "r");
     if (!f) {
@@ -106,7 +103,7 @@ bool zu_isGZIP(const char *fname) {
     }
     return buf[0] == 0x1f && buf[1] == 0x8b;
 }
-//-----------------------------------------------------------------
+
 bool zu_isBZIP(const char *fname) {
     FILE *f = fopen(fname, "r");
     if (!f) {
@@ -124,7 +121,7 @@ bool zu_isBZIP(const char *fname) {
             && (buf[3] >= '0' && buf[3] <= '9')
             && buf[4] == '1' && buf[5] == 'A' && buf[6] == 'Y';
 }
-//----------------------------------------------------
+
 int zu_read(ZUFILE *f, void *buf, long len) {
     int nb = 0;
     int bzerror = BZ_OK;
@@ -143,7 +140,6 @@ int zu_read(ZUFILE *f, void *buf, long len) {
     return nb;
 }
 
-//----------------------------------------------------
 int zu_close(ZUFILE *f) {
     int bzerror = BZ_OK;
     if (f) {
@@ -170,17 +166,14 @@ int zu_close(ZUFILE *f) {
     return 0;
 }
 
-//----------------------------------------------------
 long zu_tell(ZUFILE *f) {
     return f->pos;
 }
 
-//----------------------------------------------------
 long zu_filesize(ZUFILE *f) {
     return zu_filesize_name(f->fname);
 }
 
-//----------------------------------------------------
 long zu_filesize_name(const char *filename) {
     long res = 0;
     FILE *ftmp = fopen(filename, "rb");
@@ -192,7 +185,6 @@ long zu_filesize_name(const char *filename) {
     return res;
 }
 
-//----------------------------------------------------
 int zu_seek(ZUFILE *f, long offset, int whence) {
     int res = 0;
     int bzerror = BZ_OK;
@@ -244,7 +236,6 @@ int zu_seek(ZUFILE *f, long offset, int whence) {
     return res;
 }
 
-//-----------------------------------------------------------------
 int zu_bzSeekForward(ZUFILE *f, unsigned long nbytes_)
 // for internal use
 {
@@ -267,12 +258,10 @@ int zu_bzSeekForward(ZUFILE *f, unsigned long nbytes_)
     return nbread == nbytes_ ? 0 : -1;
 }
 
-//-----------------------------------------------------------------
 void zu_rewind(ZUFILE *f) {
     zu_seek(f, 0, SEEK_SET);
 }
 
-//-----------------------------------------------------------------
 char *zu_fgets(char *s, int size, ZUFILE *file) {
     char *p = s;
     char buf = 0;

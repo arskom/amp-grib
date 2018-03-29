@@ -3,7 +3,6 @@
 
 #include "AngleConverterWidget.h"
 
-//=================================================================================
 AngleConverterWidget::AngleConverterWidget(QWidget *parent, double angle)
         : QWidget(parent) {
     setupUi(this);
@@ -20,7 +19,6 @@ AngleConverterWidget::AngleConverterWidget(QWidget *parent, double angle)
     connect(ddd_grad, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged()));
 }
 
-//---------------------------------------------------------------------------------------
 void AngleConverterWidget::stopSignals(bool b) {
     dddmmss_deg->blockSignals(b);
     dddmmss_min->blockSignals(b);
@@ -31,7 +29,7 @@ void AngleConverterWidget::stopSignals(bool b) {
     ddd_rad->blockSignals(b);
     ddd_grad->blockSignals(b);
 }
-//---------------------------------------------------------------------------------------
+
 void AngleConverterWidget::slotValueChanged() {
     QObject *ob = sender();
     double angledeg = 0;
@@ -59,7 +57,7 @@ void AngleConverterWidget::slotValueChanged() {
 
     displayValue(angledeg, ob);
 }
-//---------------------------------------------------------------------------------------
+
 void AngleConverterWidget::displayValue(double angledeg, QObject *objsender) {
     stopSignals(true);
 

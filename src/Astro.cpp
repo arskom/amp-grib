@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Astro.h"
 
-//----------------------------------------------------------------
 Almanac Astro::getSunMoonAlmanac(time_t t, double lat, double lon) {
     struct ln_rst_time rst;
     struct ln_lnlat_posn observer;

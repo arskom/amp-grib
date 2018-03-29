@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MapDrawer.h"
 #include "MbluePlot.h"
 
-//==============================================================================
 class Terrain : public QWidget {
     Q_OBJECT
 

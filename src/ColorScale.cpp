@@ -20,18 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "zuFile.h"
 
-//----------------------------------------------------
 // ColorScale
-//----------------------------------------------------
+
 ColorScale::ColorScale() {
     transparence = 255;
 }
-//--------------------------------------------
+
 ColorScale::~ColorScale() {
     Util::cleanVectorPointers(colors);
 }
 
-//--------------------------------------------
 QRgb ColorScale::getColor(double v, bool smooth) {
     int imin = 0;
     int imax = colors.size() - 1;
@@ -58,7 +56,6 @@ QRgb ColorScale::getColor(double v, bool smooth) {
     }
 }
 
-//--------------------------------------------
 bool ColorScale::readFile(QString filename, double kv, double offset) {
     ColorElement *ea, *eb;
     char buf[1000];
@@ -129,23 +126,22 @@ bool ColorScale::readFile(QString filename, double kv, double offset) {
 
     return true;
 }
-//--------------------------------------------
+
 void ColorScale::dbg() {
     DBG("--- ColorScale (sz=%d) ---", (int)colors.size());
     for (uint i = 0; i < colors.size(); i++) {
         colors[i]->dbg();
     }
 }
-//--------------------------------------------
+
 void ColorScale::addColor(ColorElement *color) {
     if (color && (colors.size() == 0 || color->vmin == colors[colors.size() - 1]->vmax)) {
         colors.push_back(color);
     }
 }
 
-//----------------------------------------------------
 // ColorElement
-//----------------------------------------------------
+
 void ColorElement::dbg() {
     DBG("ColorElement: (%g->%g) (%d %d %d)->(%d %d %d)", vmin, vmax, ra, ga, ba, rb, gb, bb);
 }
@@ -173,7 +169,7 @@ ColorElement::ColorElement(double vmin, double vmax,
     this->gb = gb;
     this->bb = bb;
 }
-//--------------------------------------------
+
 QRgb ColorElement::getColor(double v, bool smooth, int transp) {
     if (v <= vmin) {
         return qRgba(ra, ga, ba, transp);
