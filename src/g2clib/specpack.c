@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -12,7 +13,7 @@ void specpack(g2float *fld,g2int ndpts,g2int JJ,g2int KK,g2int MM,
 //   PRGMMR: Gilbert          ORG: W/NP11    DATE: 2002-12-19
 //
 // ABSTRACT: This subroutine packs a spectral data field using the complex
-//   packing algorithm for spherical harmonic data as 
+//   packing algorithm for spherical harmonic data as
 //   defined in the GRIB2 Data Representation Template 5.51.
 //
 // PROGRAM HISTORY LOG:
@@ -63,7 +64,7 @@ void specpack(g2float *fld,g2int ndpts,g2int JJ,g2int KK,g2int MM,
            pscale[n]=pow((g2float)(n*(n+1)),tscale);
 //
 //   Separate spectral coeffs into two lists; one to contain unpacked
-//   values within the sub-spectrum Js, Ks, Ms, and the other with values 
+//   values within the sub-spectrum Js, Ks, Ms, and the other with values
 //   outside of the sub-spectrum to be packed.
 //
       tfld=(g2float *)malloc(ndpts*sizeof(g2float));
@@ -104,7 +105,7 @@ void specpack(g2float *fld,g2int ndpts,g2int JJ,g2int KK,g2int MM,
       ipos=4*Ts;
 //
 //  Scale and pack the rest of the coefficients
-// 
+//
       tmplsim[1]=idrstmpl[1];
       tmplsim[2]=idrstmpl[2];
       tmplsim[3]=idrstmpl[3];

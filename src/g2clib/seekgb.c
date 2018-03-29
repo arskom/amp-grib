@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "grib2.h"
@@ -9,7 +10,7 @@ void seekgb(FILE *lugb,g2int iseek,g2int mseek,g2int *lskip,g2int *lgrib)
 //   PRGMMR: Gilbert          ORG: W/NP11      DATE: 2002-10-28
 //
 // ABSTRACT: This subprogram searches a file for the next GRIB Message.
-//   The search is done starting at byte offset iseek of the file referenced 
+//   The search is done starting at byte offset iseek of the file referenced
 //   by lugb for mseek bytes at a time.
 //   If found, the starting position and length of the message are returned
 //   in lskip and lgrib, respectively.

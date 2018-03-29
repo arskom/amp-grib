@@ -11,7 +11,7 @@ extern "C" {
 #include <stdint.h>
 
 #define G2_VERSION "g2clib-1.6.0"
-	
+
 /*                .      .    .                                       .
 //   PRGMMR: Gilbert         ORG: W/NP11    DATE: 2002-10-25
 //
@@ -20,7 +20,7 @@ extern "C" {
 // 2009-01-14  Vuong     Changed struct template to gtemplate
 //
 //   Each element of structure gribfield is defined as:
-//   
+//
 //   gribfield gfld;
 //
 //        gfld->version = GRIB edition number ( currently 2 )
@@ -137,10 +137,10 @@ extern "C" {
 //        gfld->unpacked = logical value indicating whether the bitmap and
 //                        data values were unpacked.  If false,
 //                        gfld->bmap and gfld->fld pointers are nullified.
-//        gfld->expanded = Logical value indicating whether the data field 
-//                         was expanded to the grid in the case where a 
+//        gfld->expanded = Logical value indicating whether the data field
+//                         was expanded to the grid in the case where a
 //                         bit-map is present.  If true, the data points in
-//                         gfld->fld match the grid points and zeros were 
+//                         gfld->fld match the grid points and zeros were
 //                         inserted at grid points where data was bit-mapped
 //                         out.  If false, the data values in gfld->fld were
 //                         not expanded to the grid and are just a consecutive
@@ -227,7 +227,7 @@ void g2_free(gribfield *);
 /*  Prototypes for packing API  */
 g2int g2_create(unsigned char *,g2int *,g2int *);
 g2int g2_addlocal(unsigned char *,unsigned char *,g2int );
-g2int g2_addgrid(unsigned char *,g2int *,g2int *,g2int *,g2int ); 
+g2int g2_addgrid(unsigned char *,g2int *,g2int *,g2int *,g2int );
 g2int g2_addfield(unsigned char *,g2int ,g2int *,
                        g2float *,g2int ,g2int ,g2int *,
                        g2float *,g2int ,g2int ,g2int *);
@@ -257,7 +257,7 @@ int pack_gp(g2int *, g2int *, g2int *,
             g2int *, g2int *, g2int *, g2int *, g2int *,
             g2int *, g2int *, g2int *);
 
-	
+
 #ifdef __cplusplus
 }
 #endif

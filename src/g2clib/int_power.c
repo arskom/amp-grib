@@ -1,3 +1,4 @@
+
 #include "grib2.h"
 /*
  * w. ebisuzaki
@@ -27,4 +28,3 @@ double int_power(double x, g2int y) {
         }
         return value;
 }
-

@@ -1,26 +1,9 @@
 
-contains(DEFINES, USE_PNG) {
-    LIBS += -lpng
-}
-
-contains (DEFINES, USE_JPEG2000) {
-    LIBS += -ljasper   # respect order!
-}
-
 HEADERS += \
     $$PWD/drstemplates.h \
     $$PWD/grib2.h \
     $$PWD/gridtemplates.h \
     $$PWD/pdstemplates.h \
-
-
-contains (DEFINES, USE_JPEG2000) {
-    SOURCES += \
-        $$PWD/dec_jpeg2000.c \
-        $$PWD/enc_jpeg2000.c \
-        $$PWD/jpcpack.c \
-        $$PWD/jpcunpack.c \
-}
 
 
 SOURCES += \
@@ -64,3 +47,19 @@ SOURCES += \
     $$PWD/simunpack.c \
     $$PWD/specpack.c \
     $$PWD/specunpack.c \
+
+
+contains(DEFINES, USE_PNG) {
+    LIBS += -lpng
+}
+
+contains (DEFINES, USE_JPEG2000) {
+    LIBS += -ljasper   # respect order!
+
+    SOURCES += \
+        $$PWD/dec_jpeg2000.c \
+        $$PWD/enc_jpeg2000.c \
+        $$PWD/jpcpack.c \
+        $$PWD/jpcunpack.c \
+
+}

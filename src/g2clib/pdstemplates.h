@@ -4,7 +4,7 @@
 
 //   PRGMMR: Gilbert         ORG: W/NP11    DATE: 2002-10-26
 //
-// ABSTRACT: This inculde file contains info on all the available 
+// ABSTRACT: This inculde file contains info on all the available
 //   GRIB2 Product Definition Templates used in Section 4 (PDS).
 //   The information decribing each template is stored in the
 //   pdstemplate structure defined below.
@@ -12,12 +12,12 @@
 //   Each Template has three parts: The number of entries in the template
 //   (mappdslen);  A map of the template (mappds), which contains the
 //   number of octets in which to pack each of the template values; and
-//   a logical value (needext) that indicates whether the Template needs 
-//   to be extended.  In some cases the number of entries in a template 
-//   can vary depending upon values specified in the "static" part of 
+//   a logical value (needext) that indicates whether the Template needs
+//   to be extended.  In some cases the number of entries in a template
+//   can vary depending upon values specified in the "static" part of
 //   the template.  ( See Template 4.3 as an example )
 //
-//   NOTE:  Array mappds contains the number of octets in which the 
+//   NOTE:  Array mappds contains the number of octets in which the
 //   corresponding template values will be stored.  A negative value in
 //   mappds is used to indicate that the corresponding template entry can
 //   contain negative values.  This information is used later when packing
@@ -25,9 +25,9 @@
 //   are stored with the left most bit set to one, and a negative number
 //   of octets value in mappds[] indicates that this possibility should
 //   be considered.  The number of octets used to store the data value
-//   in this case would be the absolute value of the negative value in 
+//   in this case would be the absolute value of the negative value in
 //   mappds[].
-//  
+//
 // 2005-12-08  Gilbert   Allow negative scale factors and limits for
 //                       Templates 4.5 and 4.9
 // 2009-12-15  Vuong     Added Product Definition Template 4.31
@@ -46,7 +46,7 @@
       #define MAXPDSTEMP 47           // maximum number of templates
       #define MAXPDSMAPLEN 200        // maximum template map length
 
-      struct pdstemplate 
+      struct pdstemplate
       {
           g2int template_num;
           g2int mappdslen;
@@ -145,7 +145,7 @@
              // 4.44: Analysis or forecast at a horizontal level or in a horizontal layer
              // at a point in time for Aerosol
          {44,21,0, {1,1,2,1,-1,-4,-1,-4,1,1,1,2,1,1,-2,1,-1,-4,1,-1,-4} },
-             // 4.45: Individual ensemble forecast, control and 
+             // 4.45: Individual ensemble forecast, control and
              // perturbed,  at a horizontal level or in a horizontal layer
              // at a point in time for Aerosol
          {45,24,0, {1,1,2,1,-1,-4,-1,-4,1,1,1,2,1,1,-4,1,-1,-4,1,-1,-4,1,1,1} },
@@ -153,7 +153,7 @@
              // at horizontal level or in a horizontal in a continuous or
              // non-continuous time interval for Aerosol
          {46,35,1, {1,1,2,1,-1,-4,-1,-4,1,1,1,2,1,1,-4,1,-1,-4,1,-1,-4,2,1,1,1,1,1,1,4,1,1,1,4,1,4} },
-             // 4.47: Individual ensemble forecast, control and 
+             // 4.47: Individual ensemble forecast, control and
              // perturbed, at horizontal level or in a horizontal
              // in a continuous or non-continuous time interval for Aerosol
          {47,38,1, {1,1,1,2,1,-1,-4,-1,-4,1,1,2,1,1,-4,1,-1,-4,1,-1,-4,1,1,1,2,1,1,1,1,1,1,4,1,1,1,4,1,4} },
@@ -204,7 +204,7 @@
 // PDT 4.57  (10/07/2015)
              // 4.57: Analysis or Forecast at a horizontal or in a
              // horizontal layer at a point in time for
-             // atmospheric chemical constituents based on 
+             // atmospheric chemical constituents based on
              // a distribution function
          {57,7,1, {1,1,2,2,2,2,1} },
 // PDT 4.60  (10/07/2015)

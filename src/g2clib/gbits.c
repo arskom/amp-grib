@@ -1,3 +1,4 @@
+
 #include "grib2.h"
 
 void gbit(unsigned char *in,g2int *iout,g2int iskip,g2int nbyte)
@@ -90,7 +91,7 @@ void sbits(unsigned char *out,g2int *in,g2int iskip,g2int nbyte,g2int nskip,
          ibit=nbit%8;
          nbit = nbit + nbyte + nskip;
 
-//        make byte aligned 
+//        make byte aligned
          if (ibit != 7) {
              tbit= ( bitcnt < (ibit+1) ) ? bitcnt : ibit+1;  // find min
              imask = ones[tbit-1] << (7-ibit);
