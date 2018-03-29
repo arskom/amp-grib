@@ -51,63 +51,89 @@ DialogChooseLang::DialogChooseLang(QWidget *parent, QString defaultlang)
     bt_ru = addLanguage("Русско", Util::pathImg("drapeau_ru.png"));
     bt_gr = addLanguage("Ελληνικά", Util::pathImg("drapeau_gr.png"));
 
-    if (defaultlang == "de")
+    if (defaultlang == "de") {
         bt_de->setChecked(true);
-    else if (defaultlang == "en")
+    }
+    else if (defaultlang == "en") {
         bt_en->setChecked(true);
-    else if (defaultlang == "es")
+    }
+    else if (defaultlang == "es") {
         bt_es->setChecked(true);
-    else if (defaultlang == "fi")
+    }
+    else if (defaultlang == "fi") {
         bt_fi->setChecked(true);
-    else if (defaultlang == "fr")
+    }
+    else if (defaultlang == "fr") {
         bt_fr->setChecked(true);
-    else if (defaultlang == "it")
+    }
+    else if (defaultlang == "it") {
         bt_it->setChecked(true);
-    else if (defaultlang == "nl")
+    }
+    else if (defaultlang == "nl") {
         bt_nl->setChecked(true);
-    else if (defaultlang == "pt")
+    }
+    else if (defaultlang == "pt") {
         bt_pt->setChecked(true);
-    else if (defaultlang == "ru")
+    }
+    else if (defaultlang == "ru") {
         bt_ru->setChecked(true);
-    else if (defaultlang == "cz")
+    }
+    else if (defaultlang == "cz") {
         bt_ru->setChecked(true);
-    // A. Degwerth [Cassidian]: added Arabic language selection
-    else if (defaultlang == "ar")
+        // A. Degwerth [Cassidian]: added Arabic language selection
+    }
+    else if (defaultlang == "ar") {
         bt_ar->setChecked(true);
-    else if (defaultlang == "gr")
+    }
+    else if (defaultlang == "gr") {
         bt_gr->setChecked(true);
-    else
+    }
+    else {
         bt_en->setChecked(true);
+    }
 }
 //--------------------------------------------------------------------------------
 QString DialogChooseLang::getLanguage() {
-    if (bt_de->isChecked())
+    if (bt_de->isChecked()) {
         return "de";
-    else if (bt_en->isChecked())
+    }
+    else if (bt_en->isChecked()) {
         return "en";
-    else if (bt_es->isChecked())
+    }
+    else if (bt_es->isChecked()) {
         return "es";
-    else if (bt_fi->isChecked())
+    }
+    else if (bt_fi->isChecked()) {
         return "fi";
-    else if (bt_fr->isChecked())
+    }
+    else if (bt_fr->isChecked()) {
         return "fr";
-    else if (bt_it->isChecked())
+    }
+    else if (bt_it->isChecked()) {
         return "it";
-    else if (bt_nl->isChecked())
+    }
+    else if (bt_nl->isChecked()) {
         return "nl";
-    else if (bt_pt->isChecked())
+    }
+    else if (bt_pt->isChecked()) {
         return "pt";
-    else if (bt_ru->isChecked())
+    }
+    else if (bt_ru->isChecked()) {
         return "ru";
-    else if (bt_cz->isChecked())
+    }
+    else if (bt_cz->isChecked()) {
         return "cz";
-    // A. Degwerth [Cassidian]: added Arabic language selection
-    else if (bt_ar->isChecked())
+        // A. Degwerth [Cassidian]: added Arabic language selection
+    }
+    else if (bt_ar->isChecked()) {
         return "ar";
-    else if (bt_gr->isChecked())
+    }
+    else if (bt_gr->isChecked()) {
         return "gr";
-    else
+    }
+    else {
         return "en";
+    }
 }
 //--------------------------------------------------------------------------------
 QRadioButton *DialogChooseLang::addLanguage(QString name, QString iconfile) {

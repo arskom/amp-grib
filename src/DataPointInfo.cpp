@@ -36,10 +36,12 @@ DataPointInfo::DataPointInfo(
     else {
         temp = reader == NULL ? GRIB_NOTDEF
                               : reader->getDateInterpolatedValue(DataCode(GRB_TEMP, LV_GND_SURF, 0), x, y, date);
-        if (temp != GRIB_NOTDEF)
+        if (temp != GRIB_NOTDEF) {
             tempAltitude = Altitude(LV_GND_SURF, 0);
-        else
+        }
+        else {
             tempAltitude = Altitude(LV_TYPE_NOT_DEFINED, 0);
+        }
     }
     //-------------------------------------
     tempMin = reader == NULL ? GRIB_NOTDEF
@@ -149,10 +151,12 @@ DataPointInfo::DataPointInfo(
     if (vx_10m != GRIB_NOTDEF && vy_10m != GRIB_NOTDEF) {
         windSpeed_10m = sqrt(vx_10m * vx_10m + vy_10m * vy_10m);
         windDir_10m = -atan2(-vx_10m, vy_10m) * 180.0 / M_PI + 180;
-        if (windDir_10m < 0)
+        if (windDir_10m < 0) {
             windDir_10m += 360.0;
-        else if (windDir_10m >= 360)
+        }
+        else if (windDir_10m >= 360) {
             windDir_10m -= 360.0;
+        }
     }
     else {
         windSpeed_10m = GRIB_NOTDEF;
@@ -168,10 +172,12 @@ DataPointInfo::DataPointInfo(
     if (vx_gnd != GRIB_NOTDEF && vy_gnd != GRIB_NOTDEF) {
         windSpeed_gnd = sqrt(vx_gnd * vx_gnd + vy_gnd * vy_gnd);
         windDir_gnd = -atan2(-vx_gnd, vy_gnd) * 180.0 / M_PI + 180;
-        if (windDir_gnd < 0)
+        if (windDir_gnd < 0) {
             windDir_gnd += 360.0;
-        else if (windDir_gnd >= 360)
+        }
+        else if (windDir_gnd >= 360) {
             windDir_gnd -= 360.0;
+        }
     }
     else {
         windSpeed_gnd = GRIB_NOTDEF;
@@ -187,10 +193,12 @@ DataPointInfo::DataPointInfo(
     if (cx != GRIB_NOTDEF && cy != GRIB_NOTDEF) {
         currentSpeed = sqrt(cx * cx + cy * cy);
         currentDir = -atan2(-cx, cy) * 180.0 / M_PI;
-        if (currentDir < 0)
+        if (currentDir < 0) {
             currentDir += 360.0;
-        else if (currentDir >= 360)
+        }
+        else if (currentDir >= 360) {
             currentDir -= 360.0;
+        }
     }
     else {
         currentSpeed = GRIB_NOTDEF;
@@ -217,10 +225,12 @@ DataPointInfo::DataPointInfo(
             if (hVx[i] != GRIB_NOTDEF && hVy[i] != GRIB_NOTDEF) {
                 hWindSpeed[i] = sqrt(hVx[i] * hVx[i] + hVy[i] * hVy[i]);
                 hWindDir[i] = -atan2(-hVx[i], hVy[i]) * 180.0 / M_PI + 180;
-                if (hWindDir[i] < 0)
+                if (hWindDir[i] < 0) {
                     hWindDir[i] += 360.0;
-                if (hWindDir[i] >= 360)
+                }
+                if (hWindDir[i] >= 360) {
                     hWindDir[i] -= 360.0;
+                }
             }
             else {
                 hWindSpeed[i] = GRIB_NOTDEF;
@@ -277,30 +287,40 @@ float DataPointInfo::getDataValue(const DataCode &dtc) const {
         return hasDewPoint() && hasTemp() ? temp - dewPoint : GRIB_NOTDEF;
 
     case GRB_TEMP:
-        if (dtc.getAltitude().levelType == LV_ISOBARIC)
+        if (dtc.getAltitude().levelType == LV_ISOBARIC) {
             return hTemp[dtc.getAltitude().index()];
-        else
+        }
+        else {
             return temp;
+        }
     case GRB_GEOPOT_HGT:
-        if (dtc.levelType == LV_ISOTHERM0)
+        if (dtc.levelType == LV_ISOTHERM0) {
             return isotherm0HGT;
-        else if (dtc.getAltitude().levelType == LV_ISOBARIC)
+        }
+        else if (dtc.getAltitude().levelType == LV_ISOBARIC) {
             return hGeopot[dtc.getAltitude().index()];
+        }
     case GRB_HUMID_REL:
-        if (dtc.getAltitude().levelType == LV_ISOBARIC)
+        if (dtc.getAltitude().levelType == LV_ISOBARIC) {
             return hHumidRel[dtc.getAltitude().index()];
-        else
+        }
+        else {
             return humidRel;
+        }
     case GRB_HUMID_SPEC:
-        if (dtc.getAltitude().levelType == LV_ISOBARIC)
+        if (dtc.getAltitude().levelType == LV_ISOBARIC) {
             return hHumidSpec[dtc.getAltitude().index()];
-        else
+        }
+        else {
             return humidSpec;
+        }
     case GRB_PRV_THETA_E:
-        if (dtc.getAltitude().levelType == LV_ISOBARIC)
+        if (dtc.getAltitude().levelType == LV_ISOBARIC) {
             return hThetae[dtc.getAltitude().index()];
-        else
+        }
+        else {
             return GRIB_NOTDEF;
+        }
     //-----------------------------------
     // Waves
     //-----------------------------------
@@ -401,8 +421,9 @@ bool DataPointInfo::hasWind(const Altitude &alt) const {
     else if (alt.levelType == LV_GND_SURF) {
         return windDir_gnd != GRIB_NOTDEF && windSpeed_gnd != GRIB_NOTDEF;
     }
-    else
+    else {
         return windDir_10m != GRIB_NOTDEF && windSpeed_10m != GRIB_NOTDEF;
+    }
 }
 //--------------------------------------------------------
 bool DataPointInfo::hasCurrent() const {

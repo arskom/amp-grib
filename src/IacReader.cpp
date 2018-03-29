@@ -50,32 +50,42 @@ void IacReader::decodeDataLine_preamble(std::vector<std::string> &vline) {
             iacFileType = IAC_FORECAST;
             std::string sdel = vline[3].substr(3, 2);
             int del;
-            if (sscanf(sdel.c_str(), "%d", &del) == 1)
+            if (sscanf(sdel.c_str(), "%d", &del) == 1) {
                 iacFileValidHour = del;
-            else
+            }
+            else {
                 ok = false;
+            }
         }
-        else
+        else {
             ok = false;
+        }
 
         if (ok) {
             std::string x1x1 = vline[1].substr(3, 2);
-            if (x1x1 == "00")
+            if (x1x1 == "00") {
                 yyyyyPositionMode = POS_LaLaLoLok_NORTH;
-            else if (x1x1 == "11")
+            }
+            else if (x1x1 == "11") {
                 yyyyyPositionMode = POS_LaLaLoLok_SOUTH;
-            else if (x1x1 == "22")
+            }
+            else if (x1x1 == "22") {
                 yyyyyPositionMode = POS_LaLaLoLok_EQUAT;
-            else if (x1x1 == "66")
+            }
+            else if (x1x1 == "66") {
                 yyyyyPositionMode = POS_iiiD1s1;
-            else if (x1x1 == "88")
+            }
+            else if (x1x1 == "88") {
                 yyyyyPositionMode = POS_QLaLaLoLo;
-            else
+            }
+            else {
                 ok = false;
+            }
         }
     }
-    else
+    else {
         ok = false;
+    }
 }
 
 //-----------------------------------------------------------
@@ -91,32 +101,40 @@ void IacReader::decodeDataLine_header_NOAA(std::vector<std::string> &vline) {
         std::string smin = vline[2].substr(4, 2);
         int val;
         if (sscanf(sday.c_str(), "%d", &val) == 1) {
-            if (val >= 0 && val <= 31)
+            if (val >= 0 && val <= 31) {
                 iacFileDay = val;
-            else
+            }
+            else {
                 ok = false;
+            }
         }
         if (sscanf(shour.c_str(), "%d", &val) == 1) {
-            if (val >= 0 && val < 24)
+            if (val >= 0 && val < 24) {
                 iacFileHour = val;
-            else
+            }
+            else {
                 ok = false;
+            }
         }
         if (sscanf(smin.c_str(), "%d", &val) == 1) {
-            if (val >= 0 && val < 60)
+            if (val >= 0 && val < 60) {
                 iacFileMinute = val;
-            else
+            }
+            else {
                 ok = false;
+            }
         }
-        if (ok)
+        if (ok) {
             is_NOAA_File = true;
+        }
     }
 }
 
 //-----------------------------------------------------------
 void IacReader::decodeLine(std::vector<std::string> &vline) {
-    if (vline.size() == 0)
+    if (vline.size() == 0) {
         return;
+    }
 
     if (vline.size() >= 3
             && (vline[0] == "ASXX21" || vline[0] == "FSXX21")) {
@@ -306,8 +324,9 @@ void IacReader::decodeDataLine_sec_2_Isobars(std::vector<std::string> &vline) {
         std::string Pval = vline[0].substr(2, 3);
         int pr;
         if (sscanf(Pval.c_str(), "%d", &pr) == 1) {
-            if (pr < 500)
+            if (pr < 500) {
                 pr += 1000; // 44020->1020hpa
+            }
 
             currentIsobar = new IAC_Isobar(pr);
             assert(currentIsobar);

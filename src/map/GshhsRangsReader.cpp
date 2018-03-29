@@ -57,8 +57,9 @@ bool GshhsRangsCell::readPolygonList() {
     }
     else {
         size = readSegmentLoop();
-        if (poligonSizeMax < size)
+        if (poligonSizeMax < size) {
             poligonSizeMax = size;
+        }
 
         while (readPolygonList()) {
         }; // Appel récursif
@@ -301,19 +302,24 @@ void GshhsRangsReader::setQuality(int quality) // 5 levels: 0=low ... 4=full
 
         char txtn[16];
         int qual = 4 - quality; // Fichier .rim : 0=meilleure ... 4=grossière
-        if (qual < 0)
+        if (qual < 0) {
             qual = 0;
-        if (qual > 4)
+        }
+        if (qual > 4) {
             qual = 4;
+        }
 
         snprintf(txtn, 10, "%d", qual);
 
-        if (fcat)
+        if (fcat) {
             fclose(fcat);
-        if (fcel)
+        }
+        if (fcel) {
             fclose(fcel);
-        if (frim)
+        }
+        if (frim) {
             fclose(frim);
+        }
 
         fcat = fopen((path + "rangs_" + txtn + ".cat").c_str(), "rb");
         fcel = fopen((path + "rangs_" + txtn + ".cel").c_str(), "rb");
@@ -333,8 +339,9 @@ void GshhsRangsReader::setQuality(int quality) // 5 levels: 0=low ... 4=full
 //-------------------------------------------------------------------------
 void GshhsRangsReader::drawGshhsRangsMapPlain(QPainter &pnt, Projection *proj,
         QColor seaColor, QColor landColor) {
-    if (!fcat || !fcel || !frim)
+    if (!fcat || !fcel || !frim) {
         return;
+    }
 
     QPoint *pts;
     uint ptsSize = 1000; // Resolution Max => 9145 pts max
@@ -352,10 +359,12 @@ void GshhsRangsReader::drawGshhsRangsMapPlain(QPainter &pnt, Projection *proj,
     //printf("cxmin=%d cxmax=%d    cymin=%d cymax=%d\n", cxmin,cxmax, cymin,cymax);
     for (cx = cxmin; cx < cxmax; cx++) {
         cxx = cx;
-        while (cxx < 0)
+        while (cxx < 0) {
             cxx += 360;
-        while (cxx >= 360)
+        }
+        while (cxx >= 360) {
             cxx -= 360;
+        }
 
         for (cy = cymin; cy < cymax; cy++) {
             if (cxx >= 0 && cxx <= 359 && cy >= -90 && cy <= 89) {
@@ -384,8 +393,9 @@ void GshhsRangsReader::drawGshhsRangsMapPlain(QPainter &pnt, Projection *proj,
 
 //-------------------------------------------------------------------------
 void GshhsRangsReader::drawGshhsRangsMapSeaBorders(QPainter &pnt, Projection *proj) {
-    if (!fcat || !fcel || !frim)
+    if (!fcat || !fcel || !frim) {
         return;
+    }
 
     int cxmin, cxmax, cymax, cymin; // cellules visibles
     cxmin = (int)floor(proj->getXmin());
@@ -397,10 +407,12 @@ void GshhsRangsReader::drawGshhsRangsMapSeaBorders(QPainter &pnt, Projection *pr
 
     for (cx = cxmin; cx < cxmax; cx++) {
         cxx = cx;
-        while (cxx < 0)
+        while (cxx < 0) {
             cxx += 360;
-        while (cxx >= 360)
+        }
+        while (cxx >= 360) {
             cxx -= 360;
+        }
 
         for (cy = cymin; cy < cymax; cy++) {
             if (cxx >= 0 && cxx <= 359 && cy >= -90 && cy <= 89) {

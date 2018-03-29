@@ -41,8 +41,9 @@ GshhsPolygon::GshhsPolygon(ZUFILE *file_) {
 
         for (int i = 0; i < n; i++) {
             x = readInt4() * 1e-6;
-            if (greenwich && x > 270)
+            if (greenwich && x > 270) {
                 x -= 360;
+            }
             y = readInt4() * 1e-6;
             lsPoints.push_back(new GshhsPoint(x, y));
         }
@@ -78,8 +79,9 @@ GshhsPolygon_WDB::GshhsPolygon_WDB(ZUFILE *file_) {
         for (int i = 0; i < n; i++) {
             double x, y;
             x = readInt4() * 1e-6;
-            if (greenwich && x > 270)
+            if (greenwich && x > 270) {
                 x -= 360;
+            }
             y = readInt4() * 1e-6;
             lsPoints.push_back(new GshhsPoint(x, y));
         }
@@ -145,10 +147,12 @@ GshhsReader::GshhsReader(const GshhsReader &model) {
 //-------------------------------------------------------
 // Destructeur
 GshhsReader::~GshhsReader() {
-    if (gshhsRangsReader)
+    if (gshhsRangsReader) {
         delete gshhsRangsReader;
-    if (isListCreator)
+    }
+    if (isListCreator) {
         clearLists();
+    }
 }
 
 //-----------------------------------------------------------------------
@@ -217,10 +221,12 @@ std::string GshhsReader::getNameExtension(int quality) {
 std::string GshhsReader::getFileName_gshhs(int quality) {
     // Lit le .rim de RANGS à la place du fichier initial
     char txtn[16];
-    if (quality < 0)
+    if (quality < 0) {
         quality = 0;
-    if (quality > 4)
+    }
+    if (quality > 4) {
         quality = 4;
+    }
     snprintf(txtn, 10, "%d", 4 - quality); // précision inversée :(
     std::string fname;
     fname = fpath + "/" + "gshhs_" + txtn + ".rim";
@@ -241,12 +247,15 @@ std::string GshhsReader::getFileName_rivers(int quality) {
 }
 //-----------------------------------------------------------------------
 bool GshhsReader::gshhsFilesExists(int quality) {
-    if (zu_can_read_file(getFileName_gshhs(quality).c_str()) == 0)
+    if (zu_can_read_file(getFileName_gshhs(quality).c_str()) == 0) {
         return false;
-    if (zu_can_read_file(getFileName_boundaries(quality).c_str()) == 0)
+    }
+    if (zu_can_read_file(getFileName_boundaries(quality).c_str()) == 0) {
         return false;
-    if (zu_can_read_file(getFileName_rivers(quality).c_str()) == 0)
+    }
+    if (zu_can_read_file(getFileName_rivers(quality).c_str()) == 0) {
         return false;
+    }
     return true;
 }
 //-----------------------------------------------------------------------
@@ -302,10 +311,12 @@ void GshhsReader::setQuality(int quality_) // 5 levels: 0=low ... 4=full
     bool ok;
 
     quality = quality_;
-    if (quality < 0)
+    if (quality < 0) {
         quality = 0;
-    else if (quality > 4)
+    }
+    else if (quality > 4) {
         quality = 4;
+    }
 
     gshhsRangsReader->setQuality(quality);
 
@@ -323,8 +334,9 @@ void GshhsReader::setQuality(int quality_) // 5 levels: 0=low ... 4=full
                 GshhsPolygon *poly = new GshhsPolygon_WDB(file);
                 ok = poly->isOk();
                 if (ok) {
-                    if (poly->getLevel() < 2)
+                    if (poly->getLevel() < 2) {
                         lsPoly_boundaries[quality]->push_back(poly);
+                    }
                 }
             }
             zu_close(file);
@@ -439,12 +451,14 @@ void GshhsReader::GsshDrawPolygons(QPainter &pnt, std::vector<GshhsPolygon *> &l
         }
 
         nbp = GSHHS_scaledPoints(pol, pts, 0, proj);
-        if (nbp > 3)
+        if (nbp > 3) {
             pnt.drawPolygon(pts, nbp);
+        }
 
         nbp = GSHHS_scaledPoints(pol, pts, -360, proj);
-        if (nbp > 3)
+        if (nbp > 3) {
             pnt.drawPolygon(pts, nbp);
+        }
     }
 
     delete[] pts;
@@ -485,8 +499,9 @@ void GshhsReader::GsshDrawLines(QPainter &pnt, std::vector<GshhsPolygon *> &lst,
             }
             else {
                 pnt.drawPolyline(pts, nbp);
-                if (isClosed)
+                if (isClosed) {
                     pnt.drawLine(pts[0], pts[nbp - 1]);
+                }
             }
         }
 
@@ -503,8 +518,9 @@ void GshhsReader::GsshDrawLines(QPainter &pnt, std::vector<GshhsPolygon *> &lst,
             }
             else {
                 pnt.drawPolyline(pts, nbp);
-                if (isClosed)
+                if (isClosed) {
                     pnt.drawLine(pts[0], pts[nbp - 1]);
+                }
             }
         }
     }
@@ -600,21 +616,28 @@ void GshhsReader::selectBestQuality(Projection *proj) {
     isUsingRangsReader = proj->getCoefremp() < gshhsRangsThreshold;
 
     int bestQuality = 0;
-    if (proj->getCoefremp() > 50)
+    if (proj->getCoefremp() > 50) {
         bestQuality = 0;
-    else if (proj->getCoefremp() > 5)
+    }
+    else if (proj->getCoefremp() > 5) {
         bestQuality = 1;
-    else if (proj->getCoefremp() > 0.2)
+    }
+    else if (proj->getCoefremp() > 0.2) {
         bestQuality = 2;
-    else if (proj->getCoefremp() > 0.005)
+    }
+    else if (proj->getCoefremp() > 0.005) {
         bestQuality = 3;
-    else
+    }
+    else {
         bestQuality = 4;
+    }
 
-    if (bestQuality > userPreferredQuality)
+    if (bestQuality > userPreferredQuality) {
         setQuality(userPreferredQuality);
-    else
+    }
+    else {
         setQuality(bestQuality);
+    }
 
     //printf("coefremp=%.2f usingRangs=%d qual=%d\n", proj->getCoefremp(),(int)isUsingRangsReader,getQuality());
 }

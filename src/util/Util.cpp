@@ -125,10 +125,12 @@ void Util::setApplicationProxy() {
 QNetworkRequest Util::makeNetworkRequest(QString url, double x0, double y0, double x1, double y1) {
     QNetworkRequest request;
     QString now = QTime::currentTime().toString("HHmmss");
-    if (url.contains('?'))
+    if (url.contains('?')) {
         url += "&tm=" + now;
-    else
+    }
+    else {
         url += "?tm=" + now;
+    }
     if (Util::getSetting("strictHttpDownload", false).toBool()) {
         QString zl = Util::encode(Util::decode(Util::getSetting("zyGribForumUserName", "").toString()), now);
         QString zp = Util::encode(Util::decode(Util::getSetting("zyGribForumUserPassword", "").toString()), now);
@@ -136,16 +138,18 @@ QNetworkRequest Util::makeNetworkRequest(QString url, double x0, double y0, doub
         request.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:8.0) Gecko/20100101 Firefox/8.0");
         request.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
     }
-    else
+    else {
         request.setRawHeader("User-Agent", qPrintable(Version::getAppName() + "/" + Version::getVersion()));
+    }
     request.setUrl(QUrl(url));
     validArea(request, x0, y0, x1, y1);
     return request;
 }
 //======================================================================
 bool Util::isDirWritable(const QDir &dir) {
-    if (!dir.exists())
+    if (!dir.exists()) {
         return false;
+    }
 
     // try yo write a file
     FILE *fd;
@@ -157,8 +161,9 @@ bool Util::isDirWritable(const QDir &dir) {
         unlink(qPrintable(tmpfname));
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //======================================================================
@@ -253,12 +258,15 @@ QString Util::formatDistance(float mille, bool withUnit) {
         unit = "NM";
         d = mille;
     }
-    if (d < 10)
+    if (d < 10) {
         r.sprintf("%5.2f", d);
-    else if (d < 100)
+    }
+    else if (d < 100) {
         r.sprintf("%5.1f", d);
-    else
+    }
+    else {
         r.sprintf("%5.0f", d);
+    }
     return (withUnit) ? r + " " + unit : r;
 }
 //----------------------------------------------------------------
@@ -273,16 +281,18 @@ QByteArray Util::sha1(const QByteArray &v) {
 QString Util::encode(const QString &v, const QString &k) {
     QByteArray pv = v.toUtf8();
     QString ke = k.trimmed();
-    if (ke == "")
+    if (ke == "") {
         ke = "zygrib";
+    }
     QByteArray pk = Util::sha1(ke.toUtf8());
     QByteArray re;
     int i, j = 0;
     for (i = 0; i < pv.size(); i++) {
         re.append(pv[i] ^ pk[j]);
         j++;
-        if (j == pk.size())
+        if (j == pk.size()) {
             j = 0;
+        }
     }
     return QString(re.toBase64());
 }
@@ -290,16 +300,18 @@ QString Util::encode(const QString &v, const QString &k) {
 QString Util::decode(const QString &v, const QString &k) {
     QByteArray pv = QByteArray::fromBase64(v.toUtf8());
     QString ke = k.trimmed();
-    if (ke == "")
+    if (ke == "") {
         ke = "zygrib";
+    }
     QByteArray pk = Util::sha1(ke.toUtf8());
     QByteArray re;
     int i, j = 0;
     for (i = 0; i < pv.size(); i++) {
         re.append(pv[i] ^ pk[j]);
         j++;
-        if (j == pk.size())
+        if (j == pk.size()) {
             j = 0;
+        }
     }
     return QString(re);
 }
@@ -308,16 +320,21 @@ QString Util::getDataUnit(const DataCode &dtc) {
     QString unit;
     switch (dtc.dataType) {
     case GRB_GEOPOT_HGT:
-        if (dtc.levelType == LV_ISOTHERM0)
+        if (dtc.levelType == LV_ISOTHERM0) {
             unit = Util::getSetting("geopotAltitudeUnit", "gpm").toString();
-        else
+        }
+        else {
             unit = Util::getSetting("isotherm0Unit", "m").toString();
-        if (unit == "dam")
+        }
+        if (unit == "dam") {
             return tr("dam");
-        else if (unit == "ft")
+        }
+        else if (unit == "ft") {
             return tr("ft");
-        else // if (unit == "m")
+        }
+        else { // if (unit == "m")
             return tr("m");
+        }
         break;
     case GRB_CLOUD_TOT:
     case GRB_HUMID_SPEC:
@@ -355,8 +372,9 @@ QString Util::getDataUnit(const DataCode &dtc) {
         break;
     case GRB_SNOW_DEPTH:
         unit = Util::getSetting("snowDepthUnit", tr("m")).toString();
-        if (unit == tr("m"))
+        if (unit == tr("m")) {
             unit = tr("cm");
+        }
         return unit;
         break;
     case GRB_PRECIP_RATE:
@@ -400,16 +418,21 @@ double Util::getDataCoef(const DataCode &dtc) {
     QString unit;
     switch (dtc.dataType) {
     case GRB_GEOPOT_HGT:
-        if (dtc.levelType == LV_ISOTHERM0)
+        if (dtc.levelType == LV_ISOTHERM0) {
             unit = Util::getSetting("isotherm0Unit", "m").toString();
-        else
+        }
+        else {
             unit = Util::getSetting("geopotAltitudeUnit", "gpm").toString();
-        if (unit == "gpdm" || unit == "dam")
+        }
+        if (unit == "gpdm" || unit == "dam") {
             return 0.1;
-        else if (unit == "gpft" || unit == "ft")
+        }
+        else if (unit == "gpft" || unit == "ft") {
             return 1.0 / 0.3048;
-        else
+        }
+        else {
             return 1.0;
+        }
         break;
     default:
         return 1.0;
@@ -429,10 +452,12 @@ QString Util::formatGeopotAltitude(float meter, bool withUnit) {
 QString Util::formatRain(float mmh, bool withUnit) {
     QString unite = Util::getDataUnit(DataCode(GRB_PRECIP_TOT, LV_GND_SURF, 0));
     QString r;
-    if (mmh < 10)
+    if (mmh < 10) {
         r.sprintf("%.2f", mmh);
-    else
+    }
+    else {
         r.sprintf("%.1f", mmh);
+    }
     return (withUnit) ? r + " " + unite : r;
 }
 //----------------------------------------------------------------
@@ -440,10 +465,12 @@ QString Util::formatPressure(float pasc, bool withUnit, int precision) {
     QString unite = Util::getDataUnit(DataCode(GRB_PRESSURE_MSL, LV_MSL, 0));
     QString r;
     if (pasc != GRIB_NOTDEF) {
-        if (precision > 0)
+        if (precision > 0) {
             r.sprintf("%.1f", pasc / 100.0);
-        else
+        }
+        else {
             r.sprintf("%.0f", pasc / 100.0);
+        }
     }
     return (withUnit) ? r + " " + unite : r;
 }
@@ -467,10 +494,12 @@ QString Util::formatWaveHeight(float meter, bool withUnit) {
         unite = "ft";
         d = meter / 0.3048;
     }
-    if (d < 10)
+    if (d < 10) {
         r.sprintf("%.1f", d);
-    else
+    }
+    else {
         r.sprintf("%.0f", d);
+    }
     return (withUnit) ? r + " " + unite : r;
 }
 //----------------------------------------------------------------
@@ -489,10 +518,12 @@ QString Util::formatWhiteCap(float prb, bool withUnit) {
     QString unite = "%";
     QString r;
     float v = inRange(0.0f, prb, 100.0f);
-    if (v < 10)
+    if (v < 10) {
         r.sprintf("%.1f", v);
-    else
+    }
+    else {
         r.sprintf("%.0f", v);
+    }
     return (withUnit) ? r + " " + unite : r;
 }
 //----------------------------------------------------------------
@@ -503,10 +534,12 @@ QString Util::formatSnowDepth(float meter, bool withUnit) {
     if (unit == tr("m")) {
         unite = "cm";
         d = meter * 100.0;
-        if (d < 10)
+        if (d < 10) {
             r.sprintf("%.1f", d);
-        else
+        }
+        else {
             r.sprintf("%.0f", d);
+        }
     }
     else {
         unite = "ft";
@@ -527,10 +560,12 @@ QString Util::formatDegres(float x, bool inf100) // 123.4 -> 123°24.00'
         int deg = (int)fabs(x);
         float min = (fabs(x) - deg) * 60.0;
         char sign = (x < 0) ? '-' : ' ';
-        if (inf100)
+        if (inf100) {
             r.sprintf("%c%02d%s%05.2f'", sign, deg, cdeg, min);
-        else
+        }
+        else {
             r.sprintf("%c%03d%s%05.2f'", sign, deg, cdeg, min);
+        }
     }
     else if (unit == tr("dd°mm'ss\"")) {
         int sec = (int)fabs(x * 3600.0); // total en secondes
@@ -539,98 +574,125 @@ QString Util::formatDegres(float x, bool inf100) // 123.4 -> 123°24.00'
         min = min % 60; // reste en minutes
         sec = sec % 60; // reste en secondes
         char sign = (x < 0) ? '-' : ' ';
-        if (inf100)
+        if (inf100) {
             r.sprintf("%c%02d%s%02d'%02d\"", sign, deg, cdeg, min, sec);
-        else
+        }
+        else {
             r.sprintf("%c%03d%s%02d'%02d\"", sign, deg, cdeg, min, sec);
+        }
     }
     else // if (unit == tr("dd,dd°"))
     {
-        if (inf100)
+        if (inf100) {
             r.sprintf("%05.2f%s", x, cdeg);
-        else
+        }
+        else {
             r.sprintf("%06.2f%s", x, cdeg);
+        }
     }
     return r;
 }
 //---------------------------------------------------------------------
 QString Util::formatPosition(float x, float y) // 123°24.00'W 45°67.89'N
 {
-    if (Util::getSetting("orderLatitudeLongitude", true).toBool())
+    if (Util::getSetting("orderLatitudeLongitude", true).toBool()) {
         return formatLatitude(y) + " " + formatLongitude(x);
-    else
+    }
+    else {
         return formatLongitude(x) + " " + formatLatitude(y);
+    }
 }
 //---------------------------------------------------------------------
 QString Util::formatLongitude(float x) {
     QString dir = Util::getSetting("longitudeDirection", "").toString();
-    while (x > 360)
+    while (x > 360) {
         x -= 360;
-    while (x < -360)
+    }
+    while (x < -360) {
         x += 360;
+    }
     if (dir == "West+") {
-        if (x <= 0)
+        if (x <= 0) {
             return formatDegres(-x, false) + "W";
-        else
+        }
+        else {
             return formatDegres(360 - x, false) + "W";
+        }
     }
     else if (dir == "East+") {
-        if (x >= 0)
+        if (x >= 0) {
             return formatDegres(x, false) + "E";
-        else
+        }
+        else {
             return formatDegres(360 + x, false) + "E";
+        }
     }
     else {
         // Mode automatique
         if (x > 0) {
-            if (x <= 180)
+            if (x <= 180) {
                 return formatDegres(x, false) + "E";
-            else
+            }
+            else {
                 return formatDegres(360 - x, false) + "W";
+            }
         }
         else {
-            if (x >= -180)
+            if (x >= -180) {
                 return formatDegres(-x, false) + "W";
-            else
+            }
+            else {
                 return formatDegres(x + 360, false) + "E";
+            }
         }
     }
 }
 //---------------------------------------------------------------------
 QString Util::formatLatitude(float y) {
     QString dir = Util::getSetting("latitudeDirection", "").toString();
-    if (dir == "South+")
+    if (dir == "South+") {
         return formatDegres(-y, true) + "S";
-    else if (dir == "North+")
+    }
+    else if (dir == "North+") {
         return formatDegres(y, true) + "N";
+    }
     else {
         // Mode automatique
-        if (y > 0)
+        if (y > 0) {
             return formatDegres(y, true) + "N";
-        else
+        }
+        else {
             return formatDegres(-y, true) + "S";
+        }
     }
 }
 //---------------------------------------------------------------------
 QString Util::formatPercentValue(float v, bool withUnit) {
-    if (v == GRIB_NOTDEF)
+    if (v == GRIB_NOTDEF) {
         return withUnit ? "    %%" : "   ";
+    }
     QString r;
-    if (v < 0)
+    if (v < 0) {
         v = 0;
-    else if (v > 100)
+    }
+    else if (v > 100) {
         v = 100;
+    }
     if (withUnit) {
-        if (v < 10)
+        if (v < 10) {
             r.sprintf("%.1f %%", v);
-        else
+        }
+        else {
             r.sprintf("%.0f %%", v);
+        }
     }
     else {
-        if (v < 10)
+        if (v < 10) {
             r.sprintf("%.1f", v);
-        else
+        }
+        else {
             r.sprintf("%.0f", v);
+        }
     }
     return r;
 }
@@ -685,19 +747,23 @@ int Util::getDayNum(time_t t) {
 //------------------------------------------------
 QString Util::formatDateLong(time_t t, bool localTime) {
     QDateTime dt;
-    if (localTime)
+    if (localTime) {
         dt = applyTimeZone(t);
-    else
+    }
+    else {
         dt.setTime_t(t);
+    }
     return formatDayName(dt.date()) + " " + formatDateShort(t);
 }
 //---------------------------------------------------------------------
 QString Util::formatDateShort(time_t t) {
     QDateTime dt = applyTimeZone(t);
-    if (getSetting("appLanguage", "").toString() == "fr")
+    if (getSetting("appLanguage", "").toString() == "fr") {
         return dt.toString("dd-MM-yyyy");
-    else
+    }
+    else {
         return dt.toString("yyyy-MM-dd");
+    }
 }
 //---------------------------------------------------------------------
 QString Util::formatDateTimeLong(time_t t) {
@@ -723,24 +789,28 @@ QDateTime Util::applyTimeZone(time_t t, QString *suffix) {
     QString tmzone = Util::getSetting("timeZone", "UTC").toString();
     if (tmzone == "LOC") {
         dt = dt.toLocalTime();
-        if (suffix != NULL)
+        if (suffix != NULL) {
             *suffix = "LOC";
+        }
     }
     else if (tmzone.left(4) == "UTC+" || tmzone.left(4) == "UTC-") { // UTC-12 UTC-11 ... UTC+1 UTC+2 UTC+3 ... UTC+14
         int dec = tmzone.mid(3, -1).toInt();
         if (dec == 0 || dec < -12 || dec > 14) {
-            if (suffix != NULL)
+            if (suffix != NULL) {
                 *suffix = "UTC";
+            }
         }
         else {
             dt = dt.addSecs(dec * 3600);
-            if (suffix != NULL)
+            if (suffix != NULL) {
                 *suffix = tmzone;
+            }
         }
     }
     else { // default timezone : UTC
-        if (suffix != NULL)
+        if (suffix != NULL) {
             *suffix = "UTC";
+        }
     }
 
     return dt;

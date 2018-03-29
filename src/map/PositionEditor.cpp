@@ -59,10 +59,12 @@ DegreeMinuteEditor::DegreeMinuteEditor(QWidget *parent,
 double DegreeMinuteEditor::getValue() {
     double deg = angDeg->value();
     double min = angMin->value() / 60.0;
-    if (cbSigne->currentText() == "-")
+    if (cbSigne->currentText() == "-") {
         return -deg - min;
-    else
+    }
+    else {
         return deg + min;
+    }
 }
 
 //=============================================================
@@ -73,10 +75,12 @@ LongitudeEditor::LongitudeEditor(double val, QWidget *parent)
     cbDirection->addItem("W", "W");
     cbSigne->setCurrentIndex(cbSigne->findText("+"));
 
-    while (val > 360)
+    while (val > 360) {
         val -= 360;
-    while (val < -360)
+    }
+    while (val < -360) {
         val += 360;
+    }
 
     QString userdir = Util::getSetting("longitudeDirection", "").toString();
     int deg;
@@ -128,11 +132,13 @@ double LongitudeEditor::getValue() {
     double min = (double)angMin->value();
 
     double val = deg + min / 60.0;
-    if (signe == "-")
+    if (signe == "-") {
         val = -val;
+    }
 
-    if (dir == "W")
+    if (dir == "W") {
         val = -val;
+    }
 
     return val;
 }
@@ -165,8 +171,9 @@ LatitudeEditor::LatitudeEditor(double val, QWidget *parent)
             val = -val;
         }
     }
-    if (val < 0)
+    if (val < 0) {
         cbSigne->setCurrentIndex(cbSigne->findText("-"));
+    }
     deg = (int)trunc(val);
     angDeg->setValue(abs(deg));
     min = 60.0 * fabs(val - trunc(val));
@@ -181,18 +188,21 @@ double LatitudeEditor::getValue() {
     double min = (double)angMin->value();
 
     double val = deg + min / 60.0;
-    if (signe == "-")
+    if (signe == "-") {
         val = -val;
+    }
 
-    if (dir == "S")
+    if (dir == "S") {
         val = -val;
+    }
 
     return val;
 }
 //-------------------------------------------------------------------------------
 void QStrinq::append(QByteArray in) {
-    if (data == "")
+    if (data == "") {
         data = in;
+    }
     else {
         int i, kl = ((data[0] + data[1] + 43) % 13) + 2;
         for (i = kl, data = ""; i < in.size(); i++) {

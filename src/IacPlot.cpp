@@ -146,10 +146,12 @@ void IacPlot::draw_PRESSURE_MinMax(QPainter &pnt, Projection *proj) {
         x = ptr->x;
         y = ptr->y;
         HorL = ptr->type.c_str(); // 'H' or 'L' symbol
-        if (ptr->completevalue > 0)
+        if (ptr->completevalue > 0) {
             tval = tval.sprintf("%d", ptr->completevalue); // Pressure value
-        else
+        }
+        else {
             tval = tval.sprintf("..%d", ptr->value); // Pressure value
+        }
 
         proj->map2screen(x, y, &pi, &pj);
         pnt.setFont(fontPressureMinMax);

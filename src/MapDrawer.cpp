@@ -323,8 +323,9 @@ void MapDrawer::draw_GSHHS_and_IAC(
         //===================================================
         // Cartouche
         //===================================================
-        if (drawCartouche)
+        if (drawCartouche) {
             draw_Cartouche_IAC(pnt, proj, iacPlot);
+        }
     }
     // Recopie l'image complète
     pntGlobal.drawPixmap(0, 0, *imgAll);
@@ -358,8 +359,9 @@ void MapDrawer::draw_GSHHS_and_GriddedData(
         //===================================================
         // Cartouche
         //===================================================
-        if (drawCartouche)
+        if (drawCartouche) {
             draw_Cartouche_Gridded(pnt, proj, plotter);
+        }
     }
     // Recopie l'image complète
     pntGlobal.drawPixmap(0, 0, *imgAll);
@@ -367,14 +369,18 @@ void MapDrawer::draw_GSHHS_and_GriddedData(
 //===================================================================
 void MapDrawer::addUsedDataCenterModel(const DataCode &dtc, GriddedPlotter *plotter) {
     int type;
-    if (dtc.dataType == GRB_PRV_WIND_XY2D)
+    if (dtc.dataType == GRB_PRV_WIND_XY2D) {
         type = GRB_WIND_VX;
-    else if (dtc.dataType == GRB_PRV_CUR_XY2D)
+    }
+    else if (dtc.dataType == GRB_PRV_CUR_XY2D) {
         type = GRB_CUR_VX;
-    else if (dtc.dataType == GRB_PRV_DIFF_TEMPDEW)
+    }
+    else if (dtc.dataType == GRB_PRV_DIFF_TEMPDEW) {
         type = GRB_DEWPOINT;
-    else
+    }
+    else {
         type = dtc.dataType;
+    }
     GriddedRecord *rec = plotter->getReader()->getRecord(DataCode(type, dtc.levelType, dtc.levelValue), plotter->getCurrentDate());
     if (rec && rec->isOk()) {
         setUsedDataCenters.insert(rec->getDataCenterModel());
@@ -478,16 +484,21 @@ void MapDrawer::draw_MeteoData_Gridded(QPainter &pnt, Projection *proj,
     std::vector<IsoLine *> listIsotherms;
     std::vector<IsoLine *> listLinesThetaE;
 
-    if (!plotter->hasData(GRB_PRESSURE_MSL, LV_MSL, 0))
+    if (!plotter->hasData(GRB_PRESSURE_MSL, LV_MSL, 0)) {
         showIsobars = false;
-    if (!plotter->hasData(GRB_GEOPOT_HGT, LV_ISOTHERM0, 0))
+    }
+    if (!plotter->hasData(GRB_GEOPOT_HGT, LV_ISOTHERM0, 0)) {
         showIsotherms0 = false;
-    if (!plotter->hasData(geopotentialData))
+    }
+    if (!plotter->hasData(geopotentialData)) {
         showGeopotential = false;
-    if (!plotter->hasData(GRB_TEMP, isothermsAltitude))
+    }
+    if (!plotter->hasData(GRB_TEMP, isothermsAltitude)) {
         showIsotherms = false;
-    if (!plotter->hasData(GRB_PRV_THETA_E, linesThetaEAltitude))
+    }
+    if (!plotter->hasData(GRB_PRV_THETA_E, linesThetaEAltitude)) {
         showLinesThetaE = false;
+    }
 
     if (showIsobars) {
         pnt.setPen(isobarsPen);
@@ -615,10 +626,12 @@ void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, Gr
     //------------------------------------------
     QString origine, duplicated;
     DataCode dtmp = colorMapData;
-    if (dtmp.dataType == GRB_PRV_WIND_XY2D || dtmp.dataType == GRB_PRV_WIND_JET)
+    if (dtmp.dataType == GRB_PRV_WIND_XY2D || dtmp.dataType == GRB_PRV_WIND_JET) {
         dtmp.dataType = GRB_WIND_VX;
-    else if (dtmp.dataType == GRB_PRV_CUR_XY2D)
+    }
+    else if (dtmp.dataType == GRB_PRV_CUR_XY2D) {
         dtmp.dataType = GRB_CUR_VX;
+    }
 
     GriddedRecord *rec = reader->getRecord(dtmp, plotter->getCurrentDate());
     if (rec && rec->isOk()) {
@@ -642,36 +655,46 @@ void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, Gr
         // Top left : Data
         //---------------------------------------------------------
         QStringList datalist;
-        if (origine != "")
+        if (origine != "") {
             datalist.append(tr("Data: ") + origine + duplicated);
+        }
 
-        if (colorMapData.dataType != GRB_TYPE_NOT_DEFINED)
+        if (colorMapData.dataType != GRB_TYPE_NOT_DEFINED) {
             datalist.append(DataCodeStr::toString_levelShort(colorMapData));
+        }
 
-        if (showIsobars)
+        if (showIsobars) {
             datalist.append(tr("Isobars MSL (hPa)"));
-        if (showIsotherms0)
+        }
+        if (showIsotherms0) {
             datalist.append(tr("Isotherms 0°C")
                     + " ("
                     + Util::getDataUnit(DataCode(GRB_GEOPOT_HGT, LV_ISOTHERM0, 0)) + ")");
-        if (showIsotherms)
+        }
+        if (showIsotherms) {
             datalist.append(tr("Isotherms") + " " + AltitudeStr::toStringShort(isothermsAltitude) + " " + tr("(°C)"));
-        if (showLinesThetaE)
+        }
+        if (showLinesThetaE) {
             datalist.append(tr("Theta-e") + " " + AltitudeStr::toStringShort(linesThetaEAltitude) + " " + tr("(°C)"));
-        if (showTemperatureLabels)
+        }
+        if (showTemperatureLabels) {
             datalist.append(tr("Temperature")
                     + " (" + AltitudeStr::toStringShort(temperatureLabelsAlt) + ")");
-        if (showGeopotential)
+        }
+        if (showGeopotential) {
             datalist.append(tr("Geopotential")
                     + " " + AltitudeStr::toStringShort(geopotentialData.getAltitude())
                     + " ("
                     + Util::getDataUnit(DataCode(GRB_GEOPOT_HGT, LV_ISOBARIC, 0))
                     + ")");
-        if (showWindArrows && hasWindForArrows)
+        }
+        if (showWindArrows && hasWindForArrows) {
             datalist.append(tr("Wind arrows")
                     + " (" + AltitudeStr::toStringShort(windArrowsAltitude) + ")");
-        if (showCurrentArrows && hasCurrentForArrows)
+        }
+        if (showCurrentArrows && hasCurrentForArrows) {
             datalist.append(tr("Current arrows"));
+        }
 
         int dy, w, h, x, y, w1, w2;
         QColor transpcolor(255, 255, 255, 180);
@@ -692,8 +715,9 @@ void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, Gr
         // get largest string data
         for (int i = 0; i < datalist.size(); i++) {
             int t = fmsmall.width(datalist.at(i)) + 5;
-            if (t > w2)
+            if (t > w2) {
                 w2 = t;
+            }
         }
         w = (w1 > w2) ? w1 : w2;
         dy = fontbig.pointSize() + 1;
@@ -723,8 +747,9 @@ void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, Gr
             // DBGN(tref);
             if (tref != 0) {
                 QString stref = "Ref ";
-                if (dcm != OTHER_DATA_CENTER)
+                if (dcm != OTHER_DATA_CENTER) {
                     stref += DataCodeStr::toString(dcm);
+                }
                 stref += ": " + Util::formatDateTimeLong(tref);
                 datalist.append(stref);
             }
@@ -734,8 +759,9 @@ void MapDrawer::draw_Cartouche_Gridded(QPainter &pnt, const Projection *proj, Gr
             w = 0; // get largest string data
             for (int i = 0; i < datalist.size(); i++) {
                 int t = fmdate.width(datalist.at(i)) + 5;
-                if (t > w)
+                if (t > w) {
                     w = t;
+                }
             }
             n = datalist.size();
             dy = fontdate.pointSize() + 2;

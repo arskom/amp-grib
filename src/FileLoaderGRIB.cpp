@@ -141,49 +141,69 @@ void FileLoaderGRIB::getGribFile(
         parameters += "D;";
     }
 
-    if (altitudeData200)
+    if (altitudeData200) {
         parameters += "2;";
-    if (altitudeData300)
+    }
+    if (altitudeData300) {
         parameters += "3;";
-    if (altitudeData400)
+    }
+    if (altitudeData400) {
         parameters += "4;";
-    if (altitudeData500)
+    }
+    if (altitudeData500) {
         parameters += "5;";
-    if (altitudeData600)
+    }
+    if (altitudeData600) {
         parameters += "6;";
-    if (altitudeData700)
+    }
+    if (altitudeData700) {
         parameters += "7;";
-    if (altitudeData850)
+    }
+    if (altitudeData850) {
         parameters += "8;";
-    if (altitudeData925)
+    }
+    if (altitudeData925) {
         parameters += "9;";
-    if (cloudLayers)
+    }
+    if (cloudLayers) {
         parameters += "L;";
-    if (skewTData)
+    }
+    if (skewTData) {
         parameters += "skewt;";
+    }
 
-    if (Util::getSetting("downloadFnmocWW3_sig", false).toBool())
+    if (Util::getSetting("downloadFnmocWW3_sig", false).toBool()) {
         parameters += "w3sh;";
-    if (Util::getSetting("downloadFnmocWW3_max", false).toBool())
+    }
+    if (Util::getSetting("downloadFnmocWW3_max", false).toBool()) {
         parameters += "w3mx;";
-    if (Util::getSetting("downloadFnmocWW3_swl", false).toBool())
+    }
+    if (Util::getSetting("downloadFnmocWW3_swl", false).toBool()) {
         parameters += "w3sw;";
-    if (Util::getSetting("downloadFnmocWW3_wnd", false).toBool())
+    }
+    if (Util::getSetting("downloadFnmocWW3_wnd", false).toBool()) {
         parameters += "w3wn;";
-    if (Util::getSetting("downloadFnmocWW3_wcap", false).toBool())
+    }
+    if (Util::getSetting("downloadFnmocWW3_wcap", false).toBool()) {
         parameters += "w3wc;";
-    if (Util::getSetting("downloadFnmocWW3_prim", false).toBool())
+    }
+    if (Util::getSetting("downloadFnmocWW3_prim", false).toBool()) {
         parameters += "w3pr;";
-    if (Util::getSetting("downloadFnmocWW3_scdy", false).toBool())
+    }
+    if (Util::getSetting("downloadFnmocWW3_scdy", false).toBool()) {
         parameters += "w3sc;";
+    }
     if (parameters.contains("w3")) {
         DataCenterModel waveDataModel = (DataCenterModel)(Util::getSetting("downloadFnmocWW3_DataModel", FNMOC_WW3_MED).toInt());
-        if (waveDataModel == FNMOC_WW3_MED)
+        if (waveDataModel == FNMOC_WW3_MED) {
             parameters += "w3med;";
-        else if (waveDataModel == FNMOC_WW3_GLB)
+        }
+        else if (waveDataModel == FNMOC_WW3_GLB) {
             parameters += "w3glb;";
-        else if (waveDataModel == NOAA_NCEP_WW3)
+        }
+        else if (waveDataModel == NOAA_NCEP_WW3) {
             parameters += "w3ncp;";
+        }
     }
 
     QString runGFS = Util::getSetting("downloadRunGFS", "").toString();
@@ -261,14 +281,18 @@ void FileLoaderGRIB::slotFinished_step1() {
             for (int i = 0; i < lsbuf.size(); i++) {
                 QStringList lsval = lsbuf.at(i).split(":");
                 if (lsval.size() >= 2) {
-                    if (lsval.at(0) == "status")
+                    if (lsval.at(0) == "status") {
                         status = lsval.at(1);
-                    else if (lsval.at(0) == "file")
+                    }
+                    else if (lsval.at(0) == "file") {
                         fileName = QString(lsval.at(1)).replace(".grb", "%20");
-                    else if (lsval.at(0) == "size")
+                    }
+                    else if (lsval.at(0) == "size") {
                         fileSize = lsval.at(1).toInt();
-                    else if (lsval.at(0) == "checksum")
+                    }
+                    else if (lsval.at(0) == "checksum") {
                         checkSumSHA1 = lsval.at(1);
+                    }
                     else if (lsval.at(0) == "message") {
                         QString m = QUrl::fromPercentEncoding(lsval.at(1).toUtf8());
                         QMessageBox::warning(parent, tr("Information"), m);

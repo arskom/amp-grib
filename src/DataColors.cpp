@@ -50,12 +50,15 @@ DataColors::DataColors() {
 //--------------------------------------------------------------------------
 QColor DataColors::getContrastedColor(const QColor &base) {
     double gris = 0.30 * base.redF() + 0.59 * base.greenF() + 0.11 * base.blueF();
-    if (gris < 0.35)
+    if (gris < 0.35) {
         return QColor(230, 225, 200);
-    else if (gris < 0.45)
+    }
+    else if (gris < 0.45) {
         return QColor(240, 235, 210);
-    else
+    }
+    else {
         return Qt::black;
+    }
 }
 //--------------------------------------------------------------------------
 QRgb DataColors::getWindColor(double v, bool smooth) {
@@ -187,10 +190,12 @@ QRgb DataColors::pasteToWindColorScale(double v, double min, double max, bool sm
     double b0 = 0; // min beauforts
     double b1 = 12; // max beauforts
     double eqbeauf = b0 + (v - min) * (b1 - b0) / (max - min);
-    if (eqbeauf < 0)
+    if (eqbeauf < 0) {
         eqbeauf = 0;
-    else if (eqbeauf > 12)
+    }
+    else if (eqbeauf > 12) {
         eqbeauf = 12;
+    }
     return getWindColor(Util::BeaufortToMs_F(eqbeauf), smooth);
 }
 //--------------------------------------------------------------------------
@@ -317,10 +322,12 @@ ColorScale *DataColors::getColorScale(const DataCode &dtc) {
     case GRB_PRV_DIFF_TEMPDEW:
         return &colors_DeltaTemp;
     case GRB_CLOUD_TOT:
-        if (isCloudsColorModeWhite)
+        if (isCloudsColorModeWhite) {
             return &colors_CloudsWhite;
-        else
+        }
+        else {
             return &colors_CloudsBlack;
+        }
     case GRB_PRECIP_TOT:
         return &colors_Rain;
     case GRB_HUMID_REL:

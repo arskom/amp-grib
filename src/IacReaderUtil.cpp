@@ -73,8 +73,9 @@ double IAC_Line::distanceFromPoint(double x, double y) {
         for (uint j = 1; j < points.size(); j++) {
             q = points.at(j);
             d = Util::distancePointSegment(x, y, p->x, p->y, q->x, q->y);
-            if (d < dist)
+            if (d < dist) {
                 dist = d;
+            }
             p = q;
         }
     }
@@ -101,16 +102,19 @@ void IacReader::readIacFileContent() {
     while (!endOfFile) {
         i++;
         vline = readAndSplitLine();
-        if (vline.size() > 0)
+        if (vline.size() > 0) {
             decodeLine(vline);
+        }
     }
     setlocale(LC_NUMERIC, oldlocale);
 
-    if (iacFileType == IAC_UNKNOWN)
+    if (iacFileType == IAC_UNKNOWN) {
         ok = false;
+    }
 
-    if (!is_NOAA_File)
+    if (!is_NOAA_File) {
         ok = false; // sorry : can't read other fleetcodes files
+    }
 
     //----------------------------------------------------------------
     // compute the nearest isobar of each pressureMinMax point
@@ -136,20 +140,24 @@ void IacReader::readIacFileContent() {
                     // nearpres=1000  point->value=95 => completevalue=995
                     point->nearestisobar = nearpres;
                     point->completevalue = ((int)nearpres / 100) * 100 + point->value;
-                    if (point->completevalue > nearpres)
+                    if (point->completevalue > nearpres) {
                         point->completevalue -= 100;
-                    if (abs(point->completevalue - nearpres) > 30)
+                    }
+                    if (abs(point->completevalue - nearpres) > 30) {
                         point->completevalue = -1; // error ?
+                    }
                 }
                 if (point->type == "H") {
                     // nearpres=1012  point->value=15 => completevalue=1015
                     // nearpres=999  point->value=5 => completevalue=1005
                     point->nearestisobar = nearpres;
                     point->completevalue = ((int)nearpres / 100) * 100 + point->value;
-                    if (point->completevalue < nearpres)
+                    if (point->completevalue < nearpres) {
                         point->completevalue += 100;
-                    if (abs(point->completevalue - nearpres) > 30)
+                    }
+                    if (abs(point->completevalue - nearpres) > 30) {
                         point->completevalue = -1; // error ?
+                    }
                 }
             }
         }
@@ -165,8 +173,9 @@ bool IacReader::getZoneExtension(double *x0, double *y0, double *x1, double *y1)
         *y1 = ymax;
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //---------------------------------------------------
@@ -191,10 +200,12 @@ std::string IacReader::readALine() {
     char c;
     bool go = true;
     while (go && zu_read(file, &c, 1) == 1) {
-        if (c == '\n' || c == '=') // end of line : '\n' or '='
+        if (c == '\n' || c == '=') { // end of line : '\n' or '='
             go = false;
-        else
+        }
+        else {
             str += c;
+        }
     }
     if (go) {
         endOfFile = true;
@@ -278,12 +289,15 @@ bool IacReader::readPosition(std::string word, double *lat, double *lon) {
         std::string LoLo = word.substr(2, 2);
         std::string kstr = word.substr(4, 1);
         int k;
-        if (sscanf(kstr.c_str(), "%d", &k) != 1)
+        if (sscanf(kstr.c_str(), "%d", &k) != 1) {
             return false;
-        if (sscanf(LaLa.c_str(), "%lf", lat) != 1)
+        }
+        if (sscanf(LaLa.c_str(), "%lf", lat) != 1) {
             return false;
-        if (sscanf(LoLo.c_str(), "%lf", lon) != 1)
+        }
+        if (sscanf(LoLo.c_str(), "%lf", lon) != 1) {
             return false;
+        }
         switch (k) {
         case 1:
         case 6:
@@ -300,14 +314,17 @@ bool IacReader::readPosition(std::string word, double *lat, double *lon) {
             break;
         }
         if (k < 5) {
-            if (lonWest_above_100)
+            if (lonWest_above_100) {
                 *lon = -*lon - 100;
+            }
         }
         else {
-            if (lonEast_above_100)
+            if (lonEast_above_100) {
                 *lon = *lon + 100;
-            else
+            }
+            else {
                 *lon = -*lon;
+            }
         }
         //printf("pos: k=%d  %f  %f\n",  k,*lat,*lon);
     }
@@ -321,13 +338,17 @@ bool IacReader::readPosition(std::string word, double *lat, double *lon) {
         return false;
     }
 
-    if (ymin > *lat)
+    if (ymin > *lat) {
         ymin = *lat;
-    if (ymax < *lat)
+    }
+    if (ymax < *lat) {
         ymax = *lat;
-    if (xmin > *lon)
+    }
+    if (xmin > *lon) {
         xmin = *lon;
-    if (xmax < *lon)
+    }
+    if (xmax < *lon) {
         xmax = *lon;
+    }
     return true;
 }

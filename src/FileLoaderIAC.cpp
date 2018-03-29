@@ -132,8 +132,9 @@ void FileLoaderIAC::slotFinished() {
             QString hval = reply_step1->rawHeader("content-disposition");
             // Extract file name from : "attachment; filename=FSXX21_251200_20081125"
             int ind = hval.lastIndexOf('=');
-            if (ind > 0)
+            if (ind > 0) {
                 fileName = hval.right(hval.size() - ind - 1);
+            }
         }
 
         emit signalIACsendMessage(tr("Finish"));

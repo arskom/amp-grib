@@ -33,8 +33,9 @@ AnimImage::AnimImage() {
     pixmap = NULL;
 }
 AnimImage::~AnimImage() {
-    if (pixmap)
+    if (pixmap) {
         delete pixmap;
+    }
 }
 
 //=========================================================================================
@@ -177,8 +178,9 @@ void CreateAnimProgressBar::setCurrentValue(int n) {
 //=========================================================================================
 //-------------------------------------------------------------------------------
 void GribAnimator::showImage(int ind, bool showmsg) {
-    if (closestatus != 0)
+    if (closestatus != 0) {
         return; // animation creation interrupted
+    }
 
     currentImage = ind;
     lbimage->setPixmap(*(vectorImages[currentImage]->pixmap));
@@ -196,10 +198,12 @@ void GribAnimator::showNextImage() {
     currentImage++;
 
     if (!autoLoop) {
-        if (currentImage >= vectorImages.size())
+        if (currentImage >= vectorImages.size()) {
             timerLoop->stop();
-        else
+        }
+        else {
             showImage(currentImage);
+        }
     }
     else {
         // little pause before next loop
@@ -266,8 +270,9 @@ void GribAnimator::createImages() {
         time_t date = *iter;
 
         //  		qApp->processEvents ();
-        if (closestatus != 0)
+        if (closestatus != 0) {
             break;
+        }
 
         currentImage = num;
         lbmessage->setText(
@@ -277,8 +282,9 @@ void GribAnimator::createImages() {
                         .arg(Util::formatDateTimeLong(date)));
 
         qApp->processEvents();
-        if (closestatus != 0)
+        if (closestatus != 0) {
             break;
+        }
 
         AnimImage *img = new AnimImage();
         assert(img);
@@ -298,16 +304,18 @@ void GribAnimator::createImages() {
             break;
         }
 
-        if (closestatus != 0)
+        if (closestatus != 0) {
             break;
+        }
 
         vectorImages.push_back(img);
         showImage(currentImage, false);
         createAnimProgressBar->setCurrentValue(num + 1);
     }
 
-    if (closestatus == 0)
+    if (closestatus == 0) {
         stackWidgets->setCurrentWidget(animCommand);
+    }
 }
 
 //=============================================================================
@@ -341,11 +349,13 @@ GribAnimator::~GribAnimator() {
 
     Util::cleanVectorPointers(vectorImages);
 
-    if (proj)
+    if (proj) {
         delete proj;
+    }
 
-    if (drawer)
+    if (drawer) {
         delete drawer;
+    }
 }
 
 //-------------------------------------------------------------------------------

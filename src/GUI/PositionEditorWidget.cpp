@@ -36,10 +36,12 @@ double PositionEditorWidget::getLongitude() {
     double min = (double)lon_minutes->value();
 
     double val = deg + min / 60.0;
-    if (signe == "-")
+    if (signe == "-") {
         val = -val;
-    if (dir == "W")
+    }
+    if (dir == "W") {
         val = -val;
+    }
 
     return val;
 }
@@ -52,10 +54,12 @@ double PositionEditorWidget::getLatitude() {
     double min = (double)lat_minutes->value();
 
     double val = deg + min / 60.0;
-    if (signe == "-")
+    if (signe == "-") {
         val = -val;
-    if (dir == "S")
+    }
+    if (dir == "S") {
         val = -val;
+    }
 
     return val;
 }
@@ -64,10 +68,12 @@ double PositionEditorWidget::getLatitude() {
 void PositionEditorWidget::setLongitude(double val) {
     lat_sign->setCurrentIndex(lat_sign->findData("+"));
 
-    while (val > 360)
+    while (val > 360) {
         val -= 360;
-    while (val < -360)
+    }
+    while (val < -360) {
         val += 360;
+    }
 
     int deg;
     double min;
@@ -134,8 +140,9 @@ void PositionEditorWidget::setLatitude(double val) {
             val = -val;
         }
     }
-    if (val < 0)
+    if (val < 0) {
         lat_sign->setCurrentIndex(lat_sign->findText("-"));
+    }
 
     deg = (int)trunc(val);
     lat_degrees->setValue(abs(deg));

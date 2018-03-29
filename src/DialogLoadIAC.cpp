@@ -67,8 +67,9 @@ DialogLoadIAC::DialogLoadIAC(QNetworkAccessManager *manager, QWidget *parent)
 
 //-------------------------------------------------------------------------------
 DialogLoadIAC::~DialogLoadIAC() {
-    if (IACloader != NULL)
+    if (IACloader != NULL) {
         delete IACloader;
+    }
 }
 
 //----------------------------------------------------
@@ -79,10 +80,12 @@ void DialogLoadIAC::slotLoaderMessage(QString msg) {
 //----------------------------------------------------
 void DialogLoadIAC::slotLoaderDataReceived(QByteArray *content, QString fileName) {
     QString path = Util::getSetting("gribFilePath", "").toString();
-    if (path == "")
+    if (path == "") {
         path = "./";
-    else
+    }
+    else {
         path += "/";
+    }
     savedFileName = "";
     QFileInfo fi(fileName);
     fileName = Util::getSaveFileName(NULL,
@@ -122,8 +125,9 @@ void DialogLoadIAC::slotLoaderDataReceived(QByteArray *content, QString fileName
 
 //----------------------------------------------------
 void DialogLoadIAC::slotLoaderFileError(QString error) {
-    if (!loadInProgress)
+    if (!loadInProgress) {
         return;
+    }
     QString s;
     QMessageBox::critical(this,
             tr("Error"),
@@ -175,10 +179,12 @@ void DialogLoadIAC::slotBtDownload() {
     btForecast->setEnabled(false);
     loadInProgress = true;
 
-    if (sender() == btAnalyse)
+    if (sender() == btAnalyse) {
         IACloader->getFile(FileLoaderIAC::ANALYSE_FILE);
-    if (sender() == btForecast)
+    }
+    if (sender() == btForecast) {
         IACloader->getFile(FileLoaderIAC::FORECAST_FILE);
+    }
 }
 
 //-------------------------------------------------------------------------------

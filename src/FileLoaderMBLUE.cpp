@@ -127,16 +127,21 @@ void FileLoaderMBLUE::getMblueFile(
     if (CAPEsfc) {
         parameters += "c";
     }
-    if (altitudeData200)
+    if (altitudeData200) {
         parameters += "2";
-    if (altitudeData300)
+    }
+    if (altitudeData300) {
         parameters += "3";
-    if (altitudeData500)
+    }
+    if (altitudeData500) {
         parameters += "5";
-    if (altitudeData700)
+    }
+    if (altitudeData700) {
         parameters += "7";
-    if (altitudeData850)
+    }
+    if (altitudeData850) {
         parameters += "8";
+    }
     if (parameters != "") {
         step = 1;
         emit signalGribSendMessage(
@@ -208,16 +213,20 @@ void FileLoaderMBLUE::slotFinished_step1() {
         for (int i = 0; i < lsbuf.size(); i++) {
             QStringList lsval = lsbuf.at(i).split(":");
             if (lsval.size() >= 2) {
-                if (lsval.at(0) == "status")
+                if (lsval.at(0) == "status") {
                     status = lsval.at(1);
-                else if (lsval.at(0) == "file")
+                }
+                else if (lsval.at(0) == "file") {
                     fileName = QString(lsval.at(1)).replace(".mbz", "%20");
-                else if (lsval.at(0) == "size")
+                }
+                else if (lsval.at(0) == "size") {
                     fileSize = lsval.at(1).toInt();
-                else if (lsval.at(0) == "checksum")
+                }
+                else if (lsval.at(0) == "checksum") {
                     checkSumSHA1 = lsval.at(1);
-                //else if (lsval.at(0) == "unzipsize")
-                //    unzipFileSize = lsval.at(1).toInt();
+                    //else if (lsval.at(0) == "unzipsize")
+                    //    unzipFileSize = lsval.at(1).toInt();
+                }
                 else if (lsval.at(0) == "message") {
                     QString m = QUrl::fromPercentEncoding(lsval.at(1).toUtf8());
                     QMessageBox::warning(parent, tr("Information"), m);

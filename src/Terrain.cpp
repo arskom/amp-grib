@@ -99,8 +99,9 @@ Terrain::Terrain(QWidget *parent, Projection *proj, GshhsReader *gshhsReader)
 //-------------------------------------------
 void Terrain::updateGraphicsParameters() {
     drawer->updateGraphicsParameters();
-    if (griddedPlot)
+    if (griddedPlot) {
         griddedPlot->updateGraphicsParameters();
+    }
     isEarthMapValid = false;
     mustRedraw = true;
     update();
@@ -150,19 +151,24 @@ void Terrain::createCrossCursor() {
 void Terrain::draw_OrthodromieSegment(QPainter &pnt,
         double x0, double y0, double x1, double y1,
         int recurs) {
-    if (recurs > 100)
+    if (recurs > 100) {
         return;
+    }
     Orthodromie *ortho;
     int i0, j0, i1, j1, im, jm;
     double eps = 0.5;
-    if (y0 > 90 - eps)
+    if (y0 > 90 - eps) {
         y0 = 90 - eps;
-    if (y0 < -90 + eps)
+    }
+    if (y0 < -90 + eps) {
         y0 = -90 + eps;
-    if (y1 > 90 - eps)
+    }
+    if (y1 > 90 - eps) {
         y1 = 90 - eps;
-    if (y1 < -90 + eps)
+    }
+    if (y1 < -90 + eps) {
         y1 = -90 + eps;
+    }
 
     if (fabs(x0 - x1) > 180) // il faut faire le tour du monde par derrière
     {
@@ -188,10 +194,12 @@ void Terrain::draw_OrthodromieSegment(QPainter &pnt,
 
             xm *= 180.0 / M_PI;
             ym *= 180.0 / M_PI;
-            while (ym > 90)
+            while (ym > 90) {
                 ym -= 180;
-            while (ym < -90)
+            }
+            while (ym < -90) {
                 ym += 180;
+            }
             proj->map2screen(xm, ym, &im, &jm);
             //printf("%5d: (%5d %5d) (%5d %5d) (%5d %5d)      %f %f   %f %f\n",recurs,i0,j0, im,jm, i1,j1,x0,y0,x1,y1);
             draw_OrthodromieSegment(pnt, x0, y0, xm, ym, recurs + 1);
@@ -308,8 +316,9 @@ void Terrain::setWaveArrowsType(int type) {
 void Terrain::setMapQuality(int q) {
     indicateWaitingMap();
     if (quality != q) {
-        if (drawer->gshhsReader == NULL)
+        if (drawer->gshhsReader == NULL) {
             return;
+        }
         quality = q;
         pleaseWait = true;
         //update();
@@ -775,10 +784,12 @@ FileDataType Terrain::loadMeteoDataFile(QString fileName, bool zoom) {
     delete taskProgress;
     taskProgress = NULL;
 
-    if (cancelled)
+    if (cancelled) {
         return DATATYPE_CANCELLED;
-    else
+    }
+    else {
         return currentFileType;
+    }
 }
 
 //---------------------------------------------------------
@@ -926,10 +937,12 @@ void Terrain::wheelEvent(QWheelEvent *e) {
     //printf("wheelEvent\n");
     double k = 1.3;
 
-    if (e->delta() > 0)
+    if (e->delta() > 0) {
         deltaZoomWheel *= k;
-    else
+    }
+    else {
         deltaZoomWheel /= k;
+    }
 
     // Le timer évite les multiples update() pendant les changements de taille
     timerZoomWheel->stop(); // pas d'update() tout de suite
@@ -1148,8 +1161,9 @@ time_t Terrain::getCurrentDate() {
     switch (currentFileType) {
     case DATATYPE_GRIB:
     case DATATYPE_MBLUE:
-        if (griddedPlot && griddedPlot->isReaderOk())
+        if (griddedPlot && griddedPlot->isReaderOk()) {
             return griddedPlot->getCurrentDate();
+        }
         break;
     case DATATYPE_IAC:
         DBGS("TODO: get date IAC")
@@ -1265,10 +1279,12 @@ void Terrain::setShowPOIs(bool show) {
     // list of all the POI's
     QList<POI *> lpois = getListPOIs();
     for (int i = 0; i < lpois.size(); i++) {
-        if (show)
+        if (show) {
             lpois.at(i)->setVisible(true);
-        else
+        }
+        else {
             lpois.at(i)->setVisible(false);
+        }
     }
 }
 

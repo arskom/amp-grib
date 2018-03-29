@@ -129,8 +129,9 @@ DialogLoadMBLUE::DialogLoadMBLUE(MeteoblueZone zone,
 
 //-------------------------------------------------------------------------------
 DialogLoadMBLUE::~DialogLoadMBLUE() {
-    if (loadmblue != NULL)
+    if (loadmblue != NULL) {
         delete loadmblue;
+    }
 }
 
 //----------------------------------------------------
@@ -144,12 +145,15 @@ void DialogLoadMBLUE::slotGribDataReceived(QByteArray *content, QString fileName
     QString path;
     QString pathgrib = Util::getSetting("gribFilePath", "").toString();
     QString pathmblue = Util::getSetting("MBlueFilePath", "").toString();
-    if (pathmblue != "")
+    if (pathmblue != "") {
         path = pathmblue;
-    else if (pathgrib != "")
+    }
+    else if (pathgrib != "") {
         path = pathgrib;
-    else
+    }
+    else {
         path = ".";
+    }
     path += "/";
     savedFileName = "";
     QFileInfo fi(fileName);
@@ -192,8 +196,9 @@ void DialogLoadMBLUE::slotGribDataReceived(QByteArray *content, QString fileName
 //----------------------------------------------------
 void DialogLoadMBLUE::slotGribFileError(QString error) {
     setCursor(oldcursor);
-    if (!loadInProgress)
+    if (!loadInProgress) {
         return;
+    }
     //DBGQS(error);
     QString s;
     QMessageBox::critical(this,
@@ -260,10 +265,12 @@ void DialogLoadMBLUE::updateParameters() {
         ymax = tmp;
     }
     // trop grand ?
-    if (fabs(xmax - xmin) >= 360)
+    if (fabs(xmax - xmin) >= 360) {
         xmax = xmin + 359.9;
-    if (fabs(ymin - ymax) >= 180)
+    }
+    if (fabs(ymin - ymax) >= 180) {
         ymin = ymax + 179.9;
+    }
 
     // trop petit ?
     double szmin = 0.2;
@@ -340,12 +347,15 @@ void DialogLoadMBLUE::slotParameterUpdated() {
     nbdata += humid ? 3.4 / 5.3 : 0;
     nbdata += CAPEsfc ? 3.4 / 7.9 : 0;
 
-    if (chkAltitude500->isChecked())
+    if (chkAltitude500->isChecked()) {
         nbdata += 6.3 / 3.3;
-    if (chkAltitude700->isChecked())
+    }
+    if (chkAltitude700->isChecked()) {
         nbdata += 6.3 / 3.3;
-    if (chkAltitude850->isChecked())
+    }
+    if (chkAltitude850->isChecked()) {
         nbdata += 6.3 / 3.3;
+    }
 
     int head = (nbdata > 0) ? 512 : 0;
 
@@ -367,10 +377,12 @@ void DialogLoadMBLUE::slotParameterUpdated() {
     compress = 4.2;
     slotGribMessage(tr("Size: %1 ko approx").arg((int)(estime / compress)));
 
-    if (estime == 0)
+    if (estime == 0) {
         btOK->setEnabled(false);
-    else
+    }
+    else {
         btOK->setEnabled(true);
+    }
 }
 //-------------------------------------------------------------------------------
 bool DialogLoadMBLUE::testSelectedZoneInMeteoblueZone() {
@@ -396,8 +408,9 @@ bool DialogLoadMBLUE::testSelectedZoneInMeteoblueZone() {
         QRectF r1(x0, y0, x1, y1);
         QRectF rm(xm0, ym0, xm1, ym1);
 
-        if (r1.intersects(rm))
+        if (r1.intersects(rm)) {
             return true;
+        }
     }
 
     QMessageBox::critical(this,

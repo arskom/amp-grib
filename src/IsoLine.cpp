@@ -151,22 +151,28 @@ void Segment::intersectionAreteGrille(
     // Abscisse
     a = rec->getX(i);
     b = rec->getX(k);
-    if (pb != pa)
+    if (pb != pa) {
         dec = (val - pa) / (pb - pa);
-    else
+    }
+    else {
         dec = 0.5;
-    if (fabs(dec) > 1)
+    }
+    if (fabs(dec) > 1) {
         dec = 0.5;
+    }
     *x = a + (b - a) * dec;
     // Ordonnée
     a = rec->getY(j);
     b = rec->getY(l);
-    if (pb != pa)
+    if (pb != pa) {
         dec = (val - pa) / (pb - pa);
-    else
+    }
+    else {
         dec = 0.5;
-    if (fabs(dec) > 1)
+    }
+    if (fabs(dec) > 1) {
         dec = 0.5;
+    }
     *y = a + (b - a) * dec;
 }
 //---------------------------------------------------------------
@@ -219,29 +225,35 @@ void IsoLine::extractIsoLine(GriddedRecord *rec, int deltaI, int deltaJ) {
             // 1 segment en diagonale
             //--------------------------------
             if ((a <= value && b <= value && c <= value && d > value)
-                    || (a > value && b > value && c > value && d <= value))
+                    || (a > value && b > value && c > value && d <= value)) {
                 trace.push_back(new Segment(i, j, 'c', 'd', 'b', 'd', rec, value, dtc, deltaI, deltaJ));
+            }
             else if ((a <= value && c <= value && d <= value && b > value)
-                    || (a > value && c > value && d > value && b <= value))
+                    || (a > value && c > value && d > value && b <= value)) {
                 trace.push_back(new Segment(i, j, 'a', 'b', 'b', 'd', rec, value, dtc, deltaI, deltaJ));
+            }
             else if ((c <= value && d <= value && b <= value && a > value)
-                    || (c > value && d > value && b > value && a <= value))
+                    || (c > value && d > value && b > value && a <= value)) {
                 trace.push_back(new Segment(i, j, 'a', 'b', 'a', 'c', rec, value, dtc, deltaI, deltaJ));
+            }
             else if ((a <= value && b <= value && d <= value && c > value)
-                    || (a > value && b > value && d > value && c <= value))
+                    || (a > value && b > value && d > value && c <= value)) {
                 trace.push_back(new Segment(i, j, 'a', 'c', 'c', 'd', rec, value, dtc, deltaI, deltaJ));
-            //--------------------------------
-            // 1 segment H ou V
-            //--------------------------------
+                //--------------------------------
+                // 1 segment H ou V
+                //--------------------------------
+            }
             else if ((a <= value && b <= value && c > value && d > value)
-                    || (a > value && b > value && c <= value && d <= value))
+                    || (a > value && b > value && c <= value && d <= value)) {
                 trace.push_back(new Segment(i, j, 'a', 'c', 'b', 'd', rec, value, dtc, deltaI, deltaJ));
+            }
             else if ((a <= value && c <= value && b > value && d > value)
-                    || (a > value && c > value && b <= value && d <= value))
+                    || (a > value && c > value && b <= value && d <= value)) {
                 trace.push_back(new Segment(i, j, 'a', 'b', 'c', 'd', rec, value, dtc, deltaI, deltaJ));
-            //--------------------------------
-            // 2 segments en diagonale
-            //--------------------------------
+                //--------------------------------
+                // 2 segments en diagonale
+                //--------------------------------
+            }
             else if (a <= value && d <= value && c > value && b > value) {
                 trace.push_back(new Segment(i, j, 'a', 'b', 'b', 'd', rec, value, dtc, deltaI, deltaJ));
                 trace.push_back(new Segment(i, j, 'a', 'c', 'c', 'd', rec, value, dtc, deltaI, deltaJ));

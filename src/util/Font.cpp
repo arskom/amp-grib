@@ -207,8 +207,9 @@ bool Font::loadFontFamily(QString fname) {
         }
         return true;
     }
-    else
+    else {
         return false;
+    }
 }
 
 //----------------------------------------------------------
@@ -225,8 +226,9 @@ void Font::loadAllFonts() {
         QStringList lst = dir.entryList();
         for (int i = 0; i < lst.size(); i++) {
             //printf("file: %s\n", qPrintable(lst.at(i)));
-            if (loadFontFamily(dirname + lst.at(i)))
+            if (loadFontFamily(dirname + lst.at(i))) {
                 nb++;
+            }
         }
     }
 

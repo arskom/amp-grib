@@ -37,20 +37,25 @@ QRgb ColorScale::getColor(double v, bool smooth) {
     int imax = colors.size() - 1;
     int ii = (imin + imax) / 2;
     while (imin <= imax && !colors[ii]->isIn(v)) {
-        if (colors[ii]->isLow(v))
+        if (colors[ii]->isLow(v)) {
             imax = ii - 1;
-        else
+        }
+        else {
             imin = ii + 1;
+        }
         ii = (imin + imax) / 2;
     }
     if (imin > imax) {
-        if (colors[0]->isLow(v))
+        if (colors[0]->isLow(v)) {
             return colors[0]->getColor(v, smooth, transparence);
-        else
+        }
+        else {
             return colors[colors.size() - 1]->getColor(v, smooth, transparence);
+        }
     }
-    else
+    else {
         return colors[ii]->getColor(v, smooth, transparence);
+    }
 }
 
 //--------------------------------------------
@@ -150,8 +155,9 @@ ColorElement::ColorElement(double vmin, double vmax,
         int rb, int gb, int bb) {
     if (vmin >= vmax) {
         DBG("Color error: vmin=%g vmax=%g", vmin, vmax);
-        if (vmin == vmax)
+        if (vmin == vmax) {
             vmax = vmin + 1;
+        }
         else {
             double vt = vmin;
             vmin = vmax;
@@ -169,16 +175,20 @@ ColorElement::ColorElement(double vmin, double vmax,
 }
 //--------------------------------------------
 QRgb ColorElement::getColor(double v, bool smooth, int transp) {
-    if (v <= vmin)
+    if (v <= vmin) {
         return qRgba(ra, ga, ba, transp);
-    else if (v >= vmax)
+    }
+    else if (v >= vmax) {
         return qRgba(rb, gb, bb, transp);
+    }
 
     if (!smooth) {
-        if (v - vmin > vmax - v)
+        if (v - vmin > vmax - v) {
             return qRgba(rb, gb, bb, transp);
-        else
+        }
+        else {
             return qRgba(ra, ga, ba, transp);
+        }
     }
 
     double k = (v - vmin) / (vmax - vmin);

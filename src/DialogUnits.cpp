@@ -239,10 +239,12 @@ QFrame *DialogUnits::createFrameGui(QWidget *parent) {
     cbTimeZone->addItem(tr("Local time"), "LOC");
     for (int i = -12; i <= 14; i++) { // UTC-12 UTC-11 ... UTC+1 UTC+2 UTC+3 ... UTC+14
         QString stz;
-        if (i != 0)
+        if (i != 0) {
             stz.sprintf("UTC%+d", i);
-        else
+        }
+        else {
             stz = "UTC";
+        }
         cbTimeZone->addItem(tr("Fixed time ") + stz, stz);
     }
     cbTimeZone->setMinimumWidth(sizemin);

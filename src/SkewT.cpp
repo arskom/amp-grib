@@ -5,10 +5,12 @@
 SkewT::SkewT(int W, int H, QWidget *parent)
         : QWidget(parent) {
     setFocusPolicy(Qt::StrongFocus);
-    if (W < 0)
+    if (W < 0) {
         W = Util::getSetting("skewt_sizeW", 800).toDouble();
-    if (H < 0)
+    }
+    if (H < 0) {
         H = Util::getSetting("skewt_sizeH", 800).toDouble();
+    }
 
     this->W = W;
     this->H = H;
@@ -140,8 +142,9 @@ void SkewT::setConvectiveBase(QString cbase) {
 }
 //------------------------------------------------------
 void SkewT::initFromGriddedReader(GriddedReader *reader, double lon, double lat, time_t date) {
-    if (!reader || !reader->isOk())
+    if (!reader || !reader->isOk()) {
         return;
+    }
     this->reader = reader;
     time_t dateref = 0;
     QString datacenter = "";
@@ -158,10 +161,12 @@ void SkewT::initFromGriddedReader(GriddedReader *reader, double lon, double lat,
             rh = rech->getInterpolatedValue(DataCode(GRB_HUMID_REL, LV_ISOBARIC, alt), lon, lat);
             dewp = DataRecordAbstract::dewpointHardy(temp, rh);
             this->addSoundingPoint(alt, temp, dewp);
-            if (dateref == 0)
+            if (dateref == 0) {
                 dateref = reader->getRefDateForData(DataCode(GRB_TEMP, LV_ISOBARIC, alt));
-            if (datacenter == "")
+            }
+            if (datacenter == "") {
                 datacenter = DataCodeStr::toString(rect->getDataCenterModel());
+            }
         }
     }
     //-----------------------------
@@ -190,14 +195,16 @@ void SkewT::initFromGriddedReader(GriddedReader *reader, double lon, double lat,
     if (rec) {
         ModelCAPE = rec->getInterpolatedValue(DataCode(GRB_CAPE, LV_GND_SURF, 0), lon, lat);
     }
-    else
+    else {
         ModelCAPE = GRIB_NOTDEF;
+    }
     rec = reader->getRecord(DataCode(GRB_CIN, LV_GND_SURF, 0), date);
     if (rec) {
         ModelCIN = rec->getInterpolatedValue(DataCode(GRB_CIN, LV_GND_SURF, 0), lon, lat);
     }
-    else
+    else {
         ModelCIN = GRIB_NOTDEF;
+    }
     //---------------------------------------------------
     // Surface pressure if present
     hasSurfaceData = false;
@@ -278,8 +285,9 @@ void SkewT::draw_saturatedAdiabats(QPainter &pnt) {
             mapSaturatedAdiabats[t0] = path;
         }
         pnt.drawPath(*path);
-        if (path->length() > 100)
+        if (path->length() > 100) {
             path->drawLabelPixel(pnt, -80, QString("%1").arg(t0));
+        }
     }
     pen.setStyle(Qt::SolidLine);
     pnt.setPen(pen);
@@ -287,10 +295,12 @@ void SkewT::draw_saturatedAdiabats(QPainter &pnt) {
 //-------------------------------------------------------
 void PersPath::drawLabelPixel(QPainter &pnt, double pixel, const QString &txt) {
     double pos;
-    if (pixel >= 0)
+    if (pixel >= 0) {
         pos = pixel;
-    else
+    }
+    else {
         pos = this->length() + pixel;
+    }
     this->drawLabelPercent(pnt, this->percentAtLength(pos), txt);
 }
 //-------------------------------------------------------
@@ -300,10 +310,12 @@ void PersPath::drawLabelPercent(QPainter &pnt, double percent, const QString &tx
     QColor bgcolor(255, 255, 255, 100);
     pnt.save();
     pnt.translate(pt);
-    if (angle < 90)
+    if (angle < 90) {
         pnt.rotate(-angle);
-    else
+    }
+    else {
         pnt.rotate(180 - angle);
+    }
     QFontMetrics fm(pnt.font());
     QRectF rect = fm.boundingRect(txt);
     rect.adjust(-1, -5, 1, 5);
@@ -340,9 +352,10 @@ void SkewT::draw_dryAdiabats(QPainter &pnt) {
             path->addPoint(pt);
         }
         pnt.drawPath(*path);
-        if (path->length() > 50)
+        if (path->length() > 50) {
             path->drawLabelPercent(pnt, path->percentAtLength(path->length() - 40),
                     QString("%1").arg(t0));
+        }
         delete path;
     }
 }
@@ -383,9 +396,10 @@ void SkewT::draw_oneMixingRatioCurve(double mixr, QPainter &pnt) {
         path.addPoint(pt);
     }
     pnt.drawPath(path);
-    if (path.length() > 100)
+    if (path.length() > 100) {
         path.drawLabelPercent(pnt, path.percentAtLength(path.length() - 100),
                 QString("%1").arg(1000 * mixr));
+    }
 }
 //------------------------------------------------------
 void SkewT::draw_temperatureScale(QPainter &pnt, bool withLabels) {
@@ -457,10 +471,12 @@ void SkewT::draw_pressureScale(QPainter &pnt, bool withLabels) {
     pen.setWidthF(1);
     pnt.setPen(pen);
     for (hpa = 1000; hpa >= hpaMin; hpa -= 100) {
-        if (hpa >= 1000)
+        if (hpa >= 1000) {
             rect = pnt.boundingRect(0, 0, 0, 0, Qt::AlignRight, "9999");
-        else
+        }
+        else {
             rect = pnt.boundingRect(0, 0, 0, 0, Qt::AlignRight, "999");
+        }
         j = (int)(hpa2pix(hpa) + 0.5);
         pnt.drawLine(i0, j, i1, j);
         if (withLabels) {
@@ -475,8 +491,9 @@ void SkewT::draw_pressureScale(QPainter &pnt, bool withLabels) {
             pnt.drawText(rect, Qt::AlignRight, QString("%1").arg(hpa));
         }
     }
-    if (withLabels)
+    if (withLabels) {
         pnt.drawText(i1 - fmet.width("hPa") - 6, DY1 - 6, "hPa");
+    }
     // intermediate lines
     pen.setWidthF(0.4);
     pnt.setPen(pen);
@@ -565,8 +582,9 @@ void PersPath::addPoint(QPointF &pt) {
             this->lineTo(pt);
         }
     }
-    else
+    else {
         isFirstPoint = true;
+    }
 }
 //------------------------------------------------------
 void PersPath::addPointNoClip(QPointF &pt) {
@@ -651,10 +669,12 @@ void SkewT::paintEvent(QPaintEvent *) {
     }
 
     QPainter pnt(this);
-    if (printerRendering)
+    if (printerRendering) {
         paintGlobalImage(pnt);
-    else
+    }
+    else {
         pnt.drawPixmap(0, 0, *globalPixmap);
+    }
 }
 //------------------------------------------------------
 void SkewT::resetGraphic() {
@@ -731,8 +751,9 @@ void SkewT::draw_windArrows(QPainter &pnt) {
 }
 //------------------------------------------------------
 void SkewT::draw_linesCAPE(QPainter &pnt) {
-    if (!hasSoundingData())
+    if (!hasSoundingData()) {
         return;
+    }
 
     double hpa0mean = (hpa0min + hpa0max) / 2.0;
 
@@ -744,8 +765,9 @@ void SkewT::draw_linesCAPE(QPainter &pnt) {
     TPoint T0(sounding.getAvgTempCByAlt(hpa0min, hpa0max), hpa0mean);
     TPoint DP0(sounding.getAvgDewpCByAlt(hpa0min, hpa0max), hpa0mean);
 
-    if (!LCL.ok())
+    if (!LCL.ok()) {
         return;
+    }
 
     TPCurve curve;
     Therm::curveSaturatedAdiabatic(&curve, LCL, hpaMin, -1);
@@ -767,29 +789,36 @@ void SkewT::draw_linesCAPE(QPainter &pnt) {
     QPointF pCCL = tempPressPoint(CCL);
     QPointF pLFC = tempPressPoint(LFC);
 
-    if (T0.ok())
+    if (T0.ok()) {
         pnt.drawLine(pLCL, pT0);
-    if (DP0.ok())
+    }
+    if (DP0.ok()) {
         pnt.drawLine(pLCL, pDP0);
+    }
 
     penCape.setStyle(Qt::DashLine);
     pnt.setPen(penCape);
-    if (CCL.ok())
+    if (CCL.ok()) {
         pnt.drawLine(pLCL, pCCL);
+    }
 
     //-------------------------------------
     penCape.setStyle(Qt::SolidLine);
     pnt.setPen(penCape);
     pnt.setBrush(linesCAPEColor);
     double r = 3;
-    if (LCL.ok())
+    if (LCL.ok()) {
         pnt.drawEllipse(pLCL, r, r);
-    if (CCL.ok())
+    }
+    if (CCL.ok()) {
         pnt.drawEllipse(pCCL, r, r);
-    if (LFC.ok())
+    }
+    if (LFC.ok()) {
         pnt.drawEllipse(pLFC, r, r);
-    if (EL.ok())
+    }
+    if (EL.ok()) {
         pnt.drawEllipse(pEL, r, r);
+    }
     if (T0.ok()) {
         pnt.setBrush(soundingTempColor);
         pnt.drawEllipse(pT0, r, r);
@@ -832,32 +861,44 @@ void SkewT::draw_comments(QPainter &pnt) {
         }
     }
     QString tT0, tDP0, tLCL, tCCL, tLFC, tEL;
-    if (LCL.ok() && showConvArea)
+    if (LCL.ok() && showConvArea) {
         tLCL = QString("LCL: %1hPa,%2°C").arg(qRound(LCL.hpa)).arg(LCL.tempC, 0, 'f', 1);
-    else
+    }
+    else {
         tLCL = QString("LCL: ---");
-    if (CCL.ok() && showConvArea)
+    }
+    if (CCL.ok() && showConvArea) {
         tCCL = QString("CCL: %1hPa,%2°C").arg(qRound(CCL.hpa)).arg(CCL.tempC, 0, 'f', 1);
-    else
+    }
+    else {
         tCCL = QString("CCL: ---");
-    if (LFC.ok() && showConvArea)
+    }
+    if (LFC.ok() && showConvArea) {
         tLFC = QString("LFC: %1hPa,%2°C").arg(qRound(LFC.hpa)).arg(LFC.tempC, 0, 'f', 1);
-    else
+    }
+    else {
         tLFC = QString("LFC: ---");
-    if (EL.ok() && showConvArea)
+    }
+    if (EL.ok() && showConvArea) {
         tEL = QString("EL: %1hPa,%2°C").arg(qRound(EL.hpa)).arg(EL.tempC, 0, 'f', 1);
-    else
+    }
+    else {
         tEL = QString("EL: ---");
+    }
 
-    if (T0.ok() && showConvArea)
+    if (T0.ok() && showConvArea) {
         tT0 = QString("T: %1°C").arg(T0.tempC, 0, 'f', 1);
-    else
+    }
+    else {
         tT0 = QString("T: ---");
+    }
 
-    if (DP0.ok() && showConvArea)
+    if (DP0.ok() && showConvArea) {
         tDP0 = QString("Td: %1°C").arg(DP0.tempC, 0, 'f', 1);
-    else
+    }
+    else {
         tDP0 = QString("Td: ---");
+    }
 
     QString tSfcHpa = surfaceHpa == GRIB_NOTDEF ? "Sfc: ---"
                                                 : QString("Sfc: %1hPa").arg(surfaceHpa, 0, 'f', 0);
@@ -878,14 +919,18 @@ void SkewT::draw_comments(QPainter &pnt) {
                                                                   : QString("CIN: %1").arg(sounding.CIN, 0, 'f', 0);
 
     QString tModelCAPECIN = tr("Model:");
-    if (ModelCAPE != GRIB_NOTDEF)
+    if (ModelCAPE != GRIB_NOTDEF) {
         tModelCAPECIN += " CAPE: " + QString("%1").arg(qRound(ModelCAPE));
-    else
+    }
+    else {
         tModelCAPECIN += " CAPE: ---";
-    if (ModelCIN != GRIB_NOTDEF)
+    }
+    if (ModelCIN != GRIB_NOTDEF) {
         tModelCAPECIN += " CIN: " + QString("%1").arg(qRound(ModelCIN));
-    else
+    }
+    else {
         tModelCAPECIN += "  CIN: ---";
+    }
 
     // General information
     QString line1 = QString("Base: %1  %2  %3      ").arg(tBase).arg(tT0).arg(tDP0)

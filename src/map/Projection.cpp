@@ -65,10 +65,12 @@ void Projection::updateBoundaries() {
 
     //printf("Projection::updateBoundaries X(%f %f) Y(%f %f)\n", xmin,xmax, ymin,ymax);
 
-    if (W * H != 0)
+    if (W * H != 0) {
         coefremp = 10000.0 * fabs(((xmax - xmin) * (ymax - ymin)) / (W * H));
-    else
+    }
+    else {
         coefremp = 10000.0;
+    }
 
     emit projectionUpdated();
 }
@@ -100,10 +102,12 @@ void Projection::setMapPointInScreen(double x, double y, int pi, int pj) {
         vtest = (vmin + vmax) / 2.0;
         CY = vtest;
         screen2map(pi, pj, &xx, &yy);
-        if (y < yy)
+        if (y < yy) {
             vmax = vtest;
-        else
+        }
+        else {
             vmin = vtest;
+        }
         //printf("Y %3d : y=%f yy=%f CY=%f\n", n, y,yy, CY);
     } while (n < 30 && fabs(yy - y) > 1e-4);
 
@@ -116,10 +120,12 @@ void Projection::setMapPointInScreen(double x, double y, int pi, int pj) {
         vtest = (vmin + vmax) / 2.0;
         CX = vtest;
         screen2map(pi, pj, &xx, &yy);
-        if (x < xx)
+        if (x < xx) {
             vmax = vtest;
-        else
+        }
+        else {
             vmin = vtest;
+        }
         //printf("X %3d : x=%f xx=%f \n", n, x,xx);
     } while (n < 30 && fabs(xx - x) > 1e-4);
 
@@ -261,9 +267,11 @@ void Projection_ZYGRIB::setScale(double sc) {
     sy = H / 180.0;
     scaleall = (sx < sy) ? sx : sy; // scaleall = Zoom sur la terre entière (limite max)
     scale = sc;
-    if (scale < scaleall)
+    if (scale < scaleall) {
         scale = scaleall;
-    if (scale > scalemax)
+    }
+    if (scale > scalemax) {
         scale = scalemax;
+    }
     updateBoundaries();
 }

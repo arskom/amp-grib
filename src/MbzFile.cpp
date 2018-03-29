@@ -23,39 +23,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //==================================================================
 bool MButil::readInt8(ZUFILE *f, int *val) {
     unsigned char a;
-    if (zu_read(f, &a, 1) != 1)
+    if (zu_read(f, &a, 1) != 1) {
         return false;
+    }
     *val = a;
     return true;
 }
 //----------------------------------------------------------
 bool MButil::readInt16(ZUFILE *f, int *val) {
     unsigned char a, b;
-    if (zu_read(f, &a, 1) != 1)
+    if (zu_read(f, &a, 1) != 1) {
         return false;
-    if (zu_read(f, &b, 1) != 1)
+    }
+    if (zu_read(f, &b, 1) != 1) {
         return false;
+    }
     *val = (a << 8) + b;
     return true;
 }
 //----------------------------------------------------------
 bool MButil::readInt32(ZUFILE *f, int *val) {
     unsigned char a, b, c, d;
-    if (zu_read(f, &a, 1) != 1)
+    if (zu_read(f, &a, 1) != 1) {
         return false;
-    if (zu_read(f, &b, 1) != 1)
+    }
+    if (zu_read(f, &b, 1) != 1) {
         return false;
-    if (zu_read(f, &c, 1) != 1)
+    }
+    if (zu_read(f, &c, 1) != 1) {
         return false;
-    if (zu_read(f, &d, 1) != 1)
+    }
+    if (zu_read(f, &d, 1) != 1) {
         return false;
+    }
     *val = (a << 24) + (b << 16) + (c << 8) + d;
     return true;
 }
 //----------------------------------------------------------
 bool MButil::readFloat32(ZUFILE *f, float *val) {
-    if (zu_read(f, val, 4) != 4)
+    if (zu_read(f, val, 4) != 4) {
         return false;
+    }
     return true;
 }
 
@@ -103,31 +111,37 @@ bool MButil::substring2int(int *val, const char *str, int start, int size) {
         size--;
     }
     for (int nb = 0; nb < size; nb++, p++) {
-        if (str[p] >= '0' && str[p] <= '9')
+        if (str[p] >= '0' && str[p] <= '9') {
             v = v * 10 + str[p] - '0';
-        else
+        }
+        else {
             res = false;
+        }
     }
-    if (res)
+    if (res) {
         *val = v * s;
+    }
     return res;
 }
 //-------------------------------------------------------------
 bool MButil::readPosition(char *line, float *x, float *y) {
     // format 03473E4599N
     int i = 0;
-    while (isspace(line[i]))
+    while (isspace(line[i])) {
         i++;
+    }
     int tlon = 0;
     while (isdigit(line[i])) {
         tlon = tlon * 10 + (line[i] - '0');
         i++;
     }
     *x = tlon / 100.0;
-    if (line[i] == 'W')
+    if (line[i] == 'W') {
         *x = -*x;
-    else if (line[i] != 'E')
+    }
+    else if (line[i] != 'E') {
         return false;
+    }
     i++;
 
     int tlat = 0;
@@ -136,13 +150,16 @@ bool MButil::readPosition(char *line, float *x, float *y) {
         i++;
     }
     *y = tlat / 100.0;
-    if (line[i] == 'S')
+    if (line[i] == 'S') {
         *y = -*y;
-    else if (line[i] != 'N')
+    }
+    else if (line[i] != 'N') {
         return false;
+    }
 
-    if (*y < -90.0 || *y > 90.0 || *x < -360.0 || *x > 360.0)
+    if (*y < -90.0 || *y > 90.0 || *x < -360.0 || *x > 360.0) {
         return false;
+    }
 
     return true;
 }
@@ -198,8 +215,9 @@ void MbzFile::read_MbzFile(const char *fname, LongTaskProgress *taskProgress) {
 int MbzFile::getDataCodeIndex(uint32_t code) {
     int ind = -1;
     for (unsigned int i = 0; ind < 0 && i < vcodes.size(); i++) {
-        if (vcodes[i] == code)
+        if (vcodes[i] == code) {
             ind = i;
+        }
     }
     return ind;
 }
@@ -351,12 +369,15 @@ void MbzFile::debugmbz() const {
             DBG("nb dates: %d    density: %.1f %.5f", nbdates, dens, ec);
             DBG("vlines.size()=%d  %d/hour", (int)vlines.size(), (int)(vlines.size() / nbdates));
         }
-        if (vlines.size() > 0)
+        if (vlines.size() > 0) {
             vlines[0]->print();
-        if (vlines.size() > 1)
+        }
+        if (vlines.size() > 1) {
             vlines[1]->print();
-        if (vlines.size() > 0)
+        }
+        if (vlines.size() > 0) {
             vlines[vlines.size() - 1]->print();
+        }
     }
     else {
         DBG("Error in file");

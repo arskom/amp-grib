@@ -27,10 +27,12 @@ DialogBoxColumn::DialogBoxColumn(QWidget *parent,
         : DialogBoxBase(parent) {
     setWindowTitle(windowTitle);
     accepted = false;
-    if (nbColumn > MAXCOLS)
+    if (nbColumn > MAXCOLS) {
         nbColumn = MAXCOLS;
-    if (nbColumn <= 1)
+    }
+    if (nbColumn <= 1) {
         nbColumn = 1;
+    }
     this->nbColumn = nbColumn;
     for (int i = 0; i < nbColumn; i++) {
         currentLig[i] = 0;
@@ -83,19 +85,22 @@ DialogBoxColumn::DialogBoxColumn(QWidget *parent,
     ftmp = new QFrame(this);
     QHBoxLayout *hlay = new QHBoxLayout(ftmp);
     btOK = new QPushButton(tr("Ok"), this);
-    if (nbButtons > 1)
+    if (nbButtons > 1) {
         btCancel = new QPushButton(tr("Cancel"), this);
+    }
     hlay->addStretch(0);
     hlay->addWidget(btOK);
-    if (nbButtons > 1)
+    if (nbButtons > 1) {
         hlay->addWidget(btCancel);
+    }
     hlay->addStretch(0);
     layout->addWidget(ftmp, Qt::AlignCenter);
 
     //-----------------------------------------------------------------------
     connect(btOK, SIGNAL(clicked()), this, SLOT(slotBtOK()));
-    if (nbButtons > 1)
+    if (nbButtons > 1) {
         connect(btCancel, SIGNAL(clicked()), this, SLOT(slotBtCancel()));
+    }
 }
 
 //-------------------------------------------------------------------------------

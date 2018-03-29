@@ -11,8 +11,9 @@ SkewTWindow::SkewTWindow(SkewT *skewt) {
     setCentralWidget(scrollarea);
 
     QByteArray geom = Util::getSetting("skewt_windowGeometry", "").toByteArray();
-    if (geom != "")
+    if (geom != "") {
         restoreGeometry(geom);
+    }
 
     double tmax = Util::getSetting("skewt_tempCMax", 40).toDouble();
     double pmin = Util::getSetting("skewt_hpaMin", 190).toDouble();
@@ -76,8 +77,9 @@ void SkewTWindow::createToolBar() {
     //------------------------------------
     toolBar->addWidget(new QLabel(tr("T max: ")));
     cbTempMax = new QComboBox(this);
-    for (int t = -40; t <= 80; t += 5)
+    for (int t = -40; t <= 80; t += 5) {
         cbTempMax->addItem(QString("%1 °C").arg(t), t);
+    }
     cbTempMax->setMaxVisibleItems(50);
     connect(cbTempMax, SIGNAL(activated(int)), this, SLOT(actionsCommonSlot()));
     double tmax = Util::getSetting("skewt_tempCMax", 40).toDouble();
@@ -86,8 +88,9 @@ void SkewTWindow::createToolBar() {
     //------------------------------------
     toolBar->addWidget(new QLabel(tr("P min: ")));
     cbHpaMin = new QComboBox(this);
-    for (int p = 100; p <= 700; p += 100)
+    for (int p = 100; p <= 700; p += 100) {
         cbHpaMin->addItem(QString("%1 hPa").arg(p), p - 5);
+    }
     connect(cbHpaMin, SIGNAL(activated(int)), this, SLOT(actionsCommonSlot()));
     double pmin = Util::getSetting("skewt_hpaMin", 190).toDouble();
     cbHpaMin->setCurrentIndex(cbHpaMin->findData(pmin));
@@ -96,16 +99,18 @@ void SkewTWindow::createToolBar() {
     double sz;
     toolBar->addWidget(new QLabel(tr("Size: ")));
     cbSizeW = new QComboBox(this);
-    for (double s = 600; s <= 2000; s += 200)
+    for (double s = 600; s <= 2000; s += 200) {
         cbSizeW->addItem(QString("%1").arg(s), s);
+    }
     connect(cbSizeW, SIGNAL(activated(int)), this, SLOT(actionsCommonSlot()));
     sz = Util::getSetting("skewt_sizeW", 800).toDouble();
     cbSizeW->setCurrentIndex(cbSizeW->findData(sz));
     toolBar->addWidget(cbSizeW);
 
     cbSizeH = new QComboBox(this);
-    for (double s = 600; s <= 2000; s += 200)
+    for (double s = 600; s <= 2000; s += 200) {
         cbSizeH->addItem(QString("%1").arg(s), s);
+    }
     connect(cbSizeH, SIGNAL(activated(int)), this, SLOT(actionsCommonSlot()));
     sz = Util::getSetting("skewt_sizeH", 800).toDouble();
     cbSizeH->setCurrentIndex(cbSizeH->findData(sz));
@@ -221,8 +226,9 @@ void SkewTWindow::actionsCommonSlot() {
                 tr("Images (*.jpg *.jpeg)"));
         if (filename != "") {
             if (!filename.endsWith(".jpg", Qt::CaseInsensitive)
-                    && !filename.endsWith(".jpeg", Qt::CaseInsensitive))
+                    && !filename.endsWith(".jpeg", Qt::CaseInsensitive)) {
                 filename += ".jpg";
+            }
             Util::setSetting("skewt_imageSaveFilename", filename);
             QImage image(skewt->size(), QImage::Format_RGB32);
             skewt->setPrinterRendering(true);
@@ -233,17 +239,20 @@ void SkewTWindow::actionsCommonSlot() {
     }
     else if (send == acExportData) {
         QString path = Util::getSetting("slkFilePath", "").toString();
-        if (path == "")
+        if (path == "") {
             path = "./";
-        else
+        }
+        else {
             path += "/";
+        }
         QString fileName;
 
         fileName = Util::getSaveFileName(this,
                 tr("Save SYLK file"), path, "*.slk");
         if (fileName != "") {
-            if (!fileName.endsWith(".slk", Qt::CaseInsensitive))
+            if (!fileName.endsWith(".slk", Qt::CaseInsensitive)) {
                 fileName += ".slk";
+            }
             SylkFile slk(fileName, "zyGrib");
             if (slk.isOk()) {
                 Util::setSetting("slkFilePath", slk.getFileInfo().absolutePath());
@@ -289,32 +298,39 @@ void SkewTWindow::saveFileSYLK(SylkFile &slk) {
     // Indices LI, SI, KI, TT, SWEAT, CAPE, CIN
     lig++;
     slk.addCell(lig, 1, "LI");
-    if (snd->LI != GRIB_NOTDEF)
+    if (snd->LI != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->LI));
+    }
     lig++;
     slk.addCell(lig, 1, "SI");
-    if (snd->SI != GRIB_NOTDEF)
+    if (snd->SI != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->SI));
+    }
     lig++;
     slk.addCell(lig, 1, "KI");
-    if (snd->KI != GRIB_NOTDEF)
+    if (snd->KI != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->KI));
+    }
     lig++;
     slk.addCell(lig, 1, "TT");
-    if (snd->TT != GRIB_NOTDEF)
+    if (snd->TT != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->TT));
+    }
     lig++;
     slk.addCell(lig, 1, "SWEAT");
-    if (snd->SWEAT != GRIB_NOTDEF)
+    if (snd->SWEAT != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->SWEAT));
+    }
     lig++;
     slk.addCell(lig, 1, "CAPE");
-    if (snd->CAPE != GRIB_NOTDEF)
+    if (snd->CAPE != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->CAPE));
+    }
     lig++;
     slk.addCell(lig, 1, "CIN");
-    if (snd->CIN != GRIB_NOTDEF)
+    if (snd->CIN != GRIB_NOTDEF) {
         slk.addCell(lig, 2, qRound(snd->CIN));
+    }
     lig++;
     lig++;
     //-------------------------------
@@ -323,12 +339,14 @@ void SkewTWindow::saveFileSYLK(SylkFile &slk) {
     QList<SoundingPointWind> *allwinds = snd->getAllSoundsWind();
     QList<double> allAlts;
     for (int i = 0; i < allpts->size(); i++) {
-        if (allpts->at(i).ok() && !allAlts.contains(allpts->at(i).hpa))
+        if (allpts->at(i).ok() && !allAlts.contains(allpts->at(i).hpa)) {
             allAlts << allpts->at(i).hpa;
+        }
     }
     for (int i = 0; i < allwinds->size(); i++) {
-        if (allwinds->at(i).ok() && !allAlts.contains(allwinds->at(i).hpa))
+        if (allwinds->at(i).ok() && !allAlts.contains(allwinds->at(i).hpa)) {
             allAlts << allwinds->at(i).hpa;
+        }
     }
     qSort(allAlts);
 
@@ -347,21 +365,25 @@ void SkewTWindow::saveFileSYLK(SylkFile &slk) {
         SoundingPointWind w;
 
         v = snd->getTempCByAlt(alt);
-        if (v != GRIB_NOTDEF)
+        if (v != GRIB_NOTDEF) {
             slk.addCell(lig, col, Util::formatTemperature(v + 273.15, false).toDouble());
+        }
         col++;
 
         v = snd->getDewpCByAlt(alt);
-        if (v != GRIB_NOTDEF)
+        if (v != GRIB_NOTDEF) {
             slk.addCell(lig, col, Util::formatTemperature(v + 273.15, false).toDouble());
+        }
         col++;
 
         w = snd->getWindByAlt(alt);
-        if (w.ok())
+        if (w.ok()) {
             slk.addCell(lig, col, Util::formatSpeed_Wind(w.speedMs(), false).toDouble());
+        }
         col++;
-        if (w.ok())
+        if (w.ok()) {
             slk.addCell(lig, col, qRound(w.degrees()));
+        }
         col++;
     }
 }

@@ -76,8 +76,9 @@ DateChooser::DateChooser()
 }
 //------------------------------------------------------------------------
 DateChooser::~DateChooser() {
-    if (tabDates)
+    if (tabDates) {
         delete[] tabDates;
+    }
 }
 
 //------------------------------------------------------------------------
@@ -107,8 +108,9 @@ void DateChooser::slotSliderReleased() {
 void DateChooser::setDate(time_t date) {
     int pos = -1;
     for (int i = 0; pos < 0 && i < nbDates; i++) {
-        if (tabDates[i] == date)
+        if (tabDates[i] == date) {
             pos = i;
+        }
     }
     if (pos >= 0) {
         currentDate = date;
@@ -155,8 +157,9 @@ void DateChooser::setListDates(std::set<time_t> *setDates,
         std::set<time_t>::iterator it;
         for (it = setDates->begin(); it != setDates->end(); it++, i++) {
             tabDates[i] = *it;
-            if (*it == currentDate)
+            if (*it == currentDate) {
                 current = i;
+            }
         }
     }
     slider->setRange(0, nbDates - 1);
@@ -209,8 +212,9 @@ void DateChooser::paintEvent(QPaintEvent * /*event*/) {
             }
         }
         // mark closest date from now
-        if (markToday && xclosest != -1)
+        if (markToday && xclosest != -1) {
             pnt.fillRect((int)xclosest - 5, 0, 10, H - 8, QBrush(QColor(250, 250, 0)));
+        }
 
         // mark the current position
         if (xcurrent != -1) {

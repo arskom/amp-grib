@@ -47,12 +47,15 @@ ZUFILE *zu_open(const char *fname, const char *mode, int type) {
     f->fname = strdup(fname);
 
     if (type == ZU_COMPRESS_AUTO) {
-        if (zu_isBZIP(fname))
+        if (zu_isBZIP(fname)) {
             f->type = ZU_COMPRESS_BZIP;
-        else if (zu_isGZIP(fname))
+        }
+        else if (zu_isGZIP(fname)) {
             f->type = ZU_COMPRESS_GZIP;
-        else
+        }
+        else {
             f->type = ZU_COMPRESS_NONE;
+        }
     }
 
     switch (f->type) {
@@ -92,25 +95,29 @@ ZUFILE *zu_open(const char *fname, const char *mode, int type) {
 //-----------------------------------------------------------------
 bool zu_isGZIP(const char *fname) {
     FILE *f = fopen(fname, "r");
-    if (!f)
+    if (!f) {
         return false;
+    }
     unsigned char buf[8];
     int nb = fread(buf, 1, 8, f);
     fclose(f);
-    if (nb != 8)
+    if (nb != 8) {
         return false;
+    }
     return buf[0] == 0x1f && buf[1] == 0x8b;
 }
 //-----------------------------------------------------------------
 bool zu_isBZIP(const char *fname) {
     FILE *f = fopen(fname, "r");
-    if (!f)
+    if (!f) {
         return false;
+    }
     unsigned char buf[8];
     int nb = fread(buf, 1, 8, f);
     fclose(f);
-    if (nb != 8)
+    if (nb != 8) {
         return false;
+    }
     //BZh91AY
     return buf[0] == 'B' && buf[1] == 'Z'
             && (buf[2] == 'h' || buf[2] == '1')
@@ -207,8 +214,9 @@ int zu_seek(ZUFILE *f, long offset, int whence) {
             res = gzseek((gzFile)(f->zfile), p1 + offset, SEEK_SET);
         }
         f->pos = gztell((gzFile)(f->zfile));
-        if (res >= 0)
+        if (res >= 0) {
             res = 0;
+        }
         break;
     case ZU_COMPRESS_BZIP:
         if (whence == SEEK_SET && offset >= f->pos) {
@@ -275,8 +283,10 @@ char *zu_fgets(char *s, int size, ZUFILE *file) {
         p++;
     }
     *p = '\0';
-    if (nb == 0)
+    if (nb == 0) {
         return NULL;
-    else
+    }
+    else {
         return s;
+    }
 }

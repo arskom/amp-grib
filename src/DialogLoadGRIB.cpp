@@ -32,8 +32,9 @@ DialogLoadGRIB *globalDial = NULL;
 //-------------------------------------------------------------------------------
 QString DialogLoadGRIB::getFile(QNetworkAccessManager *netManager, QWidget *parent,
         double x0, double y0, double x1, double y1) {
-    if (!globalDial)
+    if (!globalDial) {
         globalDial = new DialogLoadGRIB(netManager, parent);
+    }
     globalDial->setZone(x0, y0, x1, y1);
     globalDial->exec();
     globalDial->saveParametersSettings();
@@ -181,10 +182,12 @@ void DialogLoadGRIB::slotGribMessage(QString msg) {
 void DialogLoadGRIB::slotGribDataReceived(QByteArray *content, QString fileName) {
     setCursor(oldcursor);
     QString path = Util::getSetting("gribFilePath", "").toString();
-    if (path == "")
+    if (path == "") {
         path = "./";
-    else
+    }
+    else {
         path += "/";
+    }
     savedFileName = "";
     QFileInfo fi(fileName + ".bz2");
     fileName = Util::getSaveFileName(NULL,
@@ -226,8 +229,9 @@ void DialogLoadGRIB::slotGribDataReceived(QByteArray *content, QString fileName)
 //----------------------------------------------------
 void DialogLoadGRIB::slotGribFileError(QString error) {
     setCursor(oldcursor);
-    if (!loadInProgress)
+    if (!loadInProgress) {
         return;
+    }
     QString s;
     QMessageBox::critical(this,
             tr("Error"),
@@ -337,10 +341,12 @@ void DialogLoadGRIB::updateParameters() {
         ymax = tmp;
     }
     // trop grand ?
-    if (fabs(xmax - xmin) >= 360)
+    if (fabs(xmax - xmin) >= 360) {
         xmax = xmin + 359.9;
-    if (fabs(ymin - ymax) >= 180)
+    }
+    if (fabs(ymin - ymax) >= 180) {
         ymin = ymax + 179.9;
+    }
 
     // trop petit ?
     if (fabs(xmax - xmin) < 2 * resolution) {
@@ -374,10 +380,12 @@ void DialogLoadGRIB::updateParameters() {
     GUSTsfc = chkGUSTsfc->isChecked();
     SUNSDsfc = chkSUNSDsfc->isChecked();
 
-    if (bt_FNMOC_WW3_GLB->isChecked())
+    if (bt_FNMOC_WW3_GLB->isChecked()) {
         waveDataModel = FNMOC_WW3_GLB;
-    else
+    }
+    else {
         waveDataModel = FNMOC_WW3_MED;
+    }
 }
 
 //-------------------------------------------------------------------------------
@@ -389,12 +397,14 @@ void DialogLoadGRIB::slotParameterUpdated() {
     int nbrec;
 
     if (resolution < 0.5) {
-        if (days <= 5)
+        if (days <= 5) {
             nbrec = (int)days * 24 / interval + 1;
-        else
+        }
+        else {
             nbrec = (int)(5 * 24 / interval
                             + (days - 5) * 24 / interval / 4)
                     + 1;
+        }
     }
     else {
         nbrec = (int)days * 24 / interval + 1;
@@ -452,63 +462,84 @@ void DialogLoadGRIB::slotParameterUpdated() {
     estime += nbSUNSDsfc * (head + (nbits * npts) / 8 + 2);
 
     int nbalt = 0;
-    if (chkAltitude200->isChecked())
+    if (chkAltitude200->isChecked()) {
         nbalt++;
-    if (chkAltitude300->isChecked())
+    }
+    if (chkAltitude300->isChecked()) {
         nbalt++;
-    if (chkAltitude400->isChecked())
+    }
+    if (chkAltitude400->isChecked()) {
         nbalt++;
-    if (chkAltitude500->isChecked())
+    }
+    if (chkAltitude500->isChecked()) {
         nbalt++;
-    if (chkAltitude600->isChecked())
+    }
+    if (chkAltitude600->isChecked()) {
         nbalt++;
-    if (chkAltitude700->isChecked())
+    }
+    if (chkAltitude700->isChecked()) {
         nbalt++;
-    if (chkAltitude850->isChecked())
+    }
+    if (chkAltitude850->isChecked()) {
         nbalt++;
-    if (chkAltitude925->isChecked())
+    }
+    if (chkAltitude925->isChecked()) {
         nbalt++;
+    }
     nbits = 10;
     estime += nbrec * nbalt * 5 * (head + (nbits * npts) / 8 + 2);
 
     int nbskewt = 0;
-    if (chkAltitude_SkewT->isChecked())
+    if (chkAltitude_SkewT->isChecked()) {
         nbskewt = 32;
+    }
     estime += nbrec * nbskewt * (head + (nbits * npts) / 8 + 2);
 
     int nbwave = 0;
-    if (chkFnmocWW3_sig->isChecked())
+    if (chkFnmocWW3_sig->isChecked()) {
         nbwave++;
-    if (chkFnmocWW3_max->isChecked())
+    }
+    if (chkFnmocWW3_max->isChecked()) {
         nbwave++;
-    if (chkFnmocWW3_swl->isChecked())
+    }
+    if (chkFnmocWW3_swl->isChecked()) {
         nbwave++;
-    if (chkFnmocWW3_wnd->isChecked())
+    }
+    if (chkFnmocWW3_wnd->isChecked()) {
         nbwave++;
-    if (chkFnmocWW3_prim->isChecked())
+    }
+    if (chkFnmocWW3_prim->isChecked()) {
         nbwave++;
-    if (chkFnmocWW3_scdy->isChecked())
+    }
+    if (chkFnmocWW3_scdy->isChecked()) {
         nbwave++;
-    if (chkFnmocWW3_wcap->isChecked())
+    }
+    if (chkFnmocWW3_wcap->isChecked()) {
         nbwave++;
+    }
     nbits = 6;
     estime += nbrec * nbwave * (head + (nbits * npts) / 8 + 2);
 
     double estimeko = estime / 1024.0; // size in ko
     QString ssz;
-    if (estimeko <= 100)
+    if (estimeko <= 100) {
         ssz = QString("%1 Ko").arg(estimeko, 0, 'f', 2);
-    else if (estimeko <= 1024)
+    }
+    else if (estimeko <= 1024) {
         ssz = QString("%1 Ko").arg(estimeko, 0, 'f', 1);
-    else
+    }
+    else {
         ssz = QString("%1 Mo").arg(estimeko / 1024.0, 0, 'f', 1);
+    }
 
     slotGribMessage(tr("Size: ≃ ") + ssz + tr(" (max 100 Mo)"));
 
-    if (estime == 0)
+    if (estime == 0) {
         btOK->setEnabled(false);
-    else
+    }
+    else {
         btOK->setEnabled(true);
+    }
 }
 //-------------------------------------------------------------------------------
 void DialogLoadGRIB::slotBtOK() {
@@ -554,38 +585,54 @@ void DialogLoadGRIB::slotBtOK() {
 //-------------------------------------------------------------------------------
 QString DialogLoadGRIB::createStringParameters() {
     QString parameters = "";
-    if (wind)
+    if (wind) {
         parameters += "W;";
-    if (pressure)
+    }
+    if (pressure) {
         parameters += "P;";
-    if (rain)
+    }
+    if (rain) {
         parameters += "R;";
-    if (cloud)
+    }
+    if (cloud) {
         parameters += "C;";
-    if (temp)
+    }
+    if (temp) {
         parameters += "T;";
-    if (humid)
+    }
+    if (humid) {
         parameters += "H;";
-    if (isotherm0)
+    }
+    if (isotherm0) {
         parameters += "I;";
-    if (tempMin)
+    }
+    if (tempMin) {
         parameters += "m;";
-    if (tempMax)
+    }
+    if (tempMax) {
         parameters += "M;";
-    if (snowDepth)
+    }
+    if (snowDepth) {
         parameters += "S;";
-    if (snowCateg)
+    }
+    if (snowCateg) {
         parameters += "s;";
-    if (frzRainCateg)
+    }
+    if (frzRainCateg) {
         parameters += "Z;";
-    if (CAPEsfc)
+    }
+    if (CAPEsfc) {
         parameters += "c;";
-    if (CINsfc)
+    }
+    if (CINsfc) {
         parameters += "i;";
-    if (GUSTsfc)
+    }
+    if (GUSTsfc) {
         parameters += "G;";
-    if (SUNSDsfc)
+    }
+    if (SUNSDsfc) {
         parameters += "D;";
+    }
 
     return parameters;
 }
@@ -864,10 +911,12 @@ QFrame *DialogLoadGRIB::createFrameButtonsZone(QWidget *parent) {
     bt_FNMOC_WW3_GLB = new QRadioButton(tr("FNMOC-WW3-GLOBAL: all oceans (7 days, 1°x1°)"));
     bt_FNMOC_WW3_MED = new QRadioButton(tr("FNMOC-WW3-MEDIT: Mediterranean Sea, Atlantic NE (3 days, 0.2°x0.2°)"));
 
-    if (waveDataModel == FNMOC_WW3_MED)
+    if (waveDataModel == FNMOC_WW3_MED) {
         bt_FNMOC_WW3_MED->setChecked(true);
-    else
+    }
+    else {
         bt_FNMOC_WW3_GLB->setChecked(true);
+    }
 
     //----------------------------------------------------------------
     btOK = new QPushButton(tr("Download"), this);

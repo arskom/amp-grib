@@ -155,8 +155,9 @@ QHash<QString, QString> DialogServerStatus::readData(const QByteArray &data) {
         if (lsval.size() > 1) {
             QString val;
             for (int i = 1; i < lsval.size(); i++) {
-                if (i > 1)
+                if (i > 1) {
                     val += ":";
+                }
                 val += lsval.at(i);
             }
             val = val.trimmed();

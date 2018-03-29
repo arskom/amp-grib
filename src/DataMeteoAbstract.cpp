@@ -37,8 +37,9 @@ double DataRecordAbstract::dewpointMagnusTetens(double tempK, double humidRel) {
             if (aa != 0) {
                 dewpoint = b * alpha / aa;
                 dewpoint += 273.15;
-                if (dewpoint > tempK)
+                if (dewpoint > tempK) {
                     dewpoint = tempK;
+                }
             }
         }
     }
@@ -56,8 +57,9 @@ double DataRecordAbstract::dewpointHardy(double tempK, double humidRel) {
         double H = log(RH / 100.) + (17.62 * T) / (243.12 + T);
         dewpoint = 243.12 * H / (17.62 - H);
         dewpoint += 273.15;
-        if (dewpoint > tempK)
+        if (dewpoint > tempK) {
             dewpoint = tempK;
+        }
     }
     return dewpoint;
 }
@@ -81,21 +83,24 @@ double DataRecordAbstract::computeGeopotentialAltitude(
 time_t DataRecordAbstract::UTC_mktime(
         int year, int month, int day, int hour, int min, int sec) {
     if (year < 1970 || month < 1 || month > 12 || day < 1
-            || hour < 0 || min < 0 || sec < 0)
+            || hour < 0 || min < 0 || sec < 0) {
         return -1;
+    }
     time_t r = 0;
     // TODO : optimize (precomputed data)
     for (int y = 1970; y < year; y++) {
         r += 365 * 24 * 3600;
-        if (isleapyear(y))
+        if (isleapyear(y)) {
             r += 24 * 3600;
+        }
     }
     if (month > 1) {
         for (int m = 1; m < month; m++) {
             if (m == 2) {
                 r += 28 * 24 * 3600;
-                if (isleapyear(year))
+                if (isleapyear(year)) {
                     r += 24 * 3600;
+                }
             }
             else if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
                 r += 31 * 24 * 3600;

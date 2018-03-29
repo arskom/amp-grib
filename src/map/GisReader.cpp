@@ -181,8 +181,9 @@ void GisReader::drawCountriesNames(QPainter &pnt, Projection *proj) {
 
 //-----------------------------------------------------------------------
 void GisCity::draw(QPainter *pnt, Projection *proj, int popmin) {
-    if (population < popmin)
+    if (population < popmin) {
         return;
+    }
     int x0, y0;
     if (proj->isPointVisible(x, y)) {
         proj->map2screen(x, y, &x0, &y0);
@@ -246,8 +247,9 @@ void GisReader::drawCitiesNames(QPainter &pnt, Projection *proj, int level) {
         for (itz = lsZonesOccupees.begin();
                 freePlace && itz != lsZonesOccupees.end(); itz++) {
             QRect *pr = *itz;
-            if (rect->intersects(*pr))
+            if (rect->intersects(*pr)) {
                 freePlace = false;
+            }
         }
         if (freePlace) {
             city->drawCityName(&pnt, rect);

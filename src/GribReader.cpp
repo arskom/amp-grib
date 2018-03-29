@@ -76,8 +76,9 @@ void GribReader::clean_vector(std::vector<GribRecord *> &ls) {
 }
 //---------------------------------------------------------------------------------
 void GribReader::storeRecordInMap(GribRecord *rec) {
-    if (rec == NULL || !rec->isOk())
+    if (rec == NULL || !rec->isOk()) {
         return;
+    }
     // 	DBG ("%g %g   %g %g", rec->getXmin(),rec->getXmax(), getYmin(),getYmax());
 
     std::map<std::string, std::vector<GribRecord *> *>::iterator it;
@@ -89,14 +90,18 @@ void GribReader::storeRecordInMap(GribRecord *rec) {
 
     mapGribRecords[rec->getKey()]->push_back(rec);
 
-    if (xmin > rec->getXmin())
+    if (xmin > rec->getXmin()) {
         xmin = rec->getXmin();
-    if (xmax < rec->getXmax())
+    }
+    if (xmax < rec->getXmax()) {
         xmax = rec->getXmax();
-    if (ymin > rec->getYmin())
+    }
+    if (ymin > rec->getYmin()) {
         ymin = rec->getYmin();
-    if (ymax < rec->getYmax())
+    }
+    if (ymax < rec->getYmax()) {
         ymax = rec->getYmax();
+    }
 
     if (rec->isOrientationAmbiguous()) {
         ambiguousHeader = true;
@@ -126,8 +131,9 @@ void GribReader::readAllGribRecords(int nbrecs) {
     time_t firstdate = -1;
     ok = false;
     do {
-        if (id % 4 == 1)
+        if (id % 4 == 1) {
             taskProgress->setValue((int)(100.0 * id / nbrecs));
+        }
 
         id++;
         rec = new GribRecord(file, id);
@@ -135,8 +141,9 @@ void GribReader::readAllGribRecords(int nbrecs) {
 
         if (rec->isOk()) {
             if (rec->isDataKnown()) {
-                if (firstdate == -1)
+                if (firstdate == -1) {
                     firstdate = rec->getRecordCurrentDate();
+                }
                 //DBG("%d %d %d %d", rec->getDataType(),rec->getLevelType(), rec->getLevelValue(), rec->getRecordCurrentDate());
                 if ( //-----------------------------------------
                         (rec->getDataType() == GRB_PRESSURE_MSL
@@ -351,8 +358,9 @@ void GribReader::readAllGribRecords(int nbrecs) {
         }
     } while (taskProgress->continueDownload && rec != NULL && !rec->isEof());
 
-    if (!taskProgress->continueDownload)
+    if (!taskProgress->continueDownload) {
         ok = false;
+    }
 }
 
 //---------------------------------------------------------------------------------
@@ -564,10 +572,12 @@ void GribReader::computeMissingData() {
                         recThetaE->setDuplicated(false);
                         recThetaE->setDataType(GRB_PRV_THETA_E);
                         double P = -1;
-                        if (altitude.levelType == LV_ISOBARIC)
+                        if (altitude.levelType == LV_ISOBARIC) {
                             P = altitude.levelValue;
-                        else if (altitude.levelType == LV_ABOV_GND)
+                        }
+                        else if (altitude.levelType == LV_ABOV_GND) {
                             P = Therm::m2hpa(altitude.levelValue);
+                        }
                         if (P > 0) {
                             for (int i = 0; i < recThetaE->getNi(); i++) {
                                 for (int j = 0; j < recThetaE->getNj(); j++) {
@@ -575,10 +585,12 @@ void GribReader::computeMissingData() {
                                     double RH = recHumidRel->getValue(i, j);
                                     double thetae = Therm::thetaEfromHR(T, P, RH);
                                     recThetaE->setValue(i, j, thetae);
-                                    if (thetae > thmax)
+                                    if (thetae > thmax) {
                                         thmax = thetae;
-                                    if (thetae < thmin)
+                                    }
+                                    if (thetae < thmin) {
                                         thmin = thetae;
+                                    }
                                 }
                             }
                             storeRecordInMap(recThetaE);
@@ -654,8 +666,9 @@ std::vector<GribRecord *> *GribReader::getFirstNonEmptyList() {
     std::vector<GribRecord *> *ls = NULL;
     std::map<std::string, std::vector<GribRecord *> *>::iterator it;
     for (it = mapGribRecords.begin(); ls == NULL && it != mapGribRecords.end(); it++) {
-        if ((*it).second->size() > 0)
+        if ((*it).second->size() > 0) {
             ls = (*it).second;
+        }
     }
     return ls;
 }
@@ -663,31 +676,37 @@ std::vector<GribRecord *> *GribReader::getFirstNonEmptyList() {
 //---------------------------------------------------
 int GribReader::getNumberOfGribRecords(DataCode dtc) {
     std::vector<GribRecord *> *liste = getListOfGribRecords(dtc);
-    if (liste != NULL)
+    if (liste != NULL) {
         return liste->size();
-    else
+    }
+    else {
         return 0;
+    }
 }
 
 //---------------------------------------------------------------------
 std::vector<GribRecord *> *GribReader::getListOfGribRecords(DataCode dtc) {
     std::string key = GribRecord::makeKey(dtc.dataType, dtc.levelType, dtc.levelValue);
-    if (mapGribRecords.find(key) != mapGribRecords.end())
+    if (mapGribRecords.find(key) != mapGribRecords.end()) {
         return mapGribRecords[key];
-    else
+    }
+    else {
         return NULL;
+    }
 }
 //---------------------------------------------------------------------------
 double GribReader::getDateInterpolatedValue(
         DataCode dtc, double px, double py, time_t date) {
     if (dtc.dataType == GRB_DEWPOINT) {
-        if (dtc.levelType == LV_ABOV_GND && dtc.levelValue == 2)
+        if (dtc.levelType == LV_ABOV_GND && dtc.levelValue == 2) {
             return computeDewPoint(px, py, date);
+        }
     }
     else {
         GribRecord *rec;
-        if ((rec = getRecord(dtc, date)) != NULL)
+        if ((rec = getRecord(dtc, date)) != NULL) {
             return rec->getInterpolatedValue(px, py);
+        }
     }
     return GRIB_NOTDEF;
 }
@@ -908,8 +927,9 @@ int GribReader::countGribRecords(ZUFILE *f, LongTaskProgress *taskProgress) {
             }
         }
     }
-    if (!taskProgress->continueDownload)
+    if (!taskProgress->continueDownload) {
         nb = 0;
+    }
     zu_rewind(f);
     return nb;
 }
@@ -917,10 +937,12 @@ int GribReader::countGribRecords(ZUFILE *f, LongTaskProgress *taskProgress) {
 //---------------------------------------------------------------------------------
 time_t GribReader::getRefDateForData(const DataCode &dtc) {
     GribRecord *rec = getFirstGribRecord(dtc);
-    if (rec)
+    if (rec) {
         return rec->getRecordRefDate();
-    else
+    }
+    else {
         return 0;
+    }
 }
 
 //------------------------------------------------------------

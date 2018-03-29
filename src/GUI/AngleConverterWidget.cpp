@@ -70,31 +70,40 @@ void AngleConverterWidget::displayValue(double angledeg, QObject *objsender) {
     int minint = (int)(minutes + 1e-10);
 
     double secondes = (minutes - minint) * 60.0;
-    if (secondes < 0.0)
+    if (secondes < 0.0) {
         secondes = 0.0;
+    }
     if (secondes >= 60.0) {
         secondes -= 60.0;
         minint += 1;
     }
 
-    if (objsender != dddmmss_deg)
+    if (objsender != dddmmss_deg) {
         dddmmss_deg->setValue((int)(degint));
-    if (objsender != dddmmss_min)
+    }
+    if (objsender != dddmmss_min) {
         dddmmss_min->setValue((int)(minint));
-    if (objsender != dddmmss_sec)
+    }
+    if (objsender != dddmmss_sec) {
         dddmmss_sec->setValue(secondes);
+    }
 
-    if (objsender != dddmm_deg)
+    if (objsender != dddmm_deg) {
         dddmm_deg->setValue((int)degint);
-    if (objsender != dddmm_min)
+    }
+    if (objsender != dddmm_min) {
         dddmm_min->setValue(minutes);
+    }
 
-    if (objsender != ddd_deg)
+    if (objsender != ddd_deg) {
         ddd_deg->setValue(angledeg);
-    if (objsender != ddd_rad)
+    }
+    if (objsender != ddd_rad) {
         ddd_rad->setValue(angledeg * M_PI / 180.0);
-    if (objsender != ddd_grad)
+    }
+    if (objsender != ddd_grad) {
         ddd_grad->setValue(angledeg / 0.9);
+    }
 
     stopSignals(false);
 }

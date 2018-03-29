@@ -89,8 +89,9 @@ void Projection_libproj::setProjection(int code) {
     params[nbpar++] = (char *)"over"; // allow longitude > 180Â°
 
     libProj = pj_init(nbpar, params);
-    if (!libProj)
+    if (!libProj) {
         printf("proj error: %s\n", pj_strerrno(pj_errno));
+    }
     assert(libProj);
     currentProj = code;
     //	libProj->over = 1;		// allow longitude > 180°
@@ -108,10 +109,12 @@ Projection_libproj::~Projection_libproj() {
 //-------------------------------------------------------------------------------
 void Projection_libproj::map2screen(double x, double y, int *i, int *j) const {
     projUV data, res;
-    if (y <= -90.0)
+    if (y <= -90.0) {
         y = -90.0 + 1e-5;
-    if (y >= 90.0)
+    }
+    if (y >= 90.0) {
         y = 90.0 - 1e-5;
+    }
     data.v = y * DEG_TO_RAD;
     data.u = x * DEG_TO_RAD;
     res = pj_fwd(data, libProj);
@@ -184,10 +187,12 @@ void Projection_libproj::setVisibleArea(double x0, double y0, double x1, double 
         setScale(stest);
         setMapPointInScreen(x0, y1, 0, 0);
         screen2map(W, H, &xx, &yy);
-        if (yy < y0)
+        if (yy < y0) {
             smin = stest;
-        else
+        }
+        else {
             smax = stest;
+        }
         //printf("Y %3d smin=%f smax=%f   %f -> %f\n", n,smin,smax, y1,yy);
         n++;
     } while (n < 30 && dsc > 1e-4);
@@ -205,10 +210,12 @@ void Projection_libproj::setVisibleArea(double x0, double y0, double x1, double 
         setScale(stest);
         setMapPointInScreen(x0, y0, 0, 0);
         screen2map(W, H, &xx, &yy);
-        if (xx > x1)
+        if (xx > x1) {
             smin = stest;
-        else
+        }
+        else {
             smax = stest;
+        }
         //printf("X %3d stest=%f    %f -> %f\n", n,stest, x1,xx);
         n++;
     } while (n < 30 && dsc > 1e-4);
@@ -233,10 +240,12 @@ void Projection_libproj::setScale(double sc) {
     scaleall = 0.4; // scaleall = Zoom sur la terre entière (limite max)
 
     scale = sc;
-    if (scale < scaleall)
+    if (scale < scaleall) {
         scale = scaleall;
-    if (scale > scalemax)
+    }
+    if (scale > scalemax) {
         scale = scalemax;
+    }
     updateBoundaries();
     //printf("setScale(%f) -> scale=%f\n", sc,scale);
 }

@@ -20,14 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //==============================================================
 bool Airport::operator<(const Airport &o) const {
-    if (country < o.country)
+    if (country < o.country) {
         return true;
+    }
     else if (country == o.country) {
-        if (state < o.state)
+        if (state < o.state) {
             return true;
+        }
         else if (state == o.state) {
-            if (name < o.name)
+            if (name < o.name) {
                 return true;
+            }
         }
     }
     return false;
@@ -54,8 +57,9 @@ void MetarWidget::projectionUpdated() {
 
 //-------------------------------------------------------------------------------
 void MetarWidget::adjustGeometry() {
-    if (proj == NULL)
+    if (proj == NULL) {
         return;
+    }
     int pi, pj;
     bool ok = proj->map2screen_glob(airport.lon, airport.lat, &pi, &pj);
 

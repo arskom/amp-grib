@@ -77,8 +77,9 @@ void MainWindow::InitActionsStatus() {
     earth->setColorMapData(dtc);
 
     if (colorScaleWidget) {
-        if (earth->getGriddedPlotter() && earth->getGriddedPlotter()->isReaderOk())
+        if (earth->getGriddedPlotter() && earth->getGriddedPlotter()->isReaderOk()) {
             colorScaleWidget->setColorScale(earth->getGriddedPlotter(), dtc);
+        }
         colorScaleWidget->setVisible(Util::getSetting("showColorScale", true).toBool());
         menuBar->acView_ShowColorScale->setChecked(Util::getSetting("showColorScale", true).toBool());
     }
@@ -193,8 +194,9 @@ void MainWindow::InitActionsStatus() {
                 menuBar->acMap_Quality5->setEnabled(false);
                 break;
             }
-            if (quality > qual)
+            if (quality > qual) {
                 quality = qual - 1;
+            }
         }
     }
     if (quality < 0) {
@@ -452,8 +454,9 @@ void MainWindow::connectSignals() {
     //-----------------------------------------------------------
     // added by Tim Holtschneider, 05.2010
     // extra context menu for data plot
-    if (mb->ac_OpenCurveDrawer)
+    if (mb->ac_OpenCurveDrawer) {
         connect(mb->ac_OpenCurveDrawer, SIGNAL(triggered()), this, SLOT(slotOpenCurveDrawer()));
+    }
 }
 
 //===========================================================================
@@ -589,8 +592,9 @@ void MainWindow::createToolBar(bool withmblue) {
     toolBar->addAction(menuBar->acMap_Go_Down);
     toolBar->addSeparator();
     toolBar->addAction(menuBar->acFile_Load_GRIB);
-    if (withmblue)
+    if (withmblue) {
         toolBar->addAction(menuBar->acMBlueSwiss_Load);
+    }
     toolBar->addAction(menuBar->acFile_GribServerStatus);
     toolBar->addAction(menuBar->acFile_Info_GRIB);
     toolBar->addSeparator();
@@ -642,16 +646,21 @@ void MainWindow::initProjection() {
 void MainWindow::slotMap_Projection(QAction *act) {
     int idproj = Projection::PROJ_ZYGRIB;
     MenuBar *mb = menuBar;
-    if (act == mb->acMap_PROJ_ZYGRIB)
+    if (act == mb->acMap_PROJ_ZYGRIB) {
         idproj = Projection::PROJ_ZYGRIB;
-    else if (act == mb->acMap_PROJ_MERCATOR)
+    }
+    else if (act == mb->acMap_PROJ_MERCATOR) {
         idproj = Projection::PROJ_MERCATOR;
-    else if (act == mb->acMap_PROJ_MILLER)
+    }
+    else if (act == mb->acMap_PROJ_MILLER) {
         idproj = Projection::PROJ_MILLER;
-    else if (act == mb->acMap_PROJ_CENTRAL_CYL)
+    }
+    else if (act == mb->acMap_PROJ_CENTRAL_CYL) {
         idproj = Projection::PROJ_CENTRAL_CYL;
-    else if (act == mb->acMap_PROJ_EQU_CYL)
+    }
+    else if (act == mb->acMap_PROJ_EQU_CYL) {
         idproj = Projection::PROJ_EQU_CYL;
+    }
 
     double x, y; // current position
     proj->screen2map(proj->getW() / 2, proj->getH() / 2, &x, &y);
@@ -686,8 +695,9 @@ void MainWindow::openMeteoDataFile(QString fileName) {
         // 	DBG ("open file %s", qPrintable(fileName));
         bool zoom = Util::getSetting("autoZoomOnGribArea", true).toBool();
         meteoFileType = earth->loadMeteoDataFile(fileName, zoom);
-        if (meteoFileType != DATATYPE_NONE)
+        if (meteoFileType != DATATYPE_NONE) {
             Util::setSetting("gribFileName", fileName);
+        }
     }
 
     GriddedPlotter *plotter = earth->getGriddedPlotter();
@@ -939,15 +949,18 @@ void MainWindow::updateGriddedData() {
 
         bool useJetStreamColorMap = Util::getSetting("useJetStreamColorMap", false).toBool();
         if (dtc.dataType == GRB_PRV_WIND_JET || dtc.dataType == GRB_PRV_WIND_XY2D) {
-            if (useJetStreamColorMap)
+            if (useJetStreamColorMap) {
                 dtc.dataType = GRB_PRV_WIND_JET;
-            else
+            }
+            else {
                 dtc.dataType = GRB_PRV_WIND_XY2D;
+            }
         }
         // Data existe ?
         DataCode dtc2 = dtc;
-        if (dtc2.dataType == GRB_PRV_WIND_JET)
+        if (dtc2.dataType == GRB_PRV_WIND_JET) {
             dtc2.dataType = GRB_PRV_WIND_XY2D;
+        }
         if (!reader->hasData(dtc2)) {
             dtc = DataCode(GRB_TYPE_NOT_DEFINED, LV_TYPE_NOT_DEFINED, 0);
         }
@@ -1071,8 +1084,9 @@ void MainWindow::slotFile_Close() {
     foreach (QObject *obj, allobjs) {
         QVariant prop = obj->property("objectType");
         if (prop.isValid()) {
-            if (prop.toString() == "MeteoTableDialog")
+            if (prop.toString() == "MeteoTableDialog") {
                 delete obj;
+            }
         }
     }
 }
@@ -1151,16 +1165,21 @@ void MainWindow::slotMap_Quality() {
     int quality = 0;
     MenuBar *mb = menuBar;
     QAction *act = mb->acMap_GroupQuality->checkedAction();
-    if (act == mb->acMap_Quality1)
+    if (act == mb->acMap_Quality1) {
         quality = 0;
-    else if (act == mb->acMap_Quality2)
+    }
+    else if (act == mb->acMap_Quality2) {
         quality = 1;
-    else if (act == mb->acMap_Quality3)
+    }
+    else if (act == mb->acMap_Quality3) {
         quality = 2;
-    else if (act == mb->acMap_Quality4)
+    }
+    else if (act == mb->acMap_Quality4) {
         quality = 3;
-    else if (act == mb->acMap_Quality5)
+    }
+    else if (act == mb->acMap_Quality5) {
         quality = 4;
+    }
 
     Util::setSetting("gshhsMapQuality", quality);
     emit signalMapQuality(quality);
@@ -1173,40 +1192,54 @@ void MainWindow::slotMap_FindCity() {
 void MainWindow::slotMap_CitiesNames() {
     MenuBar *mb = menuBar;
     QAction *act = mb->acMap_GroupCitiesNames->checkedAction();
-    if (act == mb->acMap_CitiesNames0)
+    if (act == mb->acMap_CitiesNames0) {
         earth->setCitiesNamesLevel(0);
-    else if (act == mb->acMap_CitiesNames1)
+    }
+    else if (act == mb->acMap_CitiesNames1) {
         earth->setCitiesNamesLevel(1);
-    else if (act == mb->acMap_CitiesNames2)
+    }
+    else if (act == mb->acMap_CitiesNames2) {
         earth->setCitiesNamesLevel(2);
-    else if (act == mb->acMap_CitiesNames3)
+    }
+    else if (act == mb->acMap_CitiesNames3) {
         earth->setCitiesNamesLevel(3);
-    else if (act == mb->acMap_CitiesNames4)
+    }
+    else if (act == mb->acMap_CitiesNames4) {
         earth->setCitiesNamesLevel(4);
-    else if (act == mb->acMap_CitiesNames5)
+    }
+    else if (act == mb->acMap_CitiesNames5) {
         earth->setCitiesNamesLevel(5);
+    }
 }
 //-------------------------------------------------
 void MainWindow::slotIsobarsStep() {
     int s = 4;
     MenuBar *mb = menuBar;
     QAction *act = mb->acView_GroupIsobarsStep->checkedAction();
-    if (act == mb->acView_IsobarsStep1)
+    if (act == mb->acView_IsobarsStep1) {
         s = 1;
-    else if (act == mb->acView_IsobarsStep2)
+    }
+    else if (act == mb->acView_IsobarsStep2) {
         s = 2;
-    else if (act == mb->acView_IsobarsStep3)
+    }
+    else if (act == mb->acView_IsobarsStep3) {
         s = 3;
-    else if (act == mb->acView_IsobarsStep4)
+    }
+    else if (act == mb->acView_IsobarsStep4) {
         s = 4;
-    else if (act == mb->acView_IsobarsStep5)
+    }
+    else if (act == mb->acView_IsobarsStep5) {
         s = 5;
-    else if (act == mb->acView_IsobarsStep6)
+    }
+    else if (act == mb->acView_IsobarsStep6) {
         s = 6;
-    else if (act == mb->acView_IsobarsStep8)
+    }
+    else if (act == mb->acView_IsobarsStep8) {
         s = 8;
-    else if (act == mb->acView_IsobarsStep10)
+    }
+    else if (act == mb->acView_IsobarsStep10) {
         s = 10;
+    }
     earth->setIsobarsStep(s);
 }
 //-------------------------------------------------
@@ -1214,20 +1247,27 @@ void MainWindow::slotIsotherms0Step() {
     int s = 100;
     MenuBar *mb = menuBar;
     QAction *act = mb->acView_GroupIsotherms0Step->checkedAction();
-    if (act == mb->acView_Isotherms0Step10)
+    if (act == mb->acView_Isotherms0Step10) {
         s = 10;
-    else if (act == mb->acView_Isotherms0Step20)
+    }
+    else if (act == mb->acView_Isotherms0Step20) {
         s = 20;
-    else if (act == mb->acView_Isotherms0Step50)
+    }
+    else if (act == mb->acView_Isotherms0Step50) {
         s = 50;
-    else if (act == mb->acView_Isotherms0Step100)
+    }
+    else if (act == mb->acView_Isotherms0Step100) {
         s = 100;
-    else if (act == mb->acView_Isotherms0Step200)
+    }
+    else if (act == mb->acView_Isotherms0Step200) {
         s = 200;
-    else if (act == mb->acView_Isotherms0Step500)
+    }
+    else if (act == mb->acView_Isotherms0Step500) {
         s = 500;
-    else if (act == mb->acView_Isotherms0Step1000)
+    }
+    else if (act == mb->acView_Isotherms0Step1000) {
         s = 1000;
+    }
     earth->setIsotherms0Step(s);
 }
 //-------------------------------------------------
@@ -1235,14 +1275,18 @@ void MainWindow::slotIsotherms_Step() {
     int s = 2;
     MenuBar *mb = menuBar;
     QAction *act = mb->groupIsotherms_Step->checkedAction();
-    if (act == mb->acView_Isotherms_Step1)
+    if (act == mb->acView_Isotherms_Step1) {
         s = 1;
-    else if (act == mb->acView_Isotherms_Step2)
+    }
+    else if (act == mb->acView_Isotherms_Step2) {
         s = 2;
-    else if (act == mb->acView_Isotherms_Step5)
+    }
+    else if (act == mb->acView_Isotherms_Step5) {
         s = 5;
-    else if (act == mb->acView_Isotherms_Step10)
+    }
+    else if (act == mb->acView_Isotherms_Step10) {
         s = 10;
+    }
     earth->setIsotherms_Step(s);
 }
 //-------------------------------------------------
@@ -1250,14 +1294,18 @@ void MainWindow::slotGroupLinesThetaE_Step() {
     int s = 2;
     MenuBar *mb = menuBar;
     QAction *act = mb->groupLinesThetaE_Step->checkedAction();
-    if (act == mb->acView_LinesThetaE_Step1)
+    if (act == mb->acView_LinesThetaE_Step1) {
         s = 1;
-    else if (act == mb->acView_LinesThetaE_Step2)
+    }
+    else if (act == mb->acView_LinesThetaE_Step2) {
         s = 2;
-    else if (act == mb->acView_LinesThetaE_Step5)
+    }
+    else if (act == mb->acView_LinesThetaE_Step5) {
         s = 5;
-    else if (act == mb->acView_LinesThetaE_Step10)
+    }
+    else if (act == mb->acView_LinesThetaE_Step10) {
         s = 10;
+    }
     earth->setLinesThetaE_Step(s);
 }
 //-------------------------------------------------
@@ -1508,32 +1556,37 @@ QString MainWindow::dataPresentInGrib(GribReader *grib,
     if (dataType == GRB_DEWPOINT) {
         switch (grib->getDewpointDataStatus(levelType, levelValue)) {
         case GribReader::DATA_IN_FILE:
-            if (ok != NULL)
+            if (ok != NULL) {
                 *ok = true;
+            }
             return tr("yes");
             break;
         case GribReader::NO_DATA_IN_FILE:
-            if (ok != NULL)
+            if (ok != NULL) {
                 *ok = false;
+            }
             return tr("no");
             break;
         case GribReader::COMPUTED_DATA:
         default:
-            if (ok != NULL)
+            if (ok != NULL) {
                 *ok = true;
+            }
             return tr("no (computed with Magnus-Tetens formula)");
             break;
         }
     }
     else {
         if (grib->getNumberOfGribRecords(DataCode(dataType, levelType, levelValue)) > 0) {
-            if (ok != NULL)
+            if (ok != NULL) {
                 *ok = true;
+            }
             return tr("yes");
         }
         else {
-            if (ok != NULL)
+            if (ok != NULL) {
                 *ok = false;
+            }
             return tr("no");
         }
     }
@@ -1584,19 +1637,23 @@ void MainWindow::slotFile_Info_GRIB() {
                 && dtc.dataType != GRB_WIND_VY
                 && dtc.dataType != GRB_CUR_VY) {
             DataCode code = dtc;
-            if (dtc.dataType == GRB_WIND_VX)
+            if (dtc.dataType == GRB_WIND_VX) {
                 code.dataType = GRB_PRV_WIND_XY2D;
-            if (dtc.dataType == GRB_CUR_VX)
+            }
+            if (dtc.dataType == GRB_CUR_VX) {
                 code.dataType = GRB_PRV_CUR_XY2D;
+            }
             if (currentype != dtc.dataType) {
                 msg += "\n* " + DataCodeStr::toString_name(code) + ": ";
                 currentype = dtc.dataType;
                 firstalt = true;
             }
-            if (!firstalt)
+            if (!firstalt) {
                 msg += ", ";
-            else
+            }
+            else {
                 firstalt = false;
+            }
             //msg += DataCodeStr::toString_level (code);
             msg += AltitudeStr::toStringShort(code.getAltitude());
         }
@@ -1866,111 +1923,149 @@ void MainWindow::slot_GroupColorMap(QAction *act) {
     if (act == mb->acView_WindColors) { // search "prefered" altitude for wind
         dtc.set(GRB_TYPE_NOT_DEFINED, LV_TYPE_NOT_DEFINED, 0);
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ABOV_GND, 10);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_MSL, 0);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_GND_SURF, 0);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ABOV_GND, 1);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ABOV_GND, 2);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ABOV_GND, 3);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ABOV_GND, 10);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 925);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 850);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 700);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 600);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 500);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 400);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 300);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_WIND_XY2D, LV_ISOBARIC, 200);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
     }
-    else if (act == mb->acView_CurrentColors)
+    else if (act == mb->acView_CurrentColors) {
         dtc.set(GRB_PRV_CUR_XY2D, LV_GND_SURF, 0);
-    else if (act == mb->acView_RainColors)
+    }
+    else if (act == mb->acView_RainColors) {
         dtc.set(GRB_PRECIP_TOT, LV_GND_SURF, 0);
-    else if (act == mb->acView_CloudColors)
+    }
+    else if (act == mb->acView_CloudColors) {
         dtc.set(GRB_CLOUD_TOT, LV_ATMOS_ALL, 0);
-    else if (act == mb->acView_HumidColors)
+    }
+    else if (act == mb->acView_HumidColors) {
         dtc.set(GRB_HUMID_REL, LV_ABOV_GND, 2);
-    else if (act == mb->acView_TempColors)
+    }
+    else if (act == mb->acView_TempColors) {
         dtc.set(GRB_TEMP, LV_ABOV_GND, 2);
-    else if (act == mb->acView_DeltaDewpointColors)
+    }
+    else if (act == mb->acView_DeltaDewpointColors) {
         dtc.set(GRB_PRV_DIFF_TEMPDEW, LV_ABOV_GND, 2);
-    else if (act == mb->acView_SnowCateg)
+    }
+    else if (act == mb->acView_SnowCateg) {
         dtc.set(GRB_SNOW_CATEG, LV_GND_SURF, 0);
-    else if (act == mb->acView_FrzRainCateg)
+    }
+    else if (act == mb->acView_FrzRainCateg) {
         dtc.set(GRB_FRZRAIN_CATEG, LV_GND_SURF, 0);
-    else if (act == mb->acView_SnowDepth)
+    }
+    else if (act == mb->acView_SnowDepth) {
         dtc.set(GRB_SNOW_DEPTH, LV_GND_SURF, 0);
-    else if (act == mb->acView_CAPEsfc)
+    }
+    else if (act == mb->acView_CAPEsfc) {
         dtc.set(GRB_CAPE, LV_GND_SURF, 0);
-    else if (act == mb->acView_CINsfc)
+    }
+    else if (act == mb->acView_CINsfc) {
         dtc.set(GRB_CIN, LV_GND_SURF, 0);
-    //-----------------------------------
+        //-----------------------------------
+    }
     else if (act == mb->acView_ThetaEColors) { // search "prefered" altitude for theta-e
         dtc.set(GRB_TYPE_NOT_DEFINED, LV_TYPE_NOT_DEFINED, 0);
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 850);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 925);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 700);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 600);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 500);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 400);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 300);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
         dtctmp.set(GRB_PRV_THETA_E, LV_ISOBARIC, 200);
-        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp))
+        if (dtc.dataType == GRB_TYPE_NOT_DEFINED && reader->hasData(dtctmp)) {
             dtc = dtctmp;
+        }
     }
     //-----------------------------------
-    else if (act == mb->acView_SigWaveHeight)
+    else if (act == mb->acView_SigWaveHeight) {
         dtc.set(GRB_WAV_SIG_HT, LV_GND_SURF, 0);
-    else if (act == mb->acView_MaxWaveHeight)
+    }
+    else if (act == mb->acView_MaxWaveHeight) {
         dtc.set(GRB_WAV_MAX_HT, LV_GND_SURF, 0);
-    else if (act == mb->acView_WhiteCapProb)
+    }
+    else if (act == mb->acView_WhiteCapProb) {
         dtc.set(GRB_WAV_WHITCAP_PROB, LV_GND_SURF, 0);
-    //-----------------------------------
-    else
+        //-----------------------------------
+    }
+    else {
         dtc.set(GRB_TYPE_NOT_DEFINED);
+    }
 
     setMenubarAltitudeData(dtc);
     earth->setColorMapData(dtc);
@@ -1985,40 +2080,57 @@ void MainWindow::slot_GroupAltitude(QAction *act) {
     }
     MenuBar *mb = menuBar;
     DataCode dtcaltitude;
-    if (act == mb->acAlt_MSL)
+    if (act == mb->acAlt_MSL) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_MSL, 0);
-    else if (act == mb->acAlt_sigma995)
+    }
+    else if (act == mb->acAlt_sigma995) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_SIGMA, 9950);
-    else if (act == mb->acAlt_GND)
+    }
+    else if (act == mb->acAlt_GND) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_GND_SURF, 0);
-    else if (act == mb->acAlt_GND_1m)
+    }
+    else if (act == mb->acAlt_GND_1m) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ABOV_GND, 1);
-    else if (act == mb->acAlt_GND_2m)
+    }
+    else if (act == mb->acAlt_GND_2m) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ABOV_GND, 2);
-    else if (act == mb->acAlt_GND_3m)
+    }
+    else if (act == mb->acAlt_GND_3m) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ABOV_GND, 3);
-    else if (act == mb->acAlt_GND_10m)
+    }
+    else if (act == mb->acAlt_GND_10m) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ABOV_GND, 10);
-    else if (act == mb->acAlt_925hpa)
+    }
+    else if (act == mb->acAlt_925hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 925);
-    else if (act == mb->acAlt_850hpa)
+    }
+    else if (act == mb->acAlt_850hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 850);
-    else if (act == mb->acAlt_700hpa)
+    }
+    else if (act == mb->acAlt_700hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 700);
-    else if (act == mb->acAlt_600hpa)
+    }
+    else if (act == mb->acAlt_600hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 600);
-    else if (act == mb->acAlt_500hpa)
+    }
+    else if (act == mb->acAlt_500hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 500);
-    else if (act == mb->acAlt_400hpa)
+    }
+    else if (act == mb->acAlt_400hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 400);
-    else if (act == mb->acAlt_300hpa)
+    }
+    else if (act == mb->acAlt_300hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 300);
-    else if (act == mb->acAlt_200hpa)
+    }
+    else if (act == mb->acAlt_200hpa) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ISOBARIC, 200);
-    else if (act == mb->acAlt_Atmosphere)
+    }
+    else if (act == mb->acAlt_Atmosphere) {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_ATMOS_ALL, 0);
-    else
+    }
+    else {
         dtcaltitude.set(GRB_TYPE_NOT_DEFINED, LV_TYPE_NOT_DEFINED, 0);
+    }
 
     DataCode dctactual = earth->getColorMapData();
 
@@ -2101,22 +2213,30 @@ void MainWindow::setMenuBarGeopotentialLines(
         bool drawLabels,
         int step) {
     MenuBar *mb = menuBar;
-    if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 925) && drawGeopot)
+    if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 925) && drawGeopot) {
         mb->acAlt_GeopotLine_925hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 850) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 850) && drawGeopot) {
         mb->acAlt_GeopotLine_850hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 700) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 700) && drawGeopot) {
         mb->acAlt_GeopotLine_700hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 600) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 600) && drawGeopot) {
         mb->acAlt_GeopotLine_600hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 500) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 500) && drawGeopot) {
         mb->acAlt_GeopotLine_500hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 400) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 400) && drawGeopot) {
         mb->acAlt_GeopotLine_400hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 300) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 300) && drawGeopot) {
         mb->acAlt_GeopotLine_300hpa->setChecked(true);
-    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 200) && drawGeopot)
+    }
+    else if (dtc.equals(GRB_GEOPOT_HGT, LV_ISOBARIC, 200) && drawGeopot) {
         mb->acAlt_GeopotLine_200hpa->setChecked(true);
+    }
     else {
         mb->acAlt_GeopotLine_925hpa->setChecked(false);
         mb->acAlt_GeopotLine_850hpa->setChecked(false);
@@ -2156,24 +2276,33 @@ void MainWindow::setMenuBarGeopotentialLines(
 void MainWindow::slot_GroupGeopotentialLines(QAction *act) {
     MenuBar *mb = menuBar;
     DataCode dtc;
-    if (act == mb->acAlt_GeopotLine_925hpa)
+    if (act == mb->acAlt_GeopotLine_925hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 925);
-    else if (act == mb->acAlt_GeopotLine_850hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_850hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 850);
-    else if (act == mb->acAlt_GeopotLine_700hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_700hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 700);
-    else if (act == mb->acAlt_GeopotLine_600hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_600hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 600);
-    else if (act == mb->acAlt_GeopotLine_500hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_500hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 500);
-    else if (act == mb->acAlt_GeopotLine_400hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_400hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 400);
-    else if (act == mb->acAlt_GeopotLine_300hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_300hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 300);
-    else if (act == mb->acAlt_GeopotLine_200hpa)
+    }
+    else if (act == mb->acAlt_GeopotLine_200hpa) {
         dtc.set(GRB_GEOPOT_HGT, LV_ISOBARIC, 200);
-    else
+    }
+    else {
         dtc.set(GRB_TYPE_NOT_DEFINED, LV_TYPE_NOT_DEFINED, 0);
+    }
 
     if (dtc.dataType != GRB_TYPE_NOT_DEFINED) {
         earth->setGeopotentialData(dtc);
@@ -2187,20 +2316,27 @@ void MainWindow::slot_GroupGeopotentialLines(QAction *act) {
 void MainWindow::slot_GroupGeopotentialStep(QAction *act) {
     MenuBar *mb = menuBar;
     DataCode dtc;
-    if (act == mb->acAlt_GeopotStep_1)
+    if (act == mb->acAlt_GeopotStep_1) {
         earth->setGeopotentialStep(1);
-    else if (act == mb->acAlt_GeopotStep_2)
+    }
+    else if (act == mb->acAlt_GeopotStep_2) {
         earth->setGeopotentialStep(2);
-    else if (act == mb->acAlt_GeopotStep_5)
+    }
+    else if (act == mb->acAlt_GeopotStep_5) {
         earth->setGeopotentialStep(5);
-    else if (act == mb->acAlt_GeopotStep_10)
+    }
+    else if (act == mb->acAlt_GeopotStep_10) {
         earth->setGeopotentialStep(10);
-    else if (act == mb->acAlt_GeopotStep_20)
+    }
+    else if (act == mb->acAlt_GeopotStep_20) {
         earth->setGeopotentialStep(20);
-    else if (act == mb->acAlt_GeopotStep_50)
+    }
+    else if (act == mb->acAlt_GeopotStep_50) {
         earth->setGeopotentialStep(50);
-    else if (act == mb->acAlt_GeopotStep_100)
+    }
+    else if (act == mb->acAlt_GeopotStep_100) {
         earth->setGeopotentialStep(100);
+    }
 }
 //-------------------------------------------------
 void MainWindow::slotExportImage() {
@@ -2213,18 +2349,24 @@ void MainWindow::slot_GroupWavesArrows(QAction *act) {
         return;
     }
     MenuBar *mb = menuBar;
-    if (act == mb->acView_WavesArrows_none)
+    if (act == mb->acView_WavesArrows_none) {
         earth->setWaveArrowsType(GRB_TYPE_NOT_DEFINED);
-    else if (act == mb->acView_WavesArrows_max)
+    }
+    else if (act == mb->acView_WavesArrows_max) {
         earth->setWaveArrowsType(GRB_PRV_WAV_MAX);
-    else if (act == mb->acView_WavesArrows_swell)
+    }
+    else if (act == mb->acView_WavesArrows_swell) {
         earth->setWaveArrowsType(GRB_PRV_WAV_SWL);
-    else if (act == mb->acView_WavesArrows_wind)
+    }
+    else if (act == mb->acView_WavesArrows_wind) {
         earth->setWaveArrowsType(GRB_PRV_WAV_WND);
-    else if (act == mb->acView_WavesArrows_prim)
+    }
+    else if (act == mb->acView_WavesArrows_prim) {
         earth->setWaveArrowsType(GRB_PRV_WAV_PRIM);
-    else if (act == mb->acView_WavesArrows_scdy)
+    }
+    else if (act == mb->acView_WavesArrows_scdy) {
         earth->setWaveArrowsType(GRB_PRV_WAV_SCDY);
+    }
 }
 //-------------------------------------------------
 void MainWindow::slotShowSkewtDiagram() {
@@ -2258,7 +2400,8 @@ void MainWindow::slotGenericAction() {
     }
     else if (ac == menuBar->acFile_NewInstance) {
         ThreadNewInstance *t = new ThreadNewInstance();
-        if (t)
+        if (t) {
             t->start();
+        }
     }
 }

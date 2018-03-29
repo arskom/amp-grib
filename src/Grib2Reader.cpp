@@ -125,8 +125,9 @@ void Grib2Reader::readGrib2FileContent(int nbrecs) {
         seekgb_zu(file, iseek, 64 * 1024, &lskip, &lgrib);
         taskProgress->setValue((int)(100.0 * idrec / nbrecs));
         //DBG("READ FIELD : idrec=%d lskip=%ld lgrib=%ld", idrec, lskip, lgrib);
-        if (lgrib == 0)
+        if (lgrib == 0) {
             break; // end loop at EOF or problem
+        }
         iseek = lskip + lgrib;
 
         cgrib = (unsigned char *)malloc(lgrib);
@@ -167,8 +168,9 @@ void Grib2Reader::readGrib2FileContent(int nbrecs) {
                             }
                         }
                     }
-                    if (gfld)
+                    if (gfld) {
                         g2_free(gfld);
+                    }
                 }
             }
         }
@@ -200,8 +202,9 @@ void Grib2Reader::analyseRecords() {
                             //DBG("%d %d : %g %g : %g", i,j, vx,vy, sqrt(vx*vx+vy*vy));
                             recGust->setValue(i, j, sqrt(vx * vx + vy * vy));
                         }
-                        else
+                        else {
                             recGust->setValue(i, j, GRIB_NOTDEF);
+                        }
                     }
                 }
                 storeRecordInMap(recGust);

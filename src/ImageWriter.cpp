@@ -185,8 +185,9 @@ void ImageWriter::saveImage(time_t date) {
                     saveSettings(dial, filename);
                     qApp->setOverrideCursor(Qt::WaitCursor);
                     if (!filename.endsWith(".jpg", Qt::CaseInsensitive)
-                            && !filename.endsWith(".jpeg", Qt::CaseInsensitive))
+                            && !filename.endsWith(".jpeg", Qt::CaseInsensitive)) {
                         filename += ".jpg";
+                    }
                     image->save(filename, "JPEG", Q);
 
                     qApp->restoreOverrideCursor();

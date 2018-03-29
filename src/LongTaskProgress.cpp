@@ -44,8 +44,9 @@ LongTaskProgress::LongTaskProgress(QWidget *parent) {
 
 //------------------------------------------------------------
 LongTaskProgress::~LongTaskProgress() {
-    if (progress)
+    if (progress) {
         delete progress;
+    }
 }
 
 //-------------------------------------------

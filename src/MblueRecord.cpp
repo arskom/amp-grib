@@ -56,8 +56,9 @@ MbluePoint::MbluePoint(
     // position
     x = mbzline->x;
     y = mbzline->y;
-    if (x < -360 || x > 360 || y < -90 || y > 90)
+    if (x < -360 || x > 360 || y < -90 || y > 90) {
         ok = false;
+    }
     // data
     //DBGS ("=======================");
     for (size_t i = 0; i < datacodes.size(); i++) {
@@ -79,12 +80,14 @@ MbluePoint::MbluePoint(
                 break;
             case GRB_HUMID_REL:
             case GRB_CLOUD_TOT:
-                if (val < 0 || val > 100)
+                if (val < 0 || val > 100) {
                     val = GRIB_NOTDEF;
+                }
                 break;
             case GRB_PRESSURE_MSL:
-                if (val < 84000 || val > 112000)
+                if (val < 84000 || val > 112000) {
                     val = GRIB_NOTDEF;
+                }
                 break;
             case GRB_WIND_GUST:
                 code = DataCode(GRB_WIND_GUST, LV_GND_SURF, 0).toInt32();
@@ -92,8 +95,9 @@ MbluePoint::MbluePoint(
             }
             mapvalues.insert(std::pair<uint32_t, float>(code, val));
         }
-        else
+        else {
             ok = false;
+        }
     }
 
     // DBGN ( getValue(DataCode(GRB_PRESSURE_MSL,LV_MSL,0)) );
@@ -122,10 +126,12 @@ MbluePoint::MbluePoint(
 
         if (ch != GRIB_NOTDEF && cm != GRIB_NOTDEF && cl != GRIB_NOTDEF) {
             float val = 100 * (1 - (1 - ch / 100) * (1 - cm / 100) * (1 - cl / 100));
-            if (val > 100)
+            if (val > 100) {
                 val = 100;
-            else if (val < 0)
+            }
+            else if (val < 0) {
                 val = 0;
+            }
             DataCode dtcd(GRB_CLOUD_TOT, LV_ATMOS_ALL, 0);
             if (val != GRIB_NOTDEF) {
                 mapvalues.insert(std::pair<uint32_t, float>(dtcd.toInt32(), val));
@@ -178,10 +184,12 @@ MbluePoint::MbluePoint(double px, double py,
             v2 = p2->getValue(dtc);
             v3 = p3->getValue(dtc);
             v4 = p4->getValue(dtc);
-            if (v1 == GRIB_NOTDEF || v2 == GRIB_NOTDEF || v3 == GRIB_NOTDEF || v4 == GRIB_NOTDEF)
+            if (v1 == GRIB_NOTDEF || v2 == GRIB_NOTDEF || v3 == GRIB_NOTDEF || v4 == GRIB_NOTDEF) {
                 val = GRIB_NOTDEF;
-            else
+            }
+            else {
                 val = (k1 * v1 + k2 * v2 + k3 * v3 + k4 * v4) / (k1 + k2 + k3 + k4);
+            }
             mapvalues.insert(std::pair<uint32_t, float>(dtc.toInt32(), val));
         }
     }
@@ -197,10 +205,12 @@ MbluePoint::MbluePoint(double px, double py,
             v1 = p1->getValue(dtc);
             v2 = p2->getValue(dtc);
             v3 = p3->getValue(dtc);
-            if (v1 == GRIB_NOTDEF || v2 == GRIB_NOTDEF || v3 == GRIB_NOTDEF)
+            if (v1 == GRIB_NOTDEF || v2 == GRIB_NOTDEF || v3 == GRIB_NOTDEF) {
                 val = GRIB_NOTDEF;
-            else
+            }
+            else {
                 val = (k1 * v1 + k2 * v2 + k3 * v3) / (k1 + k2 + k3);
+            }
             mapvalues.insert(std::pair<uint32_t, float>(dtc.toInt32(), val));
         }
     }
@@ -213,10 +223,12 @@ MbluePoint::MbluePoint(double px, double py,
             dtc = iter->first;
             v1 = p1->getValue(dtc);
             v2 = p2->getValue(dtc);
-            if (v1 == GRIB_NOTDEF || v2 == GRIB_NOTDEF)
+            if (v1 == GRIB_NOTDEF || v2 == GRIB_NOTDEF) {
                 val = GRIB_NOTDEF;
-            else
+            }
+            else {
                 val = (k1 * v1 + k2 * v2) / (k1 + k2);
+            }
             mapvalues.insert(std::pair<uint32_t, float>(dtc.toInt32(), val));
         }
     }
@@ -230,10 +242,12 @@ bool MbluePoint::hasData(const DataCode &dtc) const {
 double MbluePoint::getValue(const DataCode &dtc) const {
     std::map<uint32_t, float>::const_iterator iter;
     iter = mapvalues.find(dtc.toInt32());
-    if (iter != mapvalues.end())
+    if (iter != mapvalues.end()) {
         return iter->second;
-    else
+    }
+    else {
         return GRIB_NOTDEF;
+    }
 }
 
 //===========================================================
@@ -283,8 +297,9 @@ void MblueRecord::addMbluePoint(MbluePoint *pt) {
 }
 //--------------------------------------------------------------
 bool MblueRecord::hasData(const DataCode &dtc) const {
-    if (allPoints.size() == 0)
+    if (allPoints.size() == 0) {
         return false;
+    }
 
     MbluePoint *pt = *(allPoints.begin());
     return pt->hasData(dtc);
@@ -297,19 +312,22 @@ MblueRecord::~MblueRecord() {
         clusters = NULL;
     }
     if (regularGrid != NULL) {
-        for (int i = 0; i < Ni * Nj; i++)
+        for (int i = 0; i < Ni * Nj; i++) {
             delete regularGrid[i];
+        }
         delete[] regularGrid;
     }
-    if (smoothPressureGrid != NULL)
+    if (smoothPressureGrid != NULL) {
         delete[] smoothPressureGrid;
+    }
 
     Util::cleanVectorPointers(allPoints);
 }
 //-----------------------------------------------------
 void MblueRecord::makeSmoothPressureGrid() {
-    if (!ok)
+    if (!ok) {
         return;
+    }
     smoothPressureGrid = new float[Ni * Nj];
     assert(smoothPressureGrid);
     int i, j;
@@ -346,10 +364,12 @@ void MblueRecord::makeSmoothPressureGrid() {
         v7 = getRawPressureOnRegularGrid(i, j + 1);
         v8 = getRawPressureOnRegularGrid(i + 1, j + 1);
         if (v0 != GRIB_NOTDEF && v4 != GRIB_NOTDEF && v5 != GRIB_NOTDEF
-                && v6 != GRIB_NOTDEF && v7 != GRIB_NOTDEF && v8 != GRIB_NOTDEF)
+                && v6 != GRIB_NOTDEF && v7 != GRIB_NOTDEF && v8 != GRIB_NOTDEF) {
             smoothPressureGrid[i + j * Ni] = (v0 + v4 + v5 + v6 + v7 + v8) / 6.0;
-        else
+        }
+        else {
             smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+        }
     }
     j = Nj - 1;
     for (i = 1; i < Ni - 1; i++) {
@@ -360,10 +380,12 @@ void MblueRecord::makeSmoothPressureGrid() {
         v4 = getRawPressureOnRegularGrid(i - 1, j);
         v5 = getRawPressureOnRegularGrid(i + 1, j);
         if (v0 != GRIB_NOTDEF && v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF
-                && v3 != GRIB_NOTDEF && v4 != GRIB_NOTDEF && v5 != GRIB_NOTDEF)
+                && v3 != GRIB_NOTDEF && v4 != GRIB_NOTDEF && v5 != GRIB_NOTDEF) {
             smoothPressureGrid[i + j * Ni] = (v0 + v1 + v2 + v3 + v4 + v5) / 6.0;
-        else
+        }
+        else {
             smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+        }
     }
     i = 0;
     for (j = 1; j < Nj - 1; j++) {
@@ -374,10 +396,12 @@ void MblueRecord::makeSmoothPressureGrid() {
         v7 = getRawPressureOnRegularGrid(i, j + 1);
         v8 = getRawPressureOnRegularGrid(i + 1, j + 1);
         if (v0 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF
-                && v5 != GRIB_NOTDEF && v7 != GRIB_NOTDEF && v8 != GRIB_NOTDEF)
+                && v5 != GRIB_NOTDEF && v7 != GRIB_NOTDEF && v8 != GRIB_NOTDEF) {
             smoothPressureGrid[i + j * Ni] = (v0 + v2 + v3 + v5 + v7 + v8) / 6.0;
-        else
+        }
+        else {
             smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+        }
     }
     i = Ni - 1;
     for (j = 1; j < Nj - 1; j++) {
@@ -388,10 +412,12 @@ void MblueRecord::makeSmoothPressureGrid() {
         v6 = getRawPressureOnRegularGrid(i - 1, j + 1);
         v7 = getRawPressureOnRegularGrid(i, j + 1);
         if (v0 != GRIB_NOTDEF && v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF
-                && v4 != GRIB_NOTDEF && v6 != GRIB_NOTDEF && v7 != GRIB_NOTDEF)
+                && v4 != GRIB_NOTDEF && v6 != GRIB_NOTDEF && v7 != GRIB_NOTDEF) {
             smoothPressureGrid[i + j * Ni] = (v0 + v1 + v2 + v4 + v6 + v7) / 6.0;
-        else
+        }
+        else {
             smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+        }
     }
     i = 0;
     j = 0;
@@ -399,30 +425,36 @@ void MblueRecord::makeSmoothPressureGrid() {
     v5 = getRawPressureOnRegularGrid(i + 1, j);
     v7 = getRawPressureOnRegularGrid(i, j + 1);
     v8 = getRawPressureOnRegularGrid(i + 1, j + 1);
-    if (v0 != GRIB_NOTDEF && v5 != GRIB_NOTDEF && v7 != GRIB_NOTDEF && v8 != GRIB_NOTDEF)
+    if (v0 != GRIB_NOTDEF && v5 != GRIB_NOTDEF && v7 != GRIB_NOTDEF && v8 != GRIB_NOTDEF) {
         smoothPressureGrid[i + j * Ni] = (v0 + v5 + v7 + v8) / 4.0;
-    else
+    }
+    else {
         smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+    }
     i = Ni - 1;
     j = 0;
     v0 = getRawPressureOnRegularGrid(i, j);
     v4 = getRawPressureOnRegularGrid(i - 1, j);
     v6 = getRawPressureOnRegularGrid(i - 1, j + 1);
     v7 = getRawPressureOnRegularGrid(i, j + 1);
-    if (v0 != GRIB_NOTDEF && v4 != GRIB_NOTDEF && v6 != GRIB_NOTDEF && v7 != GRIB_NOTDEF)
+    if (v0 != GRIB_NOTDEF && v4 != GRIB_NOTDEF && v6 != GRIB_NOTDEF && v7 != GRIB_NOTDEF) {
         smoothPressureGrid[i + j * Ni] = (v0 + v4 + v6 + v7) / 4.0;
-    else
+    }
+    else {
         smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+    }
     i = 0;
     j = Nj - 1;
     v0 = getRawPressureOnRegularGrid(i, j);
     v2 = getRawPressureOnRegularGrid(i, j - 1);
     v3 = getRawPressureOnRegularGrid(i + 1, j - 1);
     v5 = getRawPressureOnRegularGrid(i + 1, j);
-    if (v0 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF && v5 != GRIB_NOTDEF)
+    if (v0 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF && v5 != GRIB_NOTDEF) {
         smoothPressureGrid[i + j * Ni] = (v0 + v2 + v3 + v5) / 4.0;
-    else
+    }
+    else {
         smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+    }
 
     i = Ni - 1;
     j = Nj - 1;
@@ -430,27 +462,33 @@ void MblueRecord::makeSmoothPressureGrid() {
     v1 = getRawPressureOnRegularGrid(i - 1, j - 1);
     v2 = getRawPressureOnRegularGrid(i, j - 1);
     v4 = getRawPressureOnRegularGrid(i - 1, j);
-    if (v0 != GRIB_NOTDEF && v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v4 != GRIB_NOTDEF)
+    if (v0 != GRIB_NOTDEF && v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v4 != GRIB_NOTDEF) {
         smoothPressureGrid[i + j * Ni] = (v0 + v1 + v2 + v4) / 4.0;
-    else
+    }
+    else {
         smoothPressureGrid[i + j * Ni] = GRIB_NOTDEF;
+    }
 }
 //-----------------------------------------------------
 void MblueRecord::makeVirtualRegularGrid() {
-    if (!ok)
+    if (!ok) {
         return;
+    }
     double dens = allPoints.size() / ((xmax - xmin) * (ymax - ymin));
     double dt = 1 / sqrt(dens);
     // 	dt *= 1.5;		// minimize grid size
-    if (dt < 0.01)
+    if (dt < 0.01) {
         dt = 0.01;
+    }
     // Virtual grid of size dt x dt
     Ni = (int)ceil((xmax - xmin) / dt);
     Nj = (int)ceil((ymax - ymin) / dt);
-    if (Ni < 2)
+    if (Ni < 2) {
         Ni = 2;
-    if (Nj < 2)
+    }
+    if (Nj < 2) {
         Nj = 2;
+    }
 
     Di = (xmax - xmin) / (Ni - 1) - 1e-12;
     Dj = (ymax - ymin) / (Nj - 1) - 1e-12;
@@ -481,10 +519,12 @@ void MblueRecord::makeClusters() {
     double k = (xmax - xmin) / (ymax - ymin);
     clustersNj = (int)(sqrt(nbclusters / k));
     clustersNi = (int)(k * clustersNj);
-    if (clustersNi < 1)
+    if (clustersNi < 1) {
         clustersNi = 1;
-    if (clustersNj < 1)
+    }
+    if (clustersNj < 1) {
         clustersNj = 1;
+    }
 
     clusterWidth = (xmax - xmin) / clustersNi;
     clusterHight = (ymax - ymin) / clustersNj;
@@ -509,14 +549,18 @@ std::vector<MbluePoint *> &MblueRecord::getCluster(double x, double y) const {
     i = (int)floor((x - xmin) / dx);
     j = (int)floor((y - ymin) / dy);
     // avoid rounding errors
-    if (i < 0)
+    if (i < 0) {
         i = 0;
-    if (j < 0)
+    }
+    if (j < 0) {
         j = 0;
-    if (i >= clustersNi)
+    }
+    if (i >= clustersNi) {
         i = clustersNi - 1;
-    if (j >= clustersNj)
+    }
+    if (j >= clustersNj) {
         j = clustersNj - 1;
+    }
     return clusters[j * clustersNi + i];
 }
 
@@ -541,14 +585,18 @@ std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList_4max(
     double dx = px - i;
     double dy = py - j;
     // avoid rounding errors
-    if (i < 0)
+    if (i < 0) {
         i = 0;
-    else if (i >= clustersNi)
+    }
+    else if (i >= clustersNi) {
         i = clustersNi - 1;
-    if (j < 0)
+    }
+    if (j < 0) {
         j = 0;
-    else if (j >= clustersNj)
+    }
+    else if (j >= clustersNj) {
         j = clustersNj - 1;
+    }
     //--------------------------------------------------------------
     listclusters->push_back(clusters[j * clustersNi + i]);
     //--------------------------------------------------------------
@@ -593,33 +641,45 @@ std::vector<std::vector<MbluePoint *>> *MblueRecord::getClustersList_9max(
     i = (int)floor((x - xmin) / clusterWidth);
     j = (int)floor((y - ymin) / clusterHight);
     // avoid rounding errors
-    if (i < 0)
+    if (i < 0) {
         i = 0;
-    else if (i >= clustersNi)
+    }
+    else if (i >= clustersNi) {
         i = clustersNi - 1;
-    if (j < 0)
+    }
+    if (j < 0) {
         j = 0;
-    else if (j >= clustersNj)
+    }
+    else if (j >= clustersNj) {
         j = clustersNj - 1;
+    }
 
     listclusters->push_back(clusters[j * clustersNi + i]);
-    if (i > 0)
+    if (i > 0) {
         listclusters->push_back(clusters[j * clustersNi + (i - 1)]);
-    if (i < clustersNi - 1)
+    }
+    if (i < clustersNi - 1) {
         listclusters->push_back(clusters[j * clustersNi + (i + 1)]);
-    if (j > 0)
+    }
+    if (j > 0) {
         listclusters->push_back(clusters[(j - 1) * clustersNi + i]);
-    if (j < clustersNj - 1)
+    }
+    if (j < clustersNj - 1) {
         listclusters->push_back(clusters[(j + 1) * clustersNi + i]);
+    }
 
-    if (i > 0 && j > 0)
+    if (i > 0 && j > 0) {
         listclusters->push_back(clusters[(j - 1) * clustersNi + (i - 1)]);
-    if (i < clustersNi - 1 && j < clustersNj - 1)
+    }
+    if (i < clustersNi - 1 && j < clustersNj - 1) {
         listclusters->push_back(clusters[(j + 1) * clustersNi + (i + 1)]);
-    if (i > 0 && j < clustersNj - 1)
+    }
+    if (i > 0 && j < clustersNj - 1) {
         listclusters->push_back(clusters[(j + 1) * clustersNi + (i - 1)]);
-    if (i < clustersNi - 1 && j > 0)
+    }
+    if (i < clustersNi - 1 && j > 0) {
         listclusters->push_back(clusters[(j - 1) * clustersNi + (i + 1)]);
+    }
 
     return listclusters;
 }
@@ -649,8 +709,9 @@ int MblueRecord::findNeighbour_clusters(
         delete clusterslist;
     }
 
-    if (nb > 4)
+    if (nb > 4) {
         nb = 4;
+    }
     return nb;
 }
 //-------------------------------------------------------
@@ -700,8 +761,9 @@ int MblueRecord::findBestNeighboursInCluster(
         }
     }
 
-    if (nb > 4)
+    if (nb > 4) {
         nb = 4;
+    }
     return nb;
 }
 
@@ -736,8 +798,9 @@ double MblueRecord::getInterpolatedValueWithoutGrid(
     double k1, k2, k3, k4;
 
     int nb = findNeighbour_clusters(px, py, &p1, &p2, &p3, &p4);
-    if (nb < 2)
+    if (nb < 2) {
         return GRIB_NOTDEF;
+    }
 
     if (!interpolateValues) {
         return p1->getValue(dtc);
@@ -755,8 +818,9 @@ double MblueRecord::getInterpolatedValueWithoutGrid(
         v2 = p2->getValue(dtc);
         v3 = p3->getValue(dtc);
         v4 = p4->getValue(dtc);
-        if (v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF && v4 != GRIB_NOTDEF)
+        if (v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF && v4 != GRIB_NOTDEF) {
             return (k1 * v1 + k2 * v2 + k3 * v3 + k4 * v4) / (k1 + k2 + k3 + k4);
+        }
     }
     else if (nb == 3) {
         d1 = (px - p1->x) * (px - p1->x) + (py - p1->y) * (py - p1->y);
@@ -768,8 +832,9 @@ double MblueRecord::getInterpolatedValueWithoutGrid(
         v1 = p1->getValue(dtc);
         v2 = p2->getValue(dtc);
         v3 = p3->getValue(dtc);
-        if (v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF)
+        if (v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF && v3 != GRIB_NOTDEF) {
             return (k1 * v1 + k2 * v2 + k3 * v3) / (k1 + k2 + k3);
+        }
     }
     else if (nb == 2) {
         d1 = (px - p1->x) * (px - p1->x) + (py - p1->y) * (py - p1->y);
@@ -778,8 +843,9 @@ double MblueRecord::getInterpolatedValueWithoutGrid(
         k2 = 1.0 / (d2 + 1e-12);
         v1 = p1->getValue(dtc);
         v2 = p2->getValue(dtc);
-        if (v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF)
+        if (v1 != GRIB_NOTDEF && v2 != GRIB_NOTDEF) {
             return (k1 * v1 + k2 * v2) / (k1 + k2);
+        }
     }
     return GRIB_NOTDEF;
 }
@@ -789,14 +855,16 @@ double MblueRecord::getInterpolatedValue(
         DataCode dtc,
         double px, double py,
         bool interpolate) const {
-    if (fastInterpolation)
+    if (fastInterpolation) {
         return getInterpolatedValueUsingRegularGrid(
                 dtc,
                 px, py, interpolate);
-    else
+    }
+    else {
         return getInterpolatedValueWithoutGrid(
                 dtc,
                 px, py, interpolate);
+    }
 }
 
 //--------------------------------------------------------------------
@@ -810,8 +878,9 @@ double MblueRecord::getValueOnRegularGrid(DataCode dtc, int i, int j) const {
             return pt->getValue(dtc);
         }
     }
-    else
+    else {
         return GRIB_NOTDEF;
+    }
 }
 
 //--------------------------------------------------------------------
@@ -820,8 +889,9 @@ double MblueRecord::getRawPressureOnRegularGrid(int i, int j) const {
         MbluePoint *pt = regularGrid[i + j * Ni];
         return pt->getValue(DataCode(GRB_PRESSURE_MSL, LV_MSL, 0));
     }
-    else
+    else {
         return GRIB_NOTDEF;
+    }
 }
 
 //--------------------------------------------------------------------

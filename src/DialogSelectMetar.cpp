@@ -166,10 +166,12 @@ void DialogSelectMetar::make_metar_tree() {
         item->setText(0, a.icao);
         item->setText(1, a.name);
         item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-        if (allSelected.contains(a.icao))
+        if (allSelected.contains(a.icao)) {
             item->setCheckState(0, Qt::Checked);
-        else
+        }
+        else {
             item->setCheckState(0, Qt::Unchecked);
+        }
         item->setData(0, Qt::UserRole, "icao");
         item->setData(0, Qt::UserRole + 1, a.icao);
     }

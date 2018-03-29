@@ -25,8 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 double LonLatGrid::computeDeltaGrid(int *min, double pixperdeg) {
     double pixmin = 140; // Ecart mini en pixels entre lignes
 
-    if (pixperdeg <= 0.1)
+    if (pixperdeg <= 0.1) {
         pixperdeg = 0.1;
+    }
 
     double delta = pixmin / pixperdeg;
 
@@ -70,8 +71,9 @@ double LonLatGrid::computeDeltaGrid(int *min, double pixperdeg) {
 
     // Alignement sur 0 (entiers)
     if (delta >= 1) {
-        while ((abs(*min) % (int)delta) != 0)
+        while ((abs(*min) % (int)delta) != 0) {
             (*min)--;
+        }
     }
     //printf("pixperdeg=%g  delta=%g\n",	pixperdeg, delta);
     return delta;

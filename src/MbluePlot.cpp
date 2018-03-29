@@ -54,12 +54,14 @@ void MbluePlot::loadFile(QString fname,
 */
 void MbluePlot::draw_GridPoints(const DataCode &,
         QPainter &pnt, const Projection *proj) {
-    if (!reader || !reader->isOk())
+    if (!reader || !reader->isOk()) {
         return;
+    }
 
     MblueRecord *rec = reader->getMblueRecordByDate(currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
 
     std::vector<MbluePoint *> *lspoints = rec->getListPoints();
     std::vector<MbluePoint *>::iterator itp;
@@ -81,11 +83,13 @@ void MbluePlot::draw_WIND_Arrows(
         Altitude altitude,
         bool barbules, QColor arrowsColor,
         QPainter &pnt, const Projection *proj) {
-    if (!reader || !reader->isOk())
+    if (!reader || !reader->isOk()) {
         return;
+    }
     MblueRecord *rec = reader->getMblueRecordByDate(currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
 
     windAltitude = altitude;
 
@@ -95,10 +99,12 @@ void MbluePlot::draw_WIND_Arrows(
     int H = proj->getH();
 
     int space;
-    if (barbules)
+    if (barbules) {
         space = drawWindArrowsOnGrid ? windBarbuleSpaceOnGrid : windBarbuleSpace;
-    else
+    }
+    else {
         space = drawWindArrowsOnGrid ? windArrowSpaceOnGrid : windArrowSpace;
+    }
 
     if (drawWindArrowsOnGrid) { // Flèches uniquement sur les points de la grille
         std::vector<MbluePoint *> *lspoints = rec->getListPoints();
@@ -107,17 +113,20 @@ void MbluePlot::draw_WIND_Arrows(
             MbluePoint *pt = *itp;
             x = pt->x;
             y = pt->y;
-            if (!rec->isXInMap(x))
+            if (!rec->isXInMap(x)) {
                 x += 360.0; // tour du monde ?
+            }
             if (rec->isPointInMap(x, y)) {
                 vx = pt->getValue(DataCode(GRB_WIND_VX, windAltitude));
                 vy = pt->getValue(DataCode(GRB_WIND_VY, windAltitude));
                 proj->map2screen(x, y, &i, &j);
                 if (vx != GRIB_NOTDEF && vy != GRIB_NOTDEF) {
-                    if (barbules)
+                    if (barbules) {
                         drawWindArrowWithBarbs(pnt, i, j, vx, vy, (y < 0), arrowsColor);
-                    else
+                    }
+                    else {
                         drawWindArrow(pnt, i, j, vx, vy);
+                    }
                 }
             }
         }
@@ -126,8 +135,9 @@ void MbluePlot::draw_WIND_Arrows(
         for (i = 0; i < W; i += space) {
             for (j = 0; j < H; j += space) {
                 proj->screen2map(i, j, &x, &y);
-                if (!rec->isXInMap(x))
+                if (!rec->isXInMap(x)) {
                     x += 360.0; // tour du monde ?
+                }
                 if (rec->isPointInMap(x, y)) {
                     vx = rec->getInterpolatedValue(
                             DataCode(GRB_WIND_VX, windAltitude),
@@ -136,10 +146,12 @@ void MbluePlot::draw_WIND_Arrows(
                             DataCode(GRB_WIND_VY, windAltitude),
                             x, y, mustInterpolateValues);
                     if (vx != GRIB_NOTDEF && vy != GRIB_NOTDEF) {
-                        if (barbules)
+                        if (barbules) {
                             drawWindArrowWithBarbs(pnt, i, j, vx, vy, (y < 0), arrowsColor);
-                        else
+                        }
+                        else {
                             drawWindArrow(pnt, i, j, vx, vy);
+                        }
                     }
                 }
             }
@@ -154,13 +166,16 @@ void MbluePlot::draw_CURRENT_Arrows(
         Altitude altitude,
         QColor /*arrowsColor*/,
         QPainter &pnt, const Projection *proj) {
-    if (!reader || !reader->isOk())
+    if (!reader || !reader->isOk()) {
         return;
-    if (altitude.levelType != LV_GND_SURF || altitude.levelValue != 0)
+    }
+    if (altitude.levelType != LV_GND_SURF || altitude.levelValue != 0) {
         return;
+    }
     MblueRecord *rec = reader->getMblueRecordByDate(currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
 
     currentAltitude = altitude;
 
@@ -180,8 +195,9 @@ void MbluePlot::draw_CURRENT_Arrows(
             MbluePoint *pt = *itp;
             x = pt->x;
             y = pt->y;
-            if (!rec->isXInMap(x))
+            if (!rec->isXInMap(x)) {
                 x += 360.0; // tour du monde ?
+            }
             if (rec->isPointInMap(x, y)) {
                 cx = pt->getValue(DataCode(GRB_CUR_VX, LV_ABOV_GND, 10));
                 cy = pt->getValue(DataCode(GRB_CUR_VY, LV_ABOV_GND, 10));
@@ -196,8 +212,9 @@ void MbluePlot::draw_CURRENT_Arrows(
         for (i = 0; i < W; i += space) {
             for (j = 0; j < H; j += space) {
                 proj->screen2map(i, j, &x, &y);
-                if (!rec->isXInMap(x))
+                if (!rec->isXInMap(x)) {
                     x += 360.0; // tour du monde ?
+                }
                 if (rec->isPointInMap(x, y)) {
                     cx = rec->getInterpolatedValue(
                             DataCode(GRB_CUR_VX, LV_ABOV_GND, 10),
@@ -226,8 +243,9 @@ void MbluePlot::draw_ColoredMapPlain(
         return;
     }
     MblueRecord *rec = reader->getMblueRecordByDate(currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
 
     if (dtc.dataType == GRB_PRV_WIND_JET) {
         dtc.dataType = GRB_PRV_WIND_XY2D;
@@ -279,11 +297,13 @@ void MbluePlot::draw_DATA_MinMax(
         QColor labelsColor,
         QPainter &pnt, const Projection *proj) {
     GriddedReader *reader = getReader();
-    if (reader == NULL)
+    if (reader == NULL) {
         return;
+    }
     GriddedRecord *rec = reader->getRecord(dtc, currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
     MblueRecord *recMB = dynamic_cast<MblueRecord *>(rec);
 
     QFontMetrics fmet(labelsFont);

@@ -35,8 +35,9 @@ void MblueReader::openFile(const std::string fname,
         ok = false;
         openFile(fname, fastInterpolation);
     }
-    else
+    else {
         ok = false;
+    }
 }
 //---------------------------------------------------
 MblueReader::~MblueReader() {
@@ -96,8 +97,9 @@ void MblueReader::openFile(const std::string fname, bool fastInterpolation) {
     // read data (each MBZline give a MbluePoint)
     uint32_t nblines = mbzfile.vlines.size();
     for (uint32_t i = 0; taskProgress->continueDownload && i < nblines; i++) {
-        if (i % 20 == 0)
+        if (i % 20 == 0) {
             taskProgress->setValue((int)(100 * i / nblines));
+        }
 
         MbzLine *mbzline = mbzfile.vlines[i];
 
@@ -155,14 +157,18 @@ void MblueReader::openFile(const std::string fname, bool fastInterpolation) {
         MblueRecord *rec = iter->second;
         rec->finalize();
         if (rec->isOk()) {
-            if (xmin > rec->getXmin())
+            if (xmin > rec->getXmin()) {
                 xmin = rec->getXmin();
-            if (xmax < rec->getXmax())
+            }
+            if (xmax < rec->getXmax()) {
                 xmax = rec->getXmax();
-            if (ymin > rec->getYmin())
+            }
+            if (ymin > rec->getYmin()) {
                 ymin = rec->getYmin();
-            if (ymax < rec->getYmax())
+            }
+            if (ymax < rec->getYmax()) {
                 ymax = rec->getYmax();
+            }
         }
     }
 
@@ -192,18 +198,21 @@ GriddedRecord *MblueReader::getRecord(DataCode dtc, time_t date) {
     iter = mapRecords.find(date);
     if (iter != mapRecords.end()) {
         MblueRecord *rec = iter->second;
-        if (rec->hasData(dtc))
+        if (rec->hasData(dtc)) {
             return rec;
+        }
     }
     return NULL;
 }
 
 //---------------------------------------------------------------------------
 GriddedRecord *MblueReader::getFirstRecord() {
-    if (mapRecords.size() > 0)
+    if (mapRecords.size() > 0) {
         return mapRecords.begin()->second;
-    else
+    }
+    else {
         return NULL;
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -213,8 +222,9 @@ double MblueReader::getDateInterpolatedValue(
     if (rec == NULL) {
         return GRIB_NOTDEF;
     }
-    else
+    else {
         return rec->getInterpolatedValue(dtc, px, py);
+    }
 }
 
 //-------------------------------------------------------------------

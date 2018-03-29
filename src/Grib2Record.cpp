@@ -64,8 +64,9 @@ Grib2Record::Grib2Record(gribfield *gfld, int id, int idCenter, time_t refDate)
     Ni = gfld->igdtmpl[7];
     Nj = gfld->igdtmpl[8];
     double coefangle = 1e-6;
-    if (gfld->igdtmpl[9] != 0 && gfld->igdtmpl[10] != 0)
+    if (gfld->igdtmpl[9] != 0 && gfld->igdtmpl[10] != 0) {
         coefangle = (double)(gfld->igdtmpl[9]) / gfld->igdtmpl[10];
+    }
     ymin = gfld->igdtmpl[11] * coefangle;
     xmin = gfld->igdtmpl[12] * coefangle;
     ymax = gfld->igdtmpl[14] * coefangle;
@@ -214,20 +215,27 @@ void Grib2Record::analyseProductDefinitionTemplate(gribfield *gfld) {
     else if (pdtnum == 0) { // Analysis or forecast at a point in time
         int periodcode = gfld->ipdtmpl[7];
         int periodoffset = gfld->ipdtmpl[8];
-        if (periodcode == 0)
+        if (periodcode == 0) {
             this->curDate = this->refDate + 60 * periodoffset;
-        else if (periodcode == 1)
+        }
+        else if (periodcode == 1) {
             this->curDate = this->refDate + 3600 * periodoffset;
-        else if (periodcode == 2)
+        }
+        else if (periodcode == 2) {
             this->curDate = this->refDate + 24 * 3600 * periodoffset;
-        else if (periodcode == 10)
+        }
+        else if (periodcode == 10) {
             this->curDate = this->refDate + 3 * 3600 * periodoffset;
-        else if (periodcode == 11)
+        }
+        else if (periodcode == 11) {
             this->curDate = this->refDate + 6 * 3600 * periodoffset;
-        else if (periodcode == 12)
+        }
+        else if (periodcode == 12) {
             this->curDate = this->refDate + 12 * 3600 * periodoffset;
-        else if (periodcode == 13)
+        }
+        else if (periodcode == 13) {
             this->curDate = this->refDate + periodoffset;
+        }
         else {
             DBG("Can't determine forecast date");
             ok = false;
@@ -297,8 +305,9 @@ void Grib2Record::readAltitude(gribfield *gfld) {
         levelType = LV_GND_SURF;
         levelValue = 0;
     }
-    else if (surfaceType1 == 4)
+    else if (surfaceType1 == 4) {
         levelType = LV_ISOTHERM0;
+    }
     else if (surfaceType1 == 10) {
         levelType = LV_ATMOS_ALL; // assimiled LV_ATMOS_ENT
         levelValue = 0;
@@ -311,10 +320,12 @@ void Grib2Record::readAltitude(gribfield *gfld) {
         levelType = LV_MSL;
         levelValue = 0;
     }
-    else if (surfaceType1 == 102)
+    else if (surfaceType1 == 102) {
         levelType = LV_ABOV_MSL;
-    else if (surfaceType1 == 103)
+    }
+    else if (surfaceType1 == 103) {
         levelType = LV_ABOV_GND;
+    }
     else if (surfaceType1 == 104) {
         levelType = LV_SIGMA;
         levelValue = surfaceValue1 * 10000; // compatible with grib1 value
@@ -323,50 +334,71 @@ void Grib2Record::readAltitude(gribfield *gfld) {
         levelType = LV_ATMOS_ALL;
         levelValue = 0;
     }
-    else if (surfaceType1 == 212)
+    else if (surfaceType1 == 212) {
         levelType = LV_CLOUD_LOW_BOTTOM;
-    else if (surfaceType1 == 213)
+    }
+    else if (surfaceType1 == 213) {
         levelType = LV_CLOUD_LOW_TOP;
-    else if (surfaceType1 == 214)
+    }
+    else if (surfaceType1 == 214) {
         levelType = LV_CLOUD_LOW_LAYER;
-    else if (surfaceType1 == 222)
+    }
+    else if (surfaceType1 == 222) {
         levelType = LV_CLOUD_MID_BOTTOM;
-    else if (surfaceType1 == 223)
+    }
+    else if (surfaceType1 == 223) {
         levelType = LV_CLOUD_MID_TOP;
-    else if (surfaceType1 == 224)
+    }
+    else if (surfaceType1 == 224) {
         levelType = LV_CLOUD_MID_LAYER;
-    else if (surfaceType1 == 232)
+    }
+    else if (surfaceType1 == 232) {
         levelType = LV_CLOUD_HIG_BOTTOM;
-    else if (surfaceType1 == 233)
+    }
+    else if (surfaceType1 == 233) {
         levelType = LV_CLOUD_HIG_TOP;
-    else if (surfaceType1 == 234)
+    }
+    else if (surfaceType1 == 234) {
         levelType = LV_CLOUD_HIG_LAYER;
-    // Ignored level types
-    else if (surfaceType1 == 106)
+        // Ignored level types
+    }
+    else if (surfaceType1 == 106) {
         levelType = LV_TYPE_NOT_DEFINED; // Depth Below Land Surface
-    else if (surfaceType1 == 108)
+    }
+    else if (surfaceType1 == 108) {
         levelType = LV_TYPE_NOT_DEFINED; // Level at Specified Pressure Difference from Ground to Level
-    else if (surfaceType1 == 109)
+    }
+    else if (surfaceType1 == 109) {
         levelType = LV_TYPE_NOT_DEFINED; // Potential Vorticity Surface
-    else if (surfaceType1 == 220)
+    }
+    else if (surfaceType1 == 220) {
         levelType = LV_TYPE_NOT_DEFINED; // Planetary Boundary Layer
-    else if (surfaceType1 == 6)
+    }
+    else if (surfaceType1 == 6) {
         levelType = LV_TYPE_NOT_DEFINED; // Maximum Wind Level
-    else if (surfaceType1 == 7)
+    }
+    else if (surfaceType1 == 7) {
         levelType = LV_TYPE_NOT_DEFINED; // Tropopause
-    else if (surfaceType1 == 8)
+    }
+    else if (surfaceType1 == 8) {
         levelType = LV_TYPE_NOT_DEFINED; // Nominal Top of the Atmosphere
-    else if (surfaceType1 == 242)
+    }
+    else if (surfaceType1 == 242) {
         levelType = LV_TYPE_NOT_DEFINED; // Convective cloud bottom level
-    else if (surfaceType1 == 243)
+    }
+    else if (surfaceType1 == 243) {
         levelType = LV_TYPE_NOT_DEFINED; // Convective cloud top level
-    else if (surfaceType1 == 244)
+    }
+    else if (surfaceType1 == 244) {
         levelType = LV_TYPE_NOT_DEFINED; // Convective cloud layer
-    else if (surfaceType1 == 211)
+    }
+    else if (surfaceType1 == 211) {
         levelType = LV_TYPE_NOT_DEFINED; // Boundary layer cloud layer
-    else if (surfaceType1 == 204)
+    }
+    else if (surfaceType1 == 204) {
         levelType = LV_TYPE_NOT_DEFINED; // Highest tropospheric freezing level
-    // Unknown level types
+        // Unknown level types
+    }
     else {
         DBG("Unknown altitude: surfaceType1=%lld surfaceScale1=%lld surfaceValue1=%lld", surfaceType1, surfaceScale1, surfaceValue1);
         levelType = LV_TYPE_NOT_DEFINED;
@@ -386,94 +418,129 @@ int Grib2Record::analyseProductType() {
     }
     if (pdtnum == 0) {
         if (paramcat == 0) { //TABLE 4.2-0-0
-            if (paramnumber == 0)
+            if (paramnumber == 0) {
                 return GRB_TEMP;
-            else if (paramnumber == 2)
+            }
+            else if (paramnumber == 2) {
                 return GRB_TEMP_POT;
-            else if (paramnumber == 4)
+            }
+            else if (paramnumber == 4) {
                 return GRB_TMAX;
-            else if (paramnumber == 5)
+            }
+            else if (paramnumber == 5) {
                 return GRB_TMIN;
-            else if (paramnumber == 6)
+            }
+            else if (paramnumber == 6) {
                 return GRB_DEWPOINT;
+            }
         }
         else if (paramcat == 1) { //TABLE 4.2-0-1
-            if (paramnumber == 0)
+            if (paramnumber == 0) {
                 return GRB_HUMID_SPEC;
-            else if (paramnumber == 1)
+            }
+            else if (paramnumber == 1) {
                 return GRB_HUMID_REL;
-            else if (paramnumber == 11)
+            }
+            else if (paramnumber == 11) {
                 return GRB_SNOW_DEPTH;
+            }
         }
         else if (paramcat == 2) { //TABLE 4.2-0-2
-            if (paramnumber == 0)
+            if (paramnumber == 0) {
                 return GRB_WIND_DIR;
-            else if (paramnumber == 1)
+            }
+            else if (paramnumber == 1) {
                 return GRB_WIND_SPEED;
-            else if (paramnumber == 2)
+            }
+            else if (paramnumber == 2) {
                 return GRB_WIND_VX;
-            else if (paramnumber == 3)
+            }
+            else if (paramnumber == 3) {
                 return GRB_WIND_VY;
-            else if (paramnumber == 22)
+            }
+            else if (paramnumber == 22) {
                 return GRB_WIND_GUST;
-            else if (paramnumber == 23)
+            }
+            else if (paramnumber == 23) {
                 return GRB_WIND_GUST_VX;
-            else if (paramnumber == 24)
+            }
+            else if (paramnumber == 24) {
                 return GRB_WIND_GUST_VY;
+            }
         }
         else if (paramcat == 3) { //TABLE 4.2-0-3
-            if (paramnumber == 0)
+            if (paramnumber == 0) {
                 return GRB_PRESSURE;
-            else if (paramnumber == 1)
+            }
+            else if (paramnumber == 1) {
                 return GRB_PRESSURE_MSL;
-            else if (paramnumber == 5)
+            }
+            else if (paramnumber == 5) {
                 return GRB_GEOPOT_HGT;
+            }
         }
         else if (paramcat == 6) { //TABLE 4.2-0-6
-            if (paramnumber == 1)
+            if (paramnumber == 1) {
                 return GRB_CLOUD_TOT;
-            else if (paramnumber == 3)
+            }
+            else if (paramnumber == 3) {
                 return GRB_CLOUD_LOW;
-            else if (paramnumber == 4)
+            }
+            else if (paramnumber == 4) {
                 return GRB_CLOUD_MID;
-            else if (paramnumber == 5)
+            }
+            else if (paramnumber == 5) {
                 return GRB_CLOUD_HIG;
+            }
         }
         else if (paramcat == 7) { //TABLE 4.2-0-7
-            if (paramnumber == 6)
+            if (paramnumber == 6) {
                 return GRB_CAPE;
-            else if (paramnumber == 7)
+            }
+            else if (paramnumber == 7) {
                 return GRB_CIN;
+            }
         }
     }
     else if (pdtnum == 8) {
         if (paramcat == 0) { //TABLE 4.2-0-0
-            if (paramnumber == 0)
+            if (paramnumber == 0) {
                 return GRB_TEMP;
-            else if (paramnumber == 2)
+            }
+            else if (paramnumber == 2) {
                 return GRB_TEMP_POT;
-            else if (paramnumber == 4)
+            }
+            else if (paramnumber == 4) {
                 return GRB_TMAX;
-            else if (paramnumber == 5)
+            }
+            else if (paramnumber == 5) {
                 return GRB_TMIN;
-            else if (paramnumber == 6)
+            }
+            else if (paramnumber == 6) {
                 return GRB_DEWPOINT;
+            }
         }
         if (paramcat == 1) { //TABLE 4.2-0-1
-            if (paramnumber == 7)
+            if (paramnumber == 7) {
                 return GRB_PRECIP_RATE;
-            else if (paramnumber == 8)
+            }
+            else if (paramnumber == 8) {
                 return GRB_PRECIP_TOT;
-            else if (paramnumber == 52)
+            }
+            else if (paramnumber == 52) {
                 return GRB_PRECIP_RATE;
-            else if (paramnumber == 193)
+            }
+            else if (paramnumber == 193) {
                 return GRB_FRZRAIN_CATEG;
-            else if (paramnumber == 195)
+            }
+            else if (paramnumber == 195) {
                 return GRB_SNOW_CATEG;
+            }
         }
         else if (paramcat == 6) { //TABLE 4.2-0-6
-            if (paramnumber == 1)
+            if (paramnumber == 1) {
                 return GRB_CLOUD_TOT;
+            }
         }
     }
     // 	DBG("Unknown product: pdtnum=%d paramcat=%d paramnumber=%d alt=%s",

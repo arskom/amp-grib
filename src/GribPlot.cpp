@@ -109,20 +109,24 @@ void GribPlot::draw_GridPoints(const DataCode &dtc, QPainter &pnt, const Project
     }
     //     GribRecord *rec = gribReader->getFirstGribRecord ();
     DataCode dd;
-    if (dtc.dataType == GRB_PRV_WIND_XY2D)
+    if (dtc.dataType == GRB_PRV_WIND_XY2D) {
         dd = DataCode(GRB_WIND_VX, dtc.levelType, dtc.levelValue);
-    else if (dtc.dataType == GRB_PRV_CUR_XY2D)
+    }
+    else if (dtc.dataType == GRB_PRV_CUR_XY2D) {
         dd = DataCode(GRB_CUR_VX, dtc.levelType, dtc.levelValue);
-    else
+    }
+    else {
         dd = dtc;
+    }
 
     GribRecord *rec = gribReader->getRecord(dd, getCurrentDate());
-    if (!rec)
+    if (!rec) {
         return;
+    }
     int deltaI, deltaJ;
     analyseVisibleGridDensity(proj, rec, 6, &deltaI, &deltaJ);
     int px, py, i, j, dl = 2;
-    for (i = 0; i < rec->getNi(); i += deltaI)
+    for (i = 0; i < rec->getNi(); i += deltaI) {
         for (j = 0; j < rec->getNj(); j += deltaJ) {
             //if (rec->hasValue(i,j))
             {
@@ -134,6 +138,7 @@ void GribPlot::draw_GridPoints(const DataCode &dtc, QPainter &pnt, const Project
                 pnt.drawLine(px, py - dl, px, py + dl);
             }
         }
+    }
 }
 
 //==================================================================================
@@ -150,8 +155,9 @@ void GribPlot::draw_WIND_Arrows(
     windArrowColor = arrowsColor;
     GribRecord *recx = gribReader->getRecord(DataCode(GRB_WIND_VX, altitude), currentDate);
     GribRecord *recy = gribReader->getRecord(DataCode(GRB_WIND_VY, altitude), currentDate);
-    if (recx == NULL || recy == NULL)
+    if (recx == NULL || recy == NULL) {
         return;
+    }
 
     int i, j;
     double x, y, vx, vy;
@@ -159,10 +165,12 @@ void GribPlot::draw_WIND_Arrows(
     int H = proj->getH();
 
     int space;
-    if (barbules)
+    if (barbules) {
         space = drawWindArrowsOnGrid ? windBarbuleSpaceOnGrid : windBarbuleSpace;
-    else
+    }
+    else {
         space = drawWindArrowsOnGrid ? windArrowSpaceOnGrid : windArrowSpace;
+    }
 
     if (drawWindArrowsOnGrid) { // Flèches uniquement sur les points de la grille
         for (int gi = 0; gi < recx->getNi(); gi++) {
@@ -171,20 +179,24 @@ void GribPlot::draw_WIND_Arrows(
                 y = recx->getY(gj);
 
                 //----------------------------------------------------------------------
-                if (!recx->isXInMap(x))
+                if (!recx->isXInMap(x)) {
                     x += 360.0; // tour du monde ?
+                }
                 proj->map2screen(x, y, &i, &j);
-                if (i > W)
+                if (i > W) {
                     proj->map2screen(x - 360, y, &i, &j);
+                }
 
                 if (recx->isPointInMap(x, y)) {
                     vx = recx->getInterpolatedValue(x, y, mustInterpolateValues);
                     vy = recy->getInterpolatedValue(x, y, mustInterpolateValues);
                     if (vx != GRIB_NOTDEF && vy != GRIB_NOTDEF) {
-                        if (barbules)
+                        if (barbules) {
                             drawWindArrowWithBarbs(pnt, i, j, vx, vy, (y < 0), arrowsColor);
-                        else
+                        }
+                        else {
                             drawWindArrow(pnt, i, j, vx, vy);
+                        }
                     }
                 }
             }
@@ -199,15 +211,19 @@ void GribPlot::draw_WIND_Arrows(
             j0 = 0;
         }
         else {
-            if (recx->getDeltaY() > 0)
+            if (recx->getDeltaY() > 0) {
                 proj->map2screen(recx->getX(0), recx->getY(recx->getNj() - 1), &i0, &j0);
-            else
+            }
+            else {
                 proj->map2screen(recx->getX(0), recx->getY(0), &i0, &j0);
+            }
             if (i0 > W) {
-                if (recx->getDeltaY() > 0)
+                if (recx->getDeltaY() > 0) {
                     proj->map2screen(recx->getX(0) - 360, recx->getY(recx->getNj() - 1), &i0, &j0);
-                else
+                }
+                else {
                     proj->map2screen(recx->getX(0), recx->getY(0), &i0, &j0);
+                }
             }
         }
         if (j0 < 0) {
@@ -217,16 +233,19 @@ void GribPlot::draw_WIND_Arrows(
             for (j = j0; j < H; j += space) {
                 proj->screen2map(i, j, &x, &y);
                 //----------------------------------------------------------------------
-                if (!recx->isXInMap(x))
+                if (!recx->isXInMap(x)) {
                     x += 360.0; // tour du monde ?
+                }
                 if (recx->isPointInMap(x, y)) {
                     vx = recx->getInterpolatedValue(x, y, mustInterpolateValues);
                     vy = recy->getInterpolatedValue(x, y, mustInterpolateValues);
                     if (vx != GRIB_NOTDEF && vy != GRIB_NOTDEF) {
-                        if (barbules)
+                        if (barbules) {
                             drawWindArrowWithBarbs(pnt, i, j, vx, vy, (y < 0), arrowsColor);
-                        else
+                        }
+                        else {
                             drawWindArrow(pnt, i, j, vx, vy);
+                        }
                     }
                 }
                 //else {
@@ -252,8 +271,9 @@ void GribPlot::draw_CURRENT_Arrows(
 
     GribRecord *recx = gribReader->getRecord(DataCode(GRB_CUR_VX, altitude), currentDate);
     GribRecord *recy = gribReader->getRecord(DataCode(GRB_CUR_VY, altitude), currentDate);
-    if (recx == NULL || recy == NULL)
+    if (recx == NULL || recy == NULL) {
         return;
+    }
     int i, j;
     double x, y, vx, vy;
     int W = proj->getW();
@@ -276,8 +296,9 @@ void GribPlot::draw_CURRENT_Arrows(
                     proj->map2screen(x, y, &i, &j);
 
                     //----------------------------------------------------------------------
-                    if (!recx->isXInMap(x))
+                    if (!recx->isXInMap(x)) {
                         x += 360.0; // tour du monde ?
+                    }
 
                     if (recx->isPointInMap(x, y)) {
                         if (true || abs(j - oldj) >= space) {
@@ -298,8 +319,9 @@ void GribPlot::draw_CURRENT_Arrows(
             for (j = 0; j < H; j += space) {
                 proj->screen2map(i, j, &x, &y);
                 //----------------------------------------------------------------------
-                if (!recx->isXInMap(x))
+                if (!recx->isXInMap(x)) {
                     x += 360.0; // tour du monde ?
+                }
                 if (recx->isPointInMap(x, y)) {
                     vx = recx->getInterpolatedValue(x, y, mustInterpolateValues);
                     vy = recy->getInterpolatedValue(x, y, mustInterpolateValues);
@@ -319,8 +341,9 @@ void GribPlot::draw_ColoredMapPlain(
         bool smooth,
         QPainter &pnt,
         const Projection *proj) {
-    if (gribReader == NULL)
+    if (gribReader == NULL) {
         return;
+    }
 
     if (dtc.dataType == GRB_PRV_WIND_JET) {
         dtc.dataType = GRB_PRV_WIND_XY2D;
@@ -380,8 +403,9 @@ void GribPlot::draw_ColoredMapPlain(
 void GribPlot::draw_WAVES_Arrows(
         const DataCode &dtc,
         QPainter &pnt, const Projection *proj) {
-    if (gribReader == NULL || dtc.dataType == GRB_TYPE_NOT_DEFINED)
+    if (gribReader == NULL || dtc.dataType == GRB_TYPE_NOT_DEFINED) {
         return;
+    }
     QColor waveArrowColor(0, 0, 0);
     GribRecord *recDir, *recPer;
     if (dtc.dataType == GRB_PRV_WAV_PRIM) {
@@ -407,8 +431,9 @@ void GribPlot::draw_WAVES_Arrows(
     else {
         recDir = recPer = NULL;
     }
-    if (recDir == NULL || recPer == NULL)
+    if (recDir == NULL || recPer == NULL) {
         return;
+    }
 
     int i, j;
     double x, y, vx, vy;
@@ -431,8 +456,9 @@ void GribPlot::draw_WAVES_Arrows(
                     y = recDir->getY(gj);
                     proj->map2screen(x, y, &i, &j);
                     //----------------------------------------------------------------------
-                    if (!recDir->isXInMap(x))
+                    if (!recDir->isXInMap(x)) {
                         x += 360.0; // tour du monde ?
+                    }
                     if (recDir->isPointInMap(x, y)) {
                         if (true || abs(j - oldj) >= space) {
                             oldj = j;
@@ -452,8 +478,9 @@ void GribPlot::draw_WAVES_Arrows(
             for (j = 0; j < H; j += space) {
                 proj->screen2map(i, j, &x, &y);
                 //----------------------------------------------------------------------
-                if (!recDir->isXInMap(x))
+                if (!recDir->isXInMap(x)) {
                     x += 360.0; // tour du monde ?
+                }
                 if (recDir->isPointInMap(x, y)) {
                     vx = recDir->getInterpolatedValue(x, y, mustInterpolateValues);
                     vy = recPer->getInterpolatedValue(x, y, mustInterpolateValues);

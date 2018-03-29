@@ -58,8 +58,9 @@ double GriddedRecord::getInterpolatedValueUsingRegularGrid(
             }
         }
         else {
-            while (px < 0)
+            while (px < 0) {
                 px += 360;
+            }
         }
     }
 
@@ -84,14 +85,18 @@ double GriddedRecord::getInterpolatedValueUsingRegularGrid(
     // printf("GriddedRecord::getInterpolatedValueUsingRegularGrid : %d: %f %f %f %f\n",dtc.dataType, x00,x01,x10,x11);
 
     int nbval = 0; // how many values in grid ?
-    if ((h00 = x00 != GRIB_NOTDEF))
+    if ((h00 = x00 != GRIB_NOTDEF)) {
         nbval++;
-    if ((h10 = x10 != GRIB_NOTDEF))
+    }
+    if ((h10 = x10 != GRIB_NOTDEF)) {
         nbval++;
-    if ((h01 = x01 != GRIB_NOTDEF))
+    }
+    if ((h01 = x01 != GRIB_NOTDEF)) {
         nbval++;
-    if ((h11 = x11 != GRIB_NOTDEF))
+    }
+    if ((h11 = x11 != GRIB_NOTDEF)) {
         nbval++;
+    }
 
     //printf ("nbval=%d\n",nbval);
     if (nbval < 3) {
@@ -104,16 +109,20 @@ double GriddedRecord::getInterpolatedValueUsingRegularGrid(
 
     if (!interpolateValues) {
         if (dx < 0.5) {
-            if (dy < 0.5)
+            if (dy < 0.5) {
                 val = x00;
-            else
+            }
+            else {
                 val = x01;
+            }
         }
         else {
-            if (dy < 0.5)
+            if (dy < 0.5) {
                 val = x10;
-            else
+            }
+            else {
                 val = x11;
+            }
         }
         return val;
     }

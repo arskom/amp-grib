@@ -40,8 +40,9 @@ int BoatSpeed::getDegSteps(double dTWindDir, double dBoatDir) {
     while (iterHash.hasNext()) {
         iterHash.next();
         iKeyTmp = iterHash.key();
-        if (dDir < iterHash.key())
+        if (dDir < iterHash.key()) {
             break;
+        }
     }
     return iKeyTmp;
 }

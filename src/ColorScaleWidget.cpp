@@ -51,8 +51,9 @@ void ColorScaleGraph::paintEvent(QPaintEvent *) {
         pnt.setFont(font);
         pnt.drawText(0, 0, W, dh, Qt::AlignHCenter | Qt::AlignVCenter, Util::getDataUnit(dtc));
         int nb = sc->colors.size();
-        if (nb == 0)
+        if (nb == 0) {
             return;
+        }
         pnt.setFont(Font::getFont(FONT_ColorScale));
         int h1;
         int hc = (H - dh) / nb;

@@ -246,14 +246,18 @@ int main(int argc, char *argv[]) {
         int w = win->width();
         int h = win->height();
         int d = 20;
-        if (x + w + d < ws)
+        if (x + w + d < ws) {
             x += d;
-        else
+        }
+        else {
             x = 0;
-        if (y + h + d < hs)
+        }
+        if (y + h + d < hs) {
             y += d;
-        else
+        }
+        else {
             y = 0;
+        }
         win->move(x, y);
     }
 

@@ -77,16 +77,19 @@ double Therm::specHumidFromRelative(double tempK, double hr) {
 double Therm::relHumidFromSpecific(double tempK, double hs) {
     double ps = exp(23.3265 - 3802.7 / tempK - (472.68 * 472.68) / (tempK * tempK));
     double hr = 100.0 * (101325.0 * hs / ((0.622 + hs) * ps));
-    if (hr < 0.0)
+    if (hr < 0.0) {
         hr = 0.0;
-    else if (hr > 100.0)
+    }
+    else if (hr > 100.0) {
         hr = 100.0;
+    }
     return hr;
 }
 //----------------------------------------------------------------------
 double Therm::thetaEfromHR(double tempK, double hpa, double hr) {
-    if (hr == GRIB_NOTDEF || hpa == GRIB_NOTDEF || tempK == GRIB_NOTDEF)
+    if (hr == GRIB_NOTDEF || hpa == GRIB_NOTDEF || tempK == GRIB_NOTDEF) {
         return GRIB_NOTDEF;
+    }
     return thetaEfromHS(tempK, hpa, specHumidFromRelative(tempK, hr));
 }
 //----------------------------------------------------------------------
@@ -106,10 +109,12 @@ double Therm::thetaEfromHS(double tempK, double hpa, double hs) {
     double a = (2404.83 - 2601.83) / 80.0;
     double b = 2404.83 - 40.0 * a;
     double tc = tempK - 273.15;
-    if (tc < -40 || tc > 40)
+    if (tc < -40 || tc > 40) {
         Lv = a * tc + b;
-    else
+    }
+    else {
         Lv = -0.0000614342 * tc * tc * tc + 0.00158927 * tc * tc - 2.36418 * tc + 2500.79;
+    }
     double thetae; // θe
     thetae = (tempK + Lv / Cp * mr) * pow(P0 / hpa, Rd / Cp);
     return thetae;
@@ -232,17 +237,21 @@ void Sounding::addSoundingPointWind(double hpa, double vx, double vy) {
 }
 //------------------------------------------------------
 double Sounding::hpaMax() {
-    if (allSounds.size() > 0)
+    if (allSounds.size() > 0) {
         return allSounds[allSounds.size() - 1].hpa;
-    else
+    }
+    else {
         return GRIB_NOTDEF;
+    }
 }
 //------------------------------------------------------
 double Sounding::hpaMin() {
-    if (allSounds.size() > 0)
+    if (allSounds.size() > 0) {
         return allSounds[0].hpa;
-    else
+    }
+    else {
         return GRIB_NOTDEF;
+    }
 }
 //------------------------------------------------------
 SoundingPointWind Sounding::getWindByAlt(double hpa) {
@@ -270,8 +279,9 @@ double Sounding::getTempCByAlt(double hpa) {
             double v0 = allSounds[i].tempC;
             double v1 = allSounds[i + 1].tempC;
             double k = Therm::hpa2m(allSounds[i + 1].hpa) - Therm::hpa2m(allSounds[i].hpa);
-            if (k != 0)
+            if (k != 0) {
                 k = (Therm::hpa2m(hpa) - Therm::hpa2m(allSounds[i].hpa)) / k;
+            }
             res = v0 + k * (v1 - v0);
         }
     }
@@ -293,8 +303,9 @@ double Sounding::getDewpCByAlt(double hpa) {
             double v0 = allSounds[i].dewpC;
             double v1 = allSounds[i + 1].dewpC;
             double k = Therm::hpa2m(allSounds[i + 1].hpa) - Therm::hpa2m(allSounds[i].hpa);
-            if (k != 0)
+            if (k != 0) {
                 k = (Therm::hpa2m(hpa) - Therm::hpa2m(allSounds[i].hpa)) / k;
+            }
             res = v0 + k * (v1 - v0);
         }
     }
@@ -345,10 +356,12 @@ double Sounding::getAltByTempC(double tempC) {
             double v0 = Therm::hpa2m(allSounds[i].hpa);
             double v1 = Therm::hpa2m(allSounds[i + 1].hpa);
             double k = allSounds[i + 1].tempC - allSounds[i].tempC;
-            if (k != 0)
+            if (k != 0) {
                 k = (tempC - allSounds[i].tempC) / k;
-            else
+            }
+            else {
                 k = 0;
+            }
             res = v0 + k * (v1 - v0);
         }
     }
@@ -371,10 +384,12 @@ double Sounding::getAltByDewpC(double dewpC) {
             double v0 = Therm::hpa2m(allSounds[i].hpa);
             double v1 = Therm::hpa2m(allSounds[i + 1].hpa);
             double k = allSounds[i + 1].dewpC - allSounds[i].dewpC;
-            if (k != 0)
+            if (k != 0) {
                 k = (dewpC - allSounds[i].dewpC) / k;
-            else
+            }
+            else {
                 k = 0;
+            }
             res = v0 + k * (v1 - v0);
         }
     }
@@ -382,29 +397,33 @@ double Sounding::getAltByDewpC(double dewpC) {
 }
 //------------------------------------------------------
 TPoint Sounding::get_LCL(double hpa0max, double hpa0min) {
-    if (levelsAreValid)
+    if (levelsAreValid) {
         return LCL;
+    }
     compute_convective_levels(hpa0max, hpa0min);
     return LCL;
 }
 //------------------------------------------------------
 TPoint Sounding::get_CCL(double hpa0max, double hpa0min) {
-    if (levelsAreValid)
+    if (levelsAreValid) {
         return CCL;
+    }
     compute_convective_levels(hpa0max, hpa0min);
     return CCL;
 }
 //------------------------------------------------------
 TPoint Sounding::get_LFC(double hpa0max, double hpa0min) {
-    if (levelsAreValid)
+    if (levelsAreValid) {
         return LFC;
+    }
     compute_convective_levels(hpa0max, hpa0min);
     return LFC;
 }
 //------------------------------------------------------
 TPoint Sounding::get_EL(double hpa0max, double hpa0min) {
-    if (levelsAreValid)
+    if (levelsAreValid) {
         return EL;
+    }
     compute_convective_levels(hpa0max, hpa0min);
     return EL;
 }
@@ -421,14 +440,16 @@ TPoint Sounding::compute_LCL(double hpa0, double temp0, double dewp0, double del
         temp = Therm::dryAdiabaticTemperature(hpa0, temp0, p);
         tmixr = Therm::tempFromMixingRatio(mixr, p);
     }
-    if (tmixr >= temp)
+    if (tmixr >= temp) {
         lcl = TPoint(temp, p);
+    }
     return lcl;
 }
 //------------------------------------------------------
 void Sounding::compute_convective_levels(double hpa0max, double hpa0min) {
-    if (levelsAreValid)
+    if (levelsAreValid) {
         return;
+    }
     levelsAreValid = true;
 
     LCL = CCL = LFC = EL = TPoint(GRIB_NOTDEF, GRIB_NOTDEF);
@@ -438,8 +459,9 @@ void Sounding::compute_convective_levels(double hpa0max, double hpa0min) {
     curveCIN.clear();
 
     double hpa0mean = (hpa0min + hpa0max) / 2.0;
-    if (allSounds.size() < 2)
+    if (allSounds.size() < 2) {
         return;
+    }
     double deltap = 1.5;
     //--------------------------------------------------
     // Compute LCL and CIN (follows mixing ratio)
@@ -498,8 +520,9 @@ void Sounding::compute_convective_levels(double hpa0max, double hpa0min) {
         temp = getTempCByAlt(p);
         tmixr = Therm::tempFromMixingRatio(mixr, p);
     }
-    if (tmixr >= temp)
+    if (tmixr >= temp) {
         CCL = TPoint(temp, p);
+    }
     //--------------------------------------------------------
     // Compute LFC (follows saturated curve from LCL) and continue CIN
     TPCurve curveSaturatedFromLCL;
@@ -658,10 +681,12 @@ void Sounding::compute_convective_levels(double hpa0max, double hpa0min) {
     SoundingPointWind W500 = getWindByAlt(500);
     if (W850.ok() && W500.ok()) {
         SWEAT = 0;
-        if (dp850 > 0)
+        if (dp850 > 0) {
             SWEAT += 12 * dp850;
-        if (TT > 49)
+        }
+        if (TT > 49) {
             SWEAT += 20 * (TT - 49);
+        }
         double d850 = W850.degrees();
         double d500 = W500.degrees();
         double v850 = W850.speedKts();
@@ -671,10 +696,12 @@ void Sounding::compute_convective_levels(double hpa0max, double hpa0min) {
         if ((d850 >= 130 && d850 <= 250)
                 || (d500 >= 210 && d500 <= 310)
                 || (d500 > d850)
-                || (v850 >= 15 && v500 >= 15))
+                || (v850 >= 15 && v500 >= 15)) {
             s = 0;
-        else
+        }
+        else {
             s = 125 * (sin((d500 - d850) * M_PI / 180) + 0.2);
+        }
         SWEAT += s;
         SWEAT = qRound(SWEAT);
     }

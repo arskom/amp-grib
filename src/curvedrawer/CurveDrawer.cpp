@@ -36,8 +36,9 @@ CurveDrawer::CurveDrawer(GriddedPlotter *plotter,
     this->bSingle = true;
 
     initInterface();
-    if (!privateConstructor())
+    if (!privateConstructor()) {
         return;
+    }
 
     connect(qwtLegend, SIGNAL(checked(const QVariant &, bool, int)),
             this, SLOT(slotLegendChecked(const QVariant &, bool, int)));
@@ -102,11 +103,12 @@ CurveDrawer::CurveDrawer(GriddedPlotter *plotter,
 // Destructor
 //-------------------------------------------------------------------------------
 CurveDrawer::~CurveDrawer() {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++) {
         if (qwtCurve[i]) {
             delete qwtCurve[i];
             qwtCurve[i] = NULL;
         }
+    }
     for (int i = 0; i < 2; i++) {
         if (qwtMarker[i]) {
             delete qwtMarker[i];
@@ -734,14 +736,18 @@ float CurveDrawer::getInboundAngle(const float &fAngle1, const float &fAngle2, b
     float sfDiff;
     sfDiff = 0.;
     fDiff = bAbs ? qAbs(fAngle1 - fAngle2) : (fAngle1 - fAngle2);
-    if (fmod(fAngle1 + fDiff, 360.) == fAngle2)
+    if (fmod(fAngle1 + fDiff, 360.) == fAngle2) {
         sfDiff = 1.;
-    else
+    }
+    else {
         sfDiff = -1.;
-    if (qAbs(fAngle1 - fAngle2) > 180.)
+    }
+    if (qAbs(fAngle1 - fAngle2) > 180.) {
         return (sfDiff * (360. - fDiff));
-    else
+    }
+    else {
         return (sfDiff * fDiff);
+    }
 }
 //-------------------------------------------------------------------------------
 // additional constructor
@@ -836,10 +842,12 @@ void CurveDrawer::setupXAxis(const double &dFirst, const double &dLast) {
 // initialize object attributes at creation
 //--------------------------------------------------------------------------------------------
 void CurveDrawer::initObj() {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++) {
         qwtCurve[i] = NULL;
-    for (int i = 0; i < 2; i++)
+    }
+    for (int i = 0; i < 2; i++) {
         qwtMarker[i] = NULL;
+    }
     qwtDataPlot = NULL;
     // OpenCPN
     //	myPolar = NULL;

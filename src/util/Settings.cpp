@@ -119,8 +119,9 @@ void Settings::initializeSettingsDir() {
 
 //---------------------------------------------------------------------
 void Settings::copyOldNativeSettingsToIniFile() {
-    if (GLOB_SettingsDir == "")
+    if (GLOB_SettingsDir == "") {
         return;
+    }
     QString group = "main";
     QSettings natSettings("zyGrib");
     QSettings iniSettings(GLOB_SettingsFilename, QSettings::IniFormat);
@@ -144,8 +145,9 @@ void Settings::copyOldNativeSettingsToIniFile() {
 }
 //---------------------------------------------------------------------
 void Settings::copyOldNativeSettingsToIniFile_POI() {
-    if (GLOB_SettingsDir == "")
+    if (GLOB_SettingsDir == "") {
         return;
+    }
     POI *poi = NULL;
     QString group = "poi";
     QSettings natSettings("zyGrib");
@@ -324,8 +326,9 @@ QList<uint> Settings::getSettingAllCodesPOIs() {
             poicode = slist.at(i);
             bool ok;
             uint code = poicode.toUInt(&ok);
-            if (ok)
+            if (ok) {
                 reslist.append(code);
+            }
         }
         settings.endGroup();
     }
@@ -338,8 +341,9 @@ QList<uint> Settings::getSettingAllCodesPOIs() {
             poicode = slist.at(i);
             bool ok;
             uint code = poicode.toUInt(&ok);
-            if (ok)
+            if (ok) {
                 reslist.append(code);
+            }
         }
         settings.endGroup();
     }
@@ -385,8 +389,9 @@ uint Settings::getNewCodePOI() {
         bool ok;
         QString poicode = slist.at(i);
         v = poicode.toUInt(&ok);
-        if (ok && v > max)
+        if (ok && v > max) {
             max = v;
+        }
     }
     settings.endGroup();
     return max + 1;

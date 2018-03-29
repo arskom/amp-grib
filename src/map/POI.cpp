@@ -124,8 +124,9 @@ void POI::setDisplayParams(QColor markColor,
 //-------------------------------------------------------------------------------
 void POI::readSettings(uint code, bool fnat) {
     name = Settings::getSettingPOI(code, "name", "", fnat).toString();
-    if (name == "")
+    if (name == "") {
         valid = false;
+    }
     lon = Settings::getSettingPOI(code, "lon", 0, fnat).toDouble();
     lat = Settings::getSettingPOI(code, "lat", 0, fnat).toDouble();
     isMovable = Settings::getSettingPOI(code, "move", false, fnat).toBool();
@@ -171,8 +172,9 @@ void POI::createWidget(QWidget *ownerSlotsPOI) {
 
 //-------------------------------------------------------------------------------
 void POI::adjustGeometry() {
-    if (proj == NULL)
+    if (proj == NULL) {
         return;
+    }
     QFontMetrics fmet(labelFont);
     QRect rect = fmet.boundingRect(name);
     textHeight = fmet.ascent();
@@ -180,8 +182,9 @@ void POI::adjustGeometry() {
     bool ok = proj->map2screen_glob(lon, lat, &pi, &pj);
 
     int hw = rect.height();
-    if (hw <= 5)
+    if (hw <= 5) {
         hw = 9;
+    }
 
     hpx = 3; // hot point
     hpy = hw / 2;
@@ -189,10 +192,12 @@ void POI::adjustGeometry() {
     xLabel = 9;
 
     if (ok) {
-        if (showLabel)
+        if (showLabel) {
             setGeometry(pi - hpx, pj - hpy, rect.width() + xLabel + hpx + 5, hw);
-        else
+        }
+        else {
             setGeometry(pi - hpx, pj - hpy, 9, 9);
+        }
     }
     else {
         setGeometry(-1000, -1000, rect.width() + 14, rect.height()); // not visible
@@ -328,13 +333,15 @@ void POI::mousePressEvent(QMouseEvent *e) {
         this->labelBgColorMarkedPOI = this->labelBgColor;
         this->labelBgColor = QColor(32, 32, 0, 127);
     }
-    else
+    else {
         moveInCourse = false;
+    }
 }
 //-------------------------------------------------------------------------------
 void POI::mouseReleaseEvent(QMouseEvent *e) {
-    if (e->x() < 0 || e->x() > width() || e->y() < 0 || e->y() > height())
+    if (e->x() < 0 || e->x() > width() || e->y() < 0 || e->y() > height()) {
         return;
+    }
 
     if (!moveInCourse && e->modifiers() == Qt::NoModifier) {
         if (e->button() == Qt::LeftButton) {

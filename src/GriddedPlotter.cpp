@@ -90,8 +90,9 @@ void GriddedPlotter::drawTransformedLine(QPainter &pnt,
     if (Util::isInRange(ii, 0, w)
             && Util::isInRange(kk, 0, w)
             && Util::isInRange(jj, 0, h)
-            && Util::isInRange(ll, 0, h))
+            && Util::isInRange(ll, 0, h)) {
         pnt.drawLine(ii, jj, kk, ll);
+    }
 }
 //-----------------------------------------------------------------------------
 void GriddedPlotter::drawWaveArrow(QPainter &pnt,
@@ -122,26 +123,35 @@ void GriddedPlotter::drawCurrentArrow(QPainter &pnt, int i, int j, double cx, do
     double coefLen;
     double ytt, yqt;
 
-    if (vkn > LF_MAXC)
+    if (vkn > LF_MAXC) {
         coefLen = lf_a * LF_MAXC + lf_b;
-    else if (vkn < LF_MINC)
+    }
+    else if (vkn < LF_MINC) {
         coefLen = lf_a * LF_MINC + lf_b;
-    else
+    }
+    else {
         coefLen = lf_a * vkn + lf_b;
+    }
 
-    if (vkn > QF_MAXC)
+    if (vkn > QF_MAXC) {
         yqt = qf_a * QF_MAXC + qf_b;
-    else if (vkn < QF_MINC)
+    }
+    else if (vkn < QF_MINC) {
         yqt = qf_a * QF_MINC + qf_b;
-    else
+    }
+    else {
         yqt = qf_a * vkn + qf_b;
+    }
 
-    if (vkn > TF_MAXC)
+    if (vkn > TF_MAXC) {
         ytt = tf_a * TF_MAXC + tf_b;
-    else if (vkn < TF_MINC)
+    }
+    else if (vkn < TF_MINC) {
         ytt = tf_a * TF_MINC + tf_b;
-    else
+    }
+    else {
         ytt = tf_a * vkn + tf_b;
+    }
 
     currentArrowColor = QColor(0, 0, 220);
     coefLen = 1.4 * coefLen;
@@ -189,10 +199,12 @@ void GriddedPlotter::drawWindArrow(QPainter &pnt, int i, int j, double vx, doubl
     double ang = atan2(vy, -vx);
     double si = sin(ang), co = cos(ang);
     QPen pen(windArrowColor);
-    if (thinWindArrows)
+    if (thinWindArrows) {
         pen.setWidth(1);
-    else
+    }
+    else {
         pen.setWidth(2);
+    }
     pnt.setPen(pen);
     drawTransformedLine(pnt, si, co, i - windArrowSize / 2, j, 0, 0, windArrowSize, 0); // hampe
     drawTransformedLine(pnt, si, co, i - windArrowSize / 2, j, 0, 0, 5, 2); // flèche
@@ -220,8 +232,9 @@ void GriddedPlotter::drawWindArrowWithBarbs_static(
         QColor arrowColor,
         int windBarbuleSize,
         bool thinWindArrows) {
-    if (vx == GRIB_NOTDEF || vy == GRIB_NOTDEF)
+    if (vx == GRIB_NOTDEF || vy == GRIB_NOTDEF) {
         return;
+    }
     double vkn = sqrt(vx * vx + vy * vy) * 3.6 / 1.852;
     double ang = atan2(vy, -vx);
     double si = sin(ang), co = cos(ang);
@@ -319,18 +332,22 @@ void GriddedPlotter::drawWindArrowWithBarbs_static(
 //---------------------------------------------------------------
 void GriddedPlotter::drawPetiteBarbule(QPainter &pnt, bool south,
         double si, double co, int di, int dj, int b) {
-    if (south)
+    if (south) {
         drawTransformedLine(pnt, si, co, di, dj, b, 0, b + 2, -5);
-    else
+    }
+    else {
         drawTransformedLine(pnt, si, co, di, dj, b, 0, b + 2, 5);
+    }
 }
 //---------------------------------------------------------------
 void GriddedPlotter::drawGrandeBarbule(QPainter &pnt, bool south,
         double si, double co, int di, int dj, int b) {
-    if (south)
+    if (south) {
         drawTransformedLine(pnt, si, co, di, dj, b, 0, b + 4, -10);
-    else
+    }
+    else {
         drawTransformedLine(pnt, si, co, di, dj, b, 0, b + 4, 10);
+    }
 }
 //---------------------------------------------------------------
 void GriddedPlotter::drawTriangle(QPainter &pnt, bool south,
@@ -378,8 +395,9 @@ void GriddedPlotter::drawColorMapGeneric_1D(
         QRgb (DataColors::*function_getColor)(double v, bool smooth)) {
     //DBGQS (Util::formatDateTimeLong(currentDate));
     GriddedRecord *rec = getReader()->getRecord(dtc, currentDate);
-    if (rec == NULL || !rec->isOk())
+    if (rec == NULL || !rec->isOk()) {
         return;
+    }
     int i, j;
     double x, y, v;
     int W = proj->getW();
@@ -390,8 +408,9 @@ void GriddedPlotter::drawColorMapGeneric_1D(
     for (i = 0; i < W - 1; i += 2) {
         for (j = 0; j < H - 1; j += 2) {
             proj->screen2map(i, j, &x, &y);
-            if (!rec->isXInMap(x))
+            if (!rec->isXInMap(x)) {
                 x += 360.0; // tour complet ?
+            }
             if (rec->isPointInMap(x, y)) {
                 v = rec->getInterpolatedValue(dtc, x, y, mustInterpolateValues);
                 if (v != GRIB_NOTDEF) {
@@ -417,8 +436,9 @@ void GriddedPlotter::drawColorMapGeneric_2D(
     //DBGQS (Util::formatDateTimeLong(currentDate));
     GriddedRecord *recX = getReader()->getRecord(dtcX, currentDate);
     GriddedRecord *recY = getReader()->getRecord(dtcY, currentDate);
-    if (recX == NULL || !recX->isOk() || recY == NULL || !recY->isOk())
+    if (recX == NULL || !recX->isOk() || recY == NULL || !recY->isOk()) {
         return;
+    }
     int i, j;
     double x, y, vx, vy, v;
     int W = proj->getW();
@@ -430,8 +450,9 @@ void GriddedPlotter::drawColorMapGeneric_2D(
         for (j = 0; j < H - 1; j += 2) {
             proj->screen2map(i, j, &x, &y);
 
-            if (!recX->isXInMap(x))
+            if (!recX->isXInMap(x)) {
                 x += 360.0; // tour complet ?
+            }
             if (recX->isPointInMap(x, y)) {
                 vx = recX->getInterpolatedValue(dtcX, x, y, mustInterpolateValues);
                 vy = recY->getInterpolatedValue(dtcY, x, y, mustInterpolateValues);
@@ -459,8 +480,9 @@ void GriddedPlotter::drawColorMapGeneric_Abs_Delta_Data(
         QRgb (DataColors::*function_getColor)(double v, bool smooth)) {
     GriddedRecord *rec1 = getReader()->getRecord(dtc1, currentDate);
     GriddedRecord *rec2 = getReader()->getRecord(dtc2, currentDate);
-    if (rec1 == NULL || !rec1->isOk() || rec2 == NULL || !rec2->isOk())
+    if (rec1 == NULL || !rec1->isOk() || rec2 == NULL || !rec2->isOk()) {
         return;
+    }
     int i, j;
     double x, y, vx, vy, v;
     int W = proj->getW();
@@ -472,8 +494,9 @@ void GriddedPlotter::drawColorMapGeneric_Abs_Delta_Data(
         for (j = 0; j < H - 1; j += 2) {
             proj->screen2map(i, j, &x, &y);
 
-            if (!rec1->isXInMap(x))
+            if (!rec1->isXInMap(x)) {
                 x += 360.0; // tour complet ?
+            }
             if (rec1->isPointInMap(x, y)) {
                 vx = rec1->getInterpolatedValue(dtc1, x, y, mustInterpolateValues);
                 vy = rec2->getInterpolatedValue(dtc2, x, y, mustInterpolateValues);
@@ -518,14 +541,16 @@ void GriddedPlotter::draw_listIsolines_labels(
     }
     int nbpix, first;
     nbpix = proj->getW() * proj->getH();
-    if (nbpix == 0)
+    if (nbpix == 0) {
         return;
+    }
     if (density <= 0) {
         double r = (double)nbseg / nbpix * 1000;
         double dens = 10;
         density = (int)(r * dens + 0.5);
-        if (density < 20)
+        if (density < 20) {
             density = 20;
+        }
     }
     first = 0;
     for (it = listIsolines.begin(); it != listIsolines.end(); it++) {
@@ -545,8 +570,9 @@ void GriddedPlotter::complete_listIsolines(
         return;
     }
     GriddedRecord *rec = reader->getRecord(dtc, currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
     int deltaI, deltaJ;
     analyseVisibleGridDensity(proj, rec, 16, &deltaI, &deltaJ);
     //DBG("deltaI=%d deltaJ=%d", deltaI, deltaJ);
@@ -554,10 +580,12 @@ void GriddedPlotter::complete_listIsolines(
     for (double val = dataMin; val <= dataMax; val += dataStep) {
         iso = new IsoLine(dtc, val, rec, deltaI, deltaJ);
         if (iso != NULL) {
-            if (iso->getNbSegments() > 0)
+            if (iso->getNbSegments() > 0) {
                 listIsolines->push_back(iso);
-            else
+            }
+            else {
                 delete iso;
+            }
         }
     }
 }
@@ -580,10 +608,12 @@ void GriddedPlotter::analyseVisibleGridDensity(const Projection *proj, GriddedRe
     //DBG("densx=%g  densy=%g",  densx,densy);
     *deltaI = (int)(coef * densx); // proportional to the number of grid points per pixel
     *deltaJ = (int)(coef * densy);
-    if (*deltaI < 1)
+    if (*deltaI < 1) {
         *deltaI = 1;
-    if (*deltaJ < 1)
+    }
+    if (*deltaJ < 1) {
         *deltaJ = 1;
+    }
 }
 //======================================================================
 void GriddedPlotter::draw_DATA_Labels(
@@ -593,11 +623,13 @@ void GriddedPlotter::draw_DATA_Labels(
         QString(formatLabelFunction)(float v, bool withUnit),
         QPainter &pnt, const Projection *proj) {
     GriddedReader *reader = getReader();
-    if (reader == NULL)
+    if (reader == NULL) {
         return;
+    }
     GriddedRecord *rec = reader->getRecord(dtc, currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
     QFontMetrics fmet(labelsFont);
     pnt.setFont(labelsFont);
     pnt.setPen(labelsColor);
@@ -627,11 +659,13 @@ void GriddedPlotter::draw_DATA_MinMax(
         QColor labelsColor,
         QPainter &pnt, const Projection *proj) {
     GriddedReader *reader = getReader();
-    if (reader == NULL)
+    if (reader == NULL) {
         return;
+    }
     GriddedRecord *rec = reader->getRecord(dtc, currentDate);
-    if (rec == NULL)
+    if (rec == NULL) {
         return;
+    }
     QFontMetrics fmet(labelsFont);
     pnt.setFont(labelsFont);
     pnt.setPen(labelsColor);
@@ -684,8 +718,9 @@ void GriddedPlotter::draw_DATA_MinMax(
 //------------------------------------------------------------
 void GriddedPlotter::setCurrentDateClosestFromNow() {
     GriddedReader *reader = getReader();
-    if (reader == NULL || !reader->isOk())
+    if (reader == NULL || !reader->isOk()) {
         return;
+    }
     time_t date = reader->getClosestDateFromNow();
     if (date > 0) {
         setCurrentDate(date);
@@ -695,24 +730,30 @@ void GriddedPlotter::setCurrentDateClosestFromNow() {
 std::set<Altitude> GriddedPlotter::getAllAltitudes(int dataType) const {
     std::set<Altitude> empty;
     GriddedReader *reader = getReader();
-    if (reader == NULL || !reader->isOk())
+    if (reader == NULL || !reader->isOk()) {
         return empty;
-    else
+    }
+    else {
         return getReader()->getAllAltitudes(dataType);
+    }
 }
 //------------------------------------------------------------
 std::set<DataCode> GriddedPlotter::getAllDataCode() const {
     std::set<DataCode> empty;
     GriddedReader *reader = getReader();
-    if (reader == NULL || !reader->isOk())
+    if (reader == NULL || !reader->isOk()) {
         return empty;
-    else
+    }
+    else {
         return getReader()->getAllDataCode();
+    }
 }
 //------------------------------------------------------------
 bool GriddedPlotter::hasWaveDataType(int dataType) const {
-    if (!isReaderOk())
+    if (!isReaderOk()) {
         return false;
-    else
+    }
+    else {
         return getReader()->hasWaveDataType(dataType);
+    }
 }

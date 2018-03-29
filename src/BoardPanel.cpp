@@ -40,10 +40,12 @@ void BoardPanel::clearPosition() {
 void BoardPanel::showDataPointInfo(
         const DataPointInfo &pf, const Altitude &windAlt) {
     QString s;
-    if (pf.isOk())
+    if (pf.isOk()) {
         showPosition(pf.x, pf.y);
-    else
+    }
+    else {
         clearPosition();
+    }
     if (cellWind->isVisible()) {
         if (windAlt.levelType != LV_TYPE_NOT_DEFINED) {
             lbWindTitle.setText(tr("Wind") + "\n" + AltitudeStr::toStringShort(windAlt));
@@ -80,22 +82,28 @@ void BoardPanel::showDataPointInfo(
     }
     //------------------------------------------------------------
     if (cellPressure->isVisible()) {
-        if (pf.hasPressureMSL())
+        if (pf.hasPressureMSL()) {
             lbPres.setText(Util::formatPressure(pf.pressureMSL));
-        else
+        }
+        else {
             lbPres.setText("");
+        }
     }
     if (cellGust->isVisible()) {
-        if (pf.hasGUSTsfc())
+        if (pf.hasGUSTsfc()) {
             lbGUSTsfc.setText(Util::formatSpeed_Wind(pf.GUSTsfc));
-        else
+        }
+        else {
             lbGUSTsfc.setText("");
+        }
     }
     if (cellRain->isVisible()) {
-        if (pf.hasRain())
+        if (pf.hasRain()) {
             lbRain.setText(Util::formatRain(pf.rain));
-        else
+        }
+        else {
             lbRain.setText("");
+        }
     }
     if (cellTemp->isVisible()) {
         if (pf.tempAltitude.levelType != LV_TYPE_NOT_DEFINED) {
@@ -103,65 +111,87 @@ void BoardPanel::showDataPointInfo(
             lastDefinedTempAltitude = pf.tempAltitude;
         }
         else {
-            if (lastDefinedTempAltitude.levelType != LV_TYPE_NOT_DEFINED)
+            if (lastDefinedTempAltitude.levelType != LV_TYPE_NOT_DEFINED) {
                 lbTempTitle.setText(tr("Temperature") + " (" + AltitudeStr::toStringShort(lastDefinedTempAltitude) + ")");
-            else
+            }
+            else {
                 lbTempTitle.setText(tr("Temperature"));
+            }
         }
-        if (pf.hasTemp())
+        if (pf.hasTemp()) {
             lbTemp.setText(Util::formatTemperature(pf.temp));
-        else
+        }
+        else {
             lbTemp.setText("");
+        }
     }
     if (cellTempMinMax->isVisible()) {
-        if (pf.hasTempMin())
+        if (pf.hasTempMin()) {
             lbTempMin.setText(Util::formatTemperature(pf.tempMin));
-        else
+        }
+        else {
             lbTempMin.setText("");
-        if (pf.hasTempMax())
+        }
+        if (pf.hasTempMax()) {
             lbTempMax.setText(Util::formatTemperature(pf.tempMax));
-        else
+        }
+        else {
             lbTempMax.setText("");
+        }
     }
     if (cellClouds->isVisible()) {
-        if (pf.hasCloudTotal())
+        if (pf.hasCloudTotal()) {
             lbCloud.setText(Util::formatPercentValue(pf.cloudTotal));
-        else
+        }
+        else {
             lbCloud.setText("");
+        }
     }
     if (cellHumidRel->isVisible()) {
-        if (pf.hasHumidRel())
+        if (pf.hasHumidRel()) {
             lbHumid.setText(Util::formatPercentValue(pf.humidRel));
-        else
+        }
+        else {
             lbHumid.setText("");
+        }
     }
     if (cellDewPoint->isVisible()) {
-        if (pf.hasDewPoint())
+        if (pf.hasDewPoint()) {
             lbDewPoint.setText(Util::formatTemperature(pf.dewPoint));
-        else
+        }
+        else {
             lbDewPoint.setText("");
+        }
     }
     if (cellIsotherm0->isVisible()) {
-        if (pf.hasIsotherm0HGT())
+        if (pf.hasIsotherm0HGT()) {
             lbIsotherm0HGT.setText(Util::formatGeopotAltitude(pf.isotherm0HGT));
-        else
+        }
+        else {
             lbIsotherm0HGT.setText("");
+        }
     }
     if (cellSnowDepth->isVisible()) {
-        if (pf.hasSnowDepth())
+        if (pf.hasSnowDepth()) {
             lbSnowDepth.setText(Util::formatSnowDepth(pf.snowDepth));
-        else
+        }
+        else {
             lbSnowDepth.setText("");
+        }
     }
     if (cellCAPECIN->isVisible()) {
-        if (pf.hasCAPEsfc())
+        if (pf.hasCAPEsfc()) {
             lbCAPEsfc.setText(Util::formatCAPEsfc(pf.CAPEsfc, false));
-        else
+        }
+        else {
             lbCAPEsfc.setText("");
-        if (pf.hasCINsfc())
+        }
+        if (pf.hasCINsfc()) {
             lbCINsfc.setText(Util::formatCAPEsfc(pf.CINsfc, false));
-        else
+        }
+        else {
             lbCINsfc.setText("");
+        }
     }
     //------------------------------------------------
     // Data in altitude
@@ -177,29 +207,33 @@ void BoardPanel::showDataPointInfo(
                     sgeopot = QString("%1")
                                       .arg(Util::formatGeopotAltitude(pf.hGeopot[i], true), 9);
                 }
-                else
+                else {
                     sgeopot = QString("%1").arg(" ", 9);
+                }
 
                 if (pf.hTemp[i] != GRIB_NOTDEF) {
                     stemp = QString("%1")
                                     .arg(Util::formatTemperature(pf.hTemp[i], true), 7);
                 }
-                else
+                else {
                     stemp = QString("%1").arg(" ", 7);
+                }
 
                 if (pf.hHumidRel[i] != GRIB_NOTDEF) {
                     shumidrel = QString("%1%")
                                         .arg(Util::formatPercentValue(pf.hHumidRel[i], false), 3);
                 }
-                else
+                else {
                     shumidrel = QString("%1").arg(" ", 4);
+                }
 
                 if (pf.hThetae[i] != GRIB_NOTDEF) {
                     sthetae = QString("%1")
                                       .arg(Util::formatTemperature(pf.hThetae[i], true), 7);
                 }
-                else
+                else {
                     sthetae = QString("%1").arg(" ", 7);
+                }
 
                 sv[i] = QString("%1 %2 %3 %4 %5")
                                 .arg(shpa)
@@ -252,8 +286,9 @@ void BoardPanel::showDataPointInfo(
         if (pf.wave_wcap_prbl != GRIB_NOTDEF) {
             s = tr("whitecap (prob)", "Tr: SHORT TAG") + QString(": %1").arg(Util::formatWhiteCap(pf.wave_wcap_prbl, true));
         }
-        else
+        else {
             s = tr("whitecap (prob)", "Tr: SHORT TAG") + ": ";
+        }
         lbWaves_wcap.setText(s);
     }
 }
@@ -262,20 +297,26 @@ QString BoardPanel::formatWave(QString title, float ht, float dir, float per) {
     QString r = title;
 
     QString s;
-    if (ht != GRIB_NOTDEF)
+    if (ht != GRIB_NOTDEF) {
         s.sprintf(" %5.2fm", ht);
-    else
+    }
+    else {
         s.sprintf("       ");
+    }
     r += s;
-    if (dir != GRIB_NOTDEF)
+    if (dir != GRIB_NOTDEF) {
         s.sprintf(" %+4.0f°", dir);
-    else
+    }
+    else {
         s.sprintf("      ");
+    }
     r += s;
-    if (per != GRIB_NOTDEF)
+    if (per != GRIB_NOTDEF) {
         s.sprintf(" %3.0fs", per);
-    else
+    }
+    else {
         s.sprintf("     ");
+    }
     r += s;
 
     return r;

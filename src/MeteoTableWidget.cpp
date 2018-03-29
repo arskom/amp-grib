@@ -106,8 +106,9 @@ void MeteoTableWidget::addCell_SunMoonAlmanac(time_t t, double lat, double lon,
 //-------------------------------------------------------------------------------
 void MeteoTableWidget::createTable() {
     reader = plotter->getReader();
-    if (!reader)
+    if (!reader) {
         return;
+    }
 
     std::set<time_t> sdates = reader->getListDates();
     std::set<time_t>::iterator iter;
@@ -325,8 +326,9 @@ void MeteoTableWidget::addLine_WaveWhitecap(int type, int lig) {
             txt = Util::formatPercentValue(v);
             bgColor = QColor(plotter->getWhiteCapColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -377,8 +379,9 @@ void MeteoTableWidget::addLine_WaveHeight(int type, int lig) {
             txt = Util::formatWaveHeight(v);
             bgColor = QColor(plotter->getWaveHeightColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -447,8 +450,9 @@ void MeteoTableWidget::addLine_Isotherm0Height(int lig) {
             txt = Util::formatGeopotAltitude(pinfo->isotherm0HGT);
             bgColor = QColor(plotter->getAltitudeColor(pinfo->isotherm0HGT, Altitude(LV_ISOTHERM0, 0), true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -469,8 +473,9 @@ void MeteoTableWidget::addLine_GeopotentialAltitude(const Altitude &alt, int lig
             txt = Util::formatGeopotAltitude(v);
             bgColor = QColor(plotter->getAltitudeColor(v, alt, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -490,8 +495,9 @@ void MeteoTableWidget::addLine_Pressure(const Altitude &alt, int lig) {
             txt = Util::formatPressure(pinfo->pressureMSL);
             bgColor = QColor(plotter->getPressureColor(pinfo->pressureMSL, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -574,8 +580,9 @@ void MeteoTableWidget::addLine_GUSTsfc(int lig) {
             txt = Util::formatSpeed_Wind(v);
             bgColor = QColor(plotter->getWindColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -599,8 +606,9 @@ void MeteoTableWidget::addLine_HumidRel(const Altitude &alt, int lig) {
             txt = Util::formatPercentValue(v);
             bgColor = QColor(plotter->getHumidColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -640,15 +648,17 @@ void MeteoTableWidget::addLine_Temperature(const Altitude &alt, uchar type, int 
             double T = reader->getDateInterpolatedValue(DataCode(GRB_TEMP, alt), lon, lat, date);
             v = Therm::thetaEfromHR(T, P, RH);
         }
-        else
+        else {
             v = reader->getDateInterpolatedValue(DataCode(type, alt), lon, lat, date);
+        }
         txt = "";
         if (v != GRIB_NOTDEF) {
             txt = Util::formatTemperature(v);
             bgColor = QColor(plotter->getTemperatureColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -680,8 +690,9 @@ void MeteoTableWidget::addLine_DeltaTemperature(const Altitude &alt, uchar type,
             txt = Util::formatTemperature(v + 273.15);
             bgColor = QColor(plotter->getDeltaTemperaturesColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -702,8 +713,9 @@ void MeteoTableWidget::addLine_DewPoint(const Altitude &alt, int lig) {
             txt = Util::formatTemperature(v);
             bgColor = QColor(plotter->getTemperatureColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -724,8 +736,9 @@ void MeteoTableWidget::addLine_CAPEsfc(int lig) {
             txt += tr("J/kg");
             bgColor = QColor(plotter->getCAPEColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -746,8 +759,9 @@ void MeteoTableWidget::addLine_CINsfc(int lig) {
             txt += tr("J/kg");
             bgColor = QColor(plotter->getCINColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -768,8 +782,9 @@ void MeteoTableWidget::addLine_Rain(int lig) {
             txt += tr("mm/h");
             bgColor = QColor(plotter->getRainColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -790,8 +805,9 @@ void MeteoTableWidget::addLine_CloudCover(int lig) {
             txt = Util::formatPercentValue(v);
             bgColor = QColor(plotter->getCloudColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor, MTABLE_CLOUD_CELL, v);
     }
 }
@@ -825,8 +841,9 @@ void MeteoTableWidget::addLine_Categorical(uchar type, int lig) {
             txt = Util::formatCategoricalData(v);
             bgColor = QColor(plotter->getSnowDepthColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -848,8 +865,9 @@ void MeteoTableWidget::addLine_SnowDepth(int lig) {
             txt = Util::formatSnowDepth(v);
             bgColor = QColor(plotter->getSnowDepthColor(v, true));
         }
-        else
+        else {
             bgColor = Qt::white;
+        }
         addCell_content(txt, layout, lig, col, 1, 1, bgColor);
     }
 }
@@ -953,14 +971,18 @@ void TableCell::setContrastedTextColor(QColor bgcolor) {
 }
 //---------------------------------------------------------
 void TableCell::setBorders(int lig, int col) {
-    if (lig == 0 && col == 0)
+    if (lig == 0 && col == 0) {
         this->setBorders(TableCell::all);
-    else if (lig == 0)
+    }
+    else if (lig == 0) {
         this->setBorders(TableCell::south + TableCell::east + TableCell::north);
-    else if (col == 0)
+    }
+    else if (col == 0) {
         this->setBorders(TableCell::west + TableCell::south + TableCell::east);
-    else
+    }
+    else {
         this->setBorders(TableCell::south + TableCell::east);
+    }
 }
 //---------------------------------------------------------
 void TableCell::paintEvent(QPaintEvent * /*event*/) {
@@ -972,15 +994,19 @@ void TableCell::paintEvent(QPaintEvent * /*event*/) {
     pen.setWidth(1);
     pnt.setPen(pen);
 
-    if (borders & TableCell::north)
+    if (borders & TableCell::north) {
         pnt.drawLine(0, 0, width() - 1, 0);
-    if (borders & TableCell::south)
+    }
+    if (borders & TableCell::south) {
         pnt.drawLine(0, height() - 1, width() - 1, height() - 1);
+    }
 
-    if (borders & TableCell::west)
+    if (borders & TableCell::west) {
         pnt.drawLine(0, 0, 0, height() - 1);
-    if (borders & TableCell::east)
+    }
+    if (borders & TableCell::east) {
         pnt.drawLine(width() - 1, 0, width() - 1, height() - 1);
+    }
 }
 
 //===================================================================
@@ -999,8 +1025,9 @@ TableCell_Wind::TableCell_Wind(double vx, double vy, bool south,
     windArrowsColor = QColor(40, 40, 40);
     showWindArrows = Util::getSetting("MTABLE_showWindArrows", true).toBool();
 
-    if (showWindArrows && vx != GRIB_NOTDEF && vy != GRIB_NOTDEF)
+    if (showWindArrows && vx != GRIB_NOTDEF && vy != GRIB_NOTDEF) {
         setMinimumHeight(label->minimumSizeHint().height() + 50);
+    }
 }
 //---------------------------------------------------------
 void TableCell_Wind::paintEvent(QPaintEvent *e) {
@@ -1030,8 +1057,9 @@ TableCell_Current::TableCell_Current(double cx, double cy, bool south,
     currentArrowsColor = QColor(40, 40, 40);
     showCurrentArrows = Util::getSetting("MTABLE_showCurrentArrows", true).toBool();
 
-    if (showCurrentArrows && cx != GRIB_NOTDEF && cy != GRIB_NOTDEF)
+    if (showCurrentArrows && cx != GRIB_NOTDEF && cy != GRIB_NOTDEF) {
         setMinimumHeight(label->minimumSizeHint().height() + 50);
+    }
 }
 //---------------------------------------------------------
 void TableCell_Current::paintEvent(QPaintEvent *e) {

@@ -44,10 +44,12 @@ void ZeroOneActionGroup::setCheckedAction(QAction *act, bool val, bool emitSigna
         }
     }
     if (emitSignal) {
-        if (val)
+        if (val) {
             emit triggered(act);
-        else
+        }
+        else {
             emit triggered(NULL);
+        }
     }
 }
 
@@ -93,8 +95,9 @@ MenuBar::MenuBar(QWidget *parent, bool withmblue)
     acMBlueSwiss_ShowArea = addActionCheck(menutmp,
             tr("Show area : Swiss"), "",
             tr("Show Meteoblue area (Swiss)"));
-    if (withmblue)
+    if (withmblue) {
         menuFile->addMenu(menutmp);
+    }
 
     menuFile->addSeparator();
     acFile_Info_GRIB = addAction(menuFile,
@@ -511,8 +514,9 @@ QAction *MenuBar::addAction(QMenu *menu,
         action->setIcon(QIcon(iconFileName));
         action->setIconVisibleInMenu(true);
     }
-    if (menu != NULL)
+    if (menu != NULL) {
         menu->addAction(action);
+    }
     return action;
 }
 //-------------------------------------------------
@@ -726,10 +730,12 @@ void MenuBar::updateListeDates(std::set<time_t> *setDates, time_t currentDate) {
 }
 //------------------------------------------------------------
 time_t MenuBar::getDateGribById(int id) {
-    if (listGribDates.size() > (uint)id)
+    if (listGribDates.size() > (uint)id) {
         return listGribDates[id];
-    else
+    }
+    else {
         return (time_t)0;
+    }
 }
 //------------------------------------------------------------
 void MenuBar::updateCurrentDate(time_t currentDate) {

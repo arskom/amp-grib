@@ -159,17 +159,21 @@ void DialogMeteotableOptions::slotChangeVisibleItems() {
 //-----------------------------------------------------------------
 int DialogMeteotableOptions::nbOptionItems(bool visibility) {
     int nb = 0;
-    for (int i = 0; i < listAllOptionItems.size(); ++i)
-        if (listAllOptionItems.at(i)->visible == visibility)
+    for (int i = 0; i < listAllOptionItems.size(); ++i) {
+        if (listAllOptionItems.at(i)->visible == visibility) {
             nb++;
+        }
+    }
     return nb;
 }
 //-----------------------------------------------------------------
 MeteotableOptionItem *DialogMeteotableOptions::getOptionItemByCode(int interncode) {
     MeteotableOptionItem *p = 0;
-    for (int i = 0; !p && i < listAllOptionItems.size(); ++i)
-        if (listAllOptionItems.at(i)->interncode == interncode)
+    for (int i = 0; !p && i < listAllOptionItems.size(); ++i) {
+        if (listAllOptionItems.at(i)->interncode == interncode) {
             p = listAllOptionItems.at(i);
+        }
+    }
     return p;
 }
 
@@ -197,10 +201,12 @@ void DialogMeteotableOptions::updateListWidgetsItems() {
 
     for (int i = 0; i < listAllOptionItems.size(); ++i) {
         MeteotableOptionItem *item = listAllOptionItems.at(i);
-        if (item->visible)
+        if (item->visible) {
             listVisibleItems.append(item);
-        else
+        }
+        else {
             listHiddenItems.append(item);
+        }
     }
 
     // sort visible data by position

@@ -155,8 +155,9 @@ MeteoTableDialog::MeteoTableDialog(
     QString srefdates;
     for (it = allDcm.begin(); it != allDcm.end(); it++) {
         DataCenterModel dcm = *it;
-        if (srefdates != "")
+        if (srefdates != "") {
             srefdates += "\n";
+        }
         srefdates += tr("Reference date: ")
                 + DataCodeStr::toString(dcm)
                 + ": "
@@ -200,8 +201,9 @@ MeteoTableDialog::MeteoTableDialog(
 //-----------------------------------------
 MeteoTableDialog::~MeteoTableDialog() {
     Util::setSetting("meteoTableDialogSize", size());
-    if (optionsDialog)
+    if (optionsDialog) {
         delete optionsDialog;
+    }
 }
 
 //-----------------------------------------
@@ -225,16 +227,19 @@ void MeteoTableDialog::slotOptionsChanged() {
 //-----------------------------------------
 void MeteoTableDialog::slotBtExport() {
     QString path = Util::getSetting("slkFilePath", "").toString();
-    if (path == "")
+    if (path == "") {
         path = "./";
-    else
+    }
+    else {
         path += "/";
+    }
     QString fileName;
     fileName = Util::getSaveFileName(this,
             tr("Save SYLK file"), path, "*.slk");
     if (fileName != "") {
-        if (!fileName.endsWith(".slk", Qt::CaseInsensitive))
+        if (!fileName.endsWith(".slk", Qt::CaseInsensitive)) {
             fileName += ".slk";
+        }
         SylkFile slk(fileName, "zyGrib");
         if (slk.isOk()) {
             Util::setSetting("slkFilePath", slk.getFileInfo().absolutePath());

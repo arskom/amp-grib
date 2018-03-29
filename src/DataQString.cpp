@@ -109,16 +109,20 @@ QString AltitudeStr::toStringShort(const Altitude &alt) {
         res = tr("MSL");
         break;
     case LV_ABOV_MSL:
-        if (alt.levelValue == 0)
+        if (alt.levelValue == 0) {
             res = tr("MSL");
-        else
+        }
+        else {
             res = tr("%1 m ab.MSL").arg(alt.levelValue);
+        }
         break;
     case LV_ABOV_GND:
-        if (alt.levelValue == 0)
+        if (alt.levelValue == 0) {
             res = tr("sfc");
-        else
+        }
+        else {
             res = tr("%1 m").arg(alt.levelValue);
+        }
         break;
     case LV_SIGMA:
         res = tr("sigma%1").arg((int)(alt.levelValue / 10));
@@ -279,19 +283,23 @@ QString DataCodeStr::toString_level(const DataCode &dtc) {
 QString DataCodeStr::toString(const DataCode &dtc) {
     QString name = toString_name(dtc);
     QString level = toString_level(dtc);
-    if (level != "")
+    if (level != "") {
         return name + " (" + level + ")";
-    else
+    }
+    else {
         return name;
+    }
 }
 //-------------------------------------------------
 QString DataCodeStr::toString_levelShort(const DataCode &dtc) {
     QString name = toString_name(dtc);
     QString level = AltitudeStr::toStringShort(dtc.getAltitude());
-    if (level != "")
+    if (level != "") {
         return name + " (" + level + ")";
-    else
+    }
+    else {
         return name;
+    }
 }
 
 //-------------------------------------------------
@@ -305,11 +313,13 @@ Altitude AltitudeStr::unserialize(const QString &stringCode) {
     if (list.size() == 2) {
         bool ok;
         alt.levelType = list.at(0).toInt(&ok);
-        if (!ok)
+        if (!ok) {
             alt.levelType = LV_TYPE_NOT_DEFINED;
+        }
         alt.levelValue = list.at(1).toInt(&ok);
-        if (!ok)
+        if (!ok) {
             alt.levelType = LV_TYPE_NOT_DEFINED;
+        }
     }
     else {
         alt.levelType = LV_TYPE_NOT_DEFINED;
@@ -328,14 +338,17 @@ DataCode DataCodeStr::unserialize(const QString &stringCode) {
     if (list.size() == 3) {
         bool ok;
         dtc.dataType = list.at(0).toInt(&ok);
-        if (!ok)
+        if (!ok) {
             dtc.dataType = GRB_TYPE_NOT_DEFINED;
+        }
         dtc.levelType = list.at(1).toInt(&ok);
-        if (!ok)
+        if (!ok) {
             dtc.dataType = GRB_TYPE_NOT_DEFINED;
+        }
         dtc.levelValue = list.at(2).toInt(&ok);
-        if (!ok)
+        if (!ok) {
             dtc.dataType = GRB_TYPE_NOT_DEFINED;
+        }
     }
     else {
         dtc.dataType = GRB_TYPE_NOT_DEFINED;

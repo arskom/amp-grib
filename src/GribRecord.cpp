@@ -34,20 +34,23 @@ void GribRecord::translateDataType() {
     {
         dataCenterModel = NOAA_GFS;
         if (dataType == GRB_PRECIP_TOT) { // mm/period -> mm/h
-            if (periodP2 > periodP1)
+            if (periodP2 > periodP1) {
                 multiplyAllData(1.0 / (periodP2 - periodP1));
+            }
         }
         if (dataType == GRB_PRECIP_RATE) { // mm/s -> mm/h
-            if (periodP2 > periodP1)
+            if (periodP2 > periodP1) {
                 multiplyAllData(3600.0);
+            }
         }
         // NOAA GFS product table differs from NCEP WW3 product table
         // data: http://nomads.ncdc.noaa.gov/data/gfsanl/
         if ((idCenter == 7 && idModel == 81 && idGrid == 3)) {
             if (dataType == GRB_WAV_MAX_DIR
                     || dataType == GRB_WAV_MAX_PER
-                    || dataType == GRB_WAV_MAX_HT)
+                    || dataType == GRB_WAV_MAX_HT) {
                 dataType = GRB_TYPE_NOT_DEFINED;
+            }
         }
         // altitude level (entire atmosphere vs entire atmosphere considered as 1 level)
         if (levelType == LV_ATMOS_ENT) {
@@ -110,12 +113,14 @@ void GribRecord::translateDataType() {
     //------------------------
     else if (idCenter == 7 && idModel == 89 && idGrid == 255) {
         if (dataType == GRB_PRECIP_TOT) { // mm/period -> mm/h
-            if (periodP2 > periodP1)
+            if (periodP2 > periodP1) {
                 multiplyAllData(1.0 / (periodP2 - periodP1));
+            }
         }
         if (dataType == GRB_PRECIP_RATE) { // mm/s -> mm/h
-            if (periodP2 > periodP1)
+            if (periodP2 > periodP1) {
                 multiplyAllData(3600.0);
+            }
         }
     }
     //----------------------------------------------
@@ -385,22 +390,25 @@ GribRecord::GribRecord(const GribRecord &rec)
         int size = rec.Ni * rec.Nj;
         this->data = new double[size];
         assert(this->data);
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             this->data[i] = rec.data[i];
+        }
     }
     if (rec.BMSbits != NULL) {
         int size = rec.sectionSize3 - 6;
         this->BMSbits = new zuchar[size];
         assert(this->BMSbits);
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             this->BMSbits[i] = rec.BMSbits[i];
+        }
     }
     if (rec.boolBMStab != NULL) {
         int size = rec.Ni * rec.Nj;
         this->boolBMStab = new bool[size];
         assert(this->boolBMStab);
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             this->boolBMStab[i] = rec.boolBMStab[i];
+        }
     }
     checkOrientation();
 }
@@ -427,10 +435,12 @@ void GribRecord::checkOrientation() {
         return;
     }
     if (xmin == xmax) {
-        if (Di >= 0)
+        if (Di >= 0) {
             xmin = xmin - 360.0;
-        else
+        }
+        else {
             xmin = xmin + 360.0;
+        }
         Di = 360.0 / Ni;
     }
     double v;
@@ -612,8 +622,9 @@ bool GribRecord::readGribSection1_PDS(ZUFILE *file) {
 
     int decim;
     decim = (int)(((((zuint)data1[26] & 0x7F) << 8) + (zuint)data1[27]) & 0x7FFF);
-    if (data1[26] & 0x80)
+    if (data1[26] & 0x80) {
         decim *= -1;
+    }
     decimalFactorD = pow(10.0, decim);
 
     // Controls
@@ -631,8 +642,9 @@ bool GribRecord::readGribSection1_PDS(ZUFILE *file) {
 // SECTION 2: THE GRID DESCRIPTION SECTION (GDS)
 //----------------------------------------------
 bool GribRecord::readGribSection2_GDS(ZUFILE *file) {
-    if (!hasGDS)
+    if (!hasGDS) {
         return 0;
+    }
     fileOffset2 = zu_tell(file);
     sectionSize2 = readInt3(file); // byte 1-2-3
     NV = readChar(file); // byte 4
@@ -772,8 +784,9 @@ bool GribRecord::readGribSection4_BDS(ZUFILE *file) {
     zuchar *buf = new zuchar[datasize + 4]; // +4 pour simplifier les décalages ds readPackedBits
 
     // to make valgrind happy
-    for (int i = datasize; i < datasize + 4; i++)
+    for (int i = datasize; i < datasize + 4; i++) {
         buf[i] = 0;
+    }
 
     if (!buf) {
         erreur("Record %d: out of memory", id);
@@ -877,10 +890,12 @@ double GribRecord::readFloat4(ZUFILE *file) {
     int B = ((zuint)t[1] << 16) + ((zuint)t[2] << 8) + (zuint)t[3];
 
     val = pow(2, -24) * B * pow(16, A - 64);
-    if (t[0] & 0x80)
+    if (t[0] & 0x80) {
         return -val;
-    else
+    }
+    else {
         return val;
+    }
 }
 //----------------------------------------------
 zuchar GribRecord::readChar(ZUFILE *file) {
@@ -901,10 +916,12 @@ int GribRecord::readSignedInt3(ZUFILE *file) {
         return 0;
     }
     int val = (((zuint)t[0] & 0x7F) << 16) + ((zuint)t[1] << 8) + (zuint)t[2];
-    if (t[0] & 0x80)
+    if (t[0] & 0x80) {
         return -val;
-    else
+    }
+    else {
         return val;
+    }
 }
 //----------------------------------------------
 int GribRecord::readSignedInt2(ZUFILE *file) {
@@ -915,10 +932,12 @@ int GribRecord::readSignedInt2(ZUFILE *file) {
         return 0;
     }
     int val = (((zuint)t[0] & 0x7F) << 8) + (zuint)t[1];
-    if (t[0] & 0x80)
+    if (t[0] & 0x80) {
         return -val;
-    else
+    }
+    else {
         return val;
+    }
 }
 //----------------------------------------------
 zuint GribRecord::readInt3(ZUFILE *file) {
@@ -1063,8 +1082,9 @@ double GribRecord::getInterpolatedValue(double px, double py, bool interpolate) 
             i1 = i0 + 1;
         }
         else {
-            while (px < 0)
+            while (px < 0) {
                 px += 360;
+            }
             if (px <= xmax) {
                 pi = (px - xmin) / Di;
                 i0 = (int)floor(pi); // point 00
@@ -1092,22 +1112,28 @@ double GribRecord::getInterpolatedValue(double px, double py, bool interpolate) 
     int ii = (ddx < eps) ? i0 : ((1 - ddx) < eps) ? i1 : -1;
     int jj = (ddy < eps) ? j0 : ((1 - ddy) < eps) ? j1 : -1;
     if (ii >= 0 && jj >= 0) {
-        if (hasValue(ii, jj))
+        if (hasValue(ii, jj)) {
             return getValue(ii, jj);
-        else
+        }
+        else {
             return GRIB_NOTDEF;
+        }
     }
 
     bool h00, h01, h10, h11;
     int nbval = 0; // how many values in grid ?
-    if ((h00 = hasValue(i0, j0)))
+    if ((h00 = hasValue(i0, j0))) {
         nbval++;
-    if ((h10 = hasValue(i1, j0)))
+    }
+    if ((h10 = hasValue(i1, j0))) {
         nbval++;
-    if ((h01 = hasValue(i0, j1)))
+    }
+    if ((h01 = hasValue(i0, j1))) {
         nbval++;
-    if ((h11 = hasValue(i1, j1)))
+    }
+    if ((h11 = hasValue(i1, j1))) {
         nbval++;
+    }
 
     if (nbval < 3) {
         return GRIB_NOTDEF;
@@ -1119,16 +1145,20 @@ double GribRecord::getInterpolatedValue(double px, double py, bool interpolate) 
 
     if (!interpolate) {
         if (dx < 0.5) {
-            if (dy < 0.5)
+            if (dy < 0.5) {
                 val = getValue(i0, j0);
-            else
+            }
+            else {
                 val = getValue(i0, j1);
+            }
         }
         else {
-            if (dy < 0.5)
+            if (dy < 0.5) {
                 val = getValue(i1, j0);
-            else
+            }
+            else {
                 val = getValue(i1, j1);
+            }
         }
         return val;
     }
@@ -1206,18 +1236,22 @@ double GribRecord::getInterpolatedValue(double px, double py, bool interpolate) 
 }
 //--------------------------------------------------------------------------
 double GribRecord::getValueOnRegularGrid(DataCode dtc, int i, int j) const {
-    if (getDataCode() != dtc)
+    if (getDataCode() != dtc) {
         return GRIB_NOTDEF;
-    else
+    }
+    else {
         return getValue(i, j);
+    }
 }
 //--------------------------------------------------------------------------
 double GribRecord::getInterpolatedValue(
         DataCode dtc,
         double px, double py,
         bool interpolate) const {
-    if (getDataCode() != dtc)
+    if (getDataCode() != dtc) {
         return GRIB_NOTDEF;
-    else
+    }
+    else {
         return getInterpolatedValueUsingRegularGrid(dtc, px, py, interpolate);
+    }
 }
