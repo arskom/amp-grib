@@ -79,7 +79,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="ColorEditorWidget" name="inputBgColor">
+         <widget class="ColorEditorWidget" name="inputBgColor" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -111,7 +111,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="ColorEditorWidget" name="inputSeaColor">
+         <widget class="ColorEditorWidget" name="inputSeaColor" native="true">
           <property name="toolTip">
            <string/>
           </property>
@@ -137,7 +137,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="ColorEditorWidget" name="inputLandColor">
+         <widget class="ColorEditorWidget" name="inputLandColor" native="true">
           <property name="toolTip">
            <string/>
           </property>
@@ -163,7 +163,7 @@
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="LineEditorWidget" name="inputSeaBordersLine">
+         <widget class="LineEditorWidget" name="inputSeaBordersLine" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -195,7 +195,7 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="LineEditorWidget" name="inputBoundariesLine">
+         <widget class="LineEditorWidget" name="inputBoundariesLine" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -227,7 +227,7 @@
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="LineEditorWidget" name="inputRiversLine">
+         <widget class="LineEditorWidget" name="inputRiversLine" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -259,7 +259,7 @@
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="LineEditorWidget" name="inputIsobarsLine">
+         <widget class="LineEditorWidget" name="inputIsobarsLine" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -291,7 +291,7 @@
          </widget>
         </item>
         <item row="7" column="1">
-         <widget class="LineEditorWidget" name="inputIsotherms0Line">
+         <widget class="LineEditorWidget" name="inputIsotherms0Line" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
@@ -307,7 +307,7 @@
          </widget>
         </item>
         <item row="8" column="1">
-         <widget class="LineEditorWidget" name="inputIsotherms_Line">
+         <widget class="LineEditorWidget" name="inputIsotherms_Line" native="true">
           <property name="toolTip">
            <string/>
           </property>
@@ -382,7 +382,7 @@
          </widget>
         </item>
         <item row="9" column="1">
-         <widget class="LineEditorWidget" name="inputThetaE_Line">
+         <widget class="LineEditorWidget" name="inputThetaE_Line" native="true">
           <property name="toolTip">
            <string/>
           </property>
@@ -405,7 +405,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>2</height>
+       <height>40</height>
       </size>
      </property>
     </spacer>
@@ -478,9 +478,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>frame_5</zorder>
-  <zorder>frame</zorder>
-  <zorder>verticalSpacer</zorder>
  </widget>
  <customwidgets>
   <customwidget>
