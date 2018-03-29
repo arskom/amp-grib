@@ -1,5 +1,4 @@
-CONFIG += qt release c++11
-# CONFIG += qt debug c++11
+CONFIG += qt c++11
 
 QT += widgets xml
 QT += printsupport
@@ -8,7 +7,7 @@ TEMPLATE = app
 TARGET   = zyGrib
 
 DEPENDPATH  += . util map GUI
-INCLUDEPATH += . util map GUI curvedrawer qwt-6.1.3/src g2clib
+INCLUDEPATH += . util map GUI curvedrawer g2clib
 
 # ----------------------------------------------------
 # platform specific
@@ -35,17 +34,14 @@ else {
 }
 }
 
-LIBS += -lbz2 -lz -lproj -lnova -Lqwt-6.1.3/lib/ -lqwt
-LIBS +=  -Lg2clib -lg2c -lpng -ljasper  # respect order!
+LIBS += -lbz2 -lz -lproj -lnova -lqwt6-qt5
+
+#DEFINES += USE_JPEG2000
+DEFINES += USE_PNG
+include(g2clib/g2clib.pri)
 
 # ----------------------------------------------------
 CFLAGS += -std=c99 
-
-QMAKE_CXXFLAGS_RELEASE -= -O2
-QMAKE_CXXFLAGS_RELEASE += -O3
-	
-QMAKE_LFLAGS_RELEASE -= -O1
-QMAKE_LFLAGS_RELEASE += -O3
 
 OBJECTS_DIR = objs
 MOC_DIR = objs
@@ -67,7 +63,6 @@ TRANSLATIONS =  ../data/tr/zyGrib_fr.ts \
 				../data/tr/zyGrib_gr.ts \
 				../data/tr/zyGrib_es.ts
 
-!win32 {
 	# conditional, because uic dont work in my cross compilator environment.
 	# ui_*.h files are made under linux before windows compilation.
 	
@@ -79,7 +74,6 @@ TRANSLATIONS =  ../data/tr/zyGrib_fr.ts \
 			 GUI/GraphicsParamsDialog.ui \
 			 GUI/MeteotableOptionsDialog.ui \
 		 	 GUI/AngleConverterWidget.ui 
-}
 
 HEADERS += \
 			GUI/PositionEditorWidget.h \

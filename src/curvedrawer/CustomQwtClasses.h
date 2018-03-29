@@ -10,12 +10,12 @@
 #ifndef CUSTOMQWTCLASSES_H
 #define CUSTOMQWTCLASSES_H
 
-#include <qwt_scale_draw.h>
-#include <qwt_plot_picker.h>
-#include <qwt_picker_machine.h>
-#include <qwt_plot_curve.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_point_data.h>
+#include <qwt6/qwt_scale_draw.h>
+#include <qwt6/qwt_plot_picker.h>
+#include <qwt6/qwt_picker_machine.h>
+#include <qwt6/qwt_plot_curve.h>
+#include <qwt6/qwt_plot_canvas.h>
+#include <qwt6/qwt_point_data.h>
 
 #include <QPainter>
 #include <QVector>
