@@ -20,6 +20,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "GisReader.h"
 
+
+GisPoint::GisPoint(float x_, float y_) {
+    x = x_;
+    y = y_;
+}
+
+GisPoint::~GisPoint() {
+
+}
+
+GisCountry::GisCountry(QString code_, QString name_, float lon, float lat)
+    : GisPoint(lon, lat), code(code_), name(name_) {
+
+}
+
+GisCountry::~GisCountry() {
+
+}
+
+void GisCountry::draw(QPainter *pnt, Projection *proj) {
+    int x0, y0;
+    if (proj->isPointVisible(x, y)) {
+        proj->map2screen(x, y, &x0, &y0);
+        pnt->drawText(QRect(x0, y0, 1, 1), Qt::AlignCenter | Qt::TextDontClip, name);
+    }
+}
+
 GisCity::GisCity(QString country, QString name, int pop, float lon, float lat)
         : GisPoint(lon, lat) {
     this->country = country;
@@ -46,6 +73,12 @@ GisCity::GisCity(QString country, QString name, int pop, float lon, float lat)
         level = 5;
         fontCode = FONT_MapCity_5;
     }
+}
+
+GisCity::~GisCity() {}
+
+QString GisCity::toText() {
+    return (country + " " + name + " %1 %2 %3").arg(level).arg(y).arg(x);
 }
 
 // GisReader
@@ -149,14 +182,6 @@ void GisReader::clearLists() {
         delete *it2;
     }
     lsCities.clear();
-}
-
-void GisCountry::draw(QPainter *pnt, Projection *proj) {
-    int x0, y0;
-    if (proj->isPointVisible(x, y)) {
-        proj->map2screen(x, y, &x0, &y0);
-        pnt->drawText(QRect(x0, y0, 1, 1), Qt::AlignCenter | Qt::TextDontClip, name);
-    }
 }
 
 void GisReader::drawCountriesNames(QPainter &pnt, Projection *proj) {

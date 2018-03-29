@@ -34,12 +34,10 @@ class GisPoint {
 public:
     float x, y; // longitude, latitude
 
-    GisPoint(float x_, float y_) {
-        x = x_;
-        y = y_;
-    }
-    virtual ~GisPoint() {}
+    GisPoint(float x_, float y_);
+    virtual ~GisPoint();
 
+    //virtual void draw(QPainter *pnt, Projection *proj);
 };
 
 class GisCountry : public GisPoint {
@@ -47,12 +45,8 @@ public:
     QString code;
     QString name;
 
-    GisCountry(QString code_, QString name_, float lon, float lat)
-            : GisPoint(lon, lat) {
-        code = code_;
-        name = name_;
-    }
-    virtual ~GisCountry() {}
+    GisCountry(QString code_, QString name_, float lon, float lat);
+    virtual ~GisCountry();
 
     virtual void draw(QPainter *pnt, Projection *proj);
 };
@@ -66,11 +60,9 @@ public:
     int fontCode;
 
     GisCity(QString country, QString name, int pop, float lon, float lat);
-    ~GisCity() {}
+    virtual ~GisCity();
 
-    QString toText() {
-        return (country + " " + name + " %1 %2 %3").arg(level).arg(y).arg(x);
-    }
+    QString toText();
 
     void draw(QPainter *pnt, Projection *proj, int level);
     void getRectName(QPainter *pnt, Projection *proj, QRect *rectName);
