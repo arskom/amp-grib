@@ -157,7 +157,7 @@ class MainWindow: public QMainWindow
 		DialogSelectMetar    *dialogSelectMetar;
 		QList <MetarWidget *> listAllMetars;
 		
-        Terrain      *terre;
+        Terrain      *earth;
         MenuBar      *menuBar;
         QToolBar     *toolBar;
         BoardPanel   *boardPanel;
