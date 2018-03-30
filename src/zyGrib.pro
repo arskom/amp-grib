@@ -16,28 +16,32 @@ win32 {
     INCLUDEPATH += C:/libs/include/
     INCLUDEPATH += C:/mingw/include/
     LIBS += -LC:/libs/lib/ -LC:/mingw/lib/
-    DESTDIR = release
-    RC_FILE += resource.rc
+    RC_FILE += ../data/img/resource.rc
 }
 else {
     macx {
         QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
         INCLUDEPATH += /opt/local/include/
-        DESTDIR = ..
         LIBS += -L/opt/local/lib
         CONFIG += i386
         ICON = ../data/img/zyGrib.icns
     }
-    else {
     # linux
-        DESTDIR = .
-
+    else {
         # FIXME: find this automatically
         INCLUDEPATH += /usr/include/qwt6
     }
 }
 
-LIBS += -lbz2 -lz -lproj -lnova -lqwt6-qt5
+# FIXME: find this automatically
+linux {
+    LIBS += -lqwt6-qt5
+}
+else {
+    LIBS += -lqwt
+}
+
+LIBS += -lbz2 -lz -lproj -lnova
 
 #DEFINES += USE_JPEG2000
 DEFINES += USE_PNG
