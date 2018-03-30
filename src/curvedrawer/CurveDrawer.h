@@ -24,15 +24,15 @@
 #include "POI.h"
 //#include "Polar.h"
 
-#include <qwt6/qwt_legend.h>
-#include <qwt6/qwt_legend_label.h>
-#include <qwt6/qwt_picker_machine.h>
-#include <qwt6/qwt_plot.h>
-#include <qwt6/qwt_plot_curve.h>
-#include <qwt6/qwt_plot_legenditem.h>
-#include <qwt6/qwt_plot_marker.h>
-#include <qwt6/qwt_plot_picker.h>
-#include <qwt6/qwt_scale_engine.h>
+#include <qwt_legend.h>
+#include <qwt_legend_label.h>
+#include <qwt_picker_machine.h>
+#include <qwt_plot.h>
+#include <qwt_plot_curve.h>
+#include <qwt_plot_legenditem.h>
+#include <qwt_plot_marker.h>
+#include <qwt_plot_picker.h>
+#include <qwt_scale_engine.h>
 
 //
 //

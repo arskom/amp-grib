@@ -31,6 +31,9 @@ else {
     else {
     # linux
         DESTDIR = .
+
+        # FIXME: find this automatically
+        INCLUDEPATH += /usr/include/qwt6
     }
 }
 
