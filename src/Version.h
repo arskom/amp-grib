@@ -19,8 +19,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef VERSION_H
 #define VERSION_H
 
-#define ZYGRIB_VERSION_NUM "8.0.1"
-#define ZYGRIB_VERSION_DATE "2016-11-09"
+static const char *ZYGRIB_VERSION_NUM =
+    #include "version"
+;
+
+static const int ZYGRIB_VERSION_BUILD =
+    #include "build"
+;
+
+static const char *ZYGRIB_VERSION_DATE = __DATE__ __TIME__;
 
 #if defined(Q_OS_WIN32)
 #define ZYGRIB_APP_NAME "zyGrib_win"
