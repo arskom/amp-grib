@@ -4,7 +4,7 @@ QT += widgets xml
 QT += printsupport
 
 TEMPLATE = app
-TARGET   = zyGrib
+TARGET   = amp-meteo
 
 DEPENDPATH  += . util map GUI
 INCLUDEPATH += . util map GUI curvedrawer g2clib
