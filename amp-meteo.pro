@@ -27,12 +27,12 @@ else {
     }
     # linux
     else {
-        # FIXME: find this automatically
+        # FIXME: discover this automatically
         INCLUDEPATH += /usr/include/qwt6
     }
 }
 
-# FIXME: find this automatically
+# FIXME: discover this automatically
 linux {
     LIBS += -lqwt6-qt5
 }
@@ -48,7 +48,7 @@ OBJECTS_DIR = objs
 MOC_DIR = objs
 UI_DIR  = ui
 
-#DEFINES += USE_JPEG2000
+# DEFINES += USE_JPEG2000
 DEFINES += USE_PNG
 include(src/meteo.pri)
 include(data/tr/translations.pri)
