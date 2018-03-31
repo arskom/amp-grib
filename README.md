@@ -1,8 +1,8 @@
-# amp-meteo
+# amp-grib
 
 This is a fork of the zyGrib project from http://www.zygrib.org/
 
-Homepage: https://github.com/arskom/amp-meteo
+Homepage: https://github.com/arskom/amp-grib
 
 ## Compilation
 

@@ -3,7 +3,7 @@ CONFIG += qt c++11
 QT += widgets xml network printsupport
 
 TEMPLATE = app
-TARGET   = amp-meteo
+TARGET   = amp-grib
 
 DEPENDPATH  += src/ src/util src/map src/GUI
 INCLUDEPATH += src/ src/util src/map src/GUI src/curvedrawer src/g2clib
@@ -50,5 +50,5 @@ UI_DIR  = ui
 
 # DEFINES += USE_JPEG2000
 DEFINES += USE_PNG
-include(src/meteo.pri)
+include(src/grib.pri)
 include(data/tr/translations.pri)
