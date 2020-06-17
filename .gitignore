@@ -35,3 +35,6 @@ Makefile*
 CMakeLists.txt.user*
 
 *.ini
+
+# arskom reposutil
+/.with-*
